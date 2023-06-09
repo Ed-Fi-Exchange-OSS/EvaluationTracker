@@ -1,8 +1,5 @@
 # Contributors List
 
-{CUSTOMIZE THIS FILE by correcting the "contributors graph" link below and
-then removing this note}
-
 This is the list of the project's significant contributors.
 
 This does not necessarily list everyone who has contributed code, especially
