@@ -8,14 +8,14 @@ the components is described in more detail below.
 
 ```mermaid
 flowchart LR
-    A(fa:fa-users) -->|via browser| B["`EPPETA *FE*`"]
-    B -->|fa:fa-times-circle https| C[ODS-API]
-    B -->|https| D["`EPPETA *BFF*`"]
+    A(users) -->|via browser| B["EPPETA FE"]
+    B -->|❌ https ❌| C[ODS-API]
+    B -->|https| D["EPPETA BFF"]
     D -->|https| C
 
-    D --> E[("`micro
+    D --> E[("micro
 data
-store`")]
+store")]
 ```
 
 ## Frameworks and Technology Choices
