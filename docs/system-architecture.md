@@ -9,7 +9,7 @@ the components is described in more detail below.
 ```mermaid
 flowchart LR
     A(users) -->|via browser| B["EPPETA FE"]
-    B -->|❌ https ❌| C[ODS-API]
+    B -->|X| C[ODS-API]
     B -->|https| D["EPPETA BFF"]
     D -->|https| C
 
