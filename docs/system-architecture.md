@@ -191,3 +191,36 @@ likely the credentials are bad.
         }
     }
     ```
+
+### Database Management
+
+#### Automated Migrations
+
+Entity Framework has a nice and convenient framework for migrations, allowing
+the application to take control of installing its own database structure. I use
+this functionality from time to time.
+
+However, it is not a good approach from a security standpoint: it requires that
+the connection string used by the application has sufficient rights to create
+(and drop!) database tables. If a malicious person ("hacker") manages to execute
+their own SQL statement somehow, they can damage the database by dropping
+tables.
+
+So, the more security conscious the organization who uses the application is,
+the more important it becomes to keep database installation as a separate
+process that is run by a DBA or system administrator.
+
+We will not use automated migrations in this application.
+
+#### Manual Migrations
+
+Create a directory called `sql` and store the scripts in there. Each script
+should be run once, but it should be safe to run it a second time: we don't want
+an error if the script runs again. While working on a given ticket, modify the
+script as many times as you need. But once we merge the script into the main
+branch, we shouldn't modify the file again. Add a new migration script instead.
+
+Each script should have a numbered file name like `0001-describe-purpose.sql`,
+`0002-describe-purpose.sql` etc. so that it is easy to sort the scripts and run
+them in the correct order. We will add a PowerShell script that executes the
+migrations and tracks which files have already run.
