@@ -22,8 +22,7 @@ store")]
 
 ### Frontend
 
-- [React](https://react.dev/) in "plain JavaScript" (not Typescript, at least
-  initially).
+- [React](https://react.dev/) in "plain JavaScript" or Typescript.
 - [Chakra](https://chakra-ui.com/) component library.
 - Assume that it will be hosted in IIS on Windows or in a web server like NGiNX
   or Apache if running on a Linux server.
