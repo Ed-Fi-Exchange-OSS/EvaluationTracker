@@ -5,6 +5,10 @@
 
 #requires -version 5
 
+<#
+.SYNOPSIS
+    Deploy EPPETA database scripts
+#>
 [CmdLetBinding()]
 param (
     # SQL Server host name and (optional) port.
