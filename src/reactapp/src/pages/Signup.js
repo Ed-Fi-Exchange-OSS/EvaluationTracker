@@ -18,7 +18,6 @@ import { useState } from 'react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 //import { Link } from 'react-router-dom';
 
-
 export default function SignupForm() {
     const [showPassword, setShowPassword] = useState(false);
 
