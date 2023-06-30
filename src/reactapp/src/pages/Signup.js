@@ -12,10 +12,11 @@ import {
     Heading,
     Text,
     useColorModeValue,
+    Link,
 } from '@chakra-ui/react';
 import { useState } from 'react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
-import { Link } from 'react-router-dom';
+//import { Link } from 'react-router-dom';
 
 export default function SignupForm() {
     const [showPassword, setShowPassword] = useState(false);
@@ -88,7 +89,14 @@ export default function SignupForm() {
                         </Stack>
                         <Stack pt={6}>
                             <Text align={'center'}>
-                                Already a user? <Link to="/login" style={{ color: '#4299E1' }} >Login</Link>
+                                Already a user?  
+                                <Button onClick={() => { window.location.href = "/login" }}
+                                    spacing={2}
+                                    margin= {2}
+                                    color={'blue.400'}
+                                    variant={'link'}>
+                                    Login
+                                </Button>
                             </Text>
                         </Stack>
                     </Stack>
