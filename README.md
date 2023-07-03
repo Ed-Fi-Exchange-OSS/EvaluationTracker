@@ -1,6 +1,12 @@
 # Evaluation Tracking Application
 
-This is a proof of concept application designed to make it easy to conduct rubric based evaluations and send the resulting result data to the ODS/API using the Educator Preparation Data Model's PerformanceEvaluation domain.
+This is a proof of concept application designed to make it easy to conduct
+rubric based evaluations and send the resulting result data to the ODS/API using
+the Educator Preparation Data Model's PerformanceEvaluation domain.
+
+## Documents
+
+* [Installation](docs/installation.md)
 
 ## Legal Information
 
