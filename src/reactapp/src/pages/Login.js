@@ -50,7 +50,7 @@ export default function LoginForm() {
                                 <Checkbox>Remember me</Checkbox>
                                 <Link color={'blue.400'}>Forgot password?</Link>
                             </Stack>
-                            <Button
+                            <Button onClick = {() => {window.location.href = "/main"}}
                                 bg={'blue.400'}
                                 color={'white'}
                                 _hover={{
