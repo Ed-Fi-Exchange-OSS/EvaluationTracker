@@ -5,24 +5,60 @@ VisualStudioVersion = 17.5.33414.496
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "reactapp", "reactapp\reactapp.esproj", "{32ACEA66-37F6-40E5-B29E-CC76A7ABE9EC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "webapi", "webapi\webapi.csproj", "{9912F249-82C1-4516-AEC2-181030F8D769}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eppeta.webapi", "webapi\eppeta.webapi.csproj", "{9912F249-82C1-4516-AEC2-181030F8D769}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F3E5891C-ECAA-4C31-A1E0-E30A23BEDA61}"
+	ProjectSection(SolutionItems) = preProject
+		..\.editorconfig = ..\.editorconfig
+		..\CONTRIBUTORS.md = ..\CONTRIBUTORS.md
+		..\NOTICES.md = ..\NOTICES.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SQL", "SQL", "{47708811-A8F4-48E2-8B66-2BAB5BC45B6F}"
+	ProjectSection(SolutionItems) = preProject
+		..\sql\mssql\00001-Create-EppetaSchema-and-DeployJournal.sql = ..\sql\mssql\00001-Create-EppetaSchema-and-DeployJournal.sql
+		..\sql\mssql\00002-Create-UserTables.sql = ..\sql\mssql\00002-Create-UserTables.sql
+		..\sql\mssql\00003-Modify-Users-Add-SoftDelete.sql = ..\sql\mssql\00003-Modify-Users-Add-SoftDelete.sql
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eppeta.webapi.unitTests", "eppeta.webapi.unitTests\eppeta.webapi.unitTests.csproj", "{38A32D34-151D-4D27-941B-E8E3E72F19E4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug|x86 = Debug|x86
 		Release|Any CPU = Release|Any CPU
+		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{32ACEA66-37F6-40E5-B29E-CC76A7ABE9EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{32ACEA66-37F6-40E5-B29E-CC76A7ABE9EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{32ACEA66-37F6-40E5-B29E-CC76A7ABE9EC}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{32ACEA66-37F6-40E5-B29E-CC76A7ABE9EC}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{32ACEA66-37F6-40E5-B29E-CC76A7ABE9EC}.Debug|x86.Build.0 = Debug|Any CPU
+		{32ACEA66-37F6-40E5-B29E-CC76A7ABE9EC}.Debug|x86.Deploy.0 = Debug|Any CPU
 		{32ACEA66-37F6-40E5-B29E-CC76A7ABE9EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{32ACEA66-37F6-40E5-B29E-CC76A7ABE9EC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{32ACEA66-37F6-40E5-B29E-CC76A7ABE9EC}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{32ACEA66-37F6-40E5-B29E-CC76A7ABE9EC}.Release|x86.ActiveCfg = Release|Any CPU
+		{32ACEA66-37F6-40E5-B29E-CC76A7ABE9EC}.Release|x86.Build.0 = Release|Any CPU
+		{32ACEA66-37F6-40E5-B29E-CC76A7ABE9EC}.Release|x86.Deploy.0 = Release|Any CPU
 		{9912F249-82C1-4516-AEC2-181030F8D769}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9912F249-82C1-4516-AEC2-181030F8D769}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9912F249-82C1-4516-AEC2-181030F8D769}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{9912F249-82C1-4516-AEC2-181030F8D769}.Debug|x86.Build.0 = Debug|Any CPU
 		{9912F249-82C1-4516-AEC2-181030F8D769}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9912F249-82C1-4516-AEC2-181030F8D769}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9912F249-82C1-4516-AEC2-181030F8D769}.Release|x86.ActiveCfg = Release|Any CPU
+		{9912F249-82C1-4516-AEC2-181030F8D769}.Release|x86.Build.0 = Release|Any CPU
+		{38A32D34-151D-4D27-941B-E8E3E72F19E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38A32D34-151D-4D27-941B-E8E3E72F19E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38A32D34-151D-4D27-941B-E8E3E72F19E4}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{38A32D34-151D-4D27-941B-E8E3E72F19E4}.Debug|x86.Build.0 = Debug|Any CPU
+		{38A32D34-151D-4D27-941B-E8E3E72F19E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38A32D34-151D-4D27-941B-E8E3E72F19E4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{38A32D34-151D-4D27-941B-E8E3E72F19E4}.Release|x86.ActiveCfg = Release|Any CPU
+		{38A32D34-151D-4D27-941B-E8E3E72F19E4}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
