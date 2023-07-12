@@ -113,16 +113,6 @@ GO
 
 
 
-USE [eppeta]
-GO
-
-/****** Object:  Table [eppeta].[Roles]    Script Date: 7/7/2023 1:27:13 PM ******/
-SET ANSI_NULLS ON
-GO
-
-SET QUOTED_IDENTIFIER ON
-GO
-
 CREATE TABLE [eppeta].[Roles](
 	[Id] [nvarchar](225) NOT NULL,
 	[Name] [nvarchar](256) NULL,
@@ -138,7 +128,7 @@ GO
 
 
 INSERT INTO [eppeta].[Roles] ([Id], [Name], [NormalizedName])
-VALUES ('1', 'Administrator', 'administrator'), ('2', 'Supervisor', 'supervisor'), ('3', 'Mentor Teacher', 'mentor teacher');
+VALUES ('1', 'Administrator', 'ADMINISTRATOR'), ('2', 'Supervisor', 'SUPERVISOR'), ('3', 'Mentor Teacher', 'MENTOR TEACHER');
 GO
 
 
@@ -184,6 +174,8 @@ CREATE TABLE [eppeta].[Users](
 	[LockoutEnd] [datetimeoffset](7) NULL,
 	[LockoutEnabled] [bit] NOT NULL,
 	[AccessFailedCount] [int] NOT NULL,
+    [FirstName] [nvarchar](100) NULL,
+    [LastName] [nvarchar](100) NULL,
  CONSTRAINT [PK_Users] PRIMARY KEY CLUSTERED
 (
 	[Id] ASC
