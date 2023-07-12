@@ -19,7 +19,8 @@ public class IdentityDbContext : IdentityDbContext<ApplicationUser>, IIdentityRe
 
     public async Task<IReadOnlyList<ApplicationUser>> FindAllUsers()
     {
-        return await Users.ToListAsync();
+        // Ignore the "soft deleted" records
+        return await Users.Where(x => x.DeletedAt == null).ToListAsync();
     }
 
     public async Task<bool> Update(ApplicationUser user)
@@ -36,10 +37,19 @@ public class IdentityDbContext : IdentityDbContext<ApplicationUser>, IIdentityRe
         existing.FirstName = user.FirstName;
         existing.LastName = user.LastName;
         existing.RequirePasswordChange = user.RequirePasswordChange;
+        existing.DeletedAt = user.DeletedAt;
 
         await SaveChangesAsync();
 
         return true;
+    }
+
+    public async Task RemoveAccessTokens(ApplicationUser user)
+    {
+        await UserTokens.Where(x => x.UserId == user.Id)
+            .ForEachAsync(x => UserTokens.Remove(x));
+
+        return;
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

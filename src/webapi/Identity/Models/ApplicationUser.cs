@@ -23,4 +23,6 @@ public class ApplicationUser : IdentityUser
 
     public string LastName { get; set; } = string.Empty;
 
+    public DateTime? DeletedAt { get; set; }
+
 }

@@ -36,7 +36,7 @@ public class AccountController : Controller
         if (id is null || id == string.Empty) { return NotFound(); }
 
         var result = await _userManager.FindByIdAsync(id);
-        if (result is null) { return NotFound(); }
+        if (result is null || result.DeletedAt is not null) { return NotFound(); }
 
         return Ok(UserAccountResponse.From(result));
     }
@@ -121,7 +121,7 @@ public class AccountController : Controller
             }
 
             var lookup = await _userManager.FindByIdAsync(id);
-            if (lookup is null)
+            if (lookup is null || lookup.DeletedAt is not null)
             {
                 return NotFound();
             }
@@ -159,6 +159,30 @@ public class AccountController : Controller
         }
 
         return BadRequest(ModelState);
+    }
+
+
+    [HttpDelete("{id}")]
+    [AllowAnonymous] // Temporary!
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> Delete([FromRoute] string id)
+    {
+        // Note: only performs a "soft delete" - does not remove the record from the database
+
+        var lookup = await _userManager.FindByIdAsync(id);
+        if (lookup is null)
+        {
+            return NotFound();
+        }
+
+        lookup.DeletedAt = DateTime.UtcNow;
+        await _identityRepository.Update(lookup);
+
+        await _userManager.RemovePasswordAsync(lookup);
+        await _identityRepository.RemoveAccessTokens(lookup);
+
+        return NoContent();
     }
 
     private void AddErrors(IdentityResult result)

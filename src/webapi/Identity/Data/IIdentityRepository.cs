@@ -9,7 +9,9 @@ namespace eppeta.webapi.Identity.Data;
 
 public interface IIdentityRepository
 {
-    public Task<IReadOnlyList<ApplicationUser>> FindAllUsers();
+    Task<IReadOnlyList<ApplicationUser>> FindAllUsers();
 
-    public Task<bool> Update(ApplicationUser user);
+    Task<bool> Update(ApplicationUser user);
+
+    Task RemoveAccessTokens(ApplicationUser user);
 }
