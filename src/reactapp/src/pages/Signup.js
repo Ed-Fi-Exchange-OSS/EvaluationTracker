@@ -89,7 +89,7 @@ export default function SignupForm() {
                         </Stack>
                         <Stack pt={6}>
                             <Text align={'center'}>
-                                Already a user?  
+                                Already a user?
                                 <Button onClick={() => { window.location.href = "/login" }}
                                     spacing={2}
                                     margin= {2}
