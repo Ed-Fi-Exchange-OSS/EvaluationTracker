@@ -151,35 +151,23 @@ internal class Program
                 options.CustomSchemaIds(x => x.FullName?.Replace("+", "."));
                 options.OperationFilter<TokenEndpointBodyDescriptionFilter>();
                 options.OperationFilter<TagByResourceUrlFilter>();
-                options.AddSecurityDefinition(
-                    "oauth",
-                    new OpenApiSecurityScheme
-                    {
-                        Flows = new OpenApiOAuthFlows
-                        {
-                            ClientCredentials = new OpenApiOAuthFlow
-                            {
-                                TokenUrl = new Uri($"{AppSettings.Authentication.IssuerUrl}/{TokenEndpoint}")
-                            },
-                        },
-                        In = ParameterLocation.Header,
-                        Name = HeaderNames.Authorization,
-                        Type = SecuritySchemeType.OAuth2
-                    }
-                );
-                options.AddSecurityRequirement(
-                    new OpenApiSecurityRequirement
-                    {
+                options.AddSecurityDefinition("bearerAuth", new OpenApiSecurityScheme
+                {
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "bearer",
+                    BearerFormat = "JWT",
+                    Description = "JWT Authorization header using the Bearer scheme."
+                });
+                options.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
                     {
                         new OpenApiSecurityScheme
                         {
-                            Reference = new OpenApiReference
-                                { Type = ReferenceType.SecurityScheme, Id = "oauth" },
+                            Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "bearerAuth" }
                         },
-                        new[] { "api" }
+                        new string[] {}
                     }
-                    }
-                );
+                });
 
                 options.DocumentFilter<ExplicitSchemaDocumentFilter>();
                 options.DocumentFilter<SwaggerIgnoreDocumentFilter>();
@@ -203,6 +191,7 @@ internal class Program
                 app.UseSwagger();
                 app.UseSwaggerUI(options =>
                 {
+                    options.EnableTryItOutByDefault();
                     options.DocumentTitle = "EPP Evaluation Tracker API Documentation";
                 });
             }
