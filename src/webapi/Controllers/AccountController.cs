@@ -9,6 +9,7 @@ using eppeta.webapi.Identity.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using OpenIddict.Abstractions;
 using OpenIddict.Validation.AspNetCore;
 
 namespace eppeta.webapi.Controllers;
@@ -26,11 +27,14 @@ public class AccountController : Controller
 
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly IIdentityRepository _identityRepository;
+    private readonly IOpenIddictTokenManager _tokenManager;
 
-    public AccountController(UserManager<ApplicationUser> userManager, IIdentityRepository identityRepository)
+    public AccountController(UserManager<ApplicationUser> userManager, IIdentityRepository identityRepository, IOpenIddictTokenManager tokenManager)
+        //IOpenIddictTokenCache<OpenIddictToken> tokenCache)
     {
         _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
         _identityRepository = identityRepository ?? throw new ArgumentNullException(nameof(identityRepository));
+        _tokenManager = tokenManager ?? throw new ArgumentNullException(nameof(tokenManager));
     }
 
     [HttpGet("{id}")]
@@ -187,6 +191,13 @@ public class AccountController : Controller
 
         await _userManager.RemovePasswordAsync(lookup);
         await _identityRepository.RemoveAccessTokens(lookup);
+
+        var tokens = _tokenManager.FindBySubjectAsync(id);
+        await foreach (OpenIddict.EntityFrameworkCore.Models.OpenIddictEntityFrameworkCoreToken token in tokens)
+        {
+            token.ExpirationDate = DateTime.UtcNow.AddMinutes(-1);
+            await _tokenManager.UpdateAsync(token);
+        }
 
         return NoContent();
     }
