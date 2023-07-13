@@ -13,6 +13,7 @@ using eppeta.webapi.Identity.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication;
 using System.Collections.Immutable;
+using eppeta.webapi.DTO;
 
 namespace eppeta.webapi.Controllers;
 
@@ -36,7 +37,7 @@ public class AuthorizationController : Controller
     }
 
     [HttpPost($"~{TokenPath}"), IgnoreAntiforgeryToken, Produces("application/json")]
-    public async Task<IActionResult> Exchange(OpenIddictRequest tokenRequest)
+    public async Task<IActionResult> Exchange([FromForm] PasswordTokenRequest tokenRequest)
     {
         if (tokenRequest.GrantType != GrantTypes.Password)
         {

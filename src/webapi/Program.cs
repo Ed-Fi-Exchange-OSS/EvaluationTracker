@@ -81,7 +81,12 @@ internal class Program
                 .AddServer(options =>
                 {
                     options.SetTokenEndpointUris(TokenEndpoint);
+
+                    // These two go hand-in-hand: allowing anonymous client means you can
+                    // send password request without _also_ providing a client_id.
                     options.AllowPasswordFlow();
+                    options.AcceptAnonymousClients();
+
                     options.AddDevelopmentEncryptionCertificate()
                         .AddDevelopmentSigningCertificate();
                     var aspNetCoreBuilder = options.UseAspNetCore()

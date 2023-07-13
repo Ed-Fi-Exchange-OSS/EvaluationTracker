@@ -9,10 +9,16 @@ using eppeta.webapi.Identity.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using OpenIddict.Validation.AspNetCore;
 
 namespace eppeta.webapi.Controllers;
 
-[Authorize]
+/*
+ * Original source:
+ * https://github.com/openiddict/openiddict-samples/blob/dev/samples/Hollastin/Hollastin.Server/Controllers/AccountController.cs
+ */
+
+[Authorize(AuthenticationSchemes = OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme)]
 [Route(Route)]
 public class AccountController : Controller
 {
@@ -28,8 +34,8 @@ public class AccountController : Controller
     }
 
     [HttpGet("{id}")]
-    [AllowAnonymous] // Temporary!
     [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Get([FromRoute] string id)
     {
@@ -42,8 +48,8 @@ public class AccountController : Controller
     }
 
     [HttpGet()]
-    [AllowAnonymous] // Temporary!
     [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<IActionResult> GetAll()
     {
         var users = await _identityRepository.FindAllUsers();
@@ -106,9 +112,9 @@ public class AccountController : Controller
 
 
     [HttpPut("{id}")]
-    [AllowAnonymous] // Temporary!
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Put([FromRoute] string id, [FromBody] UserAccountUpdateRequest model)
     {
@@ -163,8 +169,8 @@ public class AccountController : Controller
 
 
     [HttpDelete("{id}")]
-    [AllowAnonymous] // Temporary!
     [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Delete([FromRoute] string id)
     {
