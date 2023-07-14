@@ -36,4 +36,5 @@ This command generates a response like this:
 
 Copy the `access_token` value and paste it into the Authorize form in Swagger.
 Once you have done this, you will be able to use any of the endpoints that
-require authorization.
+require authorization. Note: only Administrators are authorized to perform other
+actions on the `/accounts` endpoint.

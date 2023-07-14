@@ -19,7 +19,7 @@ namespace eppeta.webapi.Controllers;
  * https://github.com/openiddict/openiddict-samples/blob/dev/samples/Hollastin/Hollastin.Server/Controllers/AccountController.cs
  */
 
-[Authorize(AuthenticationSchemes = OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme)]
+[Authorize(AuthenticationSchemes = OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme, Roles = Roles.Administrator)]
 [Route(Route)]
 public class AccountController : Controller
 {
@@ -30,7 +30,6 @@ public class AccountController : Controller
     private readonly IOpenIddictTokenManager _tokenManager;
 
     public AccountController(UserManager<ApplicationUser> userManager, IIdentityRepository identityRepository, IOpenIddictTokenManager tokenManager)
-        //IOpenIddictTokenCache<OpenIddictToken> tokenCache)
     {
         _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
         _identityRepository = identityRepository ?? throw new ArgumentNullException(nameof(identityRepository));
