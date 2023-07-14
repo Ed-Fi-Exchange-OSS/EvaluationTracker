@@ -38,7 +38,17 @@ param (
 
 $ErrorActionPreference = "Stop"
 
+Write-Output "Deploying EPP Evaluation Tracker Application database scripts"
+
 $connectionString = "Server=$Server;Database=$DatabaseName;Application Name=deploy-sql.ps1;"
+if ($EncryptConnection) {
+    $connectionString += "Encrypt=true;"
+}
+if ($TrustCertificate) {
+    $connectionString += "TrustServerCertificate=true;"
+}
+Write-Output ">>> Connection String: $connectionString"
+
 if ($Username) {
     if ($Pass) {
         $connectionString += "User Id=$Username;Password=$Pass;"
@@ -50,14 +60,7 @@ if ($Username) {
 else {
     $connectionString += "Integrated Security=SSPI;"
 }
-if ($EncryptConnection) {
-    $connectionString += "Encrypt=true;"
-}
-if ($TrustCertificate) {
-    $connectionString += "TrustServerCertificate=true;"
-}
 
-Write-Output "Deploying EPP Evaluation Tracker Application database scripts"
 
 Get-ChildItem "$PSScriptRoot/../sql/mssql/*.sql" | `
     Sort-Object { $_.Name } | `
@@ -73,7 +76,7 @@ Get-ChildItem "$PSScriptRoot/../sql/mssql/*.sql" | `
 
             if ($result.Count -gt 0) {
                 # Script has already run, so skip it
-                continue
+                return
             }
         }
         catch {
@@ -87,7 +90,7 @@ Get-ChildItem "$PSScriptRoot/../sql/mssql/*.sql" | `
         }
 
         # Run the SQL script
-        Write-Output "Installing $name"
+        Write-Output ">>> Installing $name"
         Invoke-Sqlcmd `
             -ConnectionString $connectionString `
             -InputFile $_
