@@ -10,7 +10,7 @@ charset = utf-8
 trim_trailing_whitespace = true
 max_line_length = 110
 
-[*.{yml,json}]
+[*.{yml,json,js}]
 indent_size=2
 
 [**.min.js]
