@@ -92,7 +92,7 @@ public class AccountController : Controller
             AddErrors(result);
         }
 
-        return BadRequest(ModelState);
+        return BadRequest(new { validationError = ModelState });
 
 
         async Task<bool> AddToRole(ApplicationUser user)
