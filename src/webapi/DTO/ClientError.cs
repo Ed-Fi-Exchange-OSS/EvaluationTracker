@@ -11,6 +11,6 @@ public static class ClientError
 {
     public static void AddValidationError(ModelStateDictionary modelState, string message)
     {
-        modelState.AddModelError("validationErrors", message);
+        modelState.AddModelError("error", message);
     }
 }

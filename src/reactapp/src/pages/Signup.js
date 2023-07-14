@@ -15,9 +15,10 @@ import {
 import { useState } from "react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { Formik, Form } from "formik";
-import { mapValues } from 'lodash-es';
+import { isObject, mapValues } from "lodash-es";
 
 import InputField from "../components/InputField";
+import { post } from "../components/FetchHelpers";
 
 export default function SignupForm() {
   const [showPassword, setShowPassword] = useState(false);
@@ -25,38 +26,37 @@ export default function SignupForm() {
   const loadSignInPage = () => {
     // TODO: what if the site is running behind a proxy? Then / might be the wrong base
     window.location.href = "/login";
-  }
+  };
 
   const onSubmitSignup = async (values) => {
-    const request = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(values),
-    };
-
-    // TODO: Temporarily hard-coded, this needs to change.
-    const accountsUrl = "https://localhost:7065/accounts";
     try {
-      const response = await fetch(accountsUrl, request);
+      const response = await post("/accounts", values);
       const message = await response.json();
 
-      if (!response.ok) {
-        if (message.validationError) {
-          const alertMessage = JSON.stringify(mapValues(message.validationError, (v) => v.errors));
-          // TODO: improve display of errors
-          alert(alertMessage);
-          console.error(alertMessage);
-        }
-        else if (response.status === 409) {
-          alert("This email address has already been registered.");
-          return;
-        }
+      if (response.ok) {
+        console.info("User has been created");
+        loadSignInPage();
+        return;
       }
-      console.info("User has been created");
-      loadSignInPage();
-      return;
+
+      if (message.error) {
+        let alertMessage = message.error;
+        if (isObject(message.error)) {
+          // Converting .NET ModelState to something more readable
+          alertMessage = JSON.stringify(mapValues(message.error, (v) => v.errors));
+        }
+
+        // TODO: improve display of errors
+        alert(alertMessage);
+        console.error(alertMessage);
+        return false;
+      } else if (response.status === 409) {
+        alert("This email address has already been registered.");
+        return false;
+      }
     } catch (error) {
       console.error(error);
+      return false;
     }
   };
 
