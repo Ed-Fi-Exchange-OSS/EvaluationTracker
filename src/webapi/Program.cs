@@ -21,6 +21,7 @@ internal class Program
 {
     const string ConnectionStringName = "DefaultConnection";
     const string TokenEndpoint = "connect/token";
+    const string AllowedOriginsPolicy = "AllowedOriginsPolicy";
 
     private static void Main(string[] args)
     {
@@ -29,7 +30,7 @@ internal class Program
 
         // Add services to the container.
         builder.Services.AddControllers();
-        builder.Services.AddCors();
+        ConfigureCorsService(builder.Services);
 
         ConfigureDatabaseConnection(builder);
         ConfigureLocalIdentityProvider(builder.Services);
@@ -43,6 +44,7 @@ internal class Program
         ConfigureSwaggerUIApp(app);
         app.UseForwardedHeaders();
         app.UseRouting();
+        app.UseCors(AllowedOriginsPolicy);
         app.UseAuthentication();
         app.UseAuthorization();
         app.UseEndpoints(endpoints =>
@@ -51,6 +53,18 @@ internal class Program
             endpoints.MapDefaultControllerRoute();
         });
         app.Run();
+
+        static void ConfigureCorsService(IServiceCollection services)
+        {
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: AllowedOriginsPolicy, policy =>
+                {
+                    policy.WithOrigins(AppSettings.AllowedOrigins)
+                          .WithHeaders(HeaderNames.ContentType, "Content-Type");
+                });
+            });
+        }
 
         static void ConfigureDatabaseConnection(WebApplicationBuilder builder)
         {

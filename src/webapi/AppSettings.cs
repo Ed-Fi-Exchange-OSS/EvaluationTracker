@@ -46,6 +46,14 @@ public class AppSettings
             return GetInstance()._authentication.Value;
         }
     }
+
+    public static string[] AllowedOrigins
+    {
+        get
+        {
+            return GetInstance()._configuration.GetValue<string>("CorsAllowedOrigins").Split(",");
+        }
+    }
 }
 
 public class Authentication

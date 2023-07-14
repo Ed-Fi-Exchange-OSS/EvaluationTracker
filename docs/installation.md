@@ -16,7 +16,7 @@ scripts can be automated with the help of
 
 ## AppSettings
 
-* Authentication
+* `Authentication`
   * `Audience`: default "epp-eta".
   * `IssuerUrl` and `Authority`: this web service's base URL, same value for both.
   * `NewUsersAreAdministrators`: when `true`, then any new user signup will be
@@ -24,3 +24,5 @@ scripts can be automated with the help of
     Mentor-Teacher.
   * `SigningKey`: random 32 characters, base-64 encoded.
   * `RequireHttps`: when `true`, tokens will only be created for HTTPS requests.
+* `CorsAllowedOrigins`: comma-separated list of allowed origins (base URL for
+  the web application, as seen in the browser).
