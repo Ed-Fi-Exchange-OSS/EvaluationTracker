@@ -25,6 +25,7 @@ export default function SignupForm() {
 
   const loadSignInPage = () => {
     // TODO: what if the site is running behind a proxy? Then / might be the wrong base
+    // Address this in EPPETA-19
     window.location.href = "/login";
   };
 
@@ -46,7 +47,7 @@ export default function SignupForm() {
           alertMessage = JSON.stringify(mapValues(message.error, (v) => v.errors));
         }
 
-        // TODO: improve display of errors
+        // TODO: improve display of errors in EPPETA-16
         alert(alertMessage);
         console.error(alertMessage);
         return false;

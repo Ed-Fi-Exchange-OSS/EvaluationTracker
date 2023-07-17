@@ -24,7 +24,7 @@ export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
 
   const loadEvaluationsPage = () => {
-    // TODO redirect to evaluations landing pa
+    // TODO redirect to evaluations landing page in EPPETA-9
   };
 
   const onSubmitLogin = async (values) => {
@@ -40,6 +40,7 @@ export default function LoginForm() {
 
       if (!response.ok) {
         console.error(message);
+        // TODO use proper user notifications in EPPETA-18
         alert(JSON.stringify(message));
         return;
       }

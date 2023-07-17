@@ -6,6 +6,7 @@
 import { transform as _transform } from "lodash-es";
 
 // TODO: replace hard-coded with some sort of runtime setting
+// Will be fixed in EPPETA-19.
 const BaseUrl = "https://localhost:7065";
 
 let token = "";
@@ -31,6 +32,7 @@ const modify = async (verb, route, values) => {
 
   // TODO: might be good to detect token failure here, maybe redirecting to
   // signin. Or at least insuring there is a user-friendly error message.
+  // EPPETA-21.
 };
 
 const post = async (route, values) => {
