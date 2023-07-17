@@ -2,10 +2,10 @@ import React from 'react';
 import LoginForm from './pages/Login';
 // 1. import `ChakraProvider` component
 import { ChakraProvider } from '@chakra-ui/react'
+import SignupForm from './pages/Signup';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Nav from './components/Navbar';
 import EvaluationTable from './pages/Main';
-import SignupForm from './pages/Signup';
 import NewEvaluation from './pages/NewEvaluation';
 import EvaluationForm from './pages/EvaluationForm';
 

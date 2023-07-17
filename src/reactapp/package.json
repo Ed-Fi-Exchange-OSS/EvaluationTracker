@@ -18,14 +18,14 @@
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
   },
-    "scripts": {
+  "scripts": {
         "devStart": "set HTTPS=true&&react-scripts start",
-        "start": "set HTTPS=true&&react-scripts start",
-        "build": "react-scripts build",
-        "test": "react-scripts test",
-        "eject": "react-scripts eject",
-        "prestart": "node aspnetcore-https && node aspnetcore-react"
-    },
+    "start": "set HTTPS=true&&react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "prestart": "node aspnetcore-https && node aspnetcore-react"
+  },
   "eslintConfig": {
     "extends": [
       "react-app",
