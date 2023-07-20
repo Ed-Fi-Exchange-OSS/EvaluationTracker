@@ -23,4 +23,8 @@
         <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.31.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\..\..\..\..\csharp\src\EdFi.OdsApi.Sdk\EdFi.OdsApi.Sdk.csproj" />
+    </ItemGroup>
+
 </Project>

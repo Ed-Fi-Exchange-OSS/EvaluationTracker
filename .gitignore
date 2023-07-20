@@ -27,3 +27,4 @@ yarn-error.log*
 .vs
 bin
 *.user
+/src/webapi/appsettings.Docker.json
