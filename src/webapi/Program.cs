@@ -39,13 +39,10 @@ internal class Program
         ConfigureAspNetAuth(builder.Services);
 
         // Add authentication configuration service to the container.
-        //builder.Services.AddScoped<IAuthenticationConfigurationService, AuthenticationConfigurationService>();
-
-
-        // In the ConfigureServices method of Startup.cs
-        builder.Services.AddSingleton<IAuthenticationConfigurationService>(
-            new AuthenticationConfigurationService("https://localhost:443/api/data/v3/", "populated", "populatedSecret")
+        builder.Services.AddScoped<IAuthenticationConfigurationService>(
+            provider => new AuthenticationConfigurationService("https://localhost:443/api/", "populated", "populatedSecret")
         );
+
 
         var app = builder.Build();
 

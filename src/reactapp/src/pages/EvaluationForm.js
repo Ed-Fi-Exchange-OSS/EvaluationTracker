@@ -35,20 +35,24 @@ export default function EvaluationForm() {
   }, []);
 
   // Retrieve evaluation objectives from API
+  // Needed to fetch to localhost:7065 with the full URL to avoid CORS issues?
   const fetchEvaluationObjectives = async () => {
     try {
-      // Replace this with your mock data or hardcoded data
-      const mockData = [
-        { id: 1, title: "Objective 1" },
-        { id: 2, title: "Objective 2" },
-        // Add more mock data as needed
-      ];
-      setEvaluationObjectives(mockData);
+      const response = await fetch("https://localhost:7065/api/EvaluationApi");
+      if (!response.ok) {
+        throw new Error("Failed to fetch evaluation objectives");
+      }
+
+      // Check if the response is valid JSON
+      const contentType = response.headers.get("Content-Type");
+      if (!contentType || !contentType.includes("application/json")) {
+        throw new Error("Response is not valid JSON");
+      }
+
+      const data = await response.json();
+      setEvaluationObjectives(data);
     } catch (error) {
       console.error("Error fetching evaluation objectives:", error);
-      // Optionally, you can set an error state to display an error message to the user.
-      // For example:
-      // setErrorState(true);
     }
   };
 
@@ -143,17 +147,13 @@ export default function EvaluationForm() {
               <table>
                 <thead>
                   <tr>
-                    <th>Objective ID</th>
                     <th>Title</th>
-                    {/* Add more columns as needed */}
                   </tr>
                 </thead>
                 <tbody>
                   {evaluationObjectives.map((objective) => (
                     <tr key={objective.id}>
-                      <td>{objective.id}</td>
-                      <td>{objective.title}</td>
-                      {/* Add more columns as needed */}
+                      <td>{objective.evaluationObjectiveTitle}</td>
                     </tr>
                   ))}
                 </tbody>

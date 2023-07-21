@@ -34,10 +34,10 @@ namespace webapi.Controllers
         }
 
         // GET: api/EvaluationApi
+        // The GetEvaluation method is slow due to the need to retrieve configuration first
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TpdmEvaluationObjective>>> GetEvaluation()
         {
-
             try
             {
                 // Get the authenticated configuration using the injected service
@@ -54,13 +54,14 @@ namespace webapi.Controllers
 
                 var evaluationObjectives = await apiInstance.GetEvaluationObjectivesAsync(limit: 25, offset: 0);
 
-                return Ok(evaluationObjectives);
-
+                // Return the evaluationObjectives directly, no need to serialize again
+                return evaluationObjectives;
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
         }
+
     }
 }
