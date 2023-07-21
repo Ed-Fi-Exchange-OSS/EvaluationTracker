@@ -1,69 +1,66 @@
-//// SPDX-License-Identifier: Apache-2.0
-//// Licensed to the Ed-Fi Alliance under one or more agreements.
-//// The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
-//// See the LICENSE and NOTICES files in the project root for more information.
+// SPDX-License-Identifier: Apache-2.0
+// Licensed to the Ed-Fi Alliance under one or more agreements.
+// The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+// See the LICENSE and NOTICES files in the project root for more information.
 
-//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Threading.Tasks;
-//using EdFi.OdsApi.Sdk.Apis.All;
-//using EdFi.OdsApi.Sdk.Models.All;
-//using Microsoft.AspNetCore.Mvc;
-//using EdFi.OdsApi.Sdk.Client;
-//using EdFi.OdsApi.SdkClient;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using EdFi.OdsApi.Sdk.Apis.All;
+using EdFi.OdsApi.Sdk.Models.All;
+using Microsoft.AspNetCore.Mvc;
+using EdFi.OdsApi.Sdk.Client;
+using EdFi.OdsApi.SdkClient;
+using eppeta.webapi.Service;
 
-//namespace webapi.Controllers
-//{
-//    [ApiController]
-//    [Route("api/[controller]")]
-//    public class EvaluationApiController : ControllerBase
-//    {
-//        [HttpGet]
-//        public static async Task<ActionResult<IEnumerable<TpdmEvaluationObjective>>> GetEvaluation(Configuration configuration)
-//        {
-//            // GET evaluationObjectivess
-//            var apiInstance = new EvaluationObjectivesApi(configuration);
-//            apiInstance.Configuration.DefaultHeaders.Add("Content-Type", "application/json");
+namespace webapi.Controllers
+{
+    [ApiController]
+    [Route("api/[controller]")]
+    public class EvaluationApiController : ControllerBase
+    {
+        private readonly IAuthenticationConfigurationService _service;
+        public EvaluationApiController(IAuthenticationConfigurationService service)
+        {
+            _service = service;
+        }
 
-//            // Fetch a single record with the totalCount flag set to true to retrieve the total number of records available
-//            var evaluationObjectivesWithHttpInfo = apiInstance.GetEvaluationObjectivesWithHttpInfo(limit: 25, offset: 0, totalCount: true);
+        [HttpGet("configuration")]
+        public Configuration GetAuthenticatedConfiguration()
+        {
+            var authenticatedConfiguration = _service.GetAuthenticatedConfiguration();
+            return authenticatedConfiguration;
+        }
 
-//            var httpReponseCode = evaluationObjectivesWithHttpInfo.StatusCode; // returns System.Net.HttpStatusCode.OK
-//            Console.WriteLine("Response code is " + httpReponseCode);
+        // GET: api/EvaluationApi
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<TpdmEvaluationObjective>>> GetEvaluation()
+        {
 
-//            // Parse the total count value out of the "Total-Count" response header
-//            //int.TryParse(evaluationObjectivesWithHttpInfo.Headers["Total-Count"].First(), out var totalCount);
+            try
+            {
+                // Get the authenticated configuration using the injected service
+                var authenticatedConfiguration = _service.GetAuthenticatedConfiguration();
 
-//            //int offset = 0;
-//            //int limit = 100;
-//            var evaluationObjectives = new List<TpdmEvaluationObjective>();
-//            var evaluationObjectiveTitles = new List<string>();
-//            foreach (var evaluationObjective in evaluationObjectives)
-//            {
-//                evaluationObjectiveTitles.Add(evaluationObjective.EvaluationObjectiveTitle);
-//            }
+                // Get Evaluation Objectives
+                var apiInstance = new EvaluationObjectivesApi(authenticatedConfiguration);
+                apiInstance.Configuration.DefaultHeaders.Add("Content-Type", "application/json");
 
-//            //while (offset < totalCount)
-//            //{
-//            //    Console.WriteLine($"Fetching Evaluation Objectives records {offset} through {Math.Min(offset + limit, totalCount)} of {totalCount}");
-//            //    evaluationObjectives.AddRange(apiInstance.GetEvaluationObjectives(limit: limit, offset: 0));
-//            //    offset += limit;
-//            //}
+                var evaluationObjectivesWithHttpInfo = apiInstance.GetEvaluationObjectivesWithHttpInfo(limit: 25, offset: 0, totalCount: true);
 
-//            //Console.WriteLine();
-//            //Console.WriteLine("Evaluation Objectives Results");
+                var httpReponseCode = evaluationObjectivesWithHttpInfo.StatusCode; // returns System.Net.HttpStatusCode.OK
+                Console.WriteLine("Response code is " + httpReponseCode);
 
-//            //foreach (var evaluationObjective in evaluationObjectives)
-//            //{
-//            //    Console.WriteLine($"evaluationObjectives: {evaluationObjective.Id}, {evaluationObjective.EvaluationObjectiveTitle}");
-//            //}
+                var evaluationObjectives = await apiInstance.GetEvaluationObjectivesAsync(limit: 25, offset: 0);
 
-//            //Console.WriteLine();
-//            //Console.WriteLine("Hit ENTER key to continue...");
-//            //Console.ReadLine();
+                return Ok(evaluationObjectives);
 
-//            return await ;
-//        }
-//    }
-//}
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+    }
+}

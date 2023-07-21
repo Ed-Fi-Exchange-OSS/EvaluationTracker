@@ -25,8 +25,33 @@ import {
     ButtonGroup,
 } from "@chakra-ui/react";
 import "../App.css";
+import React, { useEffect, useState } from "react";
 
 export default function EvaluationForm() {
+  const [evaluationObjectives, setEvaluationObjectives] = useState([]);
+
+  useEffect(() => {
+    fetchEvaluationObjectives();
+  }, []);
+
+  // Retrieve evaluation objectives from API
+  const fetchEvaluationObjectives = async () => {
+    try {
+      // Replace this with your mock data or hardcoded data
+      const mockData = [
+        { id: 1, title: "Objective 1" },
+        { id: 2, title: "Objective 2" },
+        // Add more mock data as needed
+      ];
+      setEvaluationObjectives(mockData);
+    } catch (error) {
+      console.error("Error fetching evaluation objectives:", error);
+      // Optionally, you can set an error state to display an error message to the user.
+      // For example:
+      // setErrorState(true);
+    }
+  };
+
     return (
         <Container maxW={"7xl"}>
             <Stack
@@ -104,18 +129,37 @@ export default function EvaluationForm() {
                         </FormControl>
                     </HStack>
                 </VStack>
-                <Box>
-                    <Text
-                        fontSize={{ base: "16px", lg: "18px" }}
-                        color={useColorModeValue("yellow.500", "yellow.300")}
-                        fontWeight={"500"}
-                        textTransform={"uppercase"}
-                        mb={"4"}
-                    >
-                        Features
-                    </Text>
-                </Box>
-
+          <Box>
+            <Text
+              fontSize={{ base: "16px", lg: "18px" }}
+              color={useColorModeValue("yellow.500", "yellow.300")}
+              fontWeight={"500"}
+              textTransform={"uppercase"}
+              mb={"4"}
+            >
+              Evaluation Objectives
+            </Text>
+            <Box>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Objective ID</th>
+                    <th>Title</th>
+                    {/* Add more columns as needed */}
+                  </tr>
+                </thead>
+                <tbody>
+                  {evaluationObjectives.map((objective) => (
+                    <tr key={objective.id}>
+                      <td>{objective.id}</td>
+                      <td>{objective.title}</td>
+                      {/* Add more columns as needed */}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </Box>
+          </Box>
             </Stack>
                 <Box mt="5" textAlign="center">
                     <ButtonGroup variant="outline" spacing="6">
@@ -139,43 +183,3 @@ export default function EvaluationForm() {
         </Container>
     );
 }
-
-// import React, { useEffect, useState } from 'react';
-
-// export default function EvaluationForm() {
-//     const [data, setData] = useState(null);
-
-//     useEffect(() => {
-//         fetchData();
-//     }, []);
-
-//     async function fetchData() {
-//         try {
-//             const key = 'populated';
-//             const secret = 'populatedSecret';
-
-//             const response = await fetch('https://localhost:443/api/data/v3/tpdm/evaluationObjectives', {
-//                 method: 'GET',
-//                 headers: {
-//                     'accept': 'application/json',
-//                     'authorization': `Basic ${btoa(`${key}:${secret}`)}`
-//                 }
-//             });
-
-//             const jsonData = await response.json();
-//             setData(jsonData);
-//         } catch (error) {
-//             console.error(error);
-//         }
-//     }
-
-//     if (data === null) {
-//         return <div>Loading...</div>;
-//     }
-
-//     return (
-//         <div>
-//             <h1>My Component</h1>
-//         </div>
-//     );
-// }

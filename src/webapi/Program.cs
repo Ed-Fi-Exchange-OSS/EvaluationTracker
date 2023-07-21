@@ -5,6 +5,7 @@
 
 using eppeta.webapi.Identity.Data;
 using eppeta.webapi.Identity.Models;
+using eppeta.webapi.Service;
 using eppeta.webapi.Swagger;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -31,12 +32,20 @@ internal class Program
         // Add services to the container.
         builder.Services.AddControllers();
         ConfigureCorsService(builder.Services);
-
         ConfigureDatabaseConnection(builder);
         ConfigureLocalIdentityProvider(builder.Services);
         ConfigureQuartz(builder.Services);
         ConfigureSwaggerUIServices(builder.Services);
         ConfigureAspNetAuth(builder.Services);
+
+        // Add authentication configuration service to the container.
+        //builder.Services.AddScoped<IAuthenticationConfigurationService, AuthenticationConfigurationService>();
+
+
+        // In the ConfigureServices method of Startup.cs
+        builder.Services.AddSingleton<IAuthenticationConfigurationService>(
+            new AuthenticationConfigurationService("https://localhost:443/api/data/v3/", "populated", "populatedSecret")
+        );
 
         var app = builder.Build();
 
