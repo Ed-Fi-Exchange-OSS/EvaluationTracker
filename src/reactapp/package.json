@@ -19,7 +19,6 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-        "devStart": "set HTTPS=true&&react-scripts start",
     "start": "set HTTPS=true&&react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

@@ -98,24 +98,24 @@ export default function EvaluationTable() {
                 <Heading mt="24px" fontSize={"5xl"}>
                     Evaluations
                 </Heading>
-            </Stack>
-            <TableContainer style={{ maxWidth: "100%" }} className="responsiveTableContainer">
+        </Stack>
+        <TableContainer style={{ maxWidth: "100%", marginLeft: "30px", marginRight: "30px" }} className="responsiveTableContainer">
       <Table variant="simple" size="lg" className="responsiveTable">
         <Thead>
           <Tr>
-            <Th bg="blue.500" color="white">
+            <Th className="responsiveTable th">
               Evaluation
             </Th>
-            <Th bg="blue.500" color="white">
+            <Th className="responsiveTable th">
               Candidate
             </Th>
-            <Th bg="blue.500" color="white">
+            <Th className="responsiveTable th">
               Evaluator
             </Th>
-            <Th bg="blue.500" color="white">
+            <Th className="responsiveTable th">
               Date
             </Th>
-            <Th bg="blue.500" color="white">
+            <Th className="responsiveTable th">
               Status
             </Th>
           </Tr>
@@ -136,14 +136,8 @@ export default function EvaluationTable() {
       </Table>
     </TableContainer>
             <Box mt="5" textAlign="center" mb="10">
-                <Button
-                    onClick={() => (window.location.href = "/new")}
-                    bg={"blue.400"}
-                    color={"white"}
-                    _hover={{
-                        bg: "blue.500",
-                    }}
-                >
+          <Button colorScheme='blue' onClick={() => (window.location.href = "/new")}>
+
                     New Evaluation
                 </Button>
             </Box>

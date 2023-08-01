@@ -8,7 +8,7 @@ using EdFi.OdsApi.Sdk.Client;
 
 namespace eppeta.webapi.Service
 {
-    public interface IAuthenticationConfigurationService
+    public interface IODSAPIAuthenticationConfigurationService
     {
         Configuration GetAuthenticatedConfiguration();
     }

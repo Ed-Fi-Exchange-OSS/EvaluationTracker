@@ -35,6 +35,10 @@ const modify = async (verb, route, values) => {
   // EPPETA-21.
 };
 
+const get = async (route) => {
+  return await modify("GET", route);
+};
+
 const post = async (route, values) => {
   return await modify("POST", route, values);
 };

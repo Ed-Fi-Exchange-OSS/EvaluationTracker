@@ -27,8 +27,9 @@ import {
 import "../App.css";
 import React, { useEffect, useState } from "react";
 
+// Get the evaluationElementsDictionary from EvaluationController
 export default function EvaluationForm() {
-  const [evaluationObjectives, setEvaluationObjectives] = useState([]);
+  const [evaluationElementsDictionary, setEvaluationElementsDictionary] = useState({});
 
   useEffect(() => {
     fetchEvaluationObjectives();
@@ -38,7 +39,7 @@ export default function EvaluationForm() {
   // Needed to fetch to localhost:7065 with the full URL to avoid CORS issues?
   const fetchEvaluationObjectives = async () => {
     try {
-      const response = await fetch("https://localhost:7065/api/EvaluationApi");
+      const response = await fetch("https://localhost:7065/api/Evaluation");
       if (!response.ok) {
         throw new Error("Failed to fetch evaluation objectives");
       }
@@ -50,14 +51,14 @@ export default function EvaluationForm() {
       }
 
       const data = await response.json();
-      setEvaluationObjectives(data);
+      setEvaluationElementsDictionary(data);
     } catch (error) {
       console.error("Error fetching evaluation objectives:", error);
     }
   };
 
     return (
-        <Container maxW={"7xl"}>
+        <Container maxW={"7xl"} mb='5'>
             <Stack
                 spacing={{ base: 4, sm: 6 }}
                 direction={"column"}
@@ -141,20 +142,25 @@ export default function EvaluationForm() {
               textTransform={"uppercase"}
               mb={"4"}
             >
-              Evaluation Objectives
+              Evaluation Objectives and Elements
             </Text>
             <Box>
               <table>
                 <thead>
                   <tr>
-                    <th>Title</th>
+                    <th>Objective Titles</th>
+                    <th>Element Titles</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {evaluationObjectives.map((objective) => (
-                    <tr key={objective.id}>
-                      <td>{objective.evaluationObjectiveTitle}</td>
-                    </tr>
+                  {Object.entries(evaluationElementsDictionary).map(([objectiveTitle, elementTitles]) => (
+                    // For each objectiveTitle, map through its corresponding elementTitles
+                    elementTitles.map((elementTitle, index) => (
+                      <tr key={index}>
+                        <td>{objectiveTitle}</td>
+                        <td>{elementTitle}</td>
+                      </tr>
+                    ))
                   ))}
                 </tbody>
               </table>

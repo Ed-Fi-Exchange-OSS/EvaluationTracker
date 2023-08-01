@@ -28,6 +28,8 @@ internal class Program
     {
         var builder = WebApplication.CreateBuilder(args);
         AppSettings.Initialize(builder.Configuration);
+        // Use the TrustAllSSLCerts method in the AppSettings class to trust all SSL certificates.
+        AppSettings.TrustAllSSLCerts();
 
         // Add services to the container.
         builder.Services.AddControllers();
@@ -39,8 +41,8 @@ internal class Program
         ConfigureAspNetAuth(builder.Services);
 
         // Add authentication configuration service to the container.
-        builder.Services.AddScoped<IAuthenticationConfigurationService>(
-            provider => new AuthenticationConfigurationService("https://localhost:443/api/", "populated", "populatedSecret")
+        builder.Services.AddScoped<IODSAPIAuthenticationConfigurationService>(
+            provider => new ODSAPIAuthenticationConfigurationService("https://localhost:443/api/", "populated", "populatedSecret")
         );
 
 
