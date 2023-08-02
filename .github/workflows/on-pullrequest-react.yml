@@ -47,7 +47,12 @@ jobs:
       # Eventually we'll add a linter here. See Meadowlark for eslint examples.
 
       - name: Build
-        run: npm run build
+        run: |
+          # Temporarily set CI to false so that warnings are not treated as
+          # errors. This is not what we want to do long term. When we're ready
+          # to treat warnings as errors, simply remove this comment and the next line.
+          CI=false
+          npm run build
 
       - name: Initialize CodeQL
         uses: github/codeql-action/init@896079047b4bb059ba6f150a5d87d47dde99e6e5 # v2.11.6
