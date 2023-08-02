@@ -34,7 +34,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@607fce577a46308457984d59e4954e075820f10a # v3.0.3
         with:
-          global-json-file: global.json
+          global-json-file: src/global.json
 
       - name: Build
         run: dotnet build --nologo
