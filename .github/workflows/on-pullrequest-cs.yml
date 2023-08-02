@@ -73,7 +73,7 @@ jobs:
       # CodeQL initialization causes the resulting build to fail unit tests.
       # Therefore rebuilding here, even though also built above.
       - name: Build
-        run: dotnet build --nologo --no-restore
+        run: dotnet build webapi --nologo
 
       - name: Perform CodeQL Analysis
         if: success()
