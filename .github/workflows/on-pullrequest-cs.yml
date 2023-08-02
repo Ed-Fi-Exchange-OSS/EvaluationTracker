@@ -12,7 +12,7 @@ on:
     paths:
       - "**/*.cs"
       - "**/*.csproj"
-      - ".github/**/*.yml"
+      - ".github/workflows/on-pullrequest-cs.yml"
   workflow_dispatch:
 
 jobs:
@@ -50,7 +50,7 @@ jobs:
         # therefore an error occurs. Instead of installing the framework, simply
         # isolate the test command to the test _project_ instead of running on
         # the entire _solution_.
-        run: dotnet test eppeta.webapi.unitTests --logger "trx;LogFileName=$($_).trx" --nologo
+        run: dotnet test eppeta.webapi.unitTests --logger "trx;LogFileName=unit-tests.trx" --nologo
 
       - name: Upload Test Results
         uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce # v3.1.2
