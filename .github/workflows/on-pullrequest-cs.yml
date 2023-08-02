@@ -72,8 +72,11 @@ jobs:
       # Must build the software after initialization of CodeQL; something about
       # CodeQL initialization causes the resulting build to fail unit tests.
       # Therefore rebuilding here, even though also built above.
-      - name: Build
-        run: dotnet build webapi --nologo
+      - name: Build for CodeQL
+        run: |
+          # Force rebuild for CodeQL's benefit by running clean first.
+          dotnet clean webapi --nolog
+          dotnet build webapi --nologo
 
       - name: Perform CodeQL Analysis
         if: success()
