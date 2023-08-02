@@ -39,7 +39,7 @@ public class UserAccountResponseTests
             [Test]
             public void ThenItLoadsTheEmailAddress()
             {
-                _response.Email.ShouldBe(DefaultEmail);
+                _response.Email.ShouldBe("DefaultEmail");
             }
 
             [Test]
