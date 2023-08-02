@@ -37,11 +37,20 @@ jobs:
           global-json-file: src/global.json
 
       - name: Build
-        run: dotnet build --nologo
+        # Only build the C# project. If you build the solution, it will also run
+        # the reactapp build.
+        run: dotnet build webapi --nologo
 
       - name: Run Unit Tests
         if: success()
-        run: dotnet test --logger "trx;LogFileName=$($_).trx" --nologo --no-build
+        # Hard-coding the unit test project below, because if you try to run
+        # `dotnet test` on the sln file then the compiler tries to look for
+        # tests in the reactapp's esproj file, which in turn tries to load .NET
+        # Framework 4.7.2. That framework isn't loaded in GitHub Actions and
+        # therefore an error occurs. Instead of installing the framework, simply
+        # isolate the test command to the test _project_ instead of running on
+        # the entire _solution_.
+        run: dotnet test eppeta.webapi.unitTests --logger "trx;LogFileName=$($_).trx" --nologo
 
       - name: Upload Test Results
         uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce # v3.1.2
