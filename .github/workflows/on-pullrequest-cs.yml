@@ -36,10 +36,24 @@ jobs:
         with:
           global-json-file: src/global.json
 
-      - name: Build
-        # Only build the C# project. If you build the solution, it will also run
-        # the reactapp build.
+      - name: Dependency Review ("Dependabot on PR")
+        uses: actions/dependency-review-action@c090f4e553673e6e505ea70d6a95362ee12adb94 # v3.0.3
+
+      - name: Initialize CodeQL
+        if: success()
+        uses: github/codeql-action/init@896079047b4bb059ba6f150a5d87d47dde99e6e5 # codeql-bundle-20221211
+        with:
+          languages: csharp
+
+      # Must build the software after initialization of CodeQL; something about
+      # CodeQL initialization causes the resulting build to fail unit tests.
+      # Therefore rebuilding here, even though also built above.
+      - name: Build for CodeQL
         run: dotnet build webapi --nologo
+
+      - name: Perform CodeQL Analysis
+        if: success()
+        uses: github/codeql-action/analyze@896079047b4bb059ba6f150a5d87d47dde99e6e5 # codeql-bundle-20221211
 
       - name: Run Unit Tests
         if: success()
@@ -59,25 +73,3 @@ jobs:
           name: csharp-tests
           path: src/eppeta.webapi.unitTests/TestResults/unit-tests.trx
           retention-days: 5
-
-      - name: Dependency Review ("Dependabot on PR")
-        uses: actions/dependency-review-action@c090f4e553673e6e505ea70d6a95362ee12adb94 # v3.0.3
-
-      - name: Initialize CodeQL
-        if: success()
-        uses: github/codeql-action/init@896079047b4bb059ba6f150a5d87d47dde99e6e5 # codeql-bundle-20221211
-        with:
-          languages: csharp
-
-      # Must build the software after initialization of CodeQL; something about
-      # CodeQL initialization causes the resulting build to fail unit tests.
-      # Therefore rebuilding here, even though also built above.
-      - name: Build for CodeQL
-        run: |
-          # Force rebuild for CodeQL's benefit by running clean first.
-          dotnet clean webapi --nolog
-          dotnet build webapi --nologo /p:UseSharedCompilation=false
-
-      - name: Perform CodeQL Analysis
-        if: success()
-        uses: github/codeql-action/analyze@896079047b4bb059ba6f150a5d87d47dde99e6e5 # codeql-bundle-20221211
