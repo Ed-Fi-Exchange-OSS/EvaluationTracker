@@ -1,8 +1,11 @@
+// SPDX-License-Identifier: Apache-2.0
+// Licensed to the Ed-Fi Alliance under one or more agreements.
+// The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+// See the LICENSE and NOTICES files in the project root for more information.
+
 import {
     FormControl,
     FormLabel,
-    FormErrorMessage,
-    FormHelperText,
     Heading,
     Select,
     Input,
@@ -12,28 +15,23 @@ import {
     Flex,
     Stack,
     useColorModeValue,
-    Text,
-    Checkbox,
-    Link,
-} from '@chakra-ui/react'
+} from "@chakra-ui/react";
 
 export default function NewEvaluation() {
     return (
-        <Flex
-            minH={'100vh'}
-            align={'center'}
-            justify={'center'}>
-            <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
-                <Stack align={'center'}>
-                    <Heading fontSize={'6xl'}>New Evaluation</Heading>
+        <Flex minH={"100vh"} align={"center"} justify={"center"}>
+            <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
+                <Stack align={"center"}>
+                    <Heading fontSize={"6xl"}>New Evaluation</Heading>
                 </Stack>
                 <Box
-                    rounded={'lg'}
-                    bg={useColorModeValue('white', 'gray.700')}
-                    boxShadow={'lg'}
-                    alignItems={'center'}
+                    rounded={"lg"}
+                    bg={useColorModeValue("white", "gray.700")}
+                    boxShadow={"lg"}
+                    alignItems={"center"}
                     w="100%"
-                    p={8}>
+                    p={8}
+                >
                     <Stack spacing={4}>
                         <FormControl>
                             <FormLabel>Evaluation</FormLabel>
@@ -44,7 +42,7 @@ export default function NewEvaluation() {
                             </Select>
 
                             <FormLabel>Candidate</FormLabel>
-                            <Input type='candidate' />
+                            <Input type="candidate" />
 
                             <FormLabel>Date</FormLabel>
                             <Input
@@ -55,9 +53,22 @@ export default function NewEvaluation() {
                         </FormControl>
 
                         <Box mt="5" textAlign="center">
-                            <ButtonGroup variant='outline' spacing='6'>
-                                <Button colorScheme='blue'>Start Evaluation</Button>
-                                <Button onClick={() => {window.location.href = "/main" } }>Cancel</Button>
+                            <ButtonGroup variant="outline" spacing="6">
+                                <Button
+                                    onClick={() => {
+                                        window.location.href = "/evaluation";
+                                    }}
+                                    colorScheme="blue"
+                                >
+                                    Start Evaluation
+                                </Button>
+                                <Button
+                                    onClick={() => {
+                                        window.location.href = "/main";
+                                    }}
+                                >
+                                    Cancel
+                                </Button>
                             </ButtonGroup>
                         </Box>
                     </Stack>
@@ -66,7 +77,3 @@ export default function NewEvaluation() {
         </Flex>
     );
 }
-
-
-
-

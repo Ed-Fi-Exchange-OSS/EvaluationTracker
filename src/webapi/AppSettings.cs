@@ -4,6 +4,7 @@
 // See the LICENSE and NOTICES files in the project root for more information.
 
 using Microsoft.IdentityModel.Tokens;
+using System.Net.NetworkInformation;
 
 namespace eppeta.webapi;
 
@@ -31,7 +32,7 @@ public class AppSettings
 
     private static AppSettings GetInstance()
     {
-        return _instance ?? throw new InvalidOperationException("AppSettings has not bee initialized");
+        return _instance ?? throw new InvalidOperationException("AppSettings has not been initialized");
     }
 
     public static void Initialize(IConfigurationRoot configuration)
@@ -52,6 +53,30 @@ public class AppSettings
         get
         {
             return GetInstance()._configuration.GetValue<string>("CorsAllowedOrigins").Split(",");
+        }
+    }
+
+    public static string BasePath
+    {
+        get
+        {
+            return GetInstance()._configuration.GetValue<string>("BasePath");
+        }
+    }
+
+    // Add a method to accept all SSL certs if the TrustAllSSLCerts is true in the appsettings.json file.
+    public static void TrustAllSSLCerts()
+    {
+        if (GetInstance()._configuration.GetValue<bool>("TrustAllSSLCerts"))
+        {
+            // Trust all SSL certs -- needed unless signed SSL certificates are configured.
+            System.Net.ServicePointManager.ServerCertificateValidationCallback =
+                ((sender, certificate, chain, sslPolicyErrors) => true);
+
+            // Due to our reliance on some older libraries, the.NET framework won't necessarily default
+            // to the latest unless we explicitly request it. Some hosting environments will not allow older versions
+            // of TLS, and thus calls can fail without this extra configuration.
+            System.Net.ServicePointManager.SecurityProtocol |= System.Net.SecurityProtocolType.Tls11 | System.Net.SecurityProtocolType.Tls12;
         }
     }
 }

@@ -5,6 +5,7 @@
 
 using eppeta.webapi.Identity.Data;
 using eppeta.webapi.Identity.Models;
+using eppeta.webapi.Service;
 using eppeta.webapi.Swagger;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -27,16 +28,23 @@ internal class Program
     {
         var builder = WebApplication.CreateBuilder(args);
         AppSettings.Initialize(builder.Configuration);
+        // Use the TrustAllSSLCerts method in the AppSettings class to trust all SSL certificates.
+        AppSettings.TrustAllSSLCerts();
 
         // Add services to the container.
         builder.Services.AddControllers();
         ConfigureCorsService(builder.Services);
-
         ConfigureDatabaseConnection(builder);
         ConfigureLocalIdentityProvider(builder.Services);
         ConfigureQuartz(builder.Services);
         ConfigureSwaggerUIServices(builder.Services);
         ConfigureAspNetAuth(builder.Services);
+
+        // Add authentication configuration service to the container.
+        builder.Services.AddScoped<IODSAPIAuthenticationConfigurationService>(
+            provider => new ODSAPIAuthenticationConfigurationService("https://localhost:443/api/", "populated", "populatedSecret")
+        );
+
 
         var app = builder.Build();
 

@@ -23,6 +23,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SQL", "SQL", "{47708811-A8F
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eppeta.webapi.unitTests", "eppeta.webapi.unitTests\eppeta.webapi.unitTests.csproj", "{38A32D34-151D-4D27-941B-E8E3E72F19E4}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EdFi.OdsApi.Sdk", "..\EdFi.OdsApi.Sdk\EdFi.OdsApi.Sdk.csproj", "{94AC295F-8264-4951-B433-B1BF70EB1EA0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,6 +61,14 @@ Global
 		{38A32D34-151D-4D27-941B-E8E3E72F19E4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{38A32D34-151D-4D27-941B-E8E3E72F19E4}.Release|x86.ActiveCfg = Release|Any CPU
 		{38A32D34-151D-4D27-941B-E8E3E72F19E4}.Release|x86.Build.0 = Release|Any CPU
+		{94AC295F-8264-4951-B433-B1BF70EB1EA0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94AC295F-8264-4951-B433-B1BF70EB1EA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94AC295F-8264-4951-B433-B1BF70EB1EA0}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{94AC295F-8264-4951-B433-B1BF70EB1EA0}.Debug|x86.Build.0 = Debug|Any CPU
+		{94AC295F-8264-4951-B433-B1BF70EB1EA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94AC295F-8264-4951-B433-B1BF70EB1EA0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{94AC295F-8264-4951-B433-B1BF70EB1EA0}.Release|x86.ActiveCfg = Release|Any CPU
+		{94AC295F-8264-4951-B433-B1BF70EB1EA0}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

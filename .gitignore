@@ -28,4 +28,6 @@ yarn-error.log*
 bin
 *.user
 
+/src/webapi/appsettings.Docker.json
+
 *.trx

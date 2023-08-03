@@ -36,3 +36,86 @@
     transform: rotate(360deg);
   }
 }
+
+.TitleBox {
+    width: 150px;
+    height: 30px;
+    background-color: #dcdcdc;
+    margin: 0px;
+    padding: 0px;
+    border: 0.5px solid grey;
+    text-align: center;
+}
+
+.Box {
+    width: 150px;
+    height: 30px;
+    background-color: white;
+    margin: 0px;
+    padding: 0px;
+    border: 0.5px solid grey;
+    text-align: center;
+}
+
+.button {
+    background-color: blueviolet;
+    color: #4299E1;
+}
+
+.button:hover {
+    color: #3182CE
+}
+
+.responsiveHStack {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.responsiveTable {
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.responsiveTable th {
+    background-color: #3182CE;
+    color: white;
+    text-align: center
+}
+
+.responsiveTable td {
+    min-width: 250px;
+    text-align: center
+}
+
+@media (max-width: 600px) {
+    .responsiveHStack > * {
+        width: 100%;
+    }
+}
+
+.responsiveTableContainer {
+    overflow-x: auto;
+}
+
+@media (max-width: 600px) {
+    .responsiveTable {
+        display: block;
+        width: 100%;
+        white-space: nowrap;
+    }
+
+    .responsiveTable thead {
+        display: none;
+    }
+
+    .responsiveTable tbody,
+    .responsiveTable tr,
+    .responsiveTable td {
+        display: block;
+    }
+
+    .responsiveTable td {
+        text-align: left;
+        padding: 6px;
+    }
+}
