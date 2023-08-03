@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\webapi\eppeta.webapi.csproj" />
+    <ProjectReference Include="..\..\EdFi.OdsApi.Sdk.csproj" />  
   </ItemGroup>
 
 </Project>

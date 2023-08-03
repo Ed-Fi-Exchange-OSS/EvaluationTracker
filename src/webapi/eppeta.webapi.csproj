@@ -25,7 +25,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\..\..\..\..\..\csharp\src\EdFi.OdsApi.Sdk\EdFi.OdsApi.Sdk.csproj" />
+        <ProjectReference Include="..\..\EdFi.OdsApi.Sdk\EdFi.OdsApi.Sdk.csproj" />
     </ItemGroup>
 
 </Project>
