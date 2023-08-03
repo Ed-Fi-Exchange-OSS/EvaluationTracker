@@ -92,55 +92,40 @@ export default function EvaluationTable() {
         },
     ];
 
-    return (
-        <Stack spacing={8}>
-            <Stack align={"center"}>
-                <Heading mt="24px" fontSize={"5xl"}>
-                    Evaluations
-                </Heading>
-        </Stack>
-        <TableContainer style={{ maxWidth: "100%", marginLeft: "30px", marginRight: "30px" }} className="responsiveTableContainer">
-      <Table variant="simple" size="lg" className="responsiveTable">
-        <Thead>
-          <Tr>
-            <Th className="responsiveTable th">
-              Evaluation
-            </Th>
-            <Th className="responsiveTable th">
-              Candidate
-            </Th>
-            <Th className="responsiveTable th">
-              Evaluator
-            </Th>
-            <Th className="responsiveTable th">
-              Date
-            </Th>
-            <Th className="responsiveTable th">
-              Status
-            </Th>
-          </Tr>
-        </Thead>
-        <Tbody>
-          {data.map((row, i) => (
-            <Tr key={i}>
-              <Td>{row.evaluation}</Td>
-              <Td>{row.candidate}</Td>
-              <Td>{row.evaluator}</Td>
-              <Td>{row.date.toLocaleDateString()}</Td>
-              <Td>
-                {row.completed ? "Completed" : "In Progress"}
-              </Td>
+  return(
+      <Stack spacing={8} mt="24px" px={{ base: "10px", md: "30px" }} align="center">
+      <Heading fontSize={{ base: "3xl", md: "5xl" }}>Evaluations</Heading>
+      <TableContainer maxWidth="100%">
+        <Table variant="simple" size="lg" className="responsiveTable">
+          <Thead>
+            <Tr>
+              <Th className="responsiveTable th">Evaluation</Th>
+              <Th className="responsiveTable th">Candidate</Th>
+              <Th className="responsiveTable th">Evaluator</Th>
+              <Th className="responsiveTable th">Date</Th>
+              <Th className="responsiveTable th">Status</Th>
             </Tr>
-          ))}
-        </Tbody>
-      </Table>
-    </TableContainer>
-            <Box mt="5" textAlign="center" mb="10">
-          <Button colorScheme='blue' onClick={() => (window.location.href = "/new")}>
-
-                    New Evaluation
-                </Button>
-            </Box>
-        </Stack>
-    );
+          </Thead>
+          <Tbody>
+            {data.map((row, i) => (
+              <Tr key={i}>
+                <Td>{row.evaluation}</Td>
+                <Td>{row.candidate}</Td>
+                <Td>{row.evaluator}</Td>
+                <Td>{row.date.toLocaleDateString()}</Td>
+                <Td>
+                  {row.completed ? "Completed" : "In Progress"}
+                </Td>
+              </Tr>
+            ))}
+          </Tbody>
+        </Table>
+      </TableContainer>
+      <Box textAlign="center" mt="5" mb="10">
+        <Button colorScheme="blue" onClick={() => (window.location.href = "/new")}>
+          New Evaluation
+        </Button>
+      </Box>
+    </Stack>
+  );
 }

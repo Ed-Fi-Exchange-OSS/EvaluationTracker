@@ -79,6 +79,12 @@
 .responsiveTable th {
     background-color: #3182CE;
     color: white;
+    text-align: center
+}
+
+.responsiveTable td {
+    min-width: 250px;
+    text-align: center
 }
 
 @media (max-width: 600px) {
