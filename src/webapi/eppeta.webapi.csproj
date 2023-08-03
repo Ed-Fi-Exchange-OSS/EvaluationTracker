@@ -6,6 +6,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <IsPackable>true</IsPackable>
         <NoWarn>NU5100, NU5124</NoWarn>
+        <Copyright>Copyright © 2023 Ed-Fi Alliance</Copyright>
     </PropertyGroup>
 
     <ItemGroup>

@@ -1,0 +1,75 @@
+# SPDX-License-Identifier: Apache-2.0
+# Licensed to the Ed-Fi Alliance under one or more agreements.
+# The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+# See the LICENSE and NOTICES files in the project root for more information.
+
+name: On Pull Request - C#
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "**/*.cs"
+      - "**/*.csproj"
+      - ".github/workflows/on-pullrequest-cs.yml"
+  workflow_dispatch:
+
+jobs:
+  scan-actions-bidi:
+    name: Scan Actions, scan all files for BIDI Trojan Attacks
+    uses: ed-fi-alliance-oss/ed-fi-actions/.github/workflows/repository-scanner.yml@main
+
+  run-cs-tests:
+    name: Run C# Tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: src
+        shell: pwsh
+    steps:
+      - name: Checkout the Repo
+        uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3.3.0
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@607fce577a46308457984d59e4954e075820f10a # v3.0.3
+        with:
+          global-json-file: src/global.json
+
+      - name: Dependency Review ("Dependabot on PR")
+        uses: actions/dependency-review-action@c090f4e553673e6e505ea70d6a95362ee12adb94 # v3.0.3
+
+      - name: Initialize CodeQL
+        if: success()
+        uses: github/codeql-action/init@896079047b4bb059ba6f150a5d87d47dde99e6e5 # codeql-bundle-20221211
+        with:
+          languages: csharp
+
+      # Must build the software after initialization of CodeQL; something about
+      # CodeQL initialization causes the resulting build to fail unit tests.
+      # Therefore rebuilding here, even though also built above.
+      - name: Build for CodeQL
+        run: dotnet build webapi --nologo
+
+      - name: Perform CodeQL Analysis
+        if: success()
+        uses: github/codeql-action/analyze@896079047b4bb059ba6f150a5d87d47dde99e6e5 # codeql-bundle-20221211
+
+      - name: Run Unit Tests
+        if: success()
+        # Hard-coding the unit test project below, because if you try to run
+        # `dotnet test` on the sln file then the compiler tries to look for
+        # tests in the reactapp's esproj file, which in turn tries to load .NET
+        # Framework 4.7.2. That framework isn't loaded in GitHub Actions and
+        # therefore an error occurs. Instead of installing the framework, simply
+        # isolate the test command to the test _project_ instead of running on
+        # the entire _solution_.
+        run: dotnet test eppeta.webapi.unitTests --logger "trx;LogFileName=unit-tests.trx" --nologo
+
+      - name: Upload Test Results
+        uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce # v3.1.2
+        if: always()
+        with:
+          name: csharp-tests
+          path: src/eppeta.webapi.unitTests/TestResults/unit-tests.trx
+          retention-days: 5
