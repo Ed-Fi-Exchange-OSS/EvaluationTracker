@@ -7,18 +7,14 @@ import {
     Table,
     Thead,
     Tbody,
-    Tfoot,
     Tr,
     Th,
     Td,
-    TableCaption,
     TableContainer,
     Button,
     Box,
-    Flex,
     Stack,
     Heading,
-    useColorModeValue,
 } from "@chakra-ui/react";
 import "../App.css";
 

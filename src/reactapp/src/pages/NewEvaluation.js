@@ -6,8 +6,6 @@
 import {
     FormControl,
     FormLabel,
-    FormErrorMessage,
-    FormHelperText,
     Heading,
     Select,
     Input,
@@ -17,9 +15,6 @@ import {
     Flex,
     Stack,
     useColorModeValue,
-    Text,
-    Checkbox,
-    Link,
 } from "@chakra-ui/react";
 
 export default function NewEvaluation() {
