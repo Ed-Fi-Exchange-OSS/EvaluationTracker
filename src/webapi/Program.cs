@@ -3,6 +3,7 @@
 // The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
 // See the LICENSE and NOTICES files in the project root for more information.
 
+using eppeta.webapi.Evaluations.Data;
 using eppeta.webapi.Identity.Data;
 using eppeta.webapi.Identity.Models;
 using eppeta.webapi.Service;
@@ -85,6 +86,7 @@ internal class Program
             });
 
             builder.Services.AddScoped<IIdentityRepository, IdentityDbContext>();
+            builder.Services.AddScoped<IEvaluationRepository, EvaluationDbContext>();
         }
 
         static void ConfigureLocalIdentityProvider(IServiceCollection services)
