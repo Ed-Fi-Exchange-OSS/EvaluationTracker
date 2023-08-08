@@ -9,18 +9,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace eppeta.webapi.Evaluations.Models
 {
-    public class PerformanceEvaluationRating
+    public class EvaluationRating
     {
-        public int EducationOrganizationId { get; set; }
-        public int EvaluationPeriodDescriptorId { get; set; }
-        public string PerformanceEvaluationTitle { get; set; } = string.Empty;
-        public int PerformanceEvaluationTypeDescriptorId { get; set; }
-        public short SchoolYear { get; set; }
-        public int TermDescriptorId { get; set; }
-        public DateTime ActualDate { get; set; }
-        public int? ActualDuration { get; set; }
-        public int? PerformanceEvaluationRatingLevelDescriptorId { get; set; }
-        public TimeSpan? ActualTime { get; set; }
+        public string EvaluationTitle { get; set; } = string.Empty;
+        public int? EvaluationRatingLevelDescriptorId { get; set; }
+        public int? EvaluationRatingStatusDescriptorId { get; set; }
         public DateTime CreateDate { get; set; }
         public DateTime LastModifiedDate { get; set; }
         public Guid? Ods_Id { get; set; }

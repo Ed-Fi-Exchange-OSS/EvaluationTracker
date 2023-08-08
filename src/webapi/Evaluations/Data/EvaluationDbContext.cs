@@ -37,8 +37,14 @@ namespace eppeta.webapi.Evaluations.Data
             await SaveChangesAsync();
         }
 
-        // DbSet for PerformanceEvaluationRating entity
+        // DbSet for ratings entities
         public DbSet<PerformanceEvaluationRating> PerformanceEvaluationRatings { get; set; }
+
+        public DbSet<EvaluationRating> EvaluationRatings { get; set; }
+
+        public DbSet<EvaluationObjectiveRating> EvaluationObjectiveRatings { get; set; }
+
+        public DbSet<EvaluationElementRating> EvaluationElementRatings { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

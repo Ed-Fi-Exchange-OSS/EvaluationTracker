@@ -1,0 +1,149 @@
+-- SPDX-License-Identifier: Apache-2.0
+-- Licensed to the Ed-Fi Alliance under one or more agreements.
+-- The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+-- See the LICENSE and NOTICES files in the project root for more information.
+
+CREATE TABLE eppeta.PerformanceEvaluation (
+    EducationOrganizationId INT NOT NULL,
+    EvaluationPeriodDescriptorId INT NOT NULL,
+    PerformanceEvaluationTitle VARCHAR(50) NOT NULL,
+    PerformanceEvaluationTypeDescriptorId INT NOT NULL,
+    SchoolYear SMALLINT NOT NULL,
+    TermDescriptorId INT NOT NULL,
+    PerformanceEvaluationDescription VARCHAR(255) NULL,
+    CreateDate DATETIME2 NOT NULL,
+    LastModifiedDate DATETIME2 NOT NULL,
+    Ods_Id UNIQUEIDENTIFIER NULL,
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+);
+GO
+ALTER TABLE eppeta.PerformanceEvaluation ADD CONSTRAINT [PerformanceEvaluation_DF_CreateDate] DEFAULT (getdate()) FOR [CreateDate]
+GO
+ALTER TABLE eppeta.PerformanceEvaluation ADD CONSTRAINT [PerformanceEvaluation_DF_LastModifiedDate] DEFAULT (getdate()) FOR [LastModifiedDate]
+GO
+
+CREATE TABLE eppeta.PerformanceEvaluationRating (
+    EducationOrganizationId INT NOT NULL,
+    EvaluationPeriodDescriptorId INT NOT NULL,
+    PerformanceEvaluationTitle VARCHAR(50) NOT NULL,
+    PerformanceEvaluationTypeDescriptorId INT NOT NULL,
+    SchoolYear SMALLINT NOT NULL,
+    TermDescriptorId INT NOT NULL,
+    ActualDate DATE NOT NULL,
+    ActualDuration INT NULL,
+    PerformanceEvaluationRatingLevelDescriptorId INT NULL,
+    ActualTime TIME NULL,
+    CreateDate DATETIME2 NOT NULL,
+    LastModifiedDate DATETIME2 NOT NULL,
+    Ods_Id UNIQUEIDENTIFIER NULL,
+    UserId NVARCHAR(225) NOT NULL,
+    Id INT IDENTITY(1,1) PRIMARY KEY
+);
+GO
+ALTER TABLE eppeta.PerformanceEvaluationRating ADD CONSTRAINT [PerformanceEvaluationRating_DF_CreateDate] DEFAULT (getdate()) FOR [CreateDate]
+GO
+ALTER TABLE eppeta.PerformanceEvaluationRating ADD CONSTRAINT [PerformanceEvaluationRating_DF_LastModifiedDate] DEFAULT (getdate()) FOR [LastModifiedDate]
+GO
+ALTER TABLE [eppeta].[PerformanceEvaluationRating] WITH CHECK ADD CONSTRAINT [FK_PerformanceEvaluationRating_Users_UserId] FOREIGN KEY([UserId])
+REFERENCES [eppeta].[Users] ([Id])
+GO
+
+CREATE TABLE eppeta.Evaluation (
+    EvaluationTitle VARCHAR(50) NOT NULL,
+    EvaluationDescription VARCHAR(255) NULL,
+    MinRating DECIMAL(6, 3) NULL,
+    MaxRating DECIMAL(6, 3) NULL,
+    EvaluationTypeDescriptorId INT NULL,
+    CreateDate DATETIME2 NOT NULL,
+    LastModifiedDate DATETIME2 NOT NULL,
+    Ods_Id UNIQUEIDENTIFIER NOT NULL,
+    Id INT IDENTITY(1,1) PRIMARY KEY
+);
+ALTER TABLE eppeta.Evaluation ADD CONSTRAINT [Evaluation_DF_CreateDate] DEFAULT (getdate()) FOR [CreateDate]
+ALTER TABLE eppeta.Evaluation ADD CONSTRAINT [Evaluation_DF_LastModifiedDate] DEFAULT (getdate()) FOR [LastModifiedDate]
+
+CREATE TABLE eppeta.EvaluationRating (
+    EvaluationTitle VARCHAR(50) NOT NULL,
+    EvaluationRatingLevelDescriptorId INT NULL,
+    EvaluationRatingStatusDescriptorId INT NULL,
+    CreateDate DATETIME2 NOT NULL,
+    LastModifiedDate DATETIME2 NOT NULL,
+    Ods_Id UNIQUEIDENTIFIER NULL,
+    UserId NVARCHAR(225) NOT NULL,
+    Id INT IDENTITY(1,1) PRIMARY KEY
+    );
+GO
+ALTER TABLE eppeta.EvaluationRating ADD CONSTRAINT [EvaluationRating_DF_CreateDate] DEFAULT (getdate()) FOR [CreateDate]
+GO
+ALTER TABLE eppeta.EvaluationRating ADD CONSTRAINT [EvaluationRating_DF_LastModifiedDate] DEFAULT (getdate()) FOR [LastModifiedDate]
+GO
+ALTER TABLE [eppeta].[EvaluationRating] WITH CHECK ADD CONSTRAINT [FK_EvaluationRating_Users_UserId] FOREIGN KEY([UserId])
+REFERENCES [eppeta].[Users] ([Id])
+GO
+
+
+CREATE TABLE eppeta.EvaluationObjective (
+    EvaluationObjectiveTitle VARCHAR(50) NOT NULL,
+    EvaluationObjectiveDescription VARCHAR(255) NULL,
+    SortOrder INT NULL,
+    CreateDate DATETIME2 NOT NULL,
+    LastModifiedDate DATETIME2 NOT NULL,
+    Ods_Id UNIQUEIDENTIFIER NOT NULL,
+    Id INT IDENTITY(1,1) PRIMARY KEY
+    );
+GO
+ALTER TABLE eppeta.EvaluationObjective ADD CONSTRAINT [EvaluationObjective_DF_CreateDate] DEFAULT (getdate()) FOR [CreateDate]
+GO
+ALTER TABLE eppeta.EvaluationObjective ADD CONSTRAINT [EvaluationObjective_DF_LastModifiedDate] DEFAULT (getdate()) FOR [LastModifiedDate]
+GO
+
+CREATE TABLE eppeta.EvaluationObjectiveRating (
+    EvaluationObjectiveTitle VARCHAR(50) NOT NULL,
+    ObjectiveRatingLevelDescriptorId INT NULL,
+    Comments VARCHAR(1024) NULL,
+    CreateDate DATETIME2 NOT NULL,
+    LastModifiedDate DATETIME2 NOT NULL,
+    Ods_Id UNIQUEIDENTIFIER NULL,
+    UserId NVARCHAR(225) NOT NULL,
+    Id INT IDENTITY(1,1) PRIMARY KEY
+    );
+GO
+ALTER TABLE eppeta.EvaluationObjectiveRating ADD CONSTRAINT [EvaluationObjectiveRating_DF_CreateDate] DEFAULT (getdate()) FOR [CreateDate]
+GO
+ALTER TABLE eppeta.EvaluationObjectiveRating ADD CONSTRAINT [EvaluationObjectiveRating_DF_LastModifiedDate] DEFAULT (getdate()) FOR [LastModifiedDate]
+GO
+ALTER TABLE [eppeta].[EvaluationObjectiveRating] WITH CHECK ADD CONSTRAINT [FK_EvaluationObjectiveRating_Users_UserId] FOREIGN KEY([UserId])
+REFERENCES [eppeta].[Users] ([Id])
+GO
+
+CREATE TABLE eppeta.EvaluationElement (
+    EvaluationElementTitle VARCHAR(255) NOT NULL,
+    CreateDate DATETIME2 NOT NULL,
+    LastModifiedDate DATETIME2 NOT NULL,
+    Ods_Id UNIQUEIDENTIFIER NOT NULL,
+    Id INT IDENTITY(1,1) PRIMARY KEY
+);
+GO
+ALTER TABLE eppeta.EvaluationElement ADD CONSTRAINT [EvaluationElement_DF_CreateDate] DEFAULT (getdate()) FOR [CreateDate]
+GO
+ALTER TABLE eppeta.EvaluationElement ADD CONSTRAINT [EvaluationElement_DF_LastModifiedDate] DEFAULT (getdate()) FOR [LastModifiedDate]
+GO
+
+CREATE TABLE eppeta.EvaluationElementRating (
+    EvaluationElementTitle VARCHAR(255) NOT NULL,
+    EvaluationElementRatingLevelDescriptorId INT NULL,
+    Rating DECIMAL(6, 3) NOT NULL,
+    CreateDate DATETIME2 NOT NULL,
+    LastModifiedDate DATETIME2 NOT NULL,
+    Ods_Id UNIQUEIDENTIFIER NULL,
+    UserId NVARCHAR(225) NOT NULL,
+    Id INT IDENTITY(1,1) PRIMARY KEY
+);
+GO
+ALTER TABLE eppeta.EvaluationElementRating ADD CONSTRAINT [EvaluationElementRating_DF_CreateDate] DEFAULT (getdate()) FOR [CreateDate]
+GO
+ALTER TABLE eppeta.EvaluationElementRating ADD CONSTRAINT [EvaluationElementRating_DF_LastModifiedDate] DEFAULT (getdate()) FOR [LastModifiedDate]
+GO
+ALTER TABLE [eppeta].[EvaluationElementRating] WITH CHECK ADD CONSTRAINT [FK_EvaluationElementRating_Users_UserId] FOREIGN KEY([UserId])
+REFERENCES [eppeta].[Users] ([Id])
+GO
