@@ -30,12 +30,12 @@ public class ApplicationUser : IdentityUser
     // One-to-many relationship with EvaluationRating
     // One-to-many relationship with EvaluationObjectiveRating
     // One-to-many relationship with EvaluationElementRating
-    public ICollection<PerformanceEvaluationRating>? PerformanceEvaluationRatings { get; set; }
+    public ICollection<PerformanceEvaluationRating> PerformanceEvaluationRatings { get; set; } = new List<PerformanceEvaluationRating>();
 
-    public ICollection<EvaluationRating> EvaluationRatings { get; set; }
+    public ICollection<EvaluationRating> EvaluationRatings { get; set; } = new List<EvaluationRating>();
 
-    public ICollection<EvaluationObjectiveRating>? EvaluationObjectiveRatings { get; set; }
+    public ICollection<EvaluationObjectiveRating> EvaluationObjectiveRatings { get; set; } = new List<EvaluationObjectiveRating>();
 
-    public ICollection<EvaluationElementRating>? EvaluationElementRatings { get; set; }
+    public ICollection<EvaluationElementRating> EvaluationElementRatings { get; set; } = new List<EvaluationElementRating>();
 
 }

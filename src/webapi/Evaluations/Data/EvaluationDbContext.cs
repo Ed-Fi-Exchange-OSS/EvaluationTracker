@@ -1,3 +1,8 @@
+// SPDX-License-Identifier: Apache-2.0
+// Licensed to the Ed-Fi Alliance under one or more agreements.
+// The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+// See the LICENSE and NOTICES files in the project root for more information.
+
 using eppeta.webapi.Evaluations.Models;
 using eppeta.webapi.Identity.Data;
 using eppeta.webapi.Identity.Models;
@@ -10,9 +15,13 @@ namespace eppeta.webapi.Evaluations.Data
 {
     public class EvaluationDbContext : DbContext, IEvaluationRepository
     {
-        public EvaluationDbContext(DbContextOptions options)
+        public EvaluationDbContext(DbContextOptions<EvaluationDbContext> options)
             : base(options)
         {
+            PerformanceEvaluationRatings = Set<PerformanceEvaluationRating>();
+            EvaluationRatings = Set<EvaluationRating>();
+            EvaluationObjectiveRatings = Set<EvaluationObjectiveRating>();
+            EvaluationElementRatings = Set<EvaluationElementRating>();
         }
 
         public async Task CreatePerformanceEvaluationRating(PerformanceEvaluationRating rating)
@@ -50,7 +59,25 @@ namespace eppeta.webapi.Evaluations.Data
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.HasDefaultSchema("eppeta");
-            modelBuilder.Entity<PerformanceEvaluationRating>().ToTable("PerformanceEvaluationRatings");
+            modelBuilder.Entity<PerformanceEvaluationRating>().ToTable("PerformanceEvaluationRating");
+            modelBuilder.Entity<EvaluationRating>().ToTable("EvaluationRating");
+            modelBuilder.Entity<EvaluationObjectiveRating>().ToTable("EvaluationObjectiveRating");
+            modelBuilder.Entity<EvaluationElementRating>().ToTable("EvaluationElementRating");
+
+            // Configure the Many-to-one relationship between PerformanceEvaluationRating and ApplicationUser
+            // Reference the ApplicationUser property in PerformanceEvaluationRating
+            // Reference the PerformanceEvaluationRatings ICollection property in ApplicationUser
+            // Use the UserId foreign key in PerformanceEvaluationRating
+            modelBuilder.Entity<PerformanceEvaluationRating>()
+                .HasOne(p => p.ApplicationUser)
+                .WithMany(u => u.PerformanceEvaluationRatings)
+                .HasForeignKey(p => p.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // EF couldn't determine the appropriate column type for the Rating property
+            modelBuilder.Entity<EvaluationElementRating>()
+                .Property(e => e.Rating)
+                .HasColumnType("decimal(6, 3)");
         }
     }
 }

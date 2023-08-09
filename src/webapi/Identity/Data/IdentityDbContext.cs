@@ -12,7 +12,7 @@ namespace eppeta.webapi.Identity.Data;
 
 public class IdentityDbContext : IdentityDbContext<ApplicationUser>, IIdentityRepository
 {
-    public IdentityDbContext(DbContextOptions options)
+    public IdentityDbContext(DbContextOptions<IdentityDbContext> options)
         : base(options)
     {
     }

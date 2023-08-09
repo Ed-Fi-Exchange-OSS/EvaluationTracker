@@ -11,10 +11,11 @@ CREATE TABLE eppeta.PerformanceEvaluation (
     SchoolYear SMALLINT NOT NULL,
     TermDescriptorId INT NOT NULL,
     PerformanceEvaluationDescription VARCHAR(255) NULL,
-    CreateDate DATETIME2 NOT NULL,
-    LastModifiedDate DATETIME2 NOT NULL,
-    Ods_Id UNIQUEIDENTIFIER NULL,
-    Id INT IDENTITY(1,1) PRIMARY KEY,
+    CreateDate DATETIME NOT NULL,
+    LastModifiedDate DATETIME NOT NULL,
+    EdFi_Id VARCHAR(50) NULL,
+    Id INT IDENTITY(1,1) NOT NULL,
+    CONSTRAINT PerformanceEvaluation_PK PRIMARY KEY CLUSTERED (Id ASC)
 );
 GO
 ALTER TABLE eppeta.PerformanceEvaluation ADD CONSTRAINT [PerformanceEvaluation_DF_CreateDate] DEFAULT (getdate()) FOR [CreateDate]
@@ -33,11 +34,12 @@ CREATE TABLE eppeta.PerformanceEvaluationRating (
     ActualDuration INT NULL,
     PerformanceEvaluationRatingLevelDescriptorId INT NULL,
     ActualTime TIME NULL,
-    CreateDate DATETIME2 NOT NULL,
-    LastModifiedDate DATETIME2 NOT NULL,
-    Ods_Id UNIQUEIDENTIFIER NULL,
+    CreateDate DATETIME NOT NULL,
+    LastModifiedDate DATETIME NOT NULL,
+    EdFi_Id VARCHAR(50) NULL,
     UserId NVARCHAR(225) NOT NULL,
-    Id INT IDENTITY(1,1) PRIMARY KEY
+    Id INT IDENTITY(1,1) NOT NULL,
+    CONSTRAINT PerformanceEvaluationRating_PK PRIMARY KEY CLUSTERED (Id ASC)
 );
 GO
 ALTER TABLE eppeta.PerformanceEvaluationRating ADD CONSTRAINT [PerformanceEvaluationRating_DF_CreateDate] DEFAULT (getdate()) FOR [CreateDate]
@@ -54,10 +56,11 @@ CREATE TABLE eppeta.Evaluation (
     MinRating DECIMAL(6, 3) NULL,
     MaxRating DECIMAL(6, 3) NULL,
     EvaluationTypeDescriptorId INT NULL,
-    CreateDate DATETIME2 NOT NULL,
-    LastModifiedDate DATETIME2 NOT NULL,
-    Ods_Id UNIQUEIDENTIFIER NOT NULL,
-    Id INT IDENTITY(1,1) PRIMARY KEY
+    CreateDate DATETIME NOT NULL,
+    LastModifiedDate DATETIME NOT NULL,
+    EdFi_Id VARCHAR(50) NOT NULL,
+    Id INT IDENTITY(1,1) NOT NULL,
+    CONSTRAINT Evaluation_PK PRIMARY KEY CLUSTERED (Id ASC)
 );
 ALTER TABLE eppeta.Evaluation ADD CONSTRAINT [Evaluation_DF_CreateDate] DEFAULT (getdate()) FOR [CreateDate]
 ALTER TABLE eppeta.Evaluation ADD CONSTRAINT [Evaluation_DF_LastModifiedDate] DEFAULT (getdate()) FOR [LastModifiedDate]
@@ -66,11 +69,12 @@ CREATE TABLE eppeta.EvaluationRating (
     EvaluationTitle VARCHAR(50) NOT NULL,
     EvaluationRatingLevelDescriptorId INT NULL,
     EvaluationRatingStatusDescriptorId INT NULL,
-    CreateDate DATETIME2 NOT NULL,
-    LastModifiedDate DATETIME2 NOT NULL,
-    Ods_Id UNIQUEIDENTIFIER NULL,
+    CreateDate DATETIME NOT NULL,
+    LastModifiedDate DATETIME NOT NULL,
+    EdFi_Id VARCHAR(50) NULL,
     UserId NVARCHAR(225) NOT NULL,
-    Id INT IDENTITY(1,1) PRIMARY KEY
+    Id INT IDENTITY(1,1) NOT NULL,
+    CONSTRAINT EvaluationRating_PK PRIMARY KEY CLUSTERED (Id ASC)
     );
 GO
 ALTER TABLE eppeta.EvaluationRating ADD CONSTRAINT [EvaluationRating_DF_CreateDate] DEFAULT (getdate()) FOR [CreateDate]
@@ -86,10 +90,11 @@ CREATE TABLE eppeta.EvaluationObjective (
     EvaluationObjectiveTitle VARCHAR(50) NOT NULL,
     EvaluationObjectiveDescription VARCHAR(255) NULL,
     SortOrder INT NULL,
-    CreateDate DATETIME2 NOT NULL,
-    LastModifiedDate DATETIME2 NOT NULL,
-    Ods_Id UNIQUEIDENTIFIER NOT NULL,
-    Id INT IDENTITY(1,1) PRIMARY KEY
+    CreateDate DATETIME NOT NULL,
+    LastModifiedDate DATETIME NOT NULL,
+    EdFi_Id VARCHAR(50) NOT NULL,
+    Id INT IDENTITY(1,1) NOT NULL,
+    CONSTRAINT EvaluationObjective_PK PRIMARY KEY CLUSTERED (Id ASC)
     );
 GO
 ALTER TABLE eppeta.EvaluationObjective ADD CONSTRAINT [EvaluationObjective_DF_CreateDate] DEFAULT (getdate()) FOR [CreateDate]
@@ -101,11 +106,12 @@ CREATE TABLE eppeta.EvaluationObjectiveRating (
     EvaluationObjectiveTitle VARCHAR(50) NOT NULL,
     ObjectiveRatingLevelDescriptorId INT NULL,
     Comments VARCHAR(1024) NULL,
-    CreateDate DATETIME2 NOT NULL,
-    LastModifiedDate DATETIME2 NOT NULL,
-    Ods_Id UNIQUEIDENTIFIER NULL,
+    CreateDate DATETIME NOT NULL,
+    LastModifiedDate DATETIME NOT NULL,
+    EdFi_Id VARCHAR(50) NULL,
     UserId NVARCHAR(225) NOT NULL,
-    Id INT IDENTITY(1,1) PRIMARY KEY
+    Id INT IDENTITY(1,1) NOT NULL,
+    CONSTRAINT EvaluationObjectiveRating_PK PRIMARY KEY CLUSTERED (Id ASC)
     );
 GO
 ALTER TABLE eppeta.EvaluationObjectiveRating ADD CONSTRAINT [EvaluationObjectiveRating_DF_CreateDate] DEFAULT (getdate()) FOR [CreateDate]
@@ -118,10 +124,11 @@ GO
 
 CREATE TABLE eppeta.EvaluationElement (
     EvaluationElementTitle VARCHAR(255) NOT NULL,
-    CreateDate DATETIME2 NOT NULL,
-    LastModifiedDate DATETIME2 NOT NULL,
-    Ods_Id UNIQUEIDENTIFIER NOT NULL,
-    Id INT IDENTITY(1,1) PRIMARY KEY
+    CreateDate DATETIME NOT NULL,
+    LastModifiedDate DATETIME NOT NULL,
+    EdFi_Id VARCHAR(50) NOT NULL,
+    Id INT IDENTITY(1,1) NOT NULL,
+    CONSTRAINT EvaluationElement_PK PRIMARY KEY CLUSTERED (Id ASC)
 );
 GO
 ALTER TABLE eppeta.EvaluationElement ADD CONSTRAINT [EvaluationElement_DF_CreateDate] DEFAULT (getdate()) FOR [CreateDate]
@@ -133,11 +140,12 @@ CREATE TABLE eppeta.EvaluationElementRating (
     EvaluationElementTitle VARCHAR(255) NOT NULL,
     EvaluationElementRatingLevelDescriptorId INT NULL,
     Rating DECIMAL(6, 3) NOT NULL,
-    CreateDate DATETIME2 NOT NULL,
-    LastModifiedDate DATETIME2 NOT NULL,
-    Ods_Id UNIQUEIDENTIFIER NULL,
+    CreateDate DATETIME NOT NULL,
+    LastModifiedDate DATETIME NOT NULL,
+    EdFi_Id VARCHAR(50) NULL,
     UserId NVARCHAR(225) NOT NULL,
-    Id INT IDENTITY(1,1) PRIMARY KEY
+    Id INT IDENTITY(1,1) NOT NULL,
+    CONSTRAINT EvaluationElementRating_PK PRIMARY KEY CLUSTERED (Id ASC)
 );
 GO
 ALTER TABLE eppeta.EvaluationElementRating ADD CONSTRAINT [EvaluationElementRating_DF_CreateDate] DEFAULT (getdate()) FOR [CreateDate]

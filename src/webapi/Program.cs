@@ -46,7 +46,6 @@ internal class Program
             provider => new ODSAPIAuthenticationConfigurationService("https://localhost:443/api/", "populated", "populatedSecret")
         );
 
-
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
@@ -75,6 +74,9 @@ internal class Program
             });
         }
 
+        // When registering multiple DbContext types, make sure that the constructor
+        // for each context type has a DbContextOptions<TContext> parameter rather
+        // than a non-generic DbContextOptions parameter
         static void ConfigureDatabaseConnection(WebApplicationBuilder builder)
         {
             var connectionString = builder.Configuration.GetConnectionString(ConnectionStringName) ?? throw new InvalidOperationException($"Connection string '{ConnectionStringName}' not found.");
@@ -85,9 +87,16 @@ internal class Program
                 options.UseOpenIddict();
             });
 
+            builder.Services.AddDbContext<EvaluationDbContext>(options =>
+            {
+                options.UseSqlServer(connectionString);
+            });
+
             builder.Services.AddScoped<IIdentityRepository, IdentityDbContext>();
             builder.Services.AddScoped<IEvaluationRepository, EvaluationDbContext>();
         }
+
+
 
         static void ConfigureLocalIdentityProvider(IServiceCollection services)
         {

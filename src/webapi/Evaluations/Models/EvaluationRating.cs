@@ -16,13 +16,14 @@ namespace eppeta.webapi.Evaluations.Models
         public int? EvaluationRatingStatusDescriptorId { get; set; }
         public DateTime CreateDate { get; set; }
         public DateTime LastModifiedDate { get; set; }
-        public Guid? Ods_Id { get; set; }
+        public string? EdFi_Id { get; set; }
         public string UserId { get; set; } = string.Empty;
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         // Foreign keys
+        [ForeignKey("UserId")]
         public ApplicationUser? ApplicationUser { get; set; }
     }
 }
