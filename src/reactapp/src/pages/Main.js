@@ -17,81 +17,49 @@ import {
     Heading,
 } from "@chakra-ui/react";
 import "../App.css";
+import React, { useEffect, useState } from "react";
 
 //Created a table to display the data from react objects
 export default function EvaluationTable() {
-    const data = [
-        {
-            evaluation: "T-TESS",
-            candidate: "Steven Mo",
-            evaluator: "Jane Doe",
-            date: new Date("2022-09-01"),
-            completed: true,
-        },
-        {
-            evaluation: "A-TESS",
-            candidate: "JOJO",
-            evaluator: "Jane Doe",
-            date: new Date("2021-09-02"),
-            completed: true,
-        },
-        {
-            evaluation: "B-TESS",
-            candidate: "Aidan Johnson",
-            evaluator: "Kevin Clear",
-            date: new Date("2023-09-03"),
-            completed: false,
-        },
-        {
-            evaluation: "B-TESS",
-            candidate: "Aidan Johnson",
-            evaluator: "Kevin Clear",
-            date: new Date("2023-09-03"),
-            completed: false,
-        },
-        {
-            evaluation: "B-TESS",
-            candidate: "Aidan Johnson",
-            evaluator: "Kevin Clear",
-            date: new Date("2023-09-03"),
-            completed: false,
-        },
-        {
-            evaluation: "B-TESS",
-            candidate: "Aidan Johnson",
-            evaluator: "Kevin Clear",
-            date: new Date("2023-09-03"),
-            completed: false,
-        },
-        {
-            evaluation: "B-TESS",
-            candidate: "Aidan Johnson",
-            evaluator: "Kevin Clear",
-            date: new Date("2023-09-03"),
-            completed: false,
-        },
-        {
-            evaluation: "B-TESS",
-            candidate: "Aidan Johnson",
-            evaluator: "Kevin Clear",
-            date: new Date("2023-09-03"),
-            completed: false,
-        },
-        {
-            evaluation: "B-TESS",
-            candidate: "Aidan Johnson",
-            evaluator: "Kevin Clear",
-            date: new Date("2023-09-03"),
-            completed: false,
-        },
-        {
-            evaluation: "B-TESS",
-            candidate: "Aidan Johnson",
-            evaluator: "Kevin Clear",
-            date: new Date("2023-09-03"),
-            completed: false,
-        },
-    ];
+  const [EvaluationRatings, setEvaluationRatings] = useState([]);
+  useEffect(() => {
+    fetchEvaluationRatings();
+  }, []);
+
+  //const response = await get("/connect/token", tokenRequest);
+// Retrieve evaluation ratings from API
+  const fetchEvaluationRatings = async () => {
+    try {
+      const response = await fetch("https://localhost:7065/api/EvaluationRating/");
+      const data = await response.json();
+      setEvaluationRatings(data);
+    } catch (error) {
+      console.error("Error fetching evaluation ratings:", error);
+    }
+  };
+    //const data = [
+    //    {
+    //        evaluation: "T-TESS",
+    //        candidate: "Steven Mo",
+    //        evaluator: "Jane Doe",
+    //        date: new Date("2022-09-01"),
+    //        completed: true,
+    //    },
+    //    {
+    //        evaluation: "A-TESS",
+    //        candidate: "JOJO",
+    //        evaluator: "Jane Doe",
+    //        date: new Date("2021-09-02"),
+    //        completed: true,
+    //    },
+    //    {
+    //        evaluation: "B-TESS",
+    //        candidate: "Aidan Johnson",
+    //        evaluator: "Kevin Clear",
+    //        date: new Date("2023-09-03"),
+    //        completed: false,
+    //    },
+    //];
 
   return(
       <Stack spacing={8} mt="24px" px={{ base: "10px", md: "30px" }} align="center">
@@ -108,15 +76,13 @@ export default function EvaluationTable() {
             </Tr>
           </Thead>
           <Tbody>
-            {data.map((row, i) => (
+            {EvaluationRatings.map((row, i) => (
               <Tr key={i}>
-                <Td>{row.evaluation}</Td>
-                <Td>{row.candidate}</Td>
-                <Td>{row.evaluator}</Td>
-                <Td>{row.date.toLocaleDateString()}</Td>
-                <Td>
-                  {row.completed ? "Completed" : "In Progress"}
-                </Td>
+                <Td>{row.performanceEvaluationTitle}</Td>
+                <Td>Candidate Name</Td> 
+                <Td>Evaluator</Td> 
+                <Td>{new Date(row.actualDate).toLocaleDateString()}</Td> 
+                <Td>Completed</Td>
               </Tr>
             ))}
           </Tbody>

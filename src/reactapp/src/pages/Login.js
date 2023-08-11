@@ -24,12 +24,14 @@ import { Formik, Form } from "formik";
 
 import InputField from "../components/InputField";
 import { postForm, setToken } from "../components/FetchHelpers";
+import jwtDecode from "jwt-decode";
 
 export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
 
   const loadEvaluationsPage = () => {
     // TODO redirect to evaluations landing page in EPPETA-9
+/*    window.location.href = "/main";*/
   };
 
   const onSubmitLogin = async (values) => {
@@ -49,6 +51,10 @@ export default function LoginForm() {
         alert(JSON.stringify(message));
         return;
       }
+
+      //const decodedToken = jwtDecode(message.access_token)
+      //console.log(decodedToken)
+
 
       setToken(message);
       console.info("Successful sign-in");

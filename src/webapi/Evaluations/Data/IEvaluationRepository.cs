@@ -13,7 +13,7 @@ public interface IEvaluationRepository
 {
     Task<List<PerformanceEvaluationRating>> GetAllPerformanceEvaluationRatings();
 
-    Task<PerformanceEvaluationRating?> GetPerformanceEvaluationRating(int id);
+    Task<List<PerformanceEvaluationRating>> GetPerformanceEvaluationRating(string userId);
 
     Task CreatePerformanceEvaluationRating(PerformanceEvaluationRating rating);
 

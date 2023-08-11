@@ -35,9 +35,9 @@ namespace eppeta.webapi.Evaluations.Data
             return await PerformanceEvaluationRatings.ToListAsync();
         }
 
-        public async Task<PerformanceEvaluationRating?> GetPerformanceEvaluationRating(int id)
+        public async Task<List<PerformanceEvaluationRating>> GetPerformanceEvaluationRating(string userId)
         {
-            return await PerformanceEvaluationRatings.FindAsync(id);
+            return await PerformanceEvaluationRatings.Where(r => r.UserId == userId).ToListAsync();
         }
 
         public async Task UpdatePerformanceEvaluationRating(PerformanceEvaluationRating rating)
