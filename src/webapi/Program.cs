@@ -43,7 +43,7 @@ internal class Program
 
         // Add authentication configuration service to the container.
         builder.Services.AddScoped<IODSAPIAuthenticationConfigurationService>(
-            provider => new ODSAPIAuthenticationConfigurationService("https://localhost:443/api/", "populated", "populatedSecret")
+            provider => new ODSAPIAuthenticationConfigurationService(builder.Configuration["OdsApiBasePath"], builder.Configuration["ODSAPIKey"], builder.Configuration["ODSAPISecret"])
         );
 
         var app = builder.Build();
@@ -119,6 +119,9 @@ internal class Program
                     // send password request without _also_ providing a client_id.
                     options.AllowPasswordFlow();
                     options.AcceptAnonymousClients();
+
+                    // Turned off token encryption, will discusss need for encrypted JWT later in project development
+                    options.DisableAccessTokenEncryption();
 
                     options.AddDevelopmentEncryptionCertificate()
                         .AddDevelopmentSigningCertificate();

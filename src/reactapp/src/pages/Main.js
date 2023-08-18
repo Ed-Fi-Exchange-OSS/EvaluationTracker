@@ -18,6 +18,7 @@ import {
 } from "@chakra-ui/react";
 import "../App.css";
 import React, { useEffect, useState } from "react";
+import { getLoggedInUserId } from "../components/FetchHelpers";
 
 //Created a table to display the data from react objects
 export default function EvaluationTable() {
@@ -30,8 +31,11 @@ export default function EvaluationTable() {
 // Retrieve evaluation ratings from API
   const fetchEvaluationRatings = async () => {
     try {
-      const response = await fetch("https://localhost:7065/api/EvaluationRating/");
+      const userId = getLoggedInUserId();
+
+      const response = await fetch(`https://localhost:7065/api/EvaluationRating/${userId}`);
       const data = await response.json();
+
       setEvaluationRatings(data);
     } catch (error) {
       console.error("Error fetching evaluation ratings:", error);
@@ -80,7 +84,7 @@ export default function EvaluationTable() {
               <Tr key={i}>
                 <Td>{row.performanceEvaluationTitle}</Td>
                 <Td>Candidate Name</Td> 
-                <Td>Evaluator</Td> 
+                <Td>{row.evaluatorName}</Td> 
                 <Td>{new Date(row.actualDate).toLocaleDateString()}</Td> 
                 <Td>Completed</Td>
               </Tr>
