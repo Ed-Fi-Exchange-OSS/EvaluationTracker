@@ -30,7 +30,7 @@ namespace eppeta.webapi.Service
             var configuration = new Configuration()
             {
                 AccessToken = tokenRetriever.ObtainNewBearerToken(),
-                BasePath = AppSettings.BasePath
+                BasePath = $"{ AppSettings.OdsApiBasePath.TrimEnd('/')}/data/v3"
             };
 
             return configuration;
