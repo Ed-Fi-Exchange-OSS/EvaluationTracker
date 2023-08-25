@@ -30,8 +30,4 @@ bin
 
 /src/webapi/appsettings.Docker.json
 
-# AppSettings
-appsettings.Development.json
-appsettings.user.json
-
 *.trx

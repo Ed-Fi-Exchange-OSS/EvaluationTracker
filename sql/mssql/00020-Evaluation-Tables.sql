@@ -6,14 +6,14 @@
 CREATE TABLE eppeta.PerformanceEvaluation (
     EducationOrganizationId INT NOT NULL,
     EvaluationPeriodDescriptorId INT NOT NULL,
-    PerformanceEvaluationTitle VARCHAR(50) NOT NULL,
+    PerformanceEvaluationTitle NVARCHAR(50) NOT NULL,
     PerformanceEvaluationTypeDescriptorId INT NOT NULL,
     SchoolYear SMALLINT NOT NULL,
     TermDescriptorId INT NOT NULL,
-    PerformanceEvaluationDescription VARCHAR(255) NULL,
+    PerformanceEvaluationDescription NVARCHAR(255) NULL,
     CreateDate DATETIME NOT NULL,
     LastModifiedDate DATETIME NOT NULL,
-    EdFi_Id VARCHAR(50) NULL,
+    EdFi_Id NVARCHAR(50) NULL,
     Id INT IDENTITY(1,1) NOT NULL,
     CONSTRAINT PerformanceEvaluation_PK PRIMARY KEY CLUSTERED (Id ASC)
 );
@@ -26,7 +26,7 @@ GO
 CREATE TABLE eppeta.PerformanceEvaluationRating (
     EducationOrganizationId INT NOT NULL,
     EvaluationPeriodDescriptorId INT NOT NULL,
-    PerformanceEvaluationTitle VARCHAR(50) NOT NULL,
+    PerformanceEvaluationTitle NVARCHAR(50) NOT NULL,
     PerformanceEvaluationTypeDescriptorId INT NOT NULL,
     SchoolYear SMALLINT NOT NULL,
     TermDescriptorId INT NOT NULL,
@@ -36,7 +36,7 @@ CREATE TABLE eppeta.PerformanceEvaluationRating (
     ActualTime TIME NULL,
     CreateDate DATETIME NOT NULL,
     LastModifiedDate DATETIME NOT NULL,
-    EdFi_Id VARCHAR(50) NULL,
+    EdFi_Id NVARCHAR(50) NULL,
     UserId NVARCHAR(225) NOT NULL,
     Id INT IDENTITY(1,1) NOT NULL,
     CONSTRAINT PerformanceEvaluationRating_PK PRIMARY KEY CLUSTERED (Id ASC)
@@ -51,14 +51,14 @@ REFERENCES [eppeta].[Users] ([Id])
 GO
 
 CREATE TABLE eppeta.Evaluation (
-    EvaluationTitle VARCHAR(50) NOT NULL,
-    EvaluationDescription VARCHAR(255) NULL,
+    EvaluationTitle NVARCHAR(50) NOT NULL,
+    EvaluationDescription NVARCHAR(255) NULL,
     MinRating DECIMAL(6, 3) NULL,
     MaxRating DECIMAL(6, 3) NULL,
     EvaluationTypeDescriptorId INT NULL,
     CreateDate DATETIME NOT NULL,
     LastModifiedDate DATETIME NOT NULL,
-    EdFi_Id VARCHAR(50) NOT NULL,
+    EdFi_Id NVARCHAR(50) NOT NULL,
     Id INT IDENTITY(1,1) NOT NULL,
     CONSTRAINT Evaluation_PK PRIMARY KEY CLUSTERED (Id ASC)
 );
@@ -66,12 +66,12 @@ ALTER TABLE eppeta.Evaluation ADD CONSTRAINT [Evaluation_DF_CreateDate] DEFAULT 
 ALTER TABLE eppeta.Evaluation ADD CONSTRAINT [Evaluation_DF_LastModifiedDate] DEFAULT (getdate()) FOR [LastModifiedDate]
 
 CREATE TABLE eppeta.EvaluationRating (
-    EvaluationTitle VARCHAR(50) NOT NULL,
+    EvaluationTitle NVARCHAR(50) NOT NULL,
     EvaluationRatingLevelDescriptorId INT NULL,
     EvaluationRatingStatusDescriptorId INT NULL,
     CreateDate DATETIME NOT NULL,
     LastModifiedDate DATETIME NOT NULL,
-    EdFi_Id VARCHAR(50) NULL,
+    EdFi_Id NVARCHAR(50) NULL,
     UserId NVARCHAR(225) NOT NULL,
     Id INT IDENTITY(1,1) NOT NULL,
     CONSTRAINT EvaluationRating_PK PRIMARY KEY CLUSTERED (Id ASC)
@@ -87,12 +87,12 @@ GO
 
 
 CREATE TABLE eppeta.EvaluationObjective (
-    EvaluationObjectiveTitle VARCHAR(50) NOT NULL,
-    EvaluationObjectiveDescription VARCHAR(255) NULL,
+    EvaluationObjectiveTitle NVARCHAR(50) NOT NULL,
+    EvaluationObjectiveDescription NVARCHAR(255) NULL,
     SortOrder INT NULL,
     CreateDate DATETIME NOT NULL,
     LastModifiedDate DATETIME NOT NULL,
-    EdFi_Id VARCHAR(50) NOT NULL,
+    EdFi_Id NVARCHAR(50) NOT NULL,
     Id INT IDENTITY(1,1) NOT NULL,
     CONSTRAINT EvaluationObjective_PK PRIMARY KEY CLUSTERED (Id ASC)
     );
@@ -103,12 +103,12 @@ ALTER TABLE eppeta.EvaluationObjective ADD CONSTRAINT [EvaluationObjective_DF_La
 GO
 
 CREATE TABLE eppeta.EvaluationObjectiveRating (
-    EvaluationObjectiveTitle VARCHAR(50) NOT NULL,
+    EvaluationObjectiveTitle NVARCHAR(50) NOT NULL,
     ObjectiveRatingLevelDescriptorId INT NULL,
-    Comments VARCHAR(1024) NULL,
+    Comments NVARCHAR(1024) NULL,
     CreateDate DATETIME NOT NULL,
     LastModifiedDate DATETIME NOT NULL,
-    EdFi_Id VARCHAR(50) NULL,
+    EdFi_Id NVARCHAR(50) NULL,
     UserId NVARCHAR(225) NOT NULL,
     Id INT IDENTITY(1,1) NOT NULL,
     CONSTRAINT EvaluationObjectiveRating_PK PRIMARY KEY CLUSTERED (Id ASC)
@@ -123,10 +123,10 @@ REFERENCES [eppeta].[Users] ([Id])
 GO
 
 CREATE TABLE eppeta.EvaluationElement (
-    EvaluationElementTitle VARCHAR(255) NOT NULL,
+    EvaluationElementTitle NVARCHAR(255) NOT NULL,
     CreateDate DATETIME NOT NULL,
     LastModifiedDate DATETIME NOT NULL,
-    EdFi_Id VARCHAR(50) NOT NULL,
+    EdFi_Id NVARCHAR(50) NOT NULL,
     Id INT IDENTITY(1,1) NOT NULL,
     CONSTRAINT EvaluationElement_PK PRIMARY KEY CLUSTERED (Id ASC)
 );
@@ -137,12 +137,12 @@ ALTER TABLE eppeta.EvaluationElement ADD CONSTRAINT [EvaluationElement_DF_LastMo
 GO
 
 CREATE TABLE eppeta.EvaluationElementRating (
-    EvaluationElementTitle VARCHAR(255) NOT NULL,
+    EvaluationElementTitle NVARCHAR(255) NOT NULL,
     EvaluationElementRatingLevelDescriptorId INT NULL,
     Rating DECIMAL(6, 3) NOT NULL,
     CreateDate DATETIME NOT NULL,
     LastModifiedDate DATETIME NOT NULL,
-    EdFi_Id VARCHAR(50) NULL,
+    EdFi_Id NVARCHAR(50) NULL,
     UserId NVARCHAR(225) NOT NULL,
     Id INT IDENTITY(1,1) NOT NULL,
     CONSTRAINT EvaluationElementRating_PK PRIMARY KEY CLUSTERED (Id ASC)
