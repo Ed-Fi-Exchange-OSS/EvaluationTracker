@@ -7,6 +7,7 @@ using EdFi.OdsApi.Sdk.Apis.All;
 using Microsoft.AspNetCore.Mvc;
 using EdFi.OdsApi.Sdk.Client;
 using eppeta.webapi.Service;
+using EdFi.OdsApi.SdkClient;
 
 namespace webapi.Controllers;
 
@@ -35,18 +36,18 @@ public class EvaluationController : ControllerBase
     {
         try
         {
-            // Get the authenticated configuration using the injected service
+            // Get ODS/API token
             var authenticatedConfiguration = _service.GetAuthenticatedConfiguration();
-
+            
             //// Get Evaluation Objectives
-            //var apiInstance = new EvaluationObjectivesApi(authenticatedConfiguration);
-            //apiInstance.Configuration.DefaultHeaders.Add("Content-Type", "application/json");
-            //var evaluationObjectives = await apiInstance.GetEvaluationObjectivesAsync(limit: 25, offset: 0);
+            var objectivesApi = new EvaluationObjectivesApi(authenticatedConfiguration);
+            objectivesApi.Configuration.DefaultHeaders.Add("Content-Type", "application/json");
+            var evaluationObjectives = await objectivesApi.GetEvaluationObjectivesAsync(limit: 25, offset: 0);
 
             // Get Evaluation Elements which contain the EvaluationObjectiveTitles
-            var apiInstance = new EvaluationElementsApi(authenticatedConfiguration);
-            apiInstance.Configuration.DefaultHeaders.Add("Content-Type", "application/json");
-            var evaluationElements = await apiInstance.GetEvaluationElementsAsync(limit: 25, offset: 0);
+            var elementsApi = new EvaluationElementsApi(authenticatedConfiguration);
+            elementsApi.Configuration.DefaultHeaders.Add("Content-Type", "application/json");
+            var evaluationElements = await elementsApi.GetEvaluationElementsAsync(limit: 25, offset: 0);
 
             // Create a dictionary of EvaluationObjectiveTitles and EvaluationElementTitles
             var evaluationElementsDictionary = new Dictionary<string, List<string>>();

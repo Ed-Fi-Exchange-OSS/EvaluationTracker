@@ -29,7 +29,7 @@ export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
 
   const loadEvaluationsPage = () => {
-    // TODO redirect to evaluations landing page in EPPETA-9
+    window.location.href = "/main";
   };
 
   const onSubmitLogin = async (values) => {
@@ -42,7 +42,7 @@ export default function LoginForm() {
     try {
       const response = await postForm("/connect/token", tokenRequest);
       const message = await response.json();
-
+      
       if (!response.ok) {
         console.error(message);
         // TODO use proper user notifications in EPPETA-18
