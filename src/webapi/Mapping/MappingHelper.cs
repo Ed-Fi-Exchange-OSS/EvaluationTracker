@@ -13,7 +13,8 @@ namespace eppeta.webapi.Mapping
             {
                 PerformanceEvaluationTitle = ratingEntity.PerformanceEvaluationTitle,
                 ActualDate = ratingEntity.ActualDate,
-                EvaluatorName = $"{user.FirstName} {user.LastName}"
+                EvaluatorName = $"{user.FirstName} {user.LastName}",
+                ReviewedCandidateName = ratingEntity.ReviewedCandidateName
             };
 
             return evaluationDTO;
