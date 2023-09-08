@@ -45,7 +45,6 @@ export default function EvaluationForm() {
   useEffect(() => {
     setCandidate(location.state.candidate);
     setEvaluation(location.state.evaluation);
-    fetchLoggedinUser();
 
     setLoggedInUserId(getLoggedInUserId());
     fetchEvaluationObjectives();
@@ -70,26 +69,6 @@ export default function EvaluationForm() {
       const data = await response.json();
       setEvaluationElementsDictionary(data);
     } catch (error) {
-      console.error("Error fetching evaluation objectives:", error);
-    }
-  };
-
-  const fetchLoggedinUser = async () => {
-    try {
-      const response = await fetch(`https://localhost:7065/accounts/${getLoggedInUserId()}`);
-      if (!response.ok) {
-        throw new Error("Failed to fetch performance evaluations");
-      }
-
-      // Check if the response is valid JSON
-      const contentType = response.headers.get("Content-Type");
-      if (!contentType || !contentType.includes("application/json")) {
-        throw new Error("Response is not valid JSON");
-      }
-
-
-    }
-    catch (error) {
       console.error("Error fetching evaluation objectives:", error);
     }
   };
