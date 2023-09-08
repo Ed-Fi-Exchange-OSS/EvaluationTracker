@@ -30,7 +30,6 @@ import {
 import "../App.css";
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { getLoggedInUserId } from "../components/FetchHelpers";
 
 // Get the evaluationElementsDictionary from EvaluationController
 export default function EvaluationForm() {
@@ -38,7 +37,6 @@ export default function EvaluationForm() {
   const [candidate, setCandidate] = useState({});
   const [evaluation, setEvaluation] = useState({});
   const [evaluationDate, setEvaluationDate] = useState({});
-  const [loggedInUserId, setLoggedInUserId] = useState(null)
 
   const location = useLocation();
 
@@ -46,7 +44,6 @@ export default function EvaluationForm() {
     setCandidate(location.state.candidate);
     setEvaluation(location.state.evaluation);
 
-    setLoggedInUserId(getLoggedInUserId());
     fetchEvaluationObjectives();
     setEvaluationDate(new Date())
   }, []);
