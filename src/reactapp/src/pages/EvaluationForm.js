@@ -29,13 +29,23 @@ import {
 } from "@chakra-ui/react";
 import "../App.css";
 import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 
 // Get the evaluationElementsDictionary from EvaluationController
 export default function EvaluationForm() {
   const [evaluationElementsDictionary, setEvaluationElementsDictionary] = useState({});
+  const [candidate, setCandidate] = useState({});
+  const [evaluation, setEvaluation] = useState({});
+  const [evaluationDate, setEvaluationDate] = useState({});
+
+  const location = useLocation();
 
   useEffect(() => {
+    setCandidate(location.state.candidate);
+    setEvaluation(location.state.evaluation);
+
     fetchEvaluationObjectives();
+    setEvaluationDate(new Date())
   }, []);
 
   // Retrieve evaluation objectives from API
@@ -86,23 +96,14 @@ export default function EvaluationForm() {
                         <Box className="Box">T-TESS</Box>
                         <Box className="TitleBox">Candidate</Box>
                         <Box className="Box">Bob Smith</Box>
-                        <Box className="TitleBox">Date</Box>
-                        <Box className="Box">04-10-2023</Box>
-                    </HStack>
+            </HStack>
+            <HStack spacing="0px" mb="5" className="responsiveHStack">
+              <Box className="TitleBox">Date</Box>
+              <Box className="Box">04-10-2023</Box>
+              <Box className="TitleBox">Evaluator</Box>
+              <Box className="Box"></Box>
+              </HStack>
                     <HStack display='flex' spacing="20px" mb="5">
-                        <FormControl style={{ width: '300px' }}>
-                            <FormLabel>District/Campus</FormLabel>
-                            <Select placeholder="Select District/Campus">
-                                <option value="1">T-TESS</option>
-                                <option value="2">A-TESS</option>
-                                <option value="3">B-TESS</option>
-                            </Select>
-                        </FormControl>
-
-                        <FormControl style={{ width: '300px' }}>
-                            <FormLabel>Cooperating Teacher</FormLabel>
-                            <Input type="candidate" />
-                        </FormControl>
                     </HStack>
                     <Text fontSize={"sm"}>
                         The following clinical teacher evaluation form is

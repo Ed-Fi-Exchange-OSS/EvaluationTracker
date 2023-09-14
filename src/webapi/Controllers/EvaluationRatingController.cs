@@ -41,21 +41,21 @@ namespace eppeta.webapi.Controllers
             return Ok(ratings);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{userId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<IEnumerable<PerformanceEvaluationRating>>> GetPerformanceEvaluationRating([FromRoute] string id)
+        public async Task<ActionResult<IEnumerable<PerformanceEvaluationRating>>> GetPerformanceEvaluationRating([FromRoute] string userId)
         {
-            if (id is null || id == string.Empty) { return NotFound(); }
-            var ratingEntities = await _evaluationRepository.GetPerformanceEvalationRatingsByUserId(id);
+            if (userId is null || userId == string.Empty) { return NotFound(); }
+            var ratingEntities = await _evaluationRepository.GetPerformanceEvalationRatingsByUserId(userId);
 
             if (ratingEntities == null)
             {
                 return NotFound();
             }
 
-            var ratingDTOs = ratingEntities.Select(rating => rating.ToRatingDTO(_userManager.FindByIdAsync(id).Result));
+            var ratingDTOs = ratingEntities.Select(rating => rating.ToRatingDTO(_userManager.FindByIdAsync(userId).Result));
 
             return Ok(ratingDTOs);
         }

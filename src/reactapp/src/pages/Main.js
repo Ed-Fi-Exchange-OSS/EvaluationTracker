@@ -34,6 +34,11 @@ export default function EvaluationTable() {
       const userId = getLoggedInUserId();
 
       const response = await fetch(`https://localhost:7065/api/EvaluationRating/${userId}`);
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch performance evaluations");
+      }
+
       const data = await response.json();
 
       setEvaluationRatings(data);
@@ -41,29 +46,6 @@ export default function EvaluationTable() {
       console.error("Error fetching evaluation ratings:", error);
     }
   };
-    //const data = [
-    //    {
-    //        evaluation: "T-TESS",
-    //        candidate: "Steven Mo",
-    //        evaluator: "Jane Doe",
-    //        date: new Date("2022-09-01"),
-    //        completed: true,
-    //    },
-    //    {
-    //        evaluation: "A-TESS",
-    //        candidate: "JOJO",
-    //        evaluator: "Jane Doe",
-    //        date: new Date("2021-09-02"),
-    //        completed: true,
-    //    },
-    //    {
-    //        evaluation: "B-TESS",
-    //        candidate: "Aidan Johnson",
-    //        evaluator: "Kevin Clear",
-    //        date: new Date("2023-09-03"),
-    //        completed: false,
-    //    },
-    //];
 
   return(
       <Stack spacing={8} mt="24px" px={{ base: "10px", md: "30px" }} align="center">
@@ -83,7 +65,7 @@ export default function EvaluationTable() {
             {EvaluationRatings.map((row, i) => (
               <Tr key={i}>
                 <Td>{row.performanceEvaluationTitle}</Td>
-                <Td>Candidate Name</Td> 
+                <Td>{row.reviewedCandidateName}</Td> 
                 <Td>{row.evaluatorName}</Td> 
                 <Td>{new Date(row.actualDate).toLocaleDateString()}</Td> 
                 <Td>Completed</Td>
