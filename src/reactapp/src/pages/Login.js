@@ -28,6 +28,11 @@ import { postForm, setToken } from "../components/FetchHelpers";
 export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
 
+
+  // sync dependencies while login
+  fetch("https://localhost:7065/api/Evaluation");
+
+
   const loadEvaluationsPage = () => {
     window.location.href = "/main";
   };
