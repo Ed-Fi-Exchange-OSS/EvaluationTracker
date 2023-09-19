@@ -86,14 +86,22 @@ REFERENCES [eppeta].[Users] ([Id])
 GO
 
 
-CREATE TABLE eppeta.EvaluationObjective (
-    EvaluationObjectiveTitle NVARCHAR(50) NOT NULL,
-    EvaluationObjectiveDescription NVARCHAR(255) NULL,
-    SortOrder INT NULL,
-    CreateDate DATETIME NOT NULL,
-    LastModifiedDate DATETIME NOT NULL,
-    EdFi_Id NVARCHAR(50) NOT NULL,
-    Id INT IDENTITY(1,1) NOT NULL,
+CREATE TABLE [tpdm].[EvaluationObjective](
+	[EducationOrganizationId] [bigint] NOT NULL,
+	[EvaluationObjectiveTitle] [nvarchar](50) NOT NULL,
+	[EvaluationPeriodDescriptor] [nvarchar](306) NOT NULL,
+	[EvaluationTitle] [nvarchar](50) NOT NULL,
+	[PerformanceEvaluationTitle] [nvarchar](50) NOT NULL,
+	[PerformanceEvaluationTypeDescriptor] [nvarchar](306) NOT NULL,
+	[SchoolYear] [smallint] NOT NULL,
+	[TermDescriptor] [nvarchar](306) NOT NULL,
+	[EvaluationObjectiveDescription] [nvarchar](255) NULL,
+	[EvaluationTypeDescriptor] [nvarchar](306) NULL,
+	[SortOrder] [int] NULL,
+	[CreateDate] [datetime2](7) NOT NULL,
+	[LastModifiedDate] [datetime2](7) NOT NULL,
+	[EdFi_Id] [nvarchar](50) NULL,
+	[Id] [int] IDENTITY(1,1) NOT NULL,
     CONSTRAINT EvaluationObjective_PK PRIMARY KEY CLUSTERED (Id ASC)
     );
 GO
@@ -122,18 +130,30 @@ ALTER TABLE [eppeta].[EvaluationObjectiveRating] WITH CHECK ADD CONSTRAINT [FK_E
 REFERENCES [eppeta].[Users] ([Id])
 GO
 
-CREATE TABLE eppeta.EvaluationElement (
-    EvaluationElementTitle NVARCHAR(255) NOT NULL,
-    CreateDate DATETIME NOT NULL,
-    LastModifiedDate DATETIME NOT NULL,
-    EdFi_Id NVARCHAR(50) NOT NULL,
-    Id INT IDENTITY(1,1) NOT NULL,
-    CONSTRAINT EvaluationElement_PK PRIMARY KEY CLUSTERED (Id ASC)
-);
+CREATE TABLE [eppeta].[EvaluationElement](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[EducationOrganizationId] [bigint] NOT NULL,
+	[EvaluationElementTitle] [nvarchar](255) NOT NULL,
+	[EvaluationObjectiveTitle] [nvarchar](50) NOT NULL,
+	[EvaluationPeriodDescriptor] [nvarchar](306) NOT NULL,
+	[EvaluationTitle] [nvarchar](50) NOT NULL,
+	[PerformanceEvaluationTitle] [nvarchar](50) NOT NULL,
+	[PerformanceEvaluationTypeDescriptor] [nvarchar](306) NOT NULL,
+	[SchoolYear] [smallint] NOT NULL,
+	[TermDescriptor] [nvarchar](306) NOT NULL,
+	[EvaluationTypeDescriptor] [nvarchar](306) NULL,
+	[CreateDate] [datetime2](7) NOT NULL,
+	[LastModifiedDate] [datetime2](7) NOT NULL,
+	[EdFi_Id] nvarchar(50) NULL,
+ CONSTRAINT [EvaluationElement_PK] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
 GO
-ALTER TABLE eppeta.EvaluationElement ADD CONSTRAINT [EvaluationElement_DF_CreateDate] DEFAULT (getdate()) FOR [CreateDate]
+ALTER TABLE [eppeta].[EvaluationElement] ADD  CONSTRAINT [EvaluationElement_DF_CreateDate]  DEFAULT (getdate()) FOR [CreateDate]
 GO
-ALTER TABLE eppeta.EvaluationElement ADD CONSTRAINT [EvaluationElement_DF_LastModifiedDate] DEFAULT (getdate()) FOR [LastModifiedDate]
+ALTER TABLE [eppeta].[EvaluationElement] ADD  CONSTRAINT [EvaluationElement_DF_LastModifiedDate]  DEFAULT (getdate()) FOR [LastModifiedDate]
 GO
 
 CREATE TABLE eppeta.EvaluationElementRating (
