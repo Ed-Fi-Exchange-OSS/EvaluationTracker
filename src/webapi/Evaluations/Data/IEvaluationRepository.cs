@@ -11,7 +11,13 @@ namespace eppeta.webapi.Evaluations.Data;
 
 public interface IEvaluationRepository
 {
+    Task<List<Evaluation>> GetAllEvaluations();
+    Task<List<PerformanceEvaluation>> GetAllPerformanceEvaluations();
+    Task<List<EvaluationObjective>> GetAllEvaluationObjectives();
+    Task<List<EvaluationElement>> GetAllEvaluationElements();
     Task<List<PerformanceEvaluationRating>> GetAllPerformanceEvaluationRatings();
+    Task UpdateEvaluationObjectives(List<EvaluationObjective> evaluationObjects);
+    Task UpdateEvaluationElements(List<EvaluationElement> evaluationElements);
 
     Task<List<PerformanceEvaluationRating>> GetPerformanceEvalationRatingsByUserId(string userId);
 

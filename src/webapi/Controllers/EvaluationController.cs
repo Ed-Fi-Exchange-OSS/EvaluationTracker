@@ -8,6 +8,11 @@ using Microsoft.AspNetCore.Mvc;
 using EdFi.OdsApi.Sdk.Client;
 using eppeta.webapi.Service;
 using EdFi.OdsApi.SdkClient;
+using eppeta.webapi.Evaluations.Data;
+using eppeta.webapi.Evaluations.Models;
+using EdFi.OdsApi.Sdk.Models.All;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace webapi.Controllers;
 
@@ -16,9 +21,16 @@ namespace webapi.Controllers;
 public class EvaluationController : ControllerBase
 {
     private readonly IODSAPIAuthenticationConfigurationService _service;
-    public EvaluationController(IODSAPIAuthenticationConfigurationService service)
+    private readonly IEvaluationRepository _evaluationRepository;
+    private readonly IMemoryCache _memoryCache;
+    private string dataExpirationKey = "DataExpiration";
+    private TimeSpan dataExpirationInterval = TimeSpan.FromDays(1);
+
+    public EvaluationController(IODSAPIAuthenticationConfigurationService service, IEvaluationRepository evaluationRepository, IMemoryCache memoryCache)
     {
         _service = service;
+        _evaluationRepository = evaluationRepository;
+        _memoryCache = memoryCache;
     }
 
     [HttpGet("configuration")]
@@ -36,24 +48,41 @@ public class EvaluationController : ControllerBase
     {
         try
         {
-            // Get ODS/API token
-            var authenticatedConfiguration = _service.GetAuthenticatedConfiguration();
-            
-            //// Get Evaluation Objectives
-            var objectivesApi = new EvaluationObjectivesApi(authenticatedConfiguration);
-            objectivesApi.Configuration.DefaultHeaders.Add("Content-Type", "application/json");
-            var evaluationObjectives = await objectivesApi.GetEvaluationObjectivesAsync(limit: 25, offset: 0);
+            // Check if already synced dependecies in cache
+            if (_memoryCache.Get(dataExpirationKey) == null)
+            {
+                // Refresh Evaluation data from API
+                // Get ODS/API token
+                var authenticatedConfiguration = _service.GetAuthenticatedConfiguration();
 
-            // Get Evaluation Elements which contain the EvaluationObjectiveTitles
-            var elementsApi = new EvaluationElementsApi(authenticatedConfiguration);
-            elementsApi.Configuration.DefaultHeaders.Add("Content-Type", "application/json");
-            var evaluationElements = await elementsApi.GetEvaluationElementsAsync(limit: 25, offset: 0);
+                //// Get Evaluation Objectives and update repository
+                var objectivesApi = new EvaluationObjectivesApi(authenticatedConfiguration);
+                objectivesApi.Configuration.DefaultHeaders.Add("Content-Type", "application/json");
+                var tpdmEvaluationObjectives = await objectivesApi.GetEvaluationObjectivesAsync(limit: 100, offset: 0);
+                await _evaluationRepository.UpdateEvaluationObjectives(tpdmEvaluationObjectives.Select(teo => (EvaluationObjective)teo).ToList());
 
-            // Create a dictionary of EvaluationObjectiveTitles and EvaluationElementTitles
+                // Get Evaluation Elements which contain the EvaluationObjectiveTitles and update repository
+                var elementsApi = new EvaluationElementsApi(authenticatedConfiguration);
+                elementsApi.Configuration.DefaultHeaders.Add("Content-Type", "application/json");
+                var tpdmEvaluationElements = await elementsApi.GetEvaluationElementsAsync(limit: 100, offset: 0);
+                await _evaluationRepository.UpdateEvaluationElements(tpdmEvaluationElements.Select(tee => (EvaluationElement)tee).ToList());
+                // set next expiration time
+                var cachedValue = _memoryCache.GetOrCreate(
+                    dataExpirationKey,
+                    cacheEntry =>
+                    {
+                        cacheEntry.AbsoluteExpirationRelativeToNow = dataExpirationInterval;
+                        return DateTime.Now;
+                    });
+            }
+
+            // Create a dictionary of EvaluationObjectiveTitles and EvaluationElementTitles from synced data
             var evaluationElementsDictionary = new Dictionary<string, List<string>>();
+            var evaluationObjectives = await _evaluationRepository.GetAllEvaluationObjectives();
+            var evaluationElements = await _evaluationRepository.GetAllEvaluationElements();
             foreach (var element in evaluationElements)
             {
-                var objectiveTitle = element.EvaluationObjectiveReference.EvaluationObjectiveTitle;
+                var objectiveTitle = element.EvaluationObjectiveTitle;
                 if (!evaluationElementsDictionary.ContainsKey(objectiveTitle))
                 {
                     evaluationElementsDictionary[objectiveTitle] = new List<string>();

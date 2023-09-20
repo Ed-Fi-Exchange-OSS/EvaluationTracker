@@ -18,10 +18,69 @@ namespace eppeta.webapi.Evaluations.Data
         public EvaluationDbContext(DbContextOptions<EvaluationDbContext> options)
             : base(options)
         {
+            Evaluations = Set<Evaluation>();
+            PerformanceEvaluations = Set<PerformanceEvaluation>();
+            EvaluationElements = Set<EvaluationElement>();
+            EvaluationObjectives = Set<EvaluationObjective>();
             PerformanceEvaluationRatings = Set<PerformanceEvaluationRating>();
             EvaluationRatings = Set<EvaluationRating>();
             EvaluationObjectiveRatings = Set<EvaluationObjectiveRating>();
             EvaluationElementRatings = Set<EvaluationElementRating>();
+        }
+
+        public async Task<List<Evaluation>> GetAllEvaluations()
+        {
+            return await Evaluations.ToListAsync();
+        }
+
+        public async Task<List<EvaluationElement>> GetAllEvaluationElements()
+        {
+            return await EvaluationElements.ToListAsync();
+        }
+        public async Task<List<PerformanceEvaluation>> GetAllPerformanceEvaluations()
+        {
+            return await PerformanceEvaluations.ToListAsync();
+        }
+        public async Task<List<EvaluationObjective>> GetAllEvaluationObjectives()
+        {
+            return await EvaluationObjectives.ToListAsync();
+        }
+        public async Task UpdateEvaluationObjectives(List<EvaluationObjective> apiEvaluationObjectives)
+        {
+            // Since the surrogate Id is Identity then match on EdFiId and update existing records
+            foreach (var eo in apiEvaluationObjectives)
+            {
+                var eeo = EvaluationObjectives.Where(eeo => eeo.EdFiId == eo.EdFiId).FirstOrDefault();
+                if (eeo != null)
+                {
+                    foreach (var property in typeof(EvaluationObjective).GetProperties())
+                        if (property.Name != "Id")
+                            property.SetValue(eeo, property.GetValue(eo));
+                    EvaluationObjectives.Update(eeo);
+                }
+            }
+            // Add new records
+            EvaluationObjectives.UpdateRange(apiEvaluationObjectives.Where(eo => EvaluationObjectives.All(eo2 => eo2.EdFiId != eo.EdFiId)).ToList());
+            await SaveChangesAsync();
+        }
+
+        public async Task UpdateEvaluationElements(List<EvaluationElement> apiEvaluationElements)
+        {
+            // Since the surrogate Id is Identity then match on EdFiId and update existing records
+            foreach (var ee in apiEvaluationElements)
+            {
+                var eee = EvaluationElements.Where(eee => eee.EdFiId == ee.EdFiId).FirstOrDefault();
+                if (eee != null)
+                {
+                    foreach (var property in typeof(EvaluationElement).GetProperties())
+                        if (property.Name != "Id")
+                            property.SetValue(eee, property.GetValue(ee));
+                    EvaluationElements.Update(eee);
+                }
+            }
+            // Add new records
+            EvaluationElements.UpdateRange(apiEvaluationElements.Where(ee => EvaluationElements.All(ee2 => ee2.EdFiId != ee.EdFiId)).ToList());
+            await SaveChangesAsync();
         }
 
         public async Task CreatePerformanceEvaluationRating(PerformanceEvaluationRating rating)
@@ -46,6 +105,10 @@ namespace eppeta.webapi.Evaluations.Data
             await SaveChangesAsync();
         }
 
+        public DbSet<Evaluation> Evaluations { get; set; }
+        public DbSet<PerformanceEvaluation> PerformanceEvaluations { get; set; }
+        public DbSet<EvaluationElement> EvaluationElements { get; set; }
+        public DbSet<EvaluationObjective> EvaluationObjectives { get; set; }
         // DbSet for ratings entities
         public DbSet<PerformanceEvaluationRating> PerformanceEvaluationRatings { get; set; }
 
@@ -59,6 +122,10 @@ namespace eppeta.webapi.Evaluations.Data
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.HasDefaultSchema("eppeta");
+            modelBuilder.Entity<Evaluation>().ToTable(nameof(Evaluation));
+            modelBuilder.Entity<EvaluationObjective>().ToTable(nameof(EvaluationObjective));
+            modelBuilder.Entity<EvaluationElement>().ToTable(nameof(EvaluationElement));
+            modelBuilder.Entity<PerformanceEvaluation>().ToTable(nameof(PerformanceEvaluation));
             modelBuilder.Entity<PerformanceEvaluationRating>().ToTable("PerformanceEvaluationRating");
             modelBuilder.Entity<EvaluationRating>().ToTable("EvaluationRating");
             modelBuilder.Entity<EvaluationObjectiveRating>().ToTable("EvaluationObjectiveRating");
