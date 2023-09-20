@@ -86,7 +86,7 @@ REFERENCES [eppeta].[Users] ([Id])
 GO
 
 
-CREATE TABLE [tpdm].[EvaluationObjective](
+CREATE TABLE [eppeta].[EvaluationObjective](
 	[EducationOrganizationId] [bigint] NOT NULL,
 	[EvaluationObjectiveTitle] [nvarchar](50) NOT NULL,
 	[EvaluationPeriodDescriptor] [nvarchar](306) NOT NULL,
