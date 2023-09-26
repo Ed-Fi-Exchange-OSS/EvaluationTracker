@@ -110,7 +110,6 @@ export default function EvaluationForm() {
   const fetchEvaluationObjectives = async () => {
     try {
       const response = await get("/api/Evaluation");
-
       if (!response.ok) {
         throw new Error("Failed to fetch evaluation objectives");
       }

@@ -67,9 +67,9 @@ export default function EvaluationTable() {
             {EvaluationRatings.map((row, i) => (
               <Tr key={i}>
                 <Td>{row.performanceEvaluationTitle}</Td>
-                <Td>{row.reviewedCandidateName}</Td> 
-                <Td>{row.evaluatorName}</Td> 
-                <Td>{new Date(row.actualDate).toLocaleDateString()}</Td> 
+                <Td>{row.reviewedCandidateName}</Td>
+                <Td>{row.evaluatorName}</Td>
+                <Td>{new Date(row.actualDate).toLocaleDateString()}</Td>
                 <Td>Completed</Td>
               </Tr>
             ))}
