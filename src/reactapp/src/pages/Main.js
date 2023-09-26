@@ -18,7 +18,7 @@ import {
 } from "@chakra-ui/react";
 import "../App.css";
 import React, { useEffect, useState } from "react";
-import { getLoggedInUserId } from "../components/FetchHelpers";
+import { getLoggedInUserId, get } from "../components/FetchHelpers";
 
 //Created a table to display the data from react objects
 export default function EvaluationTable() {
@@ -33,7 +33,7 @@ export default function EvaluationTable() {
     try {
       const userId = getLoggedInUserId();
 
-      const response = await fetch(`https://localhost:7065/api/EvaluationRating/${userId}`);
+      const response = await get(`/api/EvaluationRating/${userId}`);
 
       if (!response.ok) {
         throw new Error("Failed to fetch performance evaluations");

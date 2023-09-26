@@ -23,14 +23,14 @@ import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { Formik, Form } from "formik";
 
 import InputField from "../components/InputField";
-import { postForm, setToken } from "../components/FetchHelpers";
+import { postForm, setToken, get } from "../components/FetchHelpers";
 
 export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
 
 
   // sync dependencies while login
-  fetch("https://localhost:7065/api/Evaluation/Sync");
+  get("/api/Evaluation");
 
 
   const loadEvaluationsPage = () => {
@@ -47,7 +47,7 @@ export default function LoginForm() {
     try {
       const response = await postForm("/connect/token", tokenRequest);
       const message = await response.json();
-      
+
       if (!response.ok) {
         console.error(message);
         // TODO use proper user notifications in EPPETA-18

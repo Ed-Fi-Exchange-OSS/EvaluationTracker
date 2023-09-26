@@ -69,7 +69,8 @@ internal class Program
                 options.AddPolicy(name: AllowedOriginsPolicy, policy =>
                 {
                     policy.WithOrigins(AppSettings.AllowedOrigins)
-                          .WithHeaders(HeaderNames.ContentType, "Content-Type");
+                          .WithHeaders(HeaderNames.ContentType, "Content-Type")
+                          .WithHeaders(HeaderNames.Authorization, "Authorization");
                 });
             });
         }

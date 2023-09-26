@@ -21,7 +21,7 @@ const modify = async (verb, route, values) => {
     body: JSON.stringify(values),
   };
 
-  const token = localStorage.getItem('token');
+  const token = getToken();
   if (token) {
     request.headers["Authorization"] = `bearer ${token}`;
   }
@@ -68,12 +68,16 @@ const postForm = async (route, values) => {
 };
 
 const setToken = (tokenResponse) => {
-  localStorage.setItem('token', tokenResponse.access_token);
+  sessionStorage.setItem('token', tokenResponse.access_token);
+};
+
+const getToken = () => {
+  return sessionStorage.getItem('token');
 };
 
 const getLoggedInUserId = () => {
-  const jwt = localStorage.getItem('token');
+  const jwt = sessionStorage.getItem('token');
   return jwt_decode(jwt).sub;
 }
 
-export { post, postForm, put, setToken, getLoggedInUserId };
+export { post, postForm, get, setToken, getLoggedInUserId };

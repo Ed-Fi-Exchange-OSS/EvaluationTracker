@@ -20,6 +20,7 @@ namespace webapi.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+//[Authorize(AuthenticationSchemes = OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme)]
 public class EvaluationController : ControllerBase
 {
     private readonly IODSAPIAuthenticationConfigurationService _service;

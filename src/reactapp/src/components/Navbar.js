@@ -279,23 +279,23 @@ const NAV_ITEMS: Array<NavItem> = [
     //        },
     //    ],
     //},
-    {
-        label: 'Ed-Fi',
-        children: [
-            {
-                label: 'Teacher Evaluation',
-                subLabel: 'Learn the purpose of this education tool',
-                href: '#',
-            },
-            {
-                label: 'Ed-Fi Mission',
-                subLabel: 'Learn the core value and projects at Ed-Fi',
-                href: '#',
-            },
-        ],
-    },
-    {
-        label: 'Teacher Preparation Program',
-        href: '#',
-    },
+    //{
+    //    label: 'Ed-Fi',
+    //    children: [
+    //        {
+    //            label: 'Teacher Evaluation',
+    //            subLabel: 'Learn the purpose of this education tool',
+    //            href: '#',
+    //        },
+    //        {
+    //            label: 'Ed-Fi Mission',
+    //            subLabel: 'Learn the core value and projects at Ed-Fi',
+    //            href: '#',
+    //        },
+    //    ],
+    //},
+    //{
+    //    label: 'Teacher Preparation Program',
+    //    href: '#',
+    //},
 ];
