@@ -85,7 +85,7 @@ export default function WithSubnavigation() {
                         href={'#'}>
                         Sign In
                     </Button>
-                    <Button onClick={() => { window.location.href = "/" }}
+                    <Button onClick={() => { window.location.href = "/signup" }}
                         as={'a'}
                         display={{ base: 'none', md: 'inline-flex' }}
                         fontSize={'sm'}

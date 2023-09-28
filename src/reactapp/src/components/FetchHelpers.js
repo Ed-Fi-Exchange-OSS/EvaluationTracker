@@ -4,7 +4,8 @@
 // See the LICENSE and NOTICES files in the project root for more information.
 
 import { transform as _transform } from "lodash-es";
-import jwt_decode from "jwt-decode"
+import { getToken } from "../components/TokenHelpers";
+
 
 // TODO: replace hard-coded with some sort of runtime setting
 // Will be fixed in EPPETA-19.
@@ -67,17 +68,4 @@ const postForm = async (route, values) => {
   return await fetch(url, request);
 };
 
-const setToken = (tokenResponse) => {
-  sessionStorage.setItem('token', tokenResponse.access_token);
-};
-
-const getToken = () => {
-  return sessionStorage.getItem('token');
-};
-
-const getLoggedInUserId = () => {
-  const jwt = sessionStorage.getItem('token');
-  return jwt_decode(jwt).sub;
-}
-
-export { post, postForm, get, setToken, getLoggedInUserId };
+export { post, postForm, get };

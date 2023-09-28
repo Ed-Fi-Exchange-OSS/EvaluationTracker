@@ -18,7 +18,9 @@ import {
 } from "@chakra-ui/react";
 import "../App.css";
 import React, { useEffect, useState } from "react";
-import { getLoggedInUserId, get } from "../components/FetchHelpers";
+import { get } from "../components/FetchHelpers";
+import { getLoggedInUserId } from "../components/TokenHelpers";
+
 
 //Created a table to display the data from react objects
 export default function EvaluationTable() {

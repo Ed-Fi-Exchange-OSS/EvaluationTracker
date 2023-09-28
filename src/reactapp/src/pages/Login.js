@@ -23,7 +23,8 @@ import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { Formik, Form } from "formik";
 
 import InputField from "../components/InputField";
-import { postForm, setToken, get } from "../components/FetchHelpers";
+import { postForm, get } from "../components/FetchHelpers";
+import { setToken } from "../components/TokenHelpers"
 
 export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
