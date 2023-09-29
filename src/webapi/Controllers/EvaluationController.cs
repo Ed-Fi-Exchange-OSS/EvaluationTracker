@@ -13,6 +13,8 @@ using eppeta.webapi.Evaluations.Models;
 using EdFi.OdsApi.Sdk.Models.All;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Caching.Memory;
+using eppeta.webapi.DTO;
+using System.Linq.Dynamic.Core;
 
 namespace webapi.Controllers;
 
@@ -44,7 +46,7 @@ public class EvaluationController : ControllerBase
     // The GetEvaluation method is slow due to the need to retrieve configuration first
     // TODO: Get the evaluation elements in the same method as GetEvaluation()
     [HttpGet]
-    public async Task<ActionResult<Dictionary<string, List<string>>>> GetEvaluationObjectivesElementsTitles()
+    public async Task<ActionResult<List<AvailableEvaluationObjective>>> GetEvaluationObjectivesElementsTitles()
     {
         try
         {
@@ -75,21 +77,37 @@ public class EvaluationController : ControllerBase
                         return DateTime.Now;
                     });
             }
-
-            // Create a dictionary of EvaluationObjectiveTitles and EvaluationElementTitles from synced data
-            var evaluationElementsDictionary = new Dictionary<string, List<string>>();
+            // use dynamic Linq to join on matching column names
+            string[] nonJoinCols = { "EdFiId", "Id", "CreateDate", "LastModifiedDate" };
             var evaluationObjectives = await _evaluationRepository.GetAllEvaluationObjectives();
             var evaluationElements = await _evaluationRepository.GetAllEvaluationElements();
-            foreach (var element in evaluationElements)
+            var evaluationObjectivesCols = typeof(EvaluationObjective).GetProperties().Select(f => f.Name).ToList();
+            var evaluationElementsCols = typeof(EvaluationElement).GetProperties().Select(f => f.Name).ToList();
+            var matchingCols = evaluationObjectivesCols.Where(c => evaluationElementsCols.Contains(c) && !nonJoinCols.Contains(c)).ToArray();
+            var availableObjectives = evaluationObjectives.AsQueryable().GroupJoin(
+                evaluationElements.AsQueryable(),
+                "new {" + string.Join(",", matchingCols) + "}",
+                "new {" + string.Join(",", matchingCols) + "}",
+                "new (outer.Id, outer.EvaluationObjectiveTitle, inner as elements)").ToDynamicList();
+            var availableEvaluationObjectives = new List<AvailableEvaluationObjective>();
+            foreach (var availableObjective in availableObjectives)
             {
-                var objectiveTitle = element.EvaluationObjectiveTitle;
-                if (!evaluationElementsDictionary.ContainsKey(objectiveTitle))
+                AvailableEvaluationObjective naeo = new AvailableEvaluationObjective
                 {
-                    evaluationElementsDictionary[objectiveTitle] = new List<string>();
+                    Name = availableObjective.EvaluationObjectiveTitle,
+                    EvaluationObjectiveId = availableObjective.Id
+                };
+                foreach (EvaluationElement el in availableObjective.elements)
+                {
+                    naeo.EvaluationElements.Add(new AvailableEvaluationObjective.AvailableEvaluationElement
+                    {
+                        Name = el.EvaluationElementTitle,
+                        EvaluationElementId = el.Id
+                    });
                 }
-                evaluationElementsDictionary[objectiveTitle].Add(element.EvaluationElementTitle);
+                availableEvaluationObjectives.Add(naeo);
             }
-            return Ok(evaluationElementsDictionary);
+            return Ok(availableEvaluationObjectives);
         }
 
         // temporary for debugging
