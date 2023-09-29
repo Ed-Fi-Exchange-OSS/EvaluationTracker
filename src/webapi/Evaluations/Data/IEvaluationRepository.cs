@@ -14,12 +14,18 @@ public interface IEvaluationRepository
     Task<List<Evaluation>> GetAllEvaluations();
     Task<List<PerformanceEvaluation>> GetAllPerformanceEvaluations();
     Task<List<EvaluationObjective>> GetAllEvaluationObjectives();
+    Task<EvaluationObjective> GetEvaluationObjectiveById(int id);
     Task<List<EvaluationElement>> GetAllEvaluationElements();
+    Task<EvaluationElement> GetEvaluationElementById(int id);
     Task<List<PerformanceEvaluationRating>> GetAllPerformanceEvaluationRatings();
     Task UpdateEvaluationObjectives(List<EvaluationObjective> evaluationObjects);
     Task UpdateEvaluationElements(List<EvaluationElement> evaluationElements);
-
-    Task<List<PerformanceEvaluationRating>> GetPerformanceEvalationRatingsByUserId(string userId);
+    Task UpdateEvaluationRatings(List<EvaluationRating> evaluationRatings);
+    Task UpdateEvaluationObjectiveRatings(List<EvaluationObjectiveRating> evaluationObjectiveRatings);
+    Task UpdateEvaluationElementRatingResults(List<EvaluationElementRatingResult> evaluationElementRatingResults);
+    Task<List<EvaluationRating>> GetEvaluationRatingsByUserId(string userId);
+    Task<List<PerformanceEvaluationRating>> GetPerformanceEvaluationRatingsByUserId(string userId);
+    Task<PerformanceEvaluationRating> GetPerformanceEvaluationRatingById(int id);
 
     Task CreatePerformanceEvaluationRating(PerformanceEvaluationRating rating);
 
