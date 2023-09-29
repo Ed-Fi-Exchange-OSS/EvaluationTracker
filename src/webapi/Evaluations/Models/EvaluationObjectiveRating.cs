@@ -12,11 +12,30 @@ namespace eppeta.webapi.Evaluations.Models
     public class EvaluationObjectiveRating
     {
         public string EvaluationObjectiveTitle { get; set; } = string.Empty;
+        public long EducationOrganizationId { get; set; }
+        public DateTime EvaluationDate { get; set; }
+        public string EvaluationPeriodDescriptor { get; set; } = string.Empty;
+        [Required]
+        [StringLength(50)]
+        public string EvaluationTitle { get; set; } = string.Empty;
+        [Required]
+        [StringLength(50)]
+        public string PerformanceEvaluationTitle { get; set; } = string.Empty;
+        public string PerformanceEvaluationTypeDescriptor { get; set; } = string.Empty;
+        [Required]
+        [StringLength(32)]
+        public string PersonId { get; set; } = string.Empty;
+        public short SchoolYear { get; set; }
+        public string SourceSystemDescriptor { get; set; } = string.Empty;
+        public string TermDescriptor { get; set; } = string.Empty;
         public int? ObjectiveRatingLevelDescriptorId { get; set; }
         public string? Comments { get; set; }
         public DateTime CreateDate { get; set; }
         public DateTime LastModifiedDate { get; set; }
-        public string? EdFi_Id { get; set; }
+        [Required]
+        [Column("EdFi_Id")]
+        [StringLength(50)]
+        public string EdFiId { get; set; } = string.Empty;
         public string UserId { get; set; } = string.Empty;
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

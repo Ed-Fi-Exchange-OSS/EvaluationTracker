@@ -25,8 +25,6 @@ namespace eppeta.webapi.Evaluations.Models
         public DateTime LastModifiedDate { get; set; }
         public string? EdFi_Id { get; set; }
         public string UserId { get; set; } = string.Empty;
-        public string ReviewedCandidateName { get; set; } = string.Empty;
-        public string ReviewedCandidatePersonId { get; set; } = string.Empty;
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }

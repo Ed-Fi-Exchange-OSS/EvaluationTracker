@@ -11,17 +11,35 @@ namespace eppeta.webapi.Evaluations.Models
 {
     public class EvaluationRating
     {
+        public long EducationOrganizationId { get; set; }
+        public DateTime EvaluationDate { get; set; }
+        public string EvaluationPeriodDescriptor { get; set; } = string.Empty;
+        [Required]
+        [StringLength(50)]
         public string EvaluationTitle { get; set; } = string.Empty;
-        public int? EvaluationRatingLevelDescriptorId { get; set; }
-        public int? EvaluationRatingStatusDescriptorId { get; set; }
+        [Required]
+        [StringLength(50)]
+        public string PerformanceEvaluationTitle { get; set; } = string.Empty;
+        public string PerformanceEvaluationTypeDescriptor { get; set; } = string.Empty;
+        [Required]
+        [StringLength(32)]
+        public string PersonId { get; set; } = string.Empty;
+        public short SchoolYear { get; set; }
+        public string SourceSystemDescriptor { get; set; } = string.Empty;
+        public string TermDescriptor { get; set; } = string.Empty;
+        public string? EvaluationRatingLevelDescriptor { get; set; } 
+        public string? EvaluationRatingStatusDescriptor { get; set; } 
         public DateTime CreateDate { get; set; }
         public DateTime LastModifiedDate { get; set; }
-        public string? EdFi_Id { get; set; }
+        public string? CandidateName { get; set; } = string.Empty;  
+        [Required]
+        [Column("EdFi_Id")]
+        [StringLength(50)]
+        public string EdFiId { get; set; }= string.Empty;
         public string UserId { get; set; } = string.Empty;
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-
         // Foreign keys
         [ForeignKey("UserId")]
         public ApplicationUser? ApplicationUser { get; set; }
