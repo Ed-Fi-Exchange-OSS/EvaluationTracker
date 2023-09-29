@@ -149,9 +149,9 @@ export default function EvaluationForm() {
               Evaluation Objectives and Elements
             </Text>
             <Box>
-              {Object.entries(evaluationElementsDictionary).map(([objectiveTitle, elementTitles]) => (
-                <Box key={objectiveTitle} mt={4}>
-                  <Heading fontSize="lg" fontWeight="bold">{objectiveTitle}</Heading>
+              {Object.entries(evaluationElementsDictionary).map(([index, objective]) => (
+                <Box key={objective.name} mt={4}>
+                  <Heading fontSize="lg" fontWeight="bold">{objective.name}</Heading>
                   <Table variant="striped" size="sm" mt={2}>
                     <TableCaption>SCALE: ** 1=Needs Improvement     2= Developing     *3= Proficient        N/A= Not Applicable (N/A)</TableCaption>
                     <Thead>
@@ -162,9 +162,9 @@ export default function EvaluationForm() {
                       </Tr>
                     </Thead>
                     <Tbody>
-                      {elementTitles.map((elementTitle, index) => (
+                      {objective.evaluationElements.map((element, index) => (
                         <Tr key={index}>
-                          <Td maxWidth="200px">{elementTitle}</Td>
+                          <Td maxWidth="200px">{element.name}</Td>
                           <Td maxWidth="150px">
                             <Select placeholder="Select rating">
                               <option value="1">1 - Needs Improvement</option>
