@@ -34,7 +34,7 @@ namespace eppeta.webapi.Controllers
         }
 
         [HttpGet()]
-        public async Task<ActionResult<IEnumerable<PerformanceEvaluationRating>>> GetPerformanceEvaluationRatings()
+        public async Task<ActionResult<IEnumerable<PerformedEvaluation>>> GetPerformedEvaluations()
         {
             var ratings = await _evaluationRepository.GetAllPerformanceEvaluationRatings();
 
@@ -45,10 +45,10 @@ namespace eppeta.webapi.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<IEnumerable<PerformanceEvaluationRating>>> GetPerformanceEvaluationRating([FromRoute] string userId)
+        public async Task<ActionResult<IEnumerable<PerformedEvaluation>>> GetPerformedEvaluations([FromRoute] string userId)
         {
             if (userId is null || userId == string.Empty) { return NotFound(); }
-            var ratingEntities = await _evaluationRepository.GetPerformanceEvalationRatingsByUserId(userId);
+            var ratingEntities = await _evaluationRepository.GetEvaluationRatingsByUserId(userId);
 
             if (ratingEntities == null)
             {
@@ -58,6 +58,53 @@ namespace eppeta.webapi.Controllers
             var ratingDTOs = ratingEntities.Select(rating => rating.ToRatingDTO(_userManager.FindByIdAsync(userId).Result));
 
             return Ok(ratingDTOs);
+        }
+
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Post(PerformedEvaluationResult evaluationResult, string userId)
+        {
+            try
+            {
+                if (evaluationResult == null)
+                    return BadRequest();
+                foreach (var objRes in evaluationResult.ObjectiveResults)
+                {
+                    // Create EvaluationRating, EvaluationObjectiveRating
+                    var evalObjective = await _evaluationRepository.GetEvaluationObjectiveById(objRes.Id);
+                    var user = await _userManager.FindByIdAsync(userId);
+                    EvaluationRating newEvalRating = new EvaluationRating();
+                    EvaluationObjectiveRating newObjRating = new EvaluationObjectiveRating();
+                    MappingHelper.PopulateEvaluationPK(newEvalRating, evalObjective);
+                    MappingHelper.PopulateEvaluationPK(newObjRating, evalObjective);
+                    newEvalRating.EvaluationDate = newObjRating.EvaluationDate = evaluationResult.StartDateTime;
+                    newEvalRating.PersonId = newObjRating.PersonId = evaluationResult.ReviewedPersonId;
+                    newEvalRating.SourceSystemDescriptor = newObjRating.SourceSystemDescriptor = evaluationResult.ReviewedPersonIdSourceSystemDescriptor;
+                    newEvalRating.UserId = newObjRating.UserId = user.Id;
+                    newObjRating.Comments = objRes.Comment;
+                    await _evaluationRepository.UpdateEvaluationRatings(new List<EvaluationRating> { newEvalRating });
+                    await _evaluationRepository.UpdateEvaluationObjectiveRatings(new List<EvaluationObjectiveRating> { newObjRating });
+                    foreach (var elRes in objRes.Elements)
+                    {
+                        var evalElement = await _evaluationRepository.GetEvaluationElementById(elRes.Id);
+                        EvaluationElementRatingResult elementRatingResult = new EvaluationElementRatingResult();
+                        MappingHelper.PopulateEvaluationPK(evalElement, elementRatingResult);
+                        elementRatingResult.EvaluationElementTitle = evalElement.EvaluationElementTitle;
+                        elementRatingResult.EvaluationObjectiveTitle = evalElement.EvaluationObjectiveTitle;
+                        elementRatingResult.PersonId = newObjRating.PersonId;
+                        elementRatingResult.SourceSystemDescriptor = newObjRating.SourceSystemDescriptor;
+                        elementRatingResult.RatingResultTitle = evalElement.EvaluationElementTitle;
+                        elementRatingResult.Rating = elRes.Score;
+                        elementRatingResult.UserId = user.Id;
+                        await _evaluationRepository.UpdateEvaluationElementRatingResults(new List<EvaluationElementRatingResult> { elementRatingResult });
+                    }
+                }
+                return Ok();
+            }catch (Exception ex)
+            {
+                return Problem(ex.Message);
+            }
         }
     }
 }
