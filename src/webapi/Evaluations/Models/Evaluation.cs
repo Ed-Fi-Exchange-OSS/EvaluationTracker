@@ -13,10 +13,10 @@ public partial class Evaluation
 {
     [Required]
     [StringLength(50)]
-    public string EvaluationTitle { get; set; }
+    public string EvaluationTitle { get; set; } = string.Empty;
 
     [StringLength(255)]
-    public string EvaluationDescription { get; set; }
+    public string EvaluationDescription { get; set; } = string.Empty;
 
     [Column(TypeName = "decimal(6, 3)")]
     public decimal? MinRating { get; set; }

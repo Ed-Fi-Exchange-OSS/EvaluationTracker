@@ -66,9 +66,19 @@ ALTER TABLE eppeta.Evaluation ADD CONSTRAINT [Evaluation_DF_CreateDate] DEFAULT 
 ALTER TABLE eppeta.Evaluation ADD CONSTRAINT [Evaluation_DF_LastModifiedDate] DEFAULT (getdate()) FOR [LastModifiedDate]
 
 CREATE TABLE eppeta.EvaluationRating (
-    EvaluationTitle NVARCHAR(50) NOT NULL,
-    EvaluationRatingLevelDescriptorId INT NULL,
-    EvaluationRatingStatusDescriptorId INT NULL,
+    [EducationOrganizationId] [bigint] NOT NULL,
+    [EvaluationDate] [datetime2](7) NOT NULL,
+    [EvaluationPeriodDescriptor] [nvarchar](306) NOT NULL,
+    [EvaluationTitle] [nvarchar](50) NOT NULL,
+    [PerformanceEvaluationTitle] [nvarchar](50) NOT NULL,
+    [PerformanceEvaluationTypeDescriptor] [nvarchar](306) NOT NULL,
+    [PersonId] [nvarchar](32) NOT NULL,
+    [SchoolYear] [smallint] NOT NULL,
+    [SourceSystemDescriptor] [nvarchar](306) NOT NULL,
+    [TermDescriptor] [nvarchar](306) NOT NULL,
+    [EvaluationRatingLevelDescriptor] [nvarchar](306) NULL,
+    [EvaluationRatingStatusDescriptor] [nvarchar](306) NULL,
+    [CandidateName] [nvarchar](50) NULL,
     CreateDate DATETIME NOT NULL,
     LastModifiedDate DATETIME NOT NULL,
     EdFi_Id NVARCHAR(50) NULL,
@@ -112,7 +122,17 @@ GO
 
 CREATE TABLE eppeta.EvaluationObjectiveRating (
     EvaluationObjectiveTitle NVARCHAR(50) NOT NULL,
-    ObjectiveRatingLevelDescriptorId INT NULL,
+    [EducationOrganizationId] [bigint] NOT NULL,
+    [EvaluationDate] [datetime2](7) NOT NULL,
+    [EvaluationPeriodDescriptor] [nvarchar](306) NOT NULL,
+    [EvaluationTitle] [nvarchar](50) NOT NULL,
+    [PerformanceEvaluationTitle] [nvarchar](50) NOT NULL,
+    [PerformanceEvaluationTypeDescriptor] [nvarchar](306) NOT NULL,
+    [PersonId] [nvarchar](32) NOT NULL,
+    [SchoolYear] [smallint] NOT NULL,
+    [SourceSystemDescriptor] [nvarchar](306) NOT NULL,
+    [TermDescriptorId] [int] NOT NULL,
+    ObjectiveRatingLevelDescriptor [nvarchar](306) NULL,
     Comments NVARCHAR(1024) NULL,
     CreateDate DATETIME NOT NULL,
     LastModifiedDate DATETIME NOT NULL,
@@ -175,3 +195,33 @@ GO
 ALTER TABLE [eppeta].[EvaluationElementRating] WITH CHECK ADD CONSTRAINT [FK_EvaluationElementRating_Users_UserId] FOREIGN KEY([UserId])
 REFERENCES [eppeta].[Users] ([Id])
 GO
+
+CREATE TABLE [eppeta].[EvaluationElementRatingResult](
+	[EducationOrganizationId] [bigint] NOT NULL,
+	[EvaluationDate] [datetime2](7) NOT NULL,
+	[EvaluationElementTitle] [nvarchar](255) NOT NULL,
+	[EvaluationObjectiveTitle] [nvarchar](50) NOT NULL,
+	[EvaluationPeriodDescriptor] [nvarchar](306) NOT NULL,
+	[EvaluationTitle] [nvarchar](50) NOT NULL,
+	[PerformanceEvaluationTitle] [nvarchar](50) NOT NULL,
+	[PerformanceEvaluationTypeDescriptor] [nvarchar](306) NOT NULL,
+	[PersonId] [nvarchar](32) NOT NULL,
+	[SchoolYear] [smallint] NOT NULL,
+	[SourceSystemDescriptor] [nvarchar](306) NOT NULL,
+	[TermDescriptor] [nvarchar](306) NOT NULL,
+	[Rating] [decimal](6, 3) NOT NULL,
+	[RatingResultTitle] [nvarchar](50) NOT NULL,
+	[ResultDatatypeTypeDescriptor] [nvarchar](306) NOT NULL,
+	[CreateDate] [datetime2](7) NOT NULL,
+  [EdFi_Id] NVARCHAR(50) NULL,
+  [UserId] NVARCHAR(225) NOT NULL,
+  [Id] INT IDENTITY(1,1) NOT NULL,
+  CONSTRAINT EvaluationElementRatingResult_PK PRIMARY KEY CLUSTERED (Id ASC)
+  );
+GO
+ALTER TABLE [eppeta].[EvaluationElementRatingResult] ADD CONSTRAINT [EvaluationElementRatingResult_DF_CreateDate] DEFAULT (getdate()) FOR [CreateDate]
+GO
+ALTER TABLE [eppeta].[EvaluationElementRatingResult] WITH CHECK ADD CONSTRAINT [FK_EvaluationElementRatingResult_Users_UserId] FOREIGN KEY([UserId])
+REFERENCES [eppeta].[Users] ([Id])
+GO
+
