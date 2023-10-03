@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using EdFi.OdsApi.Sdk.Models.All;
 using Microsoft.EntityFrameworkCore;
 
 namespace eppeta.webapi.Evaluations.Models;
@@ -13,25 +14,23 @@ public partial class PerformanceEvaluation
 {
     public int EducationOrganizationId { get; set; }
 
-    public int EvaluationPeriodDescriptorId { get; set; }
+    public string EvaluationPeriodDescriptor { get; set; }
 
     [Required]
     [StringLength(50)]
     public string PerformanceEvaluationTitle { get; set; }
 
-    public int PerformanceEvaluationTypeDescriptorId { get; set; }
+    public string PerformanceEvaluationTypeDescriptor { get; set; }
 
     public short SchoolYear { get; set; }
 
-    public int TermDescriptorId { get; set; }
+    public string TermDescriptor { get; set; }
 
     [StringLength(255)]
     public string PerformanceEvaluationDescription { get; set; }
 
-    [Column(TypeName = "datetime")]
     public DateTime CreateDate { get; set; }
 
-    [Column(TypeName = "datetime")]
     public DateTime LastModifiedDate { get; set; }
 
     [Column("EdFi_Id")]
@@ -42,4 +41,17 @@ public partial class PerformanceEvaluation
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 
     public int Id { get; set; }
+
+    public static explicit operator PerformanceEvaluation(TpdmPerformanceEvaluation tpdmPerformanceEvaluation)
+    => new PerformanceEvaluation
+    {
+        PerformanceEvaluationTypeDescriptor = tpdmPerformanceEvaluation.PerformanceEvaluationTypeDescriptor,
+        PerformanceEvaluationDescription = tpdmPerformanceEvaluation.PerformanceEvaluationDescription,
+        EdFiId = tpdmPerformanceEvaluation.Id,
+        EducationOrganizationId = tpdmPerformanceEvaluation.EducationOrganizationReference.EducationOrganizationId,
+        EvaluationPeriodDescriptor = tpdmPerformanceEvaluation.EvaluationPeriodDescriptor,
+        PerformanceEvaluationTitle = tpdmPerformanceEvaluation.PerformanceEvaluationTitle,
+        SchoolYear = (short)tpdmPerformanceEvaluation.SchoolYearTypeReference.SchoolYear,
+        TermDescriptor = tpdmPerformanceEvaluation.TermDescriptor,
+    };
 }
