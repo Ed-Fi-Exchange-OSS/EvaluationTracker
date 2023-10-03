@@ -13,6 +13,7 @@ public interface IEvaluationRepository
 {
     Task<List<Evaluation>> GetAllEvaluations();
     Task<List<PerformanceEvaluation>> GetAllPerformanceEvaluations();
+    Task UpdatePerformanceEvaluations(List<PerformanceEvaluation> performanceEvaluations);
     Task<List<EvaluationObjective>> GetAllEvaluationObjectives();
     Task<EvaluationObjective> GetEvaluationObjectiveById(int id);
     Task<List<EvaluationElement>> GetAllEvaluationElements();
