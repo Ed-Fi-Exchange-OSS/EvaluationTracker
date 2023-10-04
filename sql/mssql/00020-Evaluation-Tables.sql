@@ -4,7 +4,7 @@
 -- See the LICENSE and NOTICES files in the project root for more information.
 
 CREATE TABLE eppeta.PerformanceEvaluation (
-    EducationOrganizationId INT NOT NULL,
+    [EducationOrganizationId] [bigint] NOT NULL,
     [EvaluationPeriodDescriptor] [nvarchar](306) NOT NULL,
     PerformanceEvaluationTitle NVARCHAR(50) NOT NULL,
     [PerformanceEvaluationTypeDescriptor] [nvarchar](306) NOT NULL,
@@ -24,7 +24,7 @@ ALTER TABLE eppeta.PerformanceEvaluation ADD CONSTRAINT [PerformanceEvaluation_D
 GO
 
 CREATE TABLE eppeta.PerformanceEvaluationRating (
-    EducationOrganizationId INT NOT NULL,
+    [EducationOrganizationId] [bigint] NOT NULL,
     EvaluationPeriodDescriptorId INT NOT NULL,
     PerformanceEvaluationTitle NVARCHAR(50) NOT NULL,
     PerformanceEvaluationTypeDescriptorId INT NOT NULL,
