@@ -9,6 +9,7 @@ using EdFi.OdsApi.Sdk.Client;
 using eppeta.webapi.Service;
 using EdFi.OdsApi.SdkClient;
 using EdFi.OdsApi.Sdk.Models.All;
+using eppeta.webapi.Evaluations.Data;
 
 namespace webapi.Controllers;
 
@@ -17,9 +18,12 @@ namespace webapi.Controllers;
 public class PerformanceEvaluationController : ControllerBase
 {
     private readonly IODSAPIAuthenticationConfigurationService _service;
-    public PerformanceEvaluationController(IODSAPIAuthenticationConfigurationService service)
+    private readonly IEvaluationRepository _evaluationRepository;
+
+    public PerformanceEvaluationController(IODSAPIAuthenticationConfigurationService service, IEvaluationRepository evaluationRepository)
     {
         _service = service;
+        _evaluationRepository = evaluationRepository;
     }
 
     [HttpGet("configuration")]
@@ -37,18 +41,7 @@ public class PerformanceEvaluationController : ControllerBase
     {
         try
         {
-            // Get ODS/API token
-            var authenticatedConfiguration = _service.GetAuthenticatedConfiguration();
-
-            // Get Evaluation Objectives
-            var peApi = new PerformanceEvaluationsApi(authenticatedConfiguration);
-            peApi.Configuration.DefaultHeaders.Add("Content-Type", "application/json");
-            var performanceEvaluations = await peApi.GetPerformanceEvaluationsAsync(limit: 25, offset: 0);
-
-
-            // Create a dictionary of EvaluationObjectiveTitles and EvaluationElementTitles
-            //var performanceEvaluationsList = new List<TpdmPerformanceEvaluation>();
-         
+            var performanceEvaluations = await _evaluationRepository.GetAllPerformanceEvaluations();
             return Ok(performanceEvaluations);
         }
 

@@ -68,6 +68,12 @@ public class EvaluationController : ControllerBase
                 elementsApi.Configuration.DefaultHeaders.Add("Content-Type", "application/json");
                 var tpdmEvaluationElements = await elementsApi.GetEvaluationElementsAsync(limit: 100, offset: 0);
                 await _evaluationRepository.UpdateEvaluationElements(tpdmEvaluationElements.Select(tee => (EvaluationElement)tee).ToList());
+
+                var peApi = new PerformanceEvaluationsApi(authenticatedConfiguration);
+                peApi.Configuration.DefaultHeaders.Add("Content-Type", "application/json");
+                var tpdmPerformanceEvaluations = await peApi.GetPerformanceEvaluationsAsync(limit: 100, offset: 0);
+                await _evaluationRepository.UpdatePerformanceEvaluations(tpdmPerformanceEvaluations.Select(pe => (PerformanceEvaluation)pe).ToList());
+
                 // set next expiration time
                 var cachedValue = _memoryCache.GetOrCreate(
                     dataExpirationKey,

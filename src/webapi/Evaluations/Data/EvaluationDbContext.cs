@@ -139,6 +139,25 @@ namespace eppeta.webapi.Evaluations.Data
             EvaluationElementRatingResults.UpdateRange(apiEvaluationElementRatingResults.Where(er => EvaluationElements.All(er2 => er2.EdFiId != er.EdFiId)).ToList());
             await SaveChangesAsync();
         }
+        public async Task UpdatePerformanceEvaluations(List<PerformanceEvaluation> apiPerformanceEvaluations)
+        {
+            // Since the surrogate Id is Identity then match on EdFiId and update existing records
+            foreach (var pe in apiPerformanceEvaluations)
+            {
+                var epe = PerformanceEvaluations.Where(epe => epe.EdFiId == pe.EdFiId).FirstOrDefault();
+                if (epe != null)
+                {
+                    foreach (var property in typeof(PerformanceEvaluation).GetProperties())
+                        if (property.Name != "Id")
+                            property.SetValue(epe, property.GetValue(pe));
+                    PerformanceEvaluations.Update(epe);
+                }
+            }
+            // Add new records
+            PerformanceEvaluations.UpdateRange(apiPerformanceEvaluations.Where(pe => PerformanceEvaluations.All(pe2 => pe2.EdFiId != pe.EdFiId)).ToList());
+            await SaveChangesAsync();
+        }
+
 
         public async Task CreatePerformanceEvaluationRating(PerformanceEvaluationRating rating)
         {
@@ -230,5 +249,6 @@ namespace eppeta.webapi.Evaluations.Data
         {
             return EvaluationElements.Where(ee => ee.Id == id).FirstOrDefaultAsync();
         }
+
     }
 }
