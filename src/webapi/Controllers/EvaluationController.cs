@@ -42,7 +42,7 @@ public class EvaluationController : ControllerBase
         return authenticatedConfiguration;
     }
 
-    [HttpGet]
+    [HttpGet("{performanceEvaluationId}")]
     public async Task<ActionResult<List<AvailableEvaluationObjective>>> GetEvaluationObjectivesElementsTitles(int performanceEvaluationId)
     {
         if (performanceEvaluationId == 0)
@@ -50,7 +50,7 @@ public class EvaluationController : ControllerBase
         // use dynamic Linq to join on matching column names
         string[] nonJoinCols = { "EdFiId", "Id", "CreateDate", "LastModifiedDate" };
         // get performanceEvaluation, evaluationObjective and evaluationElements records, columns and matching columns
-        var performanceEvaluation = await _evaluationRepository.GetAllPerformanceEvaluationsById(performanceEvaluationId);
+        var performanceEvaluation = new List<PerformanceEvaluation> { await _evaluationRepository.GetPerformanceEvaluationById(performanceEvaluationId) };
         if (performanceEvaluation == null)
             return NotFound();
         var evaluationObjectives = await _evaluationRepository.GetAllEvaluationObjectives();

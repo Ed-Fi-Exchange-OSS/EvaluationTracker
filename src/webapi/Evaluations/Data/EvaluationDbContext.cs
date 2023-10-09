@@ -32,9 +32,9 @@ namespace eppeta.webapi.Evaluations.Data
         {
             return await Evaluations.ToListAsync();
         }
-        public async Task<List<PerformanceEvaluation>> GetAllPerformanceEvaluationsById(int performanceEvaluationId)
+        public async Task<PerformanceEvaluation> GetPerformanceEvaluationById(int performanceEvaluationId)
         {
-            return await PerformanceEvaluations.Where(e => e.Id == performanceEvaluationId).ToListAsync();
+            return await PerformanceEvaluations.Where(e => e.Id == performanceEvaluationId).FirstOrDefaultAsync();
         }
 
         public async Task<List<EvaluationElement>> GetAllEvaluationElements()
