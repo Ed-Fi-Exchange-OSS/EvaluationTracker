@@ -80,7 +80,7 @@ namespace eppeta.webapi.Controllers
                     MappingHelper.PopulateEvaluationPK(newObjRating, evalObjective);
                     newEvalRating.EvaluationDate = newObjRating.EvaluationDate = evaluationResult.StartDateTime;
                     newEvalRating.PersonId = newObjRating.PersonId = evaluationResult.ReviewedPersonId;
-                    newEvalRating.SourceSystemDescriptor = newObjRating.SourceSystemDescriptor = evaluationResult.ReviewedPersonIdSourceSystemDescriptor;
+                    newEvalRating.SourceSystemDescriptor = newObjRating.SourceSystemDescriptor = evaluationResult.ReviewedPersonSourceSystemDescriptor;
                     newEvalRating.UserId = newObjRating.UserId = user.Id;
                     newObjRating.Comments = objRes.Comment;
                     await _evaluationRepository.UpdateEvaluationRatings(new List<EvaluationRating> { newEvalRating });

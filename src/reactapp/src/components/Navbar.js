@@ -26,7 +26,7 @@ import {
     ChevronDownIcon,
     ChevronRightIcon,
 } from '@chakra-ui/icons';
-import logo from '../assets/logo.png'
+import logo from '../assets/logo.jpg'
 import { Image } from "@chakra-ui/react"
 
 export default function WithSubnavigation() {
@@ -64,7 +64,7 @@ export default function WithSubnavigation() {
                         textAlign={useBreakpointValue({ base: 'center', md: 'left' })}
                         fontFamily={'heading'}
                         color={useColorModeValue('gray.800', 'white')}
-                        width="100px"
+                        width="150px"
                         height="auto"
                     />
                     <Flex display={{ base: 'none', md: 'flex' }} ml={10}>
