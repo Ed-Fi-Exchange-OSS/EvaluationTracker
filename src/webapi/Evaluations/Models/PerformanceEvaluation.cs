@@ -12,7 +12,7 @@ namespace eppeta.webapi.Evaluations.Models;
 [Table("PerformanceEvaluation", Schema = "eppeta")]
 public partial class PerformanceEvaluation
 {
-    public int EducationOrganizationId { get; set; }
+    public long EducationOrganizationId { get; set; }
 
     public string EvaluationPeriodDescriptor { get; set; }
 

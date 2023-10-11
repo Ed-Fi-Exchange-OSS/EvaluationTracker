@@ -30,7 +30,7 @@ export default function LoginForm() {
 
 
   // sync dependencies while login
-  fetch("https://localhost:7065/api/Evaluation");
+  fetch("https://localhost:7065/api/Evaluation/Sync");
 
 
   const loadEvaluationsPage = () => {

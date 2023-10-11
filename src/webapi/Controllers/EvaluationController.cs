@@ -42,11 +42,61 @@ public class EvaluationController : ControllerBase
         return authenticatedConfiguration;
     }
 
+    [HttpGet("{performanceEvaluationId}")]
+    public async Task<ActionResult<List<AvailableEvaluationObjective>>> GetEvaluationObjectivesElementsTitles(int performanceEvaluationId)
+    {
+        if (performanceEvaluationId == 0)
+            return BadRequest();
+        // use dynamic Linq to join on matching column names
+        string[] nonJoinCols = { "EdFiId", "Id", "CreateDate", "LastModifiedDate" };
+        // get performanceEvaluation, evaluationObjective and evaluationElements records, columns and matching columns
+        var performanceEvaluation = new List<PerformanceEvaluation> { await _evaluationRepository.GetPerformanceEvaluationById(performanceEvaluationId) };
+        if (performanceEvaluation == null)
+            return NotFound();
+        var evaluationObjectives = await _evaluationRepository.GetAllEvaluationObjectives();
+        var evaluationElements = await _evaluationRepository.GetAllEvaluationElements();
+        var performanceEvaluationCols = typeof(PerformanceEvaluation).GetProperties().Select(f => f.Name).ToList();
+        var evaluationObjectivesCols = typeof(EvaluationObjective).GetProperties().Select(f => f.Name).ToList();
+        var evaluationElementsCols = typeof(EvaluationElement).GetProperties().Select(f => f.Name).ToList();
+        var matchingEvObjCols = performanceEvaluationCols.Intersect(evaluationObjectivesCols).Except(nonJoinCols).ToArray();
+        var matchingObjElCols = evaluationObjectivesCols.Intersect(evaluationElementsCols).Except(nonJoinCols).ToArray();
+        // build selectors: comma separated list of common column names
+        string colEvObjSelector = "new {" + string.Join(",", matchingEvObjCols) + "}";
+        string colObjElSelector = "new {" + string.Join(",", matchingObjElCols) + "}";
+        // join performanceEvaluation with evaluationObjectives
+        var filteredObjectives = performanceEvaluation.AsQueryable().Join(
+            evaluationObjectives.AsQueryable(), colEvObjSelector, colEvObjSelector,
+            "inner").ToDynamicList().OfType<EvaluationObjective>().ToList();
+
+        var availableObjectives = filteredObjectives.AsQueryable().GroupJoin(
+            evaluationElements.AsQueryable(), colObjElSelector, colObjElSelector,
+            "new (outer.Id, outer.EvaluationObjectiveTitle, inner as elements)").ToDynamicList();
+        var availableEvaluationObjectives = new List<AvailableEvaluationObjective>();
+        foreach (var availableObjective in availableObjectives)
+        {
+            AvailableEvaluationObjective naeo = new AvailableEvaluationObjective
+            {
+                Name = availableObjective.EvaluationObjectiveTitle,
+                EvaluationObjectiveId = availableObjective.Id
+            };
+            foreach (EvaluationElement el in availableObjective.elements)
+            {
+                naeo.EvaluationElements.Add(new AvailableEvaluationObjective.AvailableEvaluationElement
+                {
+                    Name = el.EvaluationElementTitle,
+                    EvaluationElementId = el.Id
+                });
+            }
+            availableEvaluationObjectives.Add(naeo);
+        }
+        return Ok(availableEvaluationObjectives);
+
+    }
     // GET: api/EvaluationApi
     // The GetEvaluation method is slow due to the need to retrieve configuration first
-    // TODO: Get the evaluation elements in the same method as GetEvaluation()
-    [HttpGet]
-    public async Task<ActionResult<List<AvailableEvaluationObjective>>> GetEvaluationObjectivesElementsTitles()
+    // TODO: Get the performanceEvaluation elements in the same method as GetEvaluation()
+    [HttpGet("Sync")]
+    public async Task<ActionResult> SyncEvaluationComponents()
     {
         try
         {
@@ -83,37 +133,7 @@ public class EvaluationController : ControllerBase
                         return DateTime.Now;
                     });
             }
-            // use dynamic Linq to join on matching column names
-            string[] nonJoinCols = { "EdFiId", "Id", "CreateDate", "LastModifiedDate" };
-            var evaluationObjectives = await _evaluationRepository.GetAllEvaluationObjectives();
-            var evaluationElements = await _evaluationRepository.GetAllEvaluationElements();
-            var evaluationObjectivesCols = typeof(EvaluationObjective).GetProperties().Select(f => f.Name).ToList();
-            var evaluationElementsCols = typeof(EvaluationElement).GetProperties().Select(f => f.Name).ToList();
-            var matchingCols = evaluationObjectivesCols.Where(c => evaluationElementsCols.Contains(c) && !nonJoinCols.Contains(c)).ToArray();
-            var availableObjectives = evaluationObjectives.AsQueryable().GroupJoin(
-                evaluationElements.AsQueryable(),
-                "new {" + string.Join(",", matchingCols) + "}",
-                "new {" + string.Join(",", matchingCols) + "}",
-                "new (outer.Id, outer.EvaluationObjectiveTitle, inner as elements)").ToDynamicList();
-            var availableEvaluationObjectives = new List<AvailableEvaluationObjective>();
-            foreach (var availableObjective in availableObjectives)
-            {
-                AvailableEvaluationObjective naeo = new AvailableEvaluationObjective
-                {
-                    Name = availableObjective.EvaluationObjectiveTitle,
-                    EvaluationObjectiveId = availableObjective.Id
-                };
-                foreach (EvaluationElement el in availableObjective.elements)
-                {
-                    naeo.EvaluationElements.Add(new AvailableEvaluationObjective.AvailableEvaluationElement
-                    {
-                        Name = el.EvaluationElementTitle,
-                        EvaluationElementId = el.Id
-                    });
-                }
-                availableEvaluationObjectives.Add(naeo);
-            }
-            return Ok(availableEvaluationObjectives);
+            return Ok();
         }
 
         // temporary for debugging
@@ -121,7 +141,7 @@ public class EvaluationController : ControllerBase
         catch (Exception ex)
         {
 #pragma warning disable CA2200 // Rethrow to preserve stack details
-            throw ex;
+            return Problem(ex.Message);
 #pragma warning restore CA2200 // Rethrow to preserve stack details
         }
     }
