@@ -49,7 +49,7 @@ export default function EvaluationForm() {
 
   const location = useLocation();
 
-  // This will be replaced with data from the ODS/API
+  // This will be replaced with data from the ODS/API once EPPETA-38 is complete
   const ratingLevels = [
     {
       "codeValue": "Improvement Needed",
@@ -92,12 +92,10 @@ export default function EvaluationForm() {
     } else {
       setSelectedEvaluation(JSON.parse(sessionStorage.getItem("evaluation")));
     }
-
-    fetchEvaluationObjectives();
   }, []);
 
   const processRatingLevelOptions = async (ratingLevels) => {
-    const processedRatingLevels = [{ "label": "N/A - Not Applicable" }, ...ratingLevels.map((level) => {
+    const processedRatingLevels = [{ "label": "N/A - Not Applicable", "value":-1 }, ...ratingLevels.map((level) => {
       return {
         "label": level.codeValue,
         "value": level.maxRating
@@ -106,10 +104,15 @@ export default function EvaluationForm() {
     setRatingLevelOptions(processedRatingLevels); // Save to state
   }
 
+  useEffect(() => {
+    fetchEvaluationObjectives();
+  }, [selectedEvaluation]);
+
   // Retrieve evaluation objectives from API
   const fetchEvaluationObjectives = async () => {
     try {
-      const response = await get("/api/Evaluation");
+      const response = await get(`/api/Evaluation/${selectedEvaluation.id}`);
+
       if (!response.ok) {
         throw new Error("Failed to fetch evaluation objectives");
       }
@@ -129,7 +132,7 @@ export default function EvaluationForm() {
     }
   };
 
-  const saveEvaluation = () => {
+  const saveEvaluation = async () => {
     const completedEvaluation = {
     };
 
@@ -140,33 +143,33 @@ export default function EvaluationForm() {
     !evaluationEndTime ?
       completedEvaluation.endDateTime = new Date() : completedEvaluation.endDateTime = evaluationEndTime;
 
-    completedEvaluation.objectiveResults = evaluationMetadata.map((objective) => {
-      const ratings = objective.evaluationElements.map((element) => {
-        const elementRatingValue = elementRatings.find((rating) => rating.name === element.evaluationElementId);
-        const elementRating = {
-          id: element.evaluationElementId,
-          score: elementRatingValue?.value
-        };
+    completedEvaluation.objectiveResults = evaluationMetadata.flatMap((objective) => {
 
-        return elementRating;
+      // Map elements for this objective - Using flat map will either map the element if a rating exists
+      // or will return empty if no score was provided for the element (i.e. N/A was chosen)
+      const ratings = objective.evaluationElements.flatMap((element) => {
+        const elementRatingValue = elementRatings.find((rating) => rating.name === element.evaluationElementId);
+        return elementRatingValue?.value > -1 ? { id: element.evaluationElementId, score: elementRatingValue?.value } : [];
       });
 
       const objectiveNote = objectiveNotes.find((note) => note.objectiveId == objective.evaluationObjectiveId);
+
       const objectiveRating = {
         id: objective.evaluationObjectiveId,
         comment: objectiveNote?.value,
         elements: ratings
       }
-      return objectiveRating;
+      // If there are no score for the elements for this objective and no comment, ignore
+      return (objectiveRating.codeValue && ratings.length > 0) ? objectiveRating : [];
     });
 
     try {
-      //await post("/EvaluationRating", completedEvaluation);
+      const response = await post(`/api/EvaluationRating?userId=${getLoggedInUserId()}`, completedEvaluation);
     } catch (e) {
-      console.log("what happened?");
     }
   }
 
+  // Rating drop down event handler
   const setRatingLevel = (e, actionProps) => {
     const elementRatingCopy = [...elementRatings];
     const rating = { "name": actionProps.name, "value": e.value };
@@ -218,7 +221,7 @@ export default function EvaluationForm() {
             <Box className="TitleBox">Date</Box>
             <Box className="Box">{evaluationDate?.toLocaleDateString()}</Box>
             <Box className="TitleBox">Evaluator</Box>
-            <Box className="Box">{ loggedInUser.name }</Box>
+            <Box className="Box">{loggedInUser.name}</Box>
           </HStack>
           <HStack display='flex' spacing="20px" mb="5">
           </HStack>
@@ -233,7 +236,12 @@ export default function EvaluationForm() {
             particular setting/observation/evaluation.
           </Text>
           <Text fontSize={"sm"} as='b'>
-            SCALE: ** 1=Needs Improvement     2= Developing     *3= Proficient        N/A= Not Applicable (N/A)
+            SCALE: {ratingLevelOptions.map((item) => {
+              if (item.value) {
+                return `${item.value} - ${item.label} `
+              }
+              return `${item.label} `
+            })}
           </Text>
           <Text fontSize={"sm"}>
             ** Requires written “COMMENTS” specifying observed, shared or recorded evidence if scoring 2=Needs Improvement
@@ -259,20 +267,20 @@ export default function EvaluationForm() {
               <Box key={objective.evaluationObjectiveId} mt={4}>
                 <Heading fontSize="lg" fontWeight="bold">{objective.name}</Heading>
                 <Table cellSpacing="10" cellPadding="5">
-                    <Thead>
-                        <Tr>
-                          <Th minWidth="200px">Objective</Th>
-                          <Th minWidth="150px">Rating</Th>
-                          <Th>Comments</Th>
-                        </Tr>
-                      </Thead>
+                  <Thead>
+                    <Tr>
+                      <Th minWidth="200px">Objective</Th>
+                      <Th minWidth="150px">Rating</Th>
+                      <Th>Comments</Th>
+                    </Tr>
+                  </Thead>
                   <Tbody>
-                    {objective.evaluationElements.map((element, index) =>  (
+                    {objective.evaluationElements.map((element, index) => (
                       <Tr key={index}>
                         <Td maxWidth="200px">{element.name}</Td>
-                          <Td maxWidth="150px">
+                        <Td maxWidth="150px">
                           <Select name={element.evaluationElementId} id={element.evaluationElementId} options={ratingLevelOptions}
-                            onChange={(e, action, id) => { setRatingLevel(e, action, id) }}
+                            onChange={(e, action) => { setRatingLevel(e, action) }}
                           />
                         </Td>
                         {index === 0 && <Td rowSpan="4"><Textarea id={objective.evaluationObjectiveId} name={objective.name} onBlur={handleNotesUpdates} rows={(objective.evaluationElements.length * 3) - 1} resize="none" borderColor="gray.300" /></Td>}

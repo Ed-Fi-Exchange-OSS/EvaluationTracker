@@ -18,7 +18,8 @@ namespace eppeta.webapi.Mapping
                 ReviewedCandidateName = ratingEntity.CandidateName,
                 PerformanceEvaluationRatingId = ratingEntity.Id,
                 ReviewedPersonId = ratingEntity.PersonId,
-                ReviewedPersonIdSourceSystemDescriptor = ratingEntity.SourceSystemDescriptor
+                ReviewedPersonIdSourceSystemDescriptor = ratingEntity.SourceSystemDescriptor,
+                EvaluationStatus = ratingEntity.EvaluationRatingStatusDescriptor
             };
 
             return evaluationDTO;

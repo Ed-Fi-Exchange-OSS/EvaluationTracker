@@ -31,7 +31,7 @@ export default function LoginForm() {
 
 
   // sync dependencies while login
-  get("/api/Evaluation");
+  get("/api/Evaluation/Sync");
 
 
   const loadEvaluationsPage = () => {
