@@ -11,11 +11,17 @@ namespace eppeta.webapi.Evaluations.Models
 {
     public class PerformanceEvaluationRating
     {
+        [Required]
         public int EducationOrganizationId { get; set; }
+        [Required]
         public int EvaluationPeriodDescriptorId { get; set; }
+        [Required]
         public string PerformanceEvaluationTitle { get; set; } = string.Empty;
+        [Required]
         public int PerformanceEvaluationTypeDescriptorId { get; set; }
+        [Required]
         public short SchoolYear { get; set; }
+        [Required]
         public int TermDescriptorId { get; set; }
         public DateTime ActualDate { get; set; }
         public int? ActualDuration { get; set; }
@@ -23,7 +29,9 @@ namespace eppeta.webapi.Evaluations.Models
         public TimeSpan? ActualTime { get; set; }
         public DateTime CreateDate { get; set; }
         public DateTime LastModifiedDate { get; set; }
-        public string? EdFi_Id { get; set; }
+        [Column("EdFi_Id")]
+        [StringLength(50)]
+        public string EdFiId { get; set; }
         public string UserId { get; set; } = string.Empty;
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

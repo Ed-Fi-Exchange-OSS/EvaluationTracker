@@ -12,20 +12,26 @@ namespace eppeta.webapi.Evaluations.Models;
 [Table("PerformanceEvaluation", Schema = "eppeta")]
 public partial class PerformanceEvaluation
 {
+    [Required]
     public long EducationOrganizationId { get; set; }
 
+    [Required]
     public string EvaluationPeriodDescriptor { get; set; }
 
     [Required]
     [StringLength(50)]
     public string PerformanceEvaluationTitle { get; set; }
 
+    [Required]
     public string PerformanceEvaluationTypeDescriptor { get; set; }
 
+    [Required]
     public short SchoolYear { get; set; }
 
+    [Required]
     public string TermDescriptor { get; set; }
 
+    [Required]
     [StringLength(255)]
     public string PerformanceEvaluationDescription { get; set; }
 

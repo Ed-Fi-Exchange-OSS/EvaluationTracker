@@ -11,6 +11,7 @@ namespace eppeta.webapi.Evaluations.Models;
 [Table("EvaluationElementRatingResult", Schema = "eppeta")]
 public partial class EvaluationElementRatingResult
 {
+    [Required]
     public long EducationOrganizationId { get; set; }
 
     public DateTime EvaluationDate { get; set; }
@@ -23,6 +24,7 @@ public partial class EvaluationElementRatingResult
     [StringLength(50)]
     public string EvaluationObjectiveTitle { get; set; }
 
+    [Required]
     public string EvaluationPeriodDescriptor { get; set; }
 
     [Required]
@@ -33,16 +35,20 @@ public partial class EvaluationElementRatingResult
     [StringLength(50)]
     public string PerformanceEvaluationTitle { get; set; }
 
+    [Required]
     public string PerformanceEvaluationTypeDescriptor { get; set; }
 
     [Required]
     [StringLength(32)]
     public string PersonId { get; set; }
 
+    [Required]
     public short SchoolYear { get; set; }
 
+    [Required]
     public string SourceSystemDescriptor { get; set; }
 
+    [Required]
     public string TermDescriptor { get; set; }
 
     [Column(TypeName = "decimal(6, 3)")]

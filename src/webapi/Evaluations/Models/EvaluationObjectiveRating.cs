@@ -11,9 +11,13 @@ namespace eppeta.webapi.Evaluations.Models
 {
     public class EvaluationObjectiveRating
     {
+        [Required]
         public string EvaluationObjectiveTitle { get; set; } = string.Empty;
+        [Required]
         public long EducationOrganizationId { get; set; }
+        [Required]
         public DateTime EvaluationDate { get; set; }
+        [Required]
         public string EvaluationPeriodDescriptor { get; set; } = string.Empty;
         [Required]
         [StringLength(50)]
@@ -21,14 +25,18 @@ namespace eppeta.webapi.Evaluations.Models
         [Required]
         [StringLength(50)]
         public string PerformanceEvaluationTitle { get; set; } = string.Empty;
+        [Required]
         public string PerformanceEvaluationTypeDescriptor { get; set; } = string.Empty;
         [Required]
         [StringLength(32)]
         public string PersonId { get; set; } = string.Empty;
+        [Required]
         public short SchoolYear { get; set; }
+        [Required]
         public string SourceSystemDescriptor { get; set; } = string.Empty;
+        [Required]
         public string TermDescriptor { get; set; } = string.Empty;
-        public int? ObjectiveRatingLevelDescriptorId { get; set; }
+        public string? ObjectiveRatingLevelDescriptor { get; set; }
         public string? Comments { get; set; }
         public DateTime CreateDate { get; set; }
         public DateTime LastModifiedDate { get; set; }
