@@ -100,7 +100,7 @@ export default function NewEvaluation() {
                 defaultValue={selectedEvaluation}
                 onChange={setSelectedEvaluation}
                 options={evaluationData}
-                getOptionValue={option => option.value}
+                getOptionValue={option => option.id}
                 getOptionLabel={option => option.performanceEvaluationTitle}
               />
 
