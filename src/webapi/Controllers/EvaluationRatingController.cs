@@ -84,8 +84,12 @@ namespace eppeta.webapi.Controllers
                     newEvalRating.UserId = newObjRating.UserId = user.Id;
                     newObjRating.Comments = objRes.Comment;
                     newObjRating.EvaluationObjectiveTitle = evalObjective.EvaluationObjectiveTitle;
-                    await _evaluationRepository.UpdateEvaluationRatings(new List<EvaluationRating> { newEvalRating });
-                    await _evaluationRepository.UpdateEvaluationObjectiveRatings(new List<EvaluationObjectiveRating> { newObjRating });
+                    var res = _evaluationRepository.UpdateEvaluationRatings(new List<EvaluationRating> { newEvalRating });
+                    if (!res.IsCompletedSuccessfully)
+                        throw new Exception("Failed to update EvaluationRatings");
+                    res = _evaluationRepository.UpdateEvaluationObjectiveRatings(new List<EvaluationObjectiveRating> { newObjRating });
+                    if (!res.IsCompletedSuccessfully)
+                        throw new Exception("Failed to update EvaluationObjectiveRatings");
                     foreach (var elRes in objRes.Elements)
                     {
                         var evalElement = await _evaluationRepository.GetEvaluationElementById(elRes.Id);
@@ -95,7 +99,7 @@ namespace eppeta.webapi.Controllers
                         elementRatingResult.EvaluationObjectiveTitle = evalElement.EvaluationObjectiveTitle;
                         elementRatingResult.PersonId = newObjRating.PersonId;
                         elementRatingResult.SourceSystemDescriptor = newObjRating.SourceSystemDescriptor;
-                        elementRatingResult.RatingResultTitle = evalElement.EvaluationElementTitle.Substring(0,Math.Min(50, evalElement.EvaluationElementTitle.Length)); // TODO: No result title is returned from frontend. Truncating element title
+                        elementRatingResult.RatingResultTitle = evalElement.EvaluationElementTitle.Substring(0, Math.Min(50, evalElement.EvaluationElementTitle.Length)); // TODO: No result title is returned from frontend. Truncating element title
                         elementRatingResult.Rating = elRes.Score;
                         elementRatingResult.UserId = user.Id;
                         elementRatingResult.ResultDatatypeTypeDescriptor = "uri://ed-fi.org/ResultDatatypeTypeDescriptor/Integer"; // TODO: harcoding this based on the type of elRes.Score
