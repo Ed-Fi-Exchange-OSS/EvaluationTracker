@@ -76,13 +76,14 @@ namespace eppeta.webapi.Controllers
                     var user = await _userManager.FindByIdAsync(userId);
                     EvaluationRating newEvalRating = new EvaluationRating();
                     EvaluationObjectiveRating newObjRating = new EvaluationObjectiveRating();
-                    MappingHelper.PopulateEvaluationPK(newEvalRating, evalObjective);
-                    MappingHelper.PopulateEvaluationPK(newObjRating, evalObjective);
+                    MappingHelper.PopulateEvaluationPK(evalObjective, newEvalRating);
+                    MappingHelper.PopulateEvaluationPK(evalObjective, newObjRating);
                     newEvalRating.EvaluationDate = newObjRating.EvaluationDate = evaluationResult.StartDateTime;
                     newEvalRating.PersonId = newObjRating.PersonId = evaluationResult.ReviewedPersonId;
-                    newEvalRating.SourceSystemDescriptor = newObjRating.SourceSystemDescriptor = evaluationResult.ReviewedPersonIdSourceSystemDescriptor;
+                    newEvalRating.SourceSystemDescriptor = newObjRating.SourceSystemDescriptor = evaluationResult.ReviewedPersonSourceSystemDescriptor;
                     newEvalRating.UserId = newObjRating.UserId = user.Id;
                     newObjRating.Comments = objRes.Comment;
+                    newObjRating.EvaluationObjectiveTitle = evalObjective.EvaluationObjectiveTitle;
                     await _evaluationRepository.UpdateEvaluationRatings(new List<EvaluationRating> { newEvalRating });
                     await _evaluationRepository.UpdateEvaluationObjectiveRatings(new List<EvaluationObjectiveRating> { newObjRating });
                     foreach (var elRes in objRes.Elements)
@@ -94,9 +95,10 @@ namespace eppeta.webapi.Controllers
                         elementRatingResult.EvaluationObjectiveTitle = evalElement.EvaluationObjectiveTitle;
                         elementRatingResult.PersonId = newObjRating.PersonId;
                         elementRatingResult.SourceSystemDescriptor = newObjRating.SourceSystemDescriptor;
-                        elementRatingResult.RatingResultTitle = evalElement.EvaluationElementTitle;
+                        elementRatingResult.RatingResultTitle = evalElement.EvaluationElementTitle.Substring(0,Math.Min(50, evalElement.EvaluationElementTitle.Length)); // TODO: No result title is returned from frontend. Truncating element title
                         elementRatingResult.Rating = elRes.Score;
                         elementRatingResult.UserId = user.Id;
+                        elementRatingResult.ResultDatatypeTypeDescriptor = "uri://ed-fi.org/ResultDatatypeTypeDescriptor/Integer"; // TODO: harcoding this based on the type of elRes.Score
                         await _evaluationRepository.UpdateEvaluationElementRatingResults(new List<EvaluationElementRatingResult> { elementRatingResult });
                     }
                 }
