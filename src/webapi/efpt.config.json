@@ -1,0 +1,59 @@
+﻿{
+   "CodeGenerationMode": 3,
+   "ContextClassName": "eppetaContext",
+   "ContextNamespace": null,
+   "DefaultDacpacSchema": null,
+   "FilterSchemas": false,
+   "IncludeConnectionString": false,
+   "ModelNamespace": null,
+   "OutputContextPath": null,
+   "OutputPath": "Evaluations\/Models",
+   "PreserveCasingWithRegex": true,
+   "ProjectRootNamespace": "eppeta.webapi",
+   "Schemas": null,
+   "SelectedHandlebarsLanguage": 0,
+   "SelectedToBeGenerated": 2,
+   "T4TemplatePath": null,
+   "Tables": [
+      {
+         "Name": "[eppeta].[Evaluation]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[eppeta].[EvaluationElement]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[eppeta].[EvaluationElementRatingResult]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[eppeta].[EvaluationObjective]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[eppeta].[PerformanceEvaluation]",
+         "ObjectType": 0
+      }
+   ],
+   "UiHint": "laptop-3s3q68vp.eppeta.dbo",
+   "UncountableWords": null,
+   "UseBoolPropertiesWithoutDefaultSql": false,
+   "UseDatabaseNames": false,
+   "UseDateOnlyTimeOnly": false,
+   "UseDbContextSplitting": false,
+   "UseFluentApiOnly": false,
+   "UseHandleBars": false,
+   "UseHierarchyId": false,
+   "UseInflector": false,
+   "UseLegacyPluralizer": false,
+   "UseManyToManyEntity": false,
+   "UseNoDefaultConstructor": false,
+   "UseNoObjectFilter": false,
+   "UseNodaTime": false,
+   "UseNullableReferences": false,
+   "UseSchemaFolders": false,
+   "UseSchemaNamespaces": false,
+   "UseSpatial": false,
+   "UseT4": false
+}
