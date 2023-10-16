@@ -28,4 +28,8 @@ const getLoggedInUserRole = () => {
   return jwt_decode(jwt).role;
 };
 
-export { setToken, getToken, getLoggedInUserId, getLoggedInUserName, getLoggedInUserRole }
+const clearToken = () => {
+  sessionStorage.removeItem('token');
+}
+
+export { setToken, getToken, clearToken, getLoggedInUserId, getLoggedInUserName, getLoggedInUserRole }

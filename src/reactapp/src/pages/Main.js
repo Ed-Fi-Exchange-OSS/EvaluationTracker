@@ -14,7 +14,7 @@ import {
     Button,
     Box,
     Stack,
-    Heading,
+  Heading,
 } from "@chakra-ui/react";
 import "../App.css";
 import React, { useEffect, useState } from "react";
@@ -29,12 +29,18 @@ export default function EvaluationTable() {
 
 
   useEffect(() => {
-    fetchEvaluationRatings();
+    const userId = getLoggedInUserId();
+
+    if (userId == null) {
+      window.location.href = "/login";
+    }
+
+    fetchEvaluationRatings(userId);
   }, []);
 
   //const response = await get("/connect/token", tokenRequest);
 // Retrieve evaluation ratings from API
-  const fetchEvaluationRatings = async () => {
+  const fetchEvaluationRatings = async (userId) => {
     try {
       const userId = getLoggedInUserId();
 
@@ -70,9 +76,9 @@ export default function EvaluationTable() {
             {EvaluationRatings.map((row, i) => (
               <Tr key={i}>
                 <Td><a href="">{row.performanceEvaluationTitle}</a></Td>
-                <Td>{row.reviewedCandidateName}</Td>
+                <Td>{row.reviewedCandidateName}</Td> 
                 {loggedInUserRole === 'Supervisor' && <Td>{row.evaluatorName}</Td>}
-                <Td>{new Date(row.actualDate).toLocaleDateString()}</Td>
+                <Td>{new Date(row.actualDate).toLocaleDateString()}</Td> 
                 <Td>{row.evaluationStatus }</Td>
               </Tr>
             ))}
