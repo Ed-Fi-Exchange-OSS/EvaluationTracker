@@ -4,12 +4,8 @@
 // See the LICENSE and NOTICES files in the project root for more information.
 
 using eppeta.webapi.Evaluations.Models;
-using eppeta.webapi.Identity.Data;
-using eppeta.webapi.Identity.Models;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
+using System.Linq.Dynamic.Core;
 
 namespace eppeta.webapi.Evaluations.Data
 {
@@ -49,119 +45,147 @@ namespace eppeta.webapi.Evaluations.Data
         {
             return await EvaluationObjectives.ToListAsync();
         }
-        public async Task UpdateEvaluationObjectives(List<EvaluationObjective> apiEvaluationObjectives)
+
+        private object FilterByRequiredFields<T>(List<T> listToFilter, object referenceObject)
         {
-            // Since the surrogate Id is Identity then match on EdFiId and update existing records
-            foreach (var eo in apiEvaluationObjectives)
+            var requiredProperties = referenceObject.GetType().GetProperties()
+                .Where(p => p.IsDefined(typeof(System.ComponentModel.DataAnnotations.RequiredAttribute), true)
+                    && p.Name != "EdFiId").ToList();
+            List<string> colFilter = new List<string>();
+            foreach (var property in requiredProperties)
             {
-                var eeo = EvaluationObjectives.Where(eeo => eeo.EdFiId == eo.EdFiId).FirstOrDefault();
+                if (property.PropertyType == typeof(DateTime))
+                {
+                    // SQL needs exact datetime format
+                    string dateTimeVal = ((DateTime)property.GetValue(referenceObject)).ToString("yyyy-MM-dd HH:mm:ss.FFF");
+                    colFilter.Add($"{property.Name} == \"{dateTimeVal}\"");
+                }
+                else
+                    colFilter.Add($"{property.Name} == \"{property.GetValue(referenceObject)}\"");
+            }
+            string whereClause = String.Join(" and ", colFilter);
+            return listToFilter.AsQueryable().Where(whereClause).FirstOrDefault();
+        }
+
+        public async Task UpdateEvaluationObjectives(List<EvaluationObjective> evaluationObjectives)
+        {
+            // Since the surrogate Id is Identity then match on required cols and update existing records
+            foreach (var eo in evaluationObjectives)
+            {
+                var eeo = FilterByRequiredFields(EvaluationObjectives.ToList(), eo);
                 if (eeo != null)
                 {
-                    foreach (var property in typeof(EvaluationObjective).GetProperties())
+                    foreach (var property in typeof(EvaluationElement).GetProperties())
                         if (property.Name != "Id")
                             property.SetValue(eeo, property.GetValue(eo));
-                    EvaluationObjectives.Update(eeo);
+                    EvaluationObjectives.Update((EvaluationObjective)eeo);
                 }
+                else
+                    // Add new records
+                    EvaluationObjectives.UpdateRange(eo);
             }
-            // Add new records
-            EvaluationObjectives.UpdateRange(apiEvaluationObjectives.Where(eo => EvaluationObjectives.All(eo2 => eo2.EdFiId != eo.EdFiId)).ToList());
             await SaveChangesAsync();
         }
 
-        public async Task UpdateEvaluationElements(List<EvaluationElement> apiEvaluationElements)
+        public async Task UpdateEvaluationElements(List<EvaluationElement> evaluationElements)
         {
-            // Since the surrogate Id is Identity then match on EdFiId and update existing records
-            foreach (var ee in apiEvaluationElements)
+            // Since the surrogate Id is Identity then match on required cols and update existing records
+            foreach (var ee in evaluationElements)
             {
-                var eee = EvaluationElements.Where(eee => eee.EdFiId == ee.EdFiId).FirstOrDefault();
+                var eee = FilterByRequiredFields(EvaluationElements.ToList(), ee);
                 if (eee != null)
                 {
                     foreach (var property in typeof(EvaluationElement).GetProperties())
                         if (property.Name != "Id")
                             property.SetValue(eee, property.GetValue(ee));
-                    EvaluationElements.Update(eee);
+                    EvaluationElements.Update((EvaluationElement)eee);
                 }
+                else
+                    // Add new records
+                    EvaluationElements.Update(ee);
             }
-            // Add new records
-            EvaluationElements.UpdateRange(apiEvaluationElements.Where(ee => EvaluationElements.All(ee2 => ee2.EdFiId != ee.EdFiId)).ToList());
             await SaveChangesAsync();
         }
 
-        public async Task UpdateEvaluationRatings(List<EvaluationRating> apiEvaluationRatings)
+
+        public async Task UpdateEvaluationRatings(List<EvaluationRating> evaluationRatings)
         {
-            // Since the surrogate Id is Identity then match on EdFiId and update existing records
-            foreach (var er in apiEvaluationRatings)
+            // Since the surrogate Id is Identity then match on required cols and update existing records
+            foreach (var er in evaluationRatings)
             {
-                var eer = EvaluationRatings.Where(eer => eer.EdFiId == er.EdFiId).FirstOrDefault();
+                var eer = FilterByRequiredFields(EvaluationRatings.ToList(), er);
                 if (eer != null)
                 {
                     foreach (var property in typeof(EvaluationRating).GetProperties())
                         if (property.Name != "Id")
                             property.SetValue(eer, property.GetValue(er));
-                    EvaluationRatings.Update(eer);
+                    EvaluationRatings.Update((EvaluationRating)eer);
                 }
+                else
+                    // Add new records
+                    EvaluationRatings.Update(er);
             }
-            // Add new records
-            EvaluationRatings.UpdateRange(apiEvaluationRatings.Where(er => EvaluationElements.All(er2 => er2.EdFiId != er.EdFiId)).ToList());
             await SaveChangesAsync();
         }
 
-        public async Task UpdateEvaluationObjectiveRatings(List<EvaluationObjectiveRating> apiEvaluationObjectiveRatings)
+
+        public async Task UpdateEvaluationObjectiveRatings(List<EvaluationObjectiveRating> evaluationObjectiveRatings)
         {
-            // Since the surrogate Id is Identity then match on EdFiId and update existing records
-            foreach (var er in apiEvaluationObjectiveRatings)
+            // Since the surrogate Id is Identity then match on required cols and update existing records
+            foreach (var er in evaluationObjectiveRatings)
             {
-                var eer = EvaluationObjectiveRatings.Where(eer => eer.EdFiId == er.EdFiId).FirstOrDefault();
+                var eer = FilterByRequiredFields(EvaluationObjectiveRatings.ToList(), er);
                 if (eer != null)
                 {
                     foreach (var property in typeof(EvaluationObjectiveRating).GetProperties())
                         if (property.Name != "Id")
                             property.SetValue(eer, property.GetValue(er));
-                    EvaluationObjectiveRatings.Update(eer);
+                    EvaluationObjectiveRatings.Update((EvaluationObjectiveRating)eer);
                 }
+                else
+                    // Add new records
+                    EvaluationObjectiveRatings.Update(er);
             }
-            // Add new records
-            EvaluationObjectiveRatings.UpdateRange(apiEvaluationObjectiveRatings.Where(er => EvaluationElements.All(er2 => er2.EdFiId != er.EdFiId)).ToList());
             await SaveChangesAsync();
         }
 
-        public async Task UpdateEvaluationElementRatingResults(List<EvaluationElementRatingResult> apiEvaluationElementRatingResults)
+        public async Task UpdateEvaluationElementRatingResults(List<EvaluationElementRatingResult> evaluationElementRatingResults)
         {
-            // Since the surrogate Id is Identity then match on EdFiId and update existing records
-            foreach (var er in apiEvaluationElementRatingResults)
+            // Since the surrogate Id is Identity then match on required cols and update existing records
+            foreach (var er in evaluationElementRatingResults)
             {
-                var eer = EvaluationElementRatingResults.Where(eer => eer.EdFiId == er.EdFiId).FirstOrDefault();
+                var eer = FilterByRequiredFields(EvaluationElementRatingResults.ToList(), er);
                 if (eer != null)
                 {
                     foreach (var property in typeof(EvaluationElementRatingResult).GetProperties())
                         if (property.Name != "Id")
                             property.SetValue(eer, property.GetValue(er));
-                    EvaluationElementRatingResults.Update(eer);
+                    EvaluationElementRatingResults.Update((EvaluationElementRatingResult)eer);
                 }
+                else
+                    // Add new records
+                    EvaluationElementRatingResults.Update(er);
             }
-            // Add new records
-            EvaluationElementRatingResults.UpdateRange(apiEvaluationElementRatingResults.Where(er => EvaluationElements.All(er2 => er2.EdFiId != er.EdFiId)).ToList());
             await SaveChangesAsync();
         }
-        public async Task UpdatePerformanceEvaluations(List<PerformanceEvaluation> apiPerformanceEvaluations)
+        public async Task UpdatePerformanceEvaluations(List<PerformanceEvaluation> performanceEvaluations)
         {
-            // Since the surrogate Id is Identity then match on EdFiId and update existing records
-            foreach (var pe in apiPerformanceEvaluations)
+            // Since the surrogate Id is Identity then match on required cols and update existing records
+            foreach (var pe in performanceEvaluations)
             {
-                var epe = PerformanceEvaluations.Where(epe => epe.EdFiId == pe.EdFiId).FirstOrDefault();
+                var epe = FilterByRequiredFields(PerformanceEvaluations.ToList(), pe);
                 if (epe != null)
                 {
                     foreach (var property in typeof(PerformanceEvaluation).GetProperties())
                         if (property.Name != "Id")
                             property.SetValue(epe, property.GetValue(pe));
-                    PerformanceEvaluations.Update(epe);
-                }
+                    PerformanceEvaluations.Update((PerformanceEvaluation)epe);
+                } else
+                    // Add new records
+                    PerformanceEvaluations.Update(pe);
             }
-            // Add new records
-            PerformanceEvaluations.UpdateRange(apiPerformanceEvaluations.Where(pe => PerformanceEvaluations.All(pe2 => pe2.EdFiId != pe.EdFiId)).ToList());
             await SaveChangesAsync();
         }
-
 
         public async Task CreatePerformanceEvaluationRating(PerformanceEvaluationRating rating)
         {
