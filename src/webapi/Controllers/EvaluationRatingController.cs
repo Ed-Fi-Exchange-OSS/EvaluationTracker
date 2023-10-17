@@ -84,12 +84,8 @@ namespace eppeta.webapi.Controllers
                     newEvalRating.UserId = newObjRating.UserId = user.Id;
                     newObjRating.Comments = objRes.Comment;
                     newObjRating.EvaluationObjectiveTitle = evalObjective.EvaluationObjectiveTitle;
-                    var res = _evaluationRepository.UpdateEvaluationRatings(new List<EvaluationRating> { newEvalRating });
-                    if (!res.IsCompletedSuccessfully)
-                        throw new Exception("Failed to update EvaluationRatings");
-                    res = _evaluationRepository.UpdateEvaluationObjectiveRatings(new List<EvaluationObjectiveRating> { newObjRating });
-                    if (!res.IsCompletedSuccessfully)
-                        throw new Exception("Failed to update EvaluationObjectiveRatings");
+                    await _evaluationRepository.UpdateEvaluationRatings(new List<EvaluationRating> { newEvalRating });
+                    await _evaluationRepository.UpdateEvaluationObjectiveRatings(new List<EvaluationObjectiveRating> { newObjRating });
                     foreach (var elRes in objRes.Elements)
                     {
                         var evalElement = await _evaluationRepository.GetEvaluationElementById(elRes.Id);
