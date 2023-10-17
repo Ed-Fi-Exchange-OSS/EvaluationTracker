@@ -25,20 +25,22 @@ GO
 
 CREATE TABLE eppeta.PerformanceEvaluationRating (
     [EducationOrganizationId] [bigint] NOT NULL,
-    EvaluationPeriodDescriptorId INT NOT NULL,
+    EvaluationPeriodDescriptor [nvarchar](306) NOT NULL,
     PerformanceEvaluationTitle NVARCHAR(50) NOT NULL,
-    PerformanceEvaluationTypeDescriptorId INT NOT NULL,
-    SchoolYear SMALLINT NOT NULL,
-    TermDescriptorId INT NOT NULL,
+    PerformanceEvaluationTypeDescriptor [nvarchar](306) NOT NULL,
+    [PersonId] [nvarchar](32) NOT NULL,
+    [SchoolYear] [smallint] NOT NULL,
+    TermDescriptor [nvarchar](306) NOT NULL,
     ActualDate DATE NOT NULL,
     ActualDuration INT NULL,
-    PerformanceEvaluationRatingLevelDescriptorId INT NULL,
+    PerformanceEvaluationRatingLevelDescriptor [nvarchar](306) NULL,
     ActualTime TIME NULL,
     [CreateDate] [datetime2](3) NOT NULL,
     [LastModifiedDate] [datetime2](3) NOT NULL,
     EdFi_Id NVARCHAR(50) NULL,
     UserId NVARCHAR(225) NOT NULL,
     Id INT IDENTITY(1,1) NOT NULL,
+    [StatusId] INT NOT NULL,
     CONSTRAINT PerformanceEvaluationRating_PK PRIMARY KEY CLUSTERED (Id ASC)
 );
 GO
@@ -49,6 +51,12 @@ GO
 ALTER TABLE [eppeta].[PerformanceEvaluationRating] WITH CHECK ADD CONSTRAINT [FK_PerformanceEvaluationRating_Users_UserId] FOREIGN KEY([UserId])
 REFERENCES [eppeta].[Users] ([Id])
 GO
+ALTER TABLE [eppeta].[PerformanceEvaluationRating] ADD CONSTRAINT [PerformanceEvaluationRating_DF_StatusId] DEFAULT (1) FOR [StatusId]
+GO
+ALTER TABLE [eppeta].[PerformanceEvaluationRating] WITH CHECK ADD CONSTRAINT [FK_PerformanceEvaluationRating_Status_StatusId] FOREIGN KEY([StatusId])
+REFERENCES [eppeta].[Status] ([Id])
+GO
+
 
 CREATE TABLE eppeta.Evaluation (
     EvaluationTitle NVARCHAR(50) NOT NULL,
@@ -64,6 +72,7 @@ CREATE TABLE eppeta.Evaluation (
 );
 ALTER TABLE eppeta.Evaluation ADD CONSTRAINT [Evaluation_DF_CreateDate] DEFAULT (getdate()) FOR [CreateDate]
 ALTER TABLE eppeta.Evaluation ADD CONSTRAINT [Evaluation_DF_LastModifiedDate] DEFAULT (getdate()) FOR [LastModifiedDate]
+
 
 CREATE TABLE eppeta.EvaluationRating (
     [EducationOrganizationId] [bigint] NOT NULL,
@@ -84,6 +93,7 @@ CREATE TABLE eppeta.EvaluationRating (
     EdFi_Id NVARCHAR(50) NULL,
     UserId NVARCHAR(225) NOT NULL,
     Id INT IDENTITY(1,1) NOT NULL,
+    [StatusId] INT NOT NULL,
     CONSTRAINT EvaluationRating_PK PRIMARY KEY CLUSTERED (Id ASC)
     );
 GO
@@ -94,6 +104,12 @@ GO
 ALTER TABLE [eppeta].[EvaluationRating] WITH CHECK ADD CONSTRAINT [FK_EvaluationRating_Users_UserId] FOREIGN KEY([UserId])
 REFERENCES [eppeta].[Users] ([Id])
 GO
+ALTER TABLE [eppeta].[EvaluationRating] ADD CONSTRAINT [EvaluationRating_DF_StatusId] DEFAULT (1) FOR [StatusId]
+GO
+ALTER TABLE [eppeta].[EvaluationRating] WITH CHECK ADD CONSTRAINT [FK_EvaluationRating_Status_StatusId] FOREIGN KEY([StatusId])
+REFERENCES [eppeta].[Status] ([Id])
+GO
+
 
 
 CREATE TABLE [eppeta].[EvaluationObjective](
@@ -139,6 +155,7 @@ CREATE TABLE eppeta.EvaluationObjectiveRating (
     EdFi_Id NVARCHAR(50) NULL,
     UserId NVARCHAR(225) NOT NULL,
     Id INT IDENTITY(1,1) NOT NULL,
+    [StatusId] INT NOT NULL,
     CONSTRAINT EvaluationObjectiveRating_PK PRIMARY KEY CLUSTERED (Id ASC)
     );
 GO
@@ -149,6 +166,12 @@ GO
 ALTER TABLE [eppeta].[EvaluationObjectiveRating] WITH CHECK ADD CONSTRAINT [FK_EvaluationObjectiveRating_Users_UserId] FOREIGN KEY([UserId])
 REFERENCES [eppeta].[Users] ([Id])
 GO
+ALTER TABLE [eppeta].[EvaluationObjectiveRating] ADD CONSTRAINT [EvaluationObjectiveRating_DF_StatusId] DEFAULT (1) FOR [StatusId]
+GO
+ALTER TABLE [eppeta].[EvaluationObjectiveRating] WITH CHECK ADD CONSTRAINT [FK_EvaluationObjectiveRating_Status_StatusId] FOREIGN KEY([StatusId])
+REFERENCES [eppeta].[Status] ([Id])
+GO
+
 
 CREATE TABLE [eppeta].[EvaluationElement](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
@@ -185,6 +208,7 @@ CREATE TABLE eppeta.EvaluationElementRating (
     EdFi_Id NVARCHAR(50) NULL,
     UserId NVARCHAR(225) NOT NULL,
     Id INT IDENTITY(1,1) NOT NULL,
+    [StatusId] INT NOT NULL,
     CONSTRAINT EvaluationElementRating_PK PRIMARY KEY CLUSTERED (Id ASC)
 );
 GO
@@ -195,6 +219,12 @@ GO
 ALTER TABLE [eppeta].[EvaluationElementRating] WITH CHECK ADD CONSTRAINT [FK_EvaluationElementRating_Users_UserId] FOREIGN KEY([UserId])
 REFERENCES [eppeta].[Users] ([Id])
 GO
+ALTER TABLE [eppeta].[EvaluationElementRating] ADD CONSTRAINT [EvaluationElementRating_DF_StatusId] DEFAULT (1) FOR [StatusId]
+GO
+ALTER TABLE [eppeta].[EvaluationElementRating] WITH CHECK ADD CONSTRAINT [FK_EvaluationElementRating_Status_StatusId] FOREIGN KEY([StatusId])
+REFERENCES [eppeta].[Status] ([Id])
+GO
+
 
 CREATE TABLE [eppeta].[EvaluationElementRatingResult](
     [EducationOrganizationId] [bigint] NOT NULL,
@@ -215,13 +245,19 @@ CREATE TABLE [eppeta].[EvaluationElementRatingResult](
     [CreateDate] [datetime2](3) NOT NULL,
     [EdFi_Id] NVARCHAR(50) NULL,
     [UserId] NVARCHAR(225) NOT NULL,
+    [StatusId] INT NOT NULL,
     [Id] INT IDENTITY(1,1) NOT NULL,
     CONSTRAINT EvaluationElementRatingResult_PK PRIMARY KEY CLUSTERED (Id ASC)
   );
 GO
 ALTER TABLE [eppeta].[EvaluationElementRatingResult] ADD CONSTRAINT [EvaluationElementRatingResult_DF_CreateDate] DEFAULT (getdate()) FOR [CreateDate]
 GO
+ALTER TABLE [eppeta].[EvaluationElementRatingResult] ADD CONSTRAINT [EvaluationElementRatingResult_DF_StatusId] DEFAULT (1) FOR [StatusId]
+GO
 ALTER TABLE [eppeta].[EvaluationElementRatingResult] WITH CHECK ADD CONSTRAINT [FK_EvaluationElementRatingResult_Users_UserId] FOREIGN KEY([UserId])
 REFERENCES [eppeta].[Users] ([Id])
+GO
+ALTER TABLE [eppeta].[EvaluationElementRatingResult] WITH CHECK ADD CONSTRAINT [FK_EvaluationElementRatingResult_Status_StatusId] FOREIGN KEY([StatusId])
+REFERENCES [eppeta].[Status] ([Id])
 GO
 

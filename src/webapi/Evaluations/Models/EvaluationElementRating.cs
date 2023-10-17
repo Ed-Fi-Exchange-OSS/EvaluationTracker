@@ -21,10 +21,13 @@ namespace eppeta.webapi.Evaluations.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+        public int StatusId { get; set; } = 1;
 
         // Foreign keys
         [ForeignKey("UserId")]
         public ApplicationUser? ApplicationUser { get; set; }
+        [ForeignKey("StatusId")]
+        public Status? RecordStatus { get; set; }
     }
 }
 

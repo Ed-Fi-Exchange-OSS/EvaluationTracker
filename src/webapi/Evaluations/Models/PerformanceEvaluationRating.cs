@@ -14,18 +14,23 @@ namespace eppeta.webapi.Evaluations.Models
         [Required]
         public int EducationOrganizationId { get; set; }
         [Required]
-        public int EvaluationPeriodDescriptorId { get; set; }
+        public string EvaluationPeriodDescriptor { get; set; } = string.Empty;
         [Required]
         public string PerformanceEvaluationTitle { get; set; } = string.Empty;
         [Required]
-        public int PerformanceEvaluationTypeDescriptorId { get; set; }
+        public string PerformanceEvaluationTypeDescriptor { get; set; } = string.Empty;
         [Required]
         public short SchoolYear { get; set; }
         [Required]
-        public int TermDescriptorId { get; set; }
+        public string TermDescriptor { get; set; } = string.Empty;
         public DateTime ActualDate { get; set; }
         public int? ActualDuration { get; set; }
-        public int? PerformanceEvaluationRatingLevelDescriptorId { get; set; }
+        public string? PerformanceEvaluationRatingLevelDescriptor { get; set; }
+        [Required]
+        [StringLength(32)]
+        public string PersonId { get; set; } = string.Empty;
+        [Required]
+        public string SourceSystemDescriptor { get; set; } = string.Empty;
         public TimeSpan? ActualTime { get; set; }
         public DateTime CreateDate { get; set; }
         public DateTime LastModifiedDate { get; set; }
@@ -33,6 +38,7 @@ namespace eppeta.webapi.Evaluations.Models
         [StringLength(50)]
         public string EdFiId { get; set; }
         public string UserId { get; set; } = string.Empty;
+        public int StatusId { get; set; } = 1;
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
@@ -40,6 +46,8 @@ namespace eppeta.webapi.Evaluations.Models
         // Foreign keys
         [ForeignKey("UserId")]
         public ApplicationUser? ApplicationUser { get; set; }
+        [ForeignKey("StatusId")]
+        public Status? RecordStatus { get; set; }
     }
 }
 
