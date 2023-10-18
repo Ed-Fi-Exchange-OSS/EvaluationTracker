@@ -26,7 +26,7 @@ import {
     ChevronDownIcon,
     ChevronRightIcon,
 } from '@chakra-ui/icons';
-import logo from '../assets/logo.png'
+import logo from '../assets/logo.jpg'
 import { Image } from "@chakra-ui/react"
 
 export default function WithSubnavigation() {
@@ -64,7 +64,7 @@ export default function WithSubnavigation() {
                         textAlign={useBreakpointValue({ base: 'center', md: 'left' })}
                         fontFamily={'heading'}
                         color={useColorModeValue('gray.800', 'white')}
-                        width="100px"
+                        width="150px"
                         height="auto"
                     />
                     <Flex display={{ base: 'none', md: 'flex' }} ml={10}>
@@ -85,7 +85,7 @@ export default function WithSubnavigation() {
                         href={'#'}>
                         Sign In
                     </Button>
-                    <Button onClick={() => { window.location.href = "/" }}
+                    <Button onClick={() => { window.location.href = "/signup" }}
                         as={'a'}
                         display={{ base: 'none', md: 'inline-flex' }}
                         fontSize={'sm'}
@@ -279,23 +279,23 @@ const NAV_ITEMS: Array<NavItem> = [
     //        },
     //    ],
     //},
-    {
-        label: 'Ed-Fi',
-        children: [
-            {
-                label: 'Teacher Evaluation',
-                subLabel: 'Learn the purpose of this education tool',
-                href: '#',
-            },
-            {
-                label: 'Ed-Fi Mission',
-                subLabel: 'Learn the core value and projects at Ed-Fi',
-                href: '#',
-            },
-        ],
-    },
-    {
-        label: 'Teacher Preparation Program',
-        href: '#',
-    },
+    //{
+    //    label: 'Ed-Fi',
+    //    children: [
+    //        {
+    //            label: 'Teacher Evaluation',
+    //            subLabel: 'Learn the purpose of this education tool',
+    //            href: '#',
+    //        },
+    //        {
+    //            label: 'Ed-Fi Mission',
+    //            subLabel: 'Learn the core value and projects at Ed-Fi',
+    //            href: '#',
+    //        },
+    //    ],
+    //},
+    //{
+    //    label: 'Teacher Preparation Program',
+    //    href: '#',
+    //},
 ];

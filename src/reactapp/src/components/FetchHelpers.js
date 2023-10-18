@@ -4,7 +4,8 @@
 // See the LICENSE and NOTICES files in the project root for more information.
 
 import { transform as _transform } from "lodash-es";
-import jwt_decode from "jwt-decode"
+import { getToken } from "../components/TokenHelpers";
+
 
 // TODO: replace hard-coded with some sort of runtime setting
 // Will be fixed in EPPETA-19.
@@ -21,7 +22,7 @@ const modify = async (verb, route, values) => {
     body: JSON.stringify(values),
   };
 
-  const token = localStorage.getItem('token');
+  const token = getToken();
   if (token) {
     request.headers["Authorization"] = `bearer ${token}`;
   }
@@ -67,13 +68,4 @@ const postForm = async (route, values) => {
   return await fetch(url, request);
 };
 
-const setToken = (tokenResponse) => {
-  localStorage.setItem('token', tokenResponse.access_token);
-};
-
-const getLoggedInUserId = () => {
-  const jwt = localStorage.getItem('token');
-  return jwt_decode(jwt).sub;
-}
-
-export { post, postForm, put, setToken, getLoggedInUserId };
+export { post, postForm, get };

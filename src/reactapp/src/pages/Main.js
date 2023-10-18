@@ -18,11 +18,16 @@ import {
 } from "@chakra-ui/react";
 import "../App.css";
 import React, { useEffect, useState } from "react";
-import { getLoggedInUserId } from "../components/FetchHelpers";
+import { get } from "../components/FetchHelpers";
+import { getLoggedInUserId, getLoggedInUserRole } from "../components/TokenHelpers";
+
 
 //Created a table to display the data from react objects
 export default function EvaluationTable() {
   const [EvaluationRatings, setEvaluationRatings] = useState([]);
+  const loggedInUserRole = getLoggedInUserRole();
+
+
   useEffect(() => {
     fetchEvaluationRatings();
   }, []);
@@ -33,7 +38,7 @@ export default function EvaluationTable() {
     try {
       const userId = getLoggedInUserId();
 
-      const response = await fetch(`https://localhost:7065/api/EvaluationRating/${userId}`);
+      const response = await get(`/api/EvaluationRating/${userId}`);
 
       if (!response.ok) {
         throw new Error("Failed to fetch performance evaluations");
@@ -49,14 +54,14 @@ export default function EvaluationTable() {
 
   return(
       <Stack spacing={8} mt="24px" px={{ base: "10px", md: "30px" }} align="center">
-      <Heading fontSize={{ base: "3xl", md: "5xl" }}>Evaluations</Heading>
+      <Heading fontSize={{ base: "3xl", md: "5xl" }}>My Evaluations</Heading>
       <TableContainer maxWidth="100%">
         <Table variant="simple" size="lg" className="responsiveTable">
           <Thead>
             <Tr>
               <Th className="responsiveTable th">Evaluation</Th>
               <Th className="responsiveTable th">Candidate</Th>
-              <Th className="responsiveTable th">Evaluator</Th>
+              {loggedInUserRole === 'Supervisor' && <Th className="responsiveTable th">Evaluator</Th>}
               <Th className="responsiveTable th">Date</Th>
               <Th className="responsiveTable th">Status</Th>
             </Tr>
@@ -64,11 +69,11 @@ export default function EvaluationTable() {
           <Tbody>
             {EvaluationRatings.map((row, i) => (
               <Tr key={i}>
-                <Td>{row.performanceEvaluationTitle}</Td>
-                <Td>{row.reviewedCandidateName}</Td> 
-                <Td>{row.evaluatorName}</Td> 
-                <Td>{new Date(row.actualDate).toLocaleDateString()}</Td> 
-                <Td>Completed</Td>
+                <Td><a href="">{row.performanceEvaluationTitle}</a></Td>
+                <Td>{row.reviewedCandidateName}</Td>
+                {loggedInUserRole === 'Supervisor' && <Td>{row.evaluatorName}</Td>}
+                <Td>{new Date(row.actualDate).toLocaleDateString()}</Td>
+                <Td>{row.evaluationStatus }</Td>
               </Tr>
             ))}
           </Tbody>

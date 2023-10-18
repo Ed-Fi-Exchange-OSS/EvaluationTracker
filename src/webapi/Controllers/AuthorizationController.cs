@@ -80,7 +80,7 @@ public class AuthorizationController : Controller
         // Add the claims that will be persisted in the tokens.
         identity.SetClaim(Claims.Subject, await _userManager.GetUserIdAsync(user))
                 .SetClaim(Claims.Email, await _userManager.GetEmailAsync(user))
-                .SetClaim(Claims.Name, await _userManager.GetUserNameAsync(user))
+                .SetClaim(Claims.Name, $"{user.FirstName} {user.LastName}")
                 .SetClaims(Claims.Role, (await _userManager.GetRolesAsync(user)).ToImmutableArray());
 
         // Set the list of scopes granted to the client application.
