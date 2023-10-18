@@ -16,6 +16,7 @@ public partial class EvaluationElement
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
 
+    [Required]
     public long EducationOrganizationId { get; set; }
 
     [Required]
@@ -42,6 +43,7 @@ public partial class EvaluationElement
     [StringLength(306)]
     public string PerformanceEvaluationTypeDescriptor { get; set; }
 
+    [Required]
     public short SchoolYear { get; set; }
 
     [Required]

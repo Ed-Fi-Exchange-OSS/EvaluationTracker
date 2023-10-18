@@ -11,8 +11,11 @@ namespace eppeta.webapi.Evaluations.Models
 {
     public class EvaluationRating
     {
+        [Required]
         public long EducationOrganizationId { get; set; }
+        [Required]
         public DateTime EvaluationDate { get; set; }
+        [Required]
         public string EvaluationPeriodDescriptor { get; set; } = string.Empty;
         [Required]
         [StringLength(50)]
@@ -20,12 +23,16 @@ namespace eppeta.webapi.Evaluations.Models
         [Required]
         [StringLength(50)]
         public string PerformanceEvaluationTitle { get; set; } = string.Empty;
+        [Required]
         public string PerformanceEvaluationTypeDescriptor { get; set; } = string.Empty;
         [Required]
         [StringLength(32)]
         public string PersonId { get; set; } = string.Empty;
+        [Required]
         public short SchoolYear { get; set; }
+        [Required]
         public string SourceSystemDescriptor { get; set; } = string.Empty;
+        [Required]
         public string TermDescriptor { get; set; } = string.Empty;
         public string? EvaluationRatingLevelDescriptor { get; set; } 
         public string? EvaluationRatingStatusDescriptor { get; set; } 
@@ -37,12 +44,16 @@ namespace eppeta.webapi.Evaluations.Models
         [StringLength(50)]
         public string EdFiId { get; set; }= string.Empty;
         public string UserId { get; set; } = string.Empty;
+        public int StatusId { get; set; } = 1;
+
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         // Foreign keys
         [ForeignKey("UserId")]
         public ApplicationUser? ApplicationUser { get; set; }
+        [ForeignKey("StatusId")]
+        public Status? RecordStatus { get; set; }
     }
 }
 
