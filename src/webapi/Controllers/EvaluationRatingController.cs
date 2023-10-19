@@ -83,6 +83,7 @@ namespace eppeta.webapi.Controllers
                     newEvalRating.PersonId = newObjRating.PersonId = evaluationResult.ReviewedPersonId;
                     newEvalRating.SourceSystemDescriptor = newObjRating.SourceSystemDescriptor = evaluationResult.ReviewedPersonSourceSystemDescriptor;
                     newEvalRating.UserId = newObjRating.UserId = user.Id;
+                    newEvalRating.CandidateName = evaluationResult.ReviewedPersonName;
                     newObjRating.Comments = objRes.Comment;
                     newObjRating.EvaluationObjectiveTitle = evalObjective.EvaluationObjectiveTitle;
                     await _evaluationRepository.UpdateEvaluationRatings(new List<EvaluationRating> { newEvalRating });

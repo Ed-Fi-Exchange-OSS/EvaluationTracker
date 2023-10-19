@@ -38,7 +38,7 @@ namespace eppeta.webapi.Evaluations.Models
         public string? EvaluationRatingStatusDescriptor { get; set; } 
         public DateTime CreateDate { get; set; }
         public DateTime LastModifiedDate { get; set; }
-        public string? CandidateName { get; set; } = string.Empty;  
+        public string CandidateName { get; set; } = string.Empty;  
         [Required]
         [Column("EdFi_Id")]
         [StringLength(50)]

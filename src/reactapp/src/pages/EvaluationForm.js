@@ -138,6 +138,7 @@ export default function EvaluationForm() {
 
     completedEvaluation.reviewedPersonId = selectedCandidate.personId;
     completedEvaluation.reviewedPersonSourceSystemDescriptor = selectedCandidate.sourceSystemDescriptor;
+    completedEvaluation.reviewedPersonName = selectedCandidate.candidateName;
     completedEvaluation.performanceEvaluationId = selectedEvaluation.id;
     completedEvaluation.startDateTime = evaluationDate;
     !evaluationEndTime ?
