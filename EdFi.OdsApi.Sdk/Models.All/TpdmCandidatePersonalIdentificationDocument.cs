@@ -163,37 +163,37 @@ namespace EdFi.OdsApi.Sdk.Models.All
             {
                 return false;
             }
-            return 
+            return
                 (
                     this.IdentificationDocumentUseDescriptor == input.IdentificationDocumentUseDescriptor ||
                     (this.IdentificationDocumentUseDescriptor != null &&
                     this.IdentificationDocumentUseDescriptor.Equals(input.IdentificationDocumentUseDescriptor))
-                ) && 
+                ) &&
                 (
                     this.PersonalInformationVerificationDescriptor == input.PersonalInformationVerificationDescriptor ||
                     (this.PersonalInformationVerificationDescriptor != null &&
                     this.PersonalInformationVerificationDescriptor.Equals(input.PersonalInformationVerificationDescriptor))
-                ) && 
+                ) &&
                 (
                     this.IssuerCountryDescriptor == input.IssuerCountryDescriptor ||
                     (this.IssuerCountryDescriptor != null &&
                     this.IssuerCountryDescriptor.Equals(input.IssuerCountryDescriptor))
-                ) && 
+                ) &&
                 (
                     this.DocumentExpirationDate == input.DocumentExpirationDate ||
                     (this.DocumentExpirationDate != null &&
                     this.DocumentExpirationDate.Equals(input.DocumentExpirationDate))
-                ) && 
+                ) &&
                 (
                     this.DocumentTitle == input.DocumentTitle ||
                     (this.DocumentTitle != null &&
                     this.DocumentTitle.Equals(input.DocumentTitle))
-                ) && 
+                ) &&
                 (
                     this.IssuerDocumentIdentificationCode == input.IssuerDocumentIdentificationCode ||
                     (this.IssuerDocumentIdentificationCode != null &&
                     this.IssuerDocumentIdentificationCode.Equals(input.IssuerDocumentIdentificationCode))
-                ) && 
+                ) &&
                 (
                     this.IssuerName == input.IssuerName ||
                     (this.IssuerName != null &&
@@ -252,37 +252,37 @@ namespace EdFi.OdsApi.Sdk.Models.All
             // IdentificationDocumentUseDescriptor (string) maxLength
             if (this.IdentificationDocumentUseDescriptor != null && this.IdentificationDocumentUseDescriptor.Length > 306)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for IdentificationDocumentUseDescriptor, length must be less than 306.", new [] { "IdentificationDocumentUseDescriptor" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for IdentificationDocumentUseDescriptor, length must be less than 306.", new[] { "IdentificationDocumentUseDescriptor" });
             }
 
             // PersonalInformationVerificationDescriptor (string) maxLength
             if (this.PersonalInformationVerificationDescriptor != null && this.PersonalInformationVerificationDescriptor.Length > 306)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for PersonalInformationVerificationDescriptor, length must be less than 306.", new [] { "PersonalInformationVerificationDescriptor" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for PersonalInformationVerificationDescriptor, length must be less than 306.", new[] { "PersonalInformationVerificationDescriptor" });
             }
 
             // IssuerCountryDescriptor (string) maxLength
             if (this.IssuerCountryDescriptor != null && this.IssuerCountryDescriptor.Length > 306)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for IssuerCountryDescriptor, length must be less than 306.", new [] { "IssuerCountryDescriptor" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for IssuerCountryDescriptor, length must be less than 306.", new[] { "IssuerCountryDescriptor" });
             }
 
             // DocumentTitle (string) maxLength
             if (this.DocumentTitle != null && this.DocumentTitle.Length > 60)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for DocumentTitle, length must be less than 60.", new [] { "DocumentTitle" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for DocumentTitle, length must be less than 60.", new[] { "DocumentTitle" });
             }
 
             // IssuerDocumentIdentificationCode (string) maxLength
             if (this.IssuerDocumentIdentificationCode != null && this.IssuerDocumentIdentificationCode.Length > 60)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for IssuerDocumentIdentificationCode, length must be less than 60.", new [] { "IssuerDocumentIdentificationCode" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for IssuerDocumentIdentificationCode, length must be less than 60.", new[] { "IssuerDocumentIdentificationCode" });
             }
 
             // IssuerName (string) maxLength
             if (this.IssuerName != null && this.IssuerName.Length > 150)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for IssuerName, length must be less than 150.", new [] { "IssuerName" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for IssuerName, length must be less than 150.", new[] { "IssuerName" });
             }
 
             yield break;

@@ -190,53 +190,53 @@ namespace EdFi.OdsApi.Sdk.Models.All
             {
                 return false;
             }
-            return 
+            return
                 (
                     this.Id == input.Id ||
                     (this.Id != null &&
                     this.Id.Equals(input.Id))
-                ) && 
+                ) &&
                 (
                     this.EvaluationObjectiveTitle == input.EvaluationObjectiveTitle ||
                     (this.EvaluationObjectiveTitle != null &&
                     this.EvaluationObjectiveTitle.Equals(input.EvaluationObjectiveTitle))
-                ) && 
+                ) &&
                 (
                     this.EvaluationReference == input.EvaluationReference ||
                     (this.EvaluationReference != null &&
                     this.EvaluationReference.Equals(input.EvaluationReference))
-                ) && 
+                ) &&
                 (
                     this.EvaluationObjectiveDescription == input.EvaluationObjectiveDescription ||
                     (this.EvaluationObjectiveDescription != null &&
                     this.EvaluationObjectiveDescription.Equals(input.EvaluationObjectiveDescription))
-                ) && 
+                ) &&
                 (
                     this.EvaluationTypeDescriptor == input.EvaluationTypeDescriptor ||
                     (this.EvaluationTypeDescriptor != null &&
                     this.EvaluationTypeDescriptor.Equals(input.EvaluationTypeDescriptor))
-                ) && 
+                ) &&
                 (
                     this.MaxRating == input.MaxRating ||
                     (this.MaxRating != null &&
                     this.MaxRating.Equals(input.MaxRating))
-                ) && 
+                ) &&
                 (
                     this.MinRating == input.MinRating ||
                     (this.MinRating != null &&
                     this.MinRating.Equals(input.MinRating))
-                ) && 
+                ) &&
                 (
                     this.RatingLevels == input.RatingLevels ||
                     this.RatingLevels != null &&
                     input.RatingLevels != null &&
                     this.RatingLevels.SequenceEqual(input.RatingLevels)
-                ) && 
+                ) &&
                 (
                     this.SortOrder == input.SortOrder ||
                     (this.SortOrder != null &&
                     this.SortOrder.Equals(input.SortOrder))
-                ) && 
+                ) &&
                 (
                     this.Etag == input.Etag ||
                     (this.Etag != null &&
@@ -307,19 +307,19 @@ namespace EdFi.OdsApi.Sdk.Models.All
             // EvaluationObjectiveTitle (string) maxLength
             if (this.EvaluationObjectiveTitle != null && this.EvaluationObjectiveTitle.Length > 50)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for EvaluationObjectiveTitle, length must be less than 50.", new [] { "EvaluationObjectiveTitle" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for EvaluationObjectiveTitle, length must be less than 50.", new[] { "EvaluationObjectiveTitle" });
             }
 
             // EvaluationObjectiveDescription (string) maxLength
             if (this.EvaluationObjectiveDescription != null && this.EvaluationObjectiveDescription.Length > 255)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for EvaluationObjectiveDescription, length must be less than 255.", new [] { "EvaluationObjectiveDescription" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for EvaluationObjectiveDescription, length must be less than 255.", new[] { "EvaluationObjectiveDescription" });
             }
 
             // EvaluationTypeDescriptor (string) maxLength
             if (this.EvaluationTypeDescriptor != null && this.EvaluationTypeDescriptor.Length > 306)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for EvaluationTypeDescriptor, length must be less than 306.", new [] { "EvaluationTypeDescriptor" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for EvaluationTypeDescriptor, length must be less than 306.", new[] { "EvaluationTypeDescriptor" });
             }
 
             yield break;

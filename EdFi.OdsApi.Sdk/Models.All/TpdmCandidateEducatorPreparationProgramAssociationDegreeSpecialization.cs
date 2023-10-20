@@ -118,17 +118,17 @@ namespace EdFi.OdsApi.Sdk.Models.All
             {
                 return false;
             }
-            return 
+            return
                 (
                     this.MajorSpecialization == input.MajorSpecialization ||
                     (this.MajorSpecialization != null &&
                     this.MajorSpecialization.Equals(input.MajorSpecialization))
-                ) && 
+                ) &&
                 (
                     this.EndDate == input.EndDate ||
                     (this.EndDate != null &&
                     this.EndDate.Equals(input.EndDate))
-                ) && 
+                ) &&
                 (
                     this.MinorSpecialization == input.MinorSpecialization ||
                     (this.MinorSpecialization != null &&
@@ -171,13 +171,13 @@ namespace EdFi.OdsApi.Sdk.Models.All
             // MajorSpecialization (string) maxLength
             if (this.MajorSpecialization != null && this.MajorSpecialization.Length > 255)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for MajorSpecialization, length must be less than 255.", new [] { "MajorSpecialization" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for MajorSpecialization, length must be less than 255.", new[] { "MajorSpecialization" });
             }
 
             // MinorSpecialization (string) maxLength
             if (this.MinorSpecialization != null && this.MinorSpecialization.Length > 255)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for MinorSpecialization, length must be less than 255.", new [] { "MinorSpecialization" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for MinorSpecialization, length must be less than 255.", new[] { "MinorSpecialization" });
             }
 
             yield break;

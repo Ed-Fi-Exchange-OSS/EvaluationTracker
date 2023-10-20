@@ -232,74 +232,74 @@ namespace EdFi.OdsApi.Sdk.Models.All
             {
                 return false;
             }
-            return 
+            return
                 (
                     this.Id == input.Id ||
                     (this.Id != null &&
                     this.Id.Equals(input.Id))
-                ) && 
+                ) &&
                 (
                     this.PerformanceEvaluationReference == input.PerformanceEvaluationReference ||
                     (this.PerformanceEvaluationReference != null &&
                     this.PerformanceEvaluationReference.Equals(input.PerformanceEvaluationReference))
-                ) && 
+                ) &&
                 (
                     this.PersonReference == input.PersonReference ||
                     (this.PersonReference != null &&
                     this.PersonReference.Equals(input.PersonReference))
-                ) && 
+                ) &&
                 (
                     this.ActualDate == input.ActualDate ||
                     (this.ActualDate != null &&
                     this.ActualDate.Equals(input.ActualDate))
-                ) && 
+                ) &&
                 (
                     this.ActualDuration == input.ActualDuration ||
                     (this.ActualDuration != null &&
                     this.ActualDuration.Equals(input.ActualDuration))
-                ) && 
+                ) &&
                 (
                     this.ActualTime == input.ActualTime ||
                     (this.ActualTime != null &&
                     this.ActualTime.Equals(input.ActualTime))
-                ) && 
+                ) &&
                 (
                     this.Announced == input.Announced ||
                     (this.Announced != null &&
                     this.Announced.Equals(input.Announced))
-                ) && 
+                ) &&
                 (
                     this.Comments == input.Comments ||
                     (this.Comments != null &&
                     this.Comments.Equals(input.Comments))
-                ) && 
+                ) &&
                 (
                     this.CoteachingStyleObservedDescriptor == input.CoteachingStyleObservedDescriptor ||
                     (this.CoteachingStyleObservedDescriptor != null &&
                     this.CoteachingStyleObservedDescriptor.Equals(input.CoteachingStyleObservedDescriptor))
-                ) && 
+                ) &&
                 (
                     this.PerformanceEvaluationRatingLevelDescriptor == input.PerformanceEvaluationRatingLevelDescriptor ||
                     (this.PerformanceEvaluationRatingLevelDescriptor != null &&
                     this.PerformanceEvaluationRatingLevelDescriptor.Equals(input.PerformanceEvaluationRatingLevelDescriptor))
-                ) && 
+                ) &&
                 (
                     this.Results == input.Results ||
                     this.Results != null &&
                     input.Results != null &&
                     this.Results.SequenceEqual(input.Results)
-                ) && 
+                ) &&
                 (
                     this.Reviewers == input.Reviewers ||
                     this.Reviewers != null &&
                     input.Reviewers != null &&
                     this.Reviewers.SequenceEqual(input.Reviewers)
-                ) && 
+                ) &&
                 (
                     this.ScheduleDate == input.ScheduleDate ||
                     (this.ScheduleDate != null &&
                     this.ScheduleDate.Equals(input.ScheduleDate))
-                ) && 
+                ) &&
                 (
                     this.Etag == input.Etag ||
                     (this.Etag != null &&
@@ -386,19 +386,19 @@ namespace EdFi.OdsApi.Sdk.Models.All
             // Comments (string) maxLength
             if (this.Comments != null && this.Comments.Length > 1024)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Comments, length must be less than 1024.", new [] { "Comments" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Comments, length must be less than 1024.", new[] { "Comments" });
             }
 
             // CoteachingStyleObservedDescriptor (string) maxLength
             if (this.CoteachingStyleObservedDescriptor != null && this.CoteachingStyleObservedDescriptor.Length > 306)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for CoteachingStyleObservedDescriptor, length must be less than 306.", new [] { "CoteachingStyleObservedDescriptor" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for CoteachingStyleObservedDescriptor, length must be less than 306.", new[] { "CoteachingStyleObservedDescriptor" });
             }
 
             // PerformanceEvaluationRatingLevelDescriptor (string) maxLength
             if (this.PerformanceEvaluationRatingLevelDescriptor != null && this.PerformanceEvaluationRatingLevelDescriptor.Length > 306)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for PerformanceEvaluationRatingLevelDescriptor, length must be less than 306.", new [] { "PerformanceEvaluationRatingLevelDescriptor" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for PerformanceEvaluationRatingLevelDescriptor, length must be less than 306.", new[] { "PerformanceEvaluationRatingLevelDescriptor" });
             }
 
             yield break;

@@ -159,38 +159,38 @@ namespace EdFi.OdsApi.Sdk.Models.All
             {
                 return false;
             }
-            return 
+            return
                 (
                     this.Id == input.Id ||
                     (this.Id != null &&
                     this.Id.Equals(input.Id))
-                ) && 
+                ) &&
                 (
                     this.EvaluationObjectiveReference == input.EvaluationObjectiveReference ||
                     (this.EvaluationObjectiveReference != null &&
                     this.EvaluationObjectiveReference.Equals(input.EvaluationObjectiveReference))
-                ) && 
+                ) &&
                 (
                     this.EvaluationRatingReference == input.EvaluationRatingReference ||
                     (this.EvaluationRatingReference != null &&
                     this.EvaluationRatingReference.Equals(input.EvaluationRatingReference))
-                ) && 
+                ) &&
                 (
                     this.Comments == input.Comments ||
                     (this.Comments != null &&
                     this.Comments.Equals(input.Comments))
-                ) && 
+                ) &&
                 (
                     this.ObjectiveRatingLevelDescriptor == input.ObjectiveRatingLevelDescriptor ||
                     (this.ObjectiveRatingLevelDescriptor != null &&
                     this.ObjectiveRatingLevelDescriptor.Equals(input.ObjectiveRatingLevelDescriptor))
-                ) && 
+                ) &&
                 (
                     this.Results == input.Results ||
                     this.Results != null &&
                     input.Results != null &&
                     this.Results.SequenceEqual(input.Results)
-                ) && 
+                ) &&
                 (
                     this.Etag == input.Etag ||
                     (this.Etag != null &&
@@ -249,13 +249,13 @@ namespace EdFi.OdsApi.Sdk.Models.All
             // Comments (string) maxLength
             if (this.Comments != null && this.Comments.Length > 1024)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Comments, length must be less than 1024.", new [] { "Comments" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Comments, length must be less than 1024.", new[] { "Comments" });
             }
 
             // ObjectiveRatingLevelDescriptor (string) maxLength
             if (this.ObjectiveRatingLevelDescriptor != null && this.ObjectiveRatingLevelDescriptor.Length > 306)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for ObjectiveRatingLevelDescriptor, length must be less than 306.", new [] { "ObjectiveRatingLevelDescriptor" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for ObjectiveRatingLevelDescriptor, length must be less than 306.", new[] { "ObjectiveRatingLevelDescriptor" });
             }
 
             yield break;

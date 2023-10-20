@@ -129,22 +129,22 @@ namespace EdFi.OdsApi.Sdk.Models.All
             {
                 return false;
             }
-            return 
+            return
                 (
                     this.FirstName == input.FirstName ||
                     (this.FirstName != null &&
                     this.FirstName.Equals(input.FirstName))
-                ) && 
+                ) &&
                 (
                     this.LastSurname == input.LastSurname ||
                     (this.LastSurname != null &&
                     this.LastSurname.Equals(input.LastSurname))
-                ) && 
+                ) &&
                 (
                     this.ReviewerPersonReference == input.ReviewerPersonReference ||
                     (this.ReviewerPersonReference != null &&
                     this.ReviewerPersonReference.Equals(input.ReviewerPersonReference))
-                ) && 
+                ) &&
                 (
                     this.ReceivedTraining == input.ReceivedTraining ||
                     (this.ReceivedTraining != null &&
@@ -191,13 +191,13 @@ namespace EdFi.OdsApi.Sdk.Models.All
             // FirstName (string) maxLength
             if (this.FirstName != null && this.FirstName.Length > 75)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for FirstName, length must be less than 75.", new [] { "FirstName" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for FirstName, length must be less than 75.", new[] { "FirstName" });
             }
 
             // LastSurname (string) maxLength
             if (this.LastSurname != null && this.LastSurname.Length > 75)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for LastSurname, length must be less than 75.", new [] { "LastSurname" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for LastSurname, length must be less than 75.", new[] { "LastSurname" });
             }
 
             yield break;

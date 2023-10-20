@@ -131,22 +131,22 @@ namespace EdFi.OdsApi.Sdk.Models.All
             {
                 return false;
             }
-            return 
+            return
                 (
                     this.ElectronicMailTypeDescriptor == input.ElectronicMailTypeDescriptor ||
                     (this.ElectronicMailTypeDescriptor != null &&
                     this.ElectronicMailTypeDescriptor.Equals(input.ElectronicMailTypeDescriptor))
-                ) && 
+                ) &&
                 (
                     this.ElectronicMailAddress == input.ElectronicMailAddress ||
                     (this.ElectronicMailAddress != null &&
                     this.ElectronicMailAddress.Equals(input.ElectronicMailAddress))
-                ) && 
+                ) &&
                 (
                     this.DoNotPublishIndicator == input.DoNotPublishIndicator ||
                     (this.DoNotPublishIndicator != null &&
                     this.DoNotPublishIndicator.Equals(input.DoNotPublishIndicator))
-                ) && 
+                ) &&
                 (
                     this.PrimaryEmailAddressIndicator == input.PrimaryEmailAddressIndicator ||
                     (this.PrimaryEmailAddressIndicator != null &&
@@ -193,13 +193,13 @@ namespace EdFi.OdsApi.Sdk.Models.All
             // ElectronicMailTypeDescriptor (string) maxLength
             if (this.ElectronicMailTypeDescriptor != null && this.ElectronicMailTypeDescriptor.Length > 306)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for ElectronicMailTypeDescriptor, length must be less than 306.", new [] { "ElectronicMailTypeDescriptor" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for ElectronicMailTypeDescriptor, length must be less than 306.", new[] { "ElectronicMailTypeDescriptor" });
             }
 
             // ElectronicMailAddress (string) maxLength
             if (this.ElectronicMailAddress != null && this.ElectronicMailAddress.Length > 128)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for ElectronicMailAddress, length must be less than 128.", new [] { "ElectronicMailAddress" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for ElectronicMailAddress, length must be less than 128.", new[] { "ElectronicMailAddress" });
             }
 
             yield break;

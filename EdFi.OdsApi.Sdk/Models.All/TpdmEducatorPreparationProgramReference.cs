@@ -130,21 +130,21 @@ namespace EdFi.OdsApi.Sdk.Models.All
             {
                 return false;
             }
-            return 
+            return
                 (
                     this.EducationOrganizationId == input.EducationOrganizationId ||
                     this.EducationOrganizationId.Equals(input.EducationOrganizationId)
-                ) && 
+                ) &&
                 (
                     this.ProgramName == input.ProgramName ||
                     (this.ProgramName != null &&
                     this.ProgramName.Equals(input.ProgramName))
-                ) && 
+                ) &&
                 (
                     this.ProgramTypeDescriptor == input.ProgramTypeDescriptor ||
                     (this.ProgramTypeDescriptor != null &&
                     this.ProgramTypeDescriptor.Equals(input.ProgramTypeDescriptor))
-                ) && 
+                ) &&
                 (
                     this.Link == input.Link ||
                     (this.Link != null &&
@@ -188,13 +188,13 @@ namespace EdFi.OdsApi.Sdk.Models.All
             // ProgramName (string) maxLength
             if (this.ProgramName != null && this.ProgramName.Length > 255)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for ProgramName, length must be less than 255.", new [] { "ProgramName" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for ProgramName, length must be less than 255.", new[] { "ProgramName" });
             }
 
             // ProgramTypeDescriptor (string) maxLength
             if (this.ProgramTypeDescriptor != null && this.ProgramTypeDescriptor.Length > 306)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for ProgramTypeDescriptor, length must be less than 306.", new [] { "ProgramTypeDescriptor" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for ProgramTypeDescriptor, length must be less than 306.", new[] { "ProgramTypeDescriptor" });
             }
 
             yield break;

@@ -128,22 +128,22 @@ namespace EdFi.OdsApi.Sdk.Models.All
             {
                 return false;
             }
-            return 
+            return
                 (
                     this.Id == input.Id ||
                     (this.Id != null &&
                     this.Id.Equals(input.Id))
-                ) && 
+                ) &&
                 (
                     this.PersonReference == input.PersonReference ||
                     (this.PersonReference != null &&
                     this.PersonReference.Equals(input.PersonReference))
-                ) && 
+                ) &&
                 (
                     this.SurveyResponseReference == input.SurveyResponseReference ||
                     (this.SurveyResponseReference != null &&
                     this.SurveyResponseReference.Equals(input.SurveyResponseReference))
-                ) && 
+                ) &&
                 (
                     this.Etag == input.Etag ||
                     (this.Etag != null &&

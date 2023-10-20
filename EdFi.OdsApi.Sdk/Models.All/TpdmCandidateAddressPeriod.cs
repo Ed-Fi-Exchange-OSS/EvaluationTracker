@@ -104,12 +104,12 @@ namespace EdFi.OdsApi.Sdk.Models.All
             {
                 return false;
             }
-            return 
+            return
                 (
                     this.BeginDate == input.BeginDate ||
                     (this.BeginDate != null &&
                     this.BeginDate.Equals(input.BeginDate))
-                ) && 
+                ) &&
                 (
                     this.EndDate == input.EndDate ||
                     (this.EndDate != null &&

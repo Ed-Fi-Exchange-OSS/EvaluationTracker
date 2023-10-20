@@ -328,121 +328,121 @@ namespace EdFi.OdsApi.Sdk.Models.All
             {
                 return false;
             }
-            return 
+            return
                 (
                     this.Id == input.Id ||
                     (this.Id != null &&
                     this.Id.Equals(input.Id))
-                ) && 
+                ) &&
                 (
                     this.StudentUniqueId == input.StudentUniqueId ||
                     (this.StudentUniqueId != null &&
                     this.StudentUniqueId.Equals(input.StudentUniqueId))
-                ) && 
+                ) &&
                 (
                     this.PersonReference == input.PersonReference ||
                     (this.PersonReference != null &&
                     this.PersonReference.Equals(input.PersonReference))
-                ) && 
+                ) &&
                 (
                     this.BirthCity == input.BirthCity ||
                     (this.BirthCity != null &&
                     this.BirthCity.Equals(input.BirthCity))
-                ) && 
+                ) &&
                 (
                     this.BirthCountryDescriptor == input.BirthCountryDescriptor ||
                     (this.BirthCountryDescriptor != null &&
                     this.BirthCountryDescriptor.Equals(input.BirthCountryDescriptor))
-                ) && 
+                ) &&
                 (
                     this.BirthDate == input.BirthDate ||
                     (this.BirthDate != null &&
                     this.BirthDate.Equals(input.BirthDate))
-                ) && 
+                ) &&
                 (
                     this.BirthInternationalProvince == input.BirthInternationalProvince ||
                     (this.BirthInternationalProvince != null &&
                     this.BirthInternationalProvince.Equals(input.BirthInternationalProvince))
-                ) && 
+                ) &&
                 (
                     this.BirthSexDescriptor == input.BirthSexDescriptor ||
                     (this.BirthSexDescriptor != null &&
                     this.BirthSexDescriptor.Equals(input.BirthSexDescriptor))
-                ) && 
+                ) &&
                 (
                     this.BirthStateAbbreviationDescriptor == input.BirthStateAbbreviationDescriptor ||
                     (this.BirthStateAbbreviationDescriptor != null &&
                     this.BirthStateAbbreviationDescriptor.Equals(input.BirthStateAbbreviationDescriptor))
-                ) && 
+                ) &&
                 (
                     this.CitizenshipStatusDescriptor == input.CitizenshipStatusDescriptor ||
                     (this.CitizenshipStatusDescriptor != null &&
                     this.CitizenshipStatusDescriptor.Equals(input.CitizenshipStatusDescriptor))
-                ) && 
+                ) &&
                 (
                     this.DateEnteredUS == input.DateEnteredUS ||
                     (this.DateEnteredUS != null &&
                     this.DateEnteredUS.Equals(input.DateEnteredUS))
-                ) && 
+                ) &&
                 (
                     this.FirstName == input.FirstName ||
                     (this.FirstName != null &&
                     this.FirstName.Equals(input.FirstName))
-                ) && 
+                ) &&
                 (
                     this.GenerationCodeSuffix == input.GenerationCodeSuffix ||
                     (this.GenerationCodeSuffix != null &&
                     this.GenerationCodeSuffix.Equals(input.GenerationCodeSuffix))
-                ) && 
+                ) &&
                 (
                     this.IdentificationDocuments == input.IdentificationDocuments ||
                     this.IdentificationDocuments != null &&
                     input.IdentificationDocuments != null &&
                     this.IdentificationDocuments.SequenceEqual(input.IdentificationDocuments)
-                ) && 
+                ) &&
                 (
                     this.LastSurname == input.LastSurname ||
                     (this.LastSurname != null &&
                     this.LastSurname.Equals(input.LastSurname))
-                ) && 
+                ) &&
                 (
                     this.MaidenName == input.MaidenName ||
                     (this.MaidenName != null &&
                     this.MaidenName.Equals(input.MaidenName))
-                ) && 
+                ) &&
                 (
                     this.MiddleName == input.MiddleName ||
                     (this.MiddleName != null &&
                     this.MiddleName.Equals(input.MiddleName))
-                ) && 
+                ) &&
                 (
                     this.MultipleBirthStatus == input.MultipleBirthStatus ||
                     (this.MultipleBirthStatus != null &&
                     this.MultipleBirthStatus.Equals(input.MultipleBirthStatus))
-                ) && 
+                ) &&
                 (
                     this.OtherNames == input.OtherNames ||
                     this.OtherNames != null &&
                     input.OtherNames != null &&
                     this.OtherNames.SequenceEqual(input.OtherNames)
-                ) && 
+                ) &&
                 (
                     this.PersonalIdentificationDocuments == input.PersonalIdentificationDocuments ||
                     this.PersonalIdentificationDocuments != null &&
                     input.PersonalIdentificationDocuments != null &&
                     this.PersonalIdentificationDocuments.SequenceEqual(input.PersonalIdentificationDocuments)
-                ) && 
+                ) &&
                 (
                     this.PersonalTitlePrefix == input.PersonalTitlePrefix ||
                     (this.PersonalTitlePrefix != null &&
                     this.PersonalTitlePrefix.Equals(input.PersonalTitlePrefix))
-                ) && 
+                ) &&
                 (
                     this.Visas == input.Visas ||
                     this.Visas != null &&
                     input.Visas != null &&
                     this.Visas.SequenceEqual(input.Visas)
-                ) && 
+                ) &&
                 (
                     this.Etag == input.Etag ||
                     (this.Etag != null &&
@@ -565,79 +565,79 @@ namespace EdFi.OdsApi.Sdk.Models.All
             // StudentUniqueId (string) maxLength
             if (this.StudentUniqueId != null && this.StudentUniqueId.Length > 32)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for StudentUniqueId, length must be less than 32.", new [] { "StudentUniqueId" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for StudentUniqueId, length must be less than 32.", new[] { "StudentUniqueId" });
             }
 
             // BirthCity (string) maxLength
             if (this.BirthCity != null && this.BirthCity.Length > 30)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for BirthCity, length must be less than 30.", new [] { "BirthCity" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for BirthCity, length must be less than 30.", new[] { "BirthCity" });
             }
 
             // BirthCountryDescriptor (string) maxLength
             if (this.BirthCountryDescriptor != null && this.BirthCountryDescriptor.Length > 306)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for BirthCountryDescriptor, length must be less than 306.", new [] { "BirthCountryDescriptor" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for BirthCountryDescriptor, length must be less than 306.", new[] { "BirthCountryDescriptor" });
             }
 
             // BirthInternationalProvince (string) maxLength
             if (this.BirthInternationalProvince != null && this.BirthInternationalProvince.Length > 150)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for BirthInternationalProvince, length must be less than 150.", new [] { "BirthInternationalProvince" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for BirthInternationalProvince, length must be less than 150.", new[] { "BirthInternationalProvince" });
             }
 
             // BirthSexDescriptor (string) maxLength
             if (this.BirthSexDescriptor != null && this.BirthSexDescriptor.Length > 306)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for BirthSexDescriptor, length must be less than 306.", new [] { "BirthSexDescriptor" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for BirthSexDescriptor, length must be less than 306.", new[] { "BirthSexDescriptor" });
             }
 
             // BirthStateAbbreviationDescriptor (string) maxLength
             if (this.BirthStateAbbreviationDescriptor != null && this.BirthStateAbbreviationDescriptor.Length > 306)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for BirthStateAbbreviationDescriptor, length must be less than 306.", new [] { "BirthStateAbbreviationDescriptor" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for BirthStateAbbreviationDescriptor, length must be less than 306.", new[] { "BirthStateAbbreviationDescriptor" });
             }
 
             // CitizenshipStatusDescriptor (string) maxLength
             if (this.CitizenshipStatusDescriptor != null && this.CitizenshipStatusDescriptor.Length > 306)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for CitizenshipStatusDescriptor, length must be less than 306.", new [] { "CitizenshipStatusDescriptor" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for CitizenshipStatusDescriptor, length must be less than 306.", new[] { "CitizenshipStatusDescriptor" });
             }
 
             // FirstName (string) maxLength
             if (this.FirstName != null && this.FirstName.Length > 75)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for FirstName, length must be less than 75.", new [] { "FirstName" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for FirstName, length must be less than 75.", new[] { "FirstName" });
             }
 
             // GenerationCodeSuffix (string) maxLength
             if (this.GenerationCodeSuffix != null && this.GenerationCodeSuffix.Length > 10)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for GenerationCodeSuffix, length must be less than 10.", new [] { "GenerationCodeSuffix" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for GenerationCodeSuffix, length must be less than 10.", new[] { "GenerationCodeSuffix" });
             }
 
             // LastSurname (string) maxLength
             if (this.LastSurname != null && this.LastSurname.Length > 75)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for LastSurname, length must be less than 75.", new [] { "LastSurname" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for LastSurname, length must be less than 75.", new[] { "LastSurname" });
             }
 
             // MaidenName (string) maxLength
             if (this.MaidenName != null && this.MaidenName.Length > 75)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for MaidenName, length must be less than 75.", new [] { "MaidenName" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for MaidenName, length must be less than 75.", new[] { "MaidenName" });
             }
 
             // MiddleName (string) maxLength
             if (this.MiddleName != null && this.MiddleName.Length > 75)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for MiddleName, length must be less than 75.", new [] { "MiddleName" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for MiddleName, length must be less than 75.", new[] { "MiddleName" });
             }
 
             // PersonalTitlePrefix (string) maxLength
             if (this.PersonalTitlePrefix != null && this.PersonalTitlePrefix.Length > 30)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for PersonalTitlePrefix, length must be less than 30.", new [] { "PersonalTitlePrefix" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for PersonalTitlePrefix, length must be less than 30.", new[] { "PersonalTitlePrefix" });
             }
 
             yield break;

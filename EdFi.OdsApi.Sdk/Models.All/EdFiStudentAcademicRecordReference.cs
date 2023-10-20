@@ -140,25 +140,25 @@ namespace EdFi.OdsApi.Sdk.Models.All
             {
                 return false;
             }
-            return 
+            return
                 (
                     this.EducationOrganizationId == input.EducationOrganizationId ||
                     this.EducationOrganizationId.Equals(input.EducationOrganizationId)
-                ) && 
+                ) &&
                 (
                     this.SchoolYear == input.SchoolYear ||
                     this.SchoolYear.Equals(input.SchoolYear)
-                ) && 
+                ) &&
                 (
                     this.StudentUniqueId == input.StudentUniqueId ||
                     (this.StudentUniqueId != null &&
                     this.StudentUniqueId.Equals(input.StudentUniqueId))
-                ) && 
+                ) &&
                 (
                     this.TermDescriptor == input.TermDescriptor ||
                     (this.TermDescriptor != null &&
                     this.TermDescriptor.Equals(input.TermDescriptor))
-                ) && 
+                ) &&
                 (
                     this.Link == input.Link ||
                     (this.Link != null &&
@@ -203,13 +203,13 @@ namespace EdFi.OdsApi.Sdk.Models.All
             // StudentUniqueId (string) maxLength
             if (this.StudentUniqueId != null && this.StudentUniqueId.Length > 32)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for StudentUniqueId, length must be less than 32.", new [] { "StudentUniqueId" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for StudentUniqueId, length must be less than 32.", new[] { "StudentUniqueId" });
             }
 
             // TermDescriptor (string) maxLength
             if (this.TermDescriptor != null && this.TermDescriptor.Length > 306)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for TermDescriptor, length must be less than 306.", new [] { "TermDescriptor" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for TermDescriptor, length must be less than 306.", new[] { "TermDescriptor" });
             }
 
             yield break;

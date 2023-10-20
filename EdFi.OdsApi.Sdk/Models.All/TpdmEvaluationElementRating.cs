@@ -189,53 +189,53 @@ namespace EdFi.OdsApi.Sdk.Models.All
             {
                 return false;
             }
-            return 
+            return
                 (
                     this.Id == input.Id ||
                     (this.Id != null &&
                     this.Id.Equals(input.Id))
-                ) && 
+                ) &&
                 (
                     this.EvaluationElementReference == input.EvaluationElementReference ||
                     (this.EvaluationElementReference != null &&
                     this.EvaluationElementReference.Equals(input.EvaluationElementReference))
-                ) && 
+                ) &&
                 (
                     this.EvaluationObjectiveRatingReference == input.EvaluationObjectiveRatingReference ||
                     (this.EvaluationObjectiveRatingReference != null &&
                     this.EvaluationObjectiveRatingReference.Equals(input.EvaluationObjectiveRatingReference))
-                ) && 
+                ) &&
                 (
                     this.AreaOfRefinement == input.AreaOfRefinement ||
                     (this.AreaOfRefinement != null &&
                     this.AreaOfRefinement.Equals(input.AreaOfRefinement))
-                ) && 
+                ) &&
                 (
                     this.AreaOfReinforcement == input.AreaOfReinforcement ||
                     (this.AreaOfReinforcement != null &&
                     this.AreaOfReinforcement.Equals(input.AreaOfReinforcement))
-                ) && 
+                ) &&
                 (
                     this.Comments == input.Comments ||
                     (this.Comments != null &&
                     this.Comments.Equals(input.Comments))
-                ) && 
+                ) &&
                 (
                     this.EvaluationElementRatingLevelDescriptor == input.EvaluationElementRatingLevelDescriptor ||
                     (this.EvaluationElementRatingLevelDescriptor != null &&
                     this.EvaluationElementRatingLevelDescriptor.Equals(input.EvaluationElementRatingLevelDescriptor))
-                ) && 
+                ) &&
                 (
                     this.Feedback == input.Feedback ||
                     (this.Feedback != null &&
                     this.Feedback.Equals(input.Feedback))
-                ) && 
+                ) &&
                 (
                     this.Results == input.Results ||
                     this.Results != null &&
                     input.Results != null &&
                     this.Results.SequenceEqual(input.Results)
-                ) && 
+                ) &&
                 (
                     this.Etag == input.Etag ||
                     (this.Etag != null &&
@@ -306,31 +306,31 @@ namespace EdFi.OdsApi.Sdk.Models.All
             // AreaOfRefinement (string) maxLength
             if (this.AreaOfRefinement != null && this.AreaOfRefinement.Length > 1024)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for AreaOfRefinement, length must be less than 1024.", new [] { "AreaOfRefinement" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for AreaOfRefinement, length must be less than 1024.", new[] { "AreaOfRefinement" });
             }
 
             // AreaOfReinforcement (string) maxLength
             if (this.AreaOfReinforcement != null && this.AreaOfReinforcement.Length > 1024)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for AreaOfReinforcement, length must be less than 1024.", new [] { "AreaOfReinforcement" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for AreaOfReinforcement, length must be less than 1024.", new[] { "AreaOfReinforcement" });
             }
 
             // Comments (string) maxLength
             if (this.Comments != null && this.Comments.Length > 1024)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Comments, length must be less than 1024.", new [] { "Comments" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Comments, length must be less than 1024.", new[] { "Comments" });
             }
 
             // EvaluationElementRatingLevelDescriptor (string) maxLength
             if (this.EvaluationElementRatingLevelDescriptor != null && this.EvaluationElementRatingLevelDescriptor.Length > 306)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for EvaluationElementRatingLevelDescriptor, length must be less than 306.", new [] { "EvaluationElementRatingLevelDescriptor" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for EvaluationElementRatingLevelDescriptor, length must be less than 306.", new[] { "EvaluationElementRatingLevelDescriptor" });
             }
 
             // Feedback (string) maxLength
             if (this.Feedback != null && this.Feedback.Length > 2048)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Feedback, length must be less than 2048.", new [] { "Feedback" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Feedback, length must be less than 2048.", new[] { "Feedback" });
             }
 
             yield break;

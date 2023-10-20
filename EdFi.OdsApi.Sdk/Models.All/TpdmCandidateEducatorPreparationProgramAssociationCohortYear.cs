@@ -120,17 +120,17 @@ namespace EdFi.OdsApi.Sdk.Models.All
             {
                 return false;
             }
-            return 
+            return
                 (
                     this.CohortYearTypeDescriptor == input.CohortYearTypeDescriptor ||
                     (this.CohortYearTypeDescriptor != null &&
                     this.CohortYearTypeDescriptor.Equals(input.CohortYearTypeDescriptor))
-                ) && 
+                ) &&
                 (
                     this.TermDescriptor == input.TermDescriptor ||
                     (this.TermDescriptor != null &&
                     this.TermDescriptor.Equals(input.TermDescriptor))
-                ) && 
+                ) &&
                 (
                     this.SchoolYearTypeReference == input.SchoolYearTypeReference ||
                     (this.SchoolYearTypeReference != null &&
@@ -173,13 +173,13 @@ namespace EdFi.OdsApi.Sdk.Models.All
             // CohortYearTypeDescriptor (string) maxLength
             if (this.CohortYearTypeDescriptor != null && this.CohortYearTypeDescriptor.Length > 306)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for CohortYearTypeDescriptor, length must be less than 306.", new [] { "CohortYearTypeDescriptor" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for CohortYearTypeDescriptor, length must be less than 306.", new[] { "CohortYearTypeDescriptor" });
             }
 
             // TermDescriptor (string) maxLength
             if (this.TermDescriptor != null && this.TermDescriptor.Length > 306)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for TermDescriptor, length must be less than 306.", new [] { "TermDescriptor" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for TermDescriptor, length must be less than 306.", new[] { "TermDescriptor" });
             }
 
             yield break;

@@ -496,7 +496,7 @@ namespace EdFi.OdsApi.Sdk.Client
             {
                 try
                 {
-                    response.Data = (T) typeof(T).GetMethod("FromJson").Invoke(null, new object[] { response.Content });
+                    response.Data = (T)typeof(T).GetMethod("FromJson").Invoke(null, new object[] { response.Content });
                 }
                 catch (Exception ex)
                 {
@@ -618,7 +618,7 @@ namespace EdFi.OdsApi.Sdk.Client
             // if the response type is oneOf/anyOf, call FromJSON to deserialize the data
             if (typeof(EdFi.OdsApi.Sdk.Models.All.AbstractOpenAPISchema).IsAssignableFrom(typeof(T)))
             {
-                response.Data = (T) typeof(T).GetMethod("FromJson").Invoke(null, new object[] { response.Content });
+                response.Data = (T)typeof(T).GetMethod("FromJson").Invoke(null, new object[] { response.Content });
             }
             else if (typeof(T).Name == "Stream") // for binary response
             {

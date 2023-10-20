@@ -188,54 +188,54 @@ namespace EdFi.OdsApi.Sdk.Models.All
             {
                 return false;
             }
-            return 
+            return
                 (
                     this.Id == input.Id ||
                     (this.Id != null &&
                     this.Id.Equals(input.Id))
-                ) && 
+                ) &&
                 (
                     this.EvaluationDate == input.EvaluationDate ||
                     (this.EvaluationDate != null &&
                     this.EvaluationDate.Equals(input.EvaluationDate))
-                ) && 
+                ) &&
                 (
                     this.EvaluationReference == input.EvaluationReference ||
                     (this.EvaluationReference != null &&
                     this.EvaluationReference.Equals(input.EvaluationReference))
-                ) && 
+                ) &&
                 (
                     this.PerformanceEvaluationRatingReference == input.PerformanceEvaluationRatingReference ||
                     (this.PerformanceEvaluationRatingReference != null &&
                     this.PerformanceEvaluationRatingReference.Equals(input.PerformanceEvaluationRatingReference))
-                ) && 
+                ) &&
                 (
                     this.SectionReference == input.SectionReference ||
                     (this.SectionReference != null &&
                     this.SectionReference.Equals(input.SectionReference))
-                ) && 
+                ) &&
                 (
                     this.EvaluationRatingLevelDescriptor == input.EvaluationRatingLevelDescriptor ||
                     (this.EvaluationRatingLevelDescriptor != null &&
                     this.EvaluationRatingLevelDescriptor.Equals(input.EvaluationRatingLevelDescriptor))
-                ) && 
+                ) &&
                 (
                     this.EvaluationRatingStatusDescriptor == input.EvaluationRatingStatusDescriptor ||
                     (this.EvaluationRatingStatusDescriptor != null &&
                     this.EvaluationRatingStatusDescriptor.Equals(input.EvaluationRatingStatusDescriptor))
-                ) && 
+                ) &&
                 (
                     this.Results == input.Results ||
                     this.Results != null &&
                     input.Results != null &&
                     this.Results.SequenceEqual(input.Results)
-                ) && 
+                ) &&
                 (
                     this.Reviewers == input.Reviewers ||
                     this.Reviewers != null &&
                     input.Reviewers != null &&
                     this.Reviewers.SequenceEqual(input.Reviewers)
-                ) && 
+                ) &&
                 (
                     this.Etag == input.Etag ||
                     (this.Etag != null &&
@@ -306,13 +306,13 @@ namespace EdFi.OdsApi.Sdk.Models.All
             // EvaluationRatingLevelDescriptor (string) maxLength
             if (this.EvaluationRatingLevelDescriptor != null && this.EvaluationRatingLevelDescriptor.Length > 306)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for EvaluationRatingLevelDescriptor, length must be less than 306.", new [] { "EvaluationRatingLevelDescriptor" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for EvaluationRatingLevelDescriptor, length must be less than 306.", new[] { "EvaluationRatingLevelDescriptor" });
             }
 
             // EvaluationRatingStatusDescriptor (string) maxLength
             if (this.EvaluationRatingStatusDescriptor != null && this.EvaluationRatingStatusDescriptor.Length > 306)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for EvaluationRatingStatusDescriptor, length must be less than 306.", new [] { "EvaluationRatingStatusDescriptor" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for EvaluationRatingStatusDescriptor, length must be less than 306.", new[] { "EvaluationRatingStatusDescriptor" });
             }
 
             yield break;

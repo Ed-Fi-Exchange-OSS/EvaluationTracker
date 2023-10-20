@@ -137,27 +137,27 @@ namespace EdFi.OdsApi.Sdk.Models.All
             {
                 return false;
             }
-            return 
+            return
                 (
                     this.DisabilityDescriptor == input.DisabilityDescriptor ||
                     (this.DisabilityDescriptor != null &&
                     this.DisabilityDescriptor.Equals(input.DisabilityDescriptor))
-                ) && 
+                ) &&
                 (
                     this.DisabilityDeterminationSourceTypeDescriptor == input.DisabilityDeterminationSourceTypeDescriptor ||
                     (this.DisabilityDeterminationSourceTypeDescriptor != null &&
                     this.DisabilityDeterminationSourceTypeDescriptor.Equals(input.DisabilityDeterminationSourceTypeDescriptor))
-                ) && 
+                ) &&
                 (
                     this.DisabilityDiagnosis == input.DisabilityDiagnosis ||
                     (this.DisabilityDiagnosis != null &&
                     this.DisabilityDiagnosis.Equals(input.DisabilityDiagnosis))
-                ) && 
+                ) &&
                 (
                     this.OrderOfDisability == input.OrderOfDisability ||
                     (this.OrderOfDisability != null &&
                     this.OrderOfDisability.Equals(input.OrderOfDisability))
-                ) && 
+                ) &&
                 (
                     this.Designations == input.Designations ||
                     this.Designations != null &&
@@ -209,19 +209,19 @@ namespace EdFi.OdsApi.Sdk.Models.All
             // DisabilityDescriptor (string) maxLength
             if (this.DisabilityDescriptor != null && this.DisabilityDescriptor.Length > 306)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for DisabilityDescriptor, length must be less than 306.", new [] { "DisabilityDescriptor" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for DisabilityDescriptor, length must be less than 306.", new[] { "DisabilityDescriptor" });
             }
 
             // DisabilityDeterminationSourceTypeDescriptor (string) maxLength
             if (this.DisabilityDeterminationSourceTypeDescriptor != null && this.DisabilityDeterminationSourceTypeDescriptor.Length > 306)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for DisabilityDeterminationSourceTypeDescriptor, length must be less than 306.", new [] { "DisabilityDeterminationSourceTypeDescriptor" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for DisabilityDeterminationSourceTypeDescriptor, length must be less than 306.", new[] { "DisabilityDeterminationSourceTypeDescriptor" });
             }
 
             // DisabilityDiagnosis (string) maxLength
             if (this.DisabilityDiagnosis != null && this.DisabilityDiagnosis.Length > 80)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for DisabilityDiagnosis, length must be less than 80.", new [] { "DisabilityDiagnosis" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for DisabilityDiagnosis, length must be less than 80.", new[] { "DisabilityDiagnosis" });
             }
 
             yield break;

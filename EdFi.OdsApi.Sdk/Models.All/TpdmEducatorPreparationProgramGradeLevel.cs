@@ -96,7 +96,7 @@ namespace EdFi.OdsApi.Sdk.Models.All
             {
                 return false;
             }
-            return 
+            return
                 (
                     this.GradeLevelDescriptor == input.GradeLevelDescriptor ||
                     (this.GradeLevelDescriptor != null &&
@@ -131,7 +131,7 @@ namespace EdFi.OdsApi.Sdk.Models.All
             // GradeLevelDescriptor (string) maxLength
             if (this.GradeLevelDescriptor != null && this.GradeLevelDescriptor.Length > 306)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for GradeLevelDescriptor, length must be less than 306.", new [] { "GradeLevelDescriptor" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for GradeLevelDescriptor, length must be less than 306.", new[] { "GradeLevelDescriptor" });
             }
 
             yield break;

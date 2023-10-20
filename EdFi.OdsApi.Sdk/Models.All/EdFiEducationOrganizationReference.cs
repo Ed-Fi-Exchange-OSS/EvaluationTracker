@@ -100,11 +100,11 @@ namespace EdFi.OdsApi.Sdk.Models.All
             {
                 return false;
             }
-            return 
+            return
                 (
                     this.EducationOrganizationId == input.EducationOrganizationId ||
                     this.EducationOrganizationId.Equals(input.EducationOrganizationId)
-                ) && 
+                ) &&
                 (
                     this.Link == input.Link ||
                     (this.Link != null &&

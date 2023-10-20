@@ -192,54 +192,54 @@ namespace EdFi.OdsApi.Sdk.Models.All
             {
                 return false;
             }
-            return 
+            return
                 (
                     this.Id == input.Id ||
                     (this.Id != null &&
                     this.Id.Equals(input.Id))
-                ) && 
+                ) &&
                 (
                     this.BeginDate == input.BeginDate ||
                     (this.BeginDate != null &&
                     this.BeginDate.Equals(input.BeginDate))
-                ) && 
+                ) &&
                 (
                     this.CandidateReference == input.CandidateReference ||
                     (this.CandidateReference != null &&
                     this.CandidateReference.Equals(input.CandidateReference))
-                ) && 
+                ) &&
                 (
                     this.EducatorPreparationProgramReference == input.EducatorPreparationProgramReference ||
                     (this.EducatorPreparationProgramReference != null &&
                     this.EducatorPreparationProgramReference.Equals(input.EducatorPreparationProgramReference))
-                ) && 
+                ) &&
                 (
                     this.CohortYears == input.CohortYears ||
                     this.CohortYears != null &&
                     input.CohortYears != null &&
                     this.CohortYears.SequenceEqual(input.CohortYears)
-                ) && 
+                ) &&
                 (
                     this.DegreeSpecializations == input.DegreeSpecializations ||
                     this.DegreeSpecializations != null &&
                     input.DegreeSpecializations != null &&
                     this.DegreeSpecializations.SequenceEqual(input.DegreeSpecializations)
-                ) && 
+                ) &&
                 (
                     this.EndDate == input.EndDate ||
                     (this.EndDate != null &&
                     this.EndDate.Equals(input.EndDate))
-                ) && 
+                ) &&
                 (
                     this.EppProgramPathwayDescriptor == input.EppProgramPathwayDescriptor ||
                     (this.EppProgramPathwayDescriptor != null &&
                     this.EppProgramPathwayDescriptor.Equals(input.EppProgramPathwayDescriptor))
-                ) && 
+                ) &&
                 (
                     this.ReasonExitedDescriptor == input.ReasonExitedDescriptor ||
                     (this.ReasonExitedDescriptor != null &&
                     this.ReasonExitedDescriptor.Equals(input.ReasonExitedDescriptor))
-                ) && 
+                ) &&
                 (
                     this.Etag == input.Etag ||
                     (this.Etag != null &&
@@ -310,13 +310,13 @@ namespace EdFi.OdsApi.Sdk.Models.All
             // EppProgramPathwayDescriptor (string) maxLength
             if (this.EppProgramPathwayDescriptor != null && this.EppProgramPathwayDescriptor.Length > 306)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for EppProgramPathwayDescriptor, length must be less than 306.", new [] { "EppProgramPathwayDescriptor" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for EppProgramPathwayDescriptor, length must be less than 306.", new[] { "EppProgramPathwayDescriptor" });
             }
 
             // ReasonExitedDescriptor (string) maxLength
             if (this.ReasonExitedDescriptor != null && this.ReasonExitedDescriptor.Length > 306)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for ReasonExitedDescriptor, length must be less than 306.", new [] { "ReasonExitedDescriptor" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for ReasonExitedDescriptor, length must be less than 306.", new[] { "ReasonExitedDescriptor" });
             }
 
             yield break;

@@ -182,47 +182,47 @@ namespace EdFi.OdsApi.Sdk.Models.All
             {
                 return false;
             }
-            return 
+            return
                 (
                     this.Id == input.Id ||
                     (this.Id != null &&
                     this.Id.Equals(input.Id))
-                ) && 
+                ) &&
                 (
                     this.AidTypeDescriptor == input.AidTypeDescriptor ||
                     (this.AidTypeDescriptor != null &&
                     this.AidTypeDescriptor.Equals(input.AidTypeDescriptor))
-                ) && 
+                ) &&
                 (
                     this.BeginDate == input.BeginDate ||
                     (this.BeginDate != null &&
                     this.BeginDate.Equals(input.BeginDate))
-                ) && 
+                ) &&
                 (
                     this.StudentReference == input.StudentReference ||
                     (this.StudentReference != null &&
                     this.StudentReference.Equals(input.StudentReference))
-                ) && 
+                ) &&
                 (
                     this.AidAmount == input.AidAmount ||
                     (this.AidAmount != null &&
                     this.AidAmount.Equals(input.AidAmount))
-                ) && 
+                ) &&
                 (
                     this.AidConditionDescription == input.AidConditionDescription ||
                     (this.AidConditionDescription != null &&
                     this.AidConditionDescription.Equals(input.AidConditionDescription))
-                ) && 
+                ) &&
                 (
                     this.EndDate == input.EndDate ||
                     (this.EndDate != null &&
                     this.EndDate.Equals(input.EndDate))
-                ) && 
+                ) &&
                 (
                     this.PellGrantRecipient == input.PellGrantRecipient ||
                     (this.PellGrantRecipient != null &&
                     this.PellGrantRecipient.Equals(input.PellGrantRecipient))
-                ) && 
+                ) &&
                 (
                     this.Etag == input.Etag ||
                     (this.Etag != null &&
@@ -289,13 +289,13 @@ namespace EdFi.OdsApi.Sdk.Models.All
             // AidTypeDescriptor (string) maxLength
             if (this.AidTypeDescriptor != null && this.AidTypeDescriptor.Length > 306)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for AidTypeDescriptor, length must be less than 306.", new [] { "AidTypeDescriptor" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for AidTypeDescriptor, length must be less than 306.", new[] { "AidTypeDescriptor" });
             }
 
             // AidConditionDescription (string) maxLength
             if (this.AidConditionDescription != null && this.AidConditionDescription.Length > 1024)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for AidConditionDescription, length must be less than 1024.", new [] { "AidConditionDescription" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for AidConditionDescription, length must be less than 1024.", new[] { "AidConditionDescription" });
             }
 
             yield break;
