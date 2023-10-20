@@ -28,7 +28,7 @@ namespace eppeta.webapi.Controllers
             var candidates = await candidatesApi.GetCandidatesAsync(limit: 25, offset: 0);
             var candidatesDictionary = new List<Candidate>();
 
-            candidatesDictionary = candidates.Select(x => new Candidate { CandidateName = $"{x.FirstName} {x.LastSurname}", PersonId = x.PersonReference?.PersonId??"" }).ToList();
+            candidatesDictionary = candidates.Where(x => x.PersonReference is not null).Select(x => new Candidate { CandidateName = $"{x.FirstName} {x.LastSurname}", PersonId = x.PersonReference.PersonId, SourceSystemDescriptor = x.PersonReference.SourceSystemDescriptor }).ToList();
 
             return Ok(candidatesDictionary);
         }

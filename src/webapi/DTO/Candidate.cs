@@ -7,5 +7,6 @@ namespace eppeta.webapi.DTO
     {
         public string CandidateName { get; set; } = string.Empty;
         public string PersonId { get; set; } = string.Empty;
+        public string SourceSystemDescriptor { get; set; } = string.Empty;
     }
 }
