@@ -76,5 +76,6 @@
             "markdown",
             "batch"
         ]
-    }
+    },
+    "sarif-viewer.connectToGithubCodeScanning": "off"
 }
