@@ -17,5 +17,12 @@ namespace eppeta.webapi.Controllers
         {
             return Ok(new { dateTime = DateTime.UtcNow });
         }
+
+        // For log debugging
+        [HttpPost]
+        public IActionResult Post([FromBody] string nothing)
+        {
+            throw new NotImplementedException("asdfasdf");
+        }
     }
 }

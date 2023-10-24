@@ -22,7 +22,8 @@ public class LoggingMiddleware
     {
         context = context ?? throw new ArgumentNullException(nameof(context));
 
-        var requestInfo = new {
+        var requestInfo = new
+        {
             method = context.Request.Method,
             path = context.Request.Path.Value,
             contentType = context.Request.ContentType,
