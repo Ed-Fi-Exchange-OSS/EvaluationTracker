@@ -28,9 +28,9 @@ namespace EdFi.OdsApi.SdkClient
         {
             var configuration = new Configuration() { BasePath = _oauthUrl };
             var bearerTokenRequestOptions = new RequestOptions() { Operation = String.Empty };
-            bearerTokenRequestOptions.FormParameters.Add("Client_id", _clientKey);
-            bearerTokenRequestOptions.FormParameters.Add("Client_secret", _clientSecret);
-            bearerTokenRequestOptions.FormParameters.Add("Grant_type", "client_credentials");
+            bearerTokenRequestOptions.FormParameters.Add("client_id", _clientKey);
+            bearerTokenRequestOptions.FormParameters.Add("client_secret", _clientSecret);
+            bearerTokenRequestOptions.FormParameters.Add("grant_type", "client_credentials");
 
             var bearerTokenResponse = oauthClient.Post<BearerTokenResponse>("oauth/token", bearerTokenRequestOptions, configuration);
             if (bearerTokenResponse.StatusCode != HttpStatusCode.OK)
