@@ -30,7 +30,7 @@ internal class Program
         // For logging before we've read the log settings
         Log.Logger = new LoggerConfiguration()
                .Enrich.FromLogContext()
-               .WriteTo.Console(outputTemplate: "[{Timestamp:yyyy-MM-dd HH:mm:ss.fff}] {Level:u4} {Message:lj}{NewLine}{Exception}")
+               .WriteTo.Console(outputTemplate: "[{Timestamp:yyyy-MM-dd HH:mm:ss.fff}] {Level:u3} {Message:lj}{NewLine}{Exception}")
                .CreateBootstrapLogger();
 
         try
