@@ -13,9 +13,9 @@ namespace eppeta.webapi.Controllers
     public class PingController : ControllerBase
     {
         [HttpGet]
-        public  IActionResult Get()
+        public IActionResult Get()
         {
-            return Ok(new { dateTime = DateTime.UtcNow});
+            return Ok(new { dateTime = DateTime.UtcNow });
         }
     }
 }
