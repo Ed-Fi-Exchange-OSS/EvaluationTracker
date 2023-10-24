@@ -18,21 +18,17 @@ namespace EdFi.OdsApi.SdkClient
             _clientSecret = clientSecret;
         }
 
-        public string ObtainNewBearerToken()
+        public async Task<string> ObtainNewBearerToken()
         {
             var oauthClient = new ApiClient(_oauthUrl);
-            return GetBearerToken(oauthClient);
-        }
-
-        private string GetBearerToken(ApiClient oauthClient)
-        {
+   
             var configuration = new Configuration() { BasePath = _oauthUrl };
             var bearerTokenRequestOptions = new RequestOptions() { Operation = String.Empty };
             bearerTokenRequestOptions.FormParameters.Add("client_id", _clientKey);
             bearerTokenRequestOptions.FormParameters.Add("client_secret", _clientSecret);
             bearerTokenRequestOptions.FormParameters.Add("grant_type", "client_credentials");
 
-            var bearerTokenResponse = oauthClient.Post<BearerTokenResponse>("oauth/token", bearerTokenRequestOptions, configuration);
+            var bearerTokenResponse = await oauthClient.PostAsync<BearerTokenResponse>("oauth/token", bearerTokenRequestOptions, configuration);
             if (bearerTokenResponse.StatusCode != HttpStatusCode.OK)
             {
                 var message = string.IsNullOrWhiteSpace(bearerTokenResponse.Data.Error) ? bearerTokenResponse.RawContent : bearerTokenResponse.Data.Error;

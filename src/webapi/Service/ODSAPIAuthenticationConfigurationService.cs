@@ -21,7 +21,7 @@ namespace eppeta.webapi.Service
             this.clientSecret = clientSecret;
         }
 
-        public Configuration GetAuthenticatedConfiguration()
+        public async Task<Configuration> GetAuthenticatedConfiguration()
         {
             // TokenRetriever makes the oauth calls. It has RestSharp dependency, install via NuGet
             var tokenRetriever = new TokenRetriever(oauthUrl, clientKey, clientSecret);
@@ -29,7 +29,7 @@ namespace eppeta.webapi.Service
             // Plug Oauth access token. Tokens will need to be refreshed when they expire
             var configuration = new Configuration()
             {
-                AccessToken = tokenRetriever.ObtainNewBearerToken(),
+                AccessToken = await tokenRetriever.ObtainNewBearerToken(),
                 BasePath = AppSettings.BasePath
             };
 
