@@ -22,7 +22,12 @@ public class LoggingMiddleware
     {
         context = context ?? throw new ArgumentNullException(nameof(context));
 
-        var requestInfo = new { method = context.Request.Method, path = context.Request.Path.Value, traceId = context.TraceIdentifier };
+        var requestInfo = new {
+            method = context.Request.Method,
+            path = context.Request.Path.Value,
+            contentType = context.Request.ContentType,
+            traceId = context.TraceIdentifier
+        };
         try
         {
             if (context.Request.Path.StartsWithSegments(new PathString("/.well-known")))
