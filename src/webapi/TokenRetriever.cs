@@ -35,8 +35,9 @@ namespace EdFi.OdsApi.SdkClient
             var bearerTokenResponse = oauthClient.Post<BearerTokenResponse>("oauth/token", bearerTokenRequestOptions, configuration);
             if (bearerTokenResponse.StatusCode != HttpStatusCode.OK)
             {
-                throw new AuthenticationException("Unable to retrieve an access token. Error message: " +
-                                                  bearerTokenResponse.Data.Error);
+                var message = string.IsNullOrWhiteSpace(bearerTokenResponse.Data.Error) ? bearerTokenResponse.RawContent : bearerTokenResponse.Data.Error;
+
+                throw new AuthenticationException($"Unable to retrieve an access token. Error message: ${message}");
             }
 
             if (bearerTokenResponse.Data.Error != null || bearerTokenResponse.Data.TokenType != "bearer")
