@@ -16,7 +16,8 @@ function App() {
             <Router>
                 <Nav />
                 <Routes>
-                    <Route path="/" element={<SignupForm />} />
+                    <Route path="/" element={<LoginForm />} />
+                    <Route path="/signup" element={<SignupForm />} />
                     <Route path="/login" element={<LoginForm />} />
                     <Route path="/main" element={<EvaluationTable />} />
                     <Route path="/new" element={<NewEvaluation />} />

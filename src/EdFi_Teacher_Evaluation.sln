@@ -19,6 +19,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SQL", "SQL", "{47708811-A8F
 		..\sql\mssql\00001-Create-EppetaSchema-and-DeployJournal.sql = ..\sql\mssql\00001-Create-EppetaSchema-and-DeployJournal.sql
 		..\sql\mssql\00002-Create-UserTables.sql = ..\sql\mssql\00002-Create-UserTables.sql
 		..\sql\mssql\00003-Modify-Users-Add-SoftDelete.sql = ..\sql\mssql\00003-Modify-Users-Add-SoftDelete.sql
+		..\sql\mssql\00010-Ancilliary-Tables.sql = ..\sql\mssql\00010-Ancilliary-Tables.sql
+		..\sql\mssql\00020-Evaluation-Tables.sql = ..\sql\mssql\00020-Evaluation-Tables.sql
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eppeta.webapi.unitTests", "eppeta.webapi.unitTests\eppeta.webapi.unitTests.csproj", "{38A32D34-151D-4D27-941B-E8E3E72F19E4}"

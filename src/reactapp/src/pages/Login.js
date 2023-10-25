@@ -23,13 +23,19 @@ import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { Formik, Form } from "formik";
 
 import InputField from "../components/InputField";
-import { postForm, setToken } from "../components/FetchHelpers";
+import { postForm, get } from "../components/FetchHelpers";
+import { setToken } from "../components/TokenHelpers"
 
 export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
 
+
+  // sync dependencies while login
+  get("/api/Evaluation/Sync");
+
+
   const loadEvaluationsPage = () => {
-    // TODO redirect to evaluations landing page in EPPETA-9
+    window.location.href = "/main";
   };
 
   const onSubmitLogin = async (values) => {

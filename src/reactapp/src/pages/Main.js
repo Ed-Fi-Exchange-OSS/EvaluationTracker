@@ -17,106 +17,63 @@ import {
     Heading,
 } from "@chakra-ui/react";
 import "../App.css";
+import React, { useEffect, useState } from "react";
+import { get } from "../components/FetchHelpers";
+import { getLoggedInUserId, getLoggedInUserRole } from "../components/TokenHelpers";
+
 
 //Created a table to display the data from react objects
 export default function EvaluationTable() {
-    const data = [
-        {
-            evaluation: "T-TESS",
-            candidate: "Steven Mo",
-            evaluator: "Jane Doe",
-            date: new Date("2022-09-01"),
-            completed: true,
-        },
-        {
-            evaluation: "A-TESS",
-            candidate: "JOJO",
-            evaluator: "Jane Doe",
-            date: new Date("2021-09-02"),
-            completed: true,
-        },
-        {
-            evaluation: "B-TESS",
-            candidate: "Aidan Johnson",
-            evaluator: "Kevin Clear",
-            date: new Date("2023-09-03"),
-            completed: false,
-        },
-        {
-            evaluation: "B-TESS",
-            candidate: "Aidan Johnson",
-            evaluator: "Kevin Clear",
-            date: new Date("2023-09-03"),
-            completed: false,
-        },
-        {
-            evaluation: "B-TESS",
-            candidate: "Aidan Johnson",
-            evaluator: "Kevin Clear",
-            date: new Date("2023-09-03"),
-            completed: false,
-        },
-        {
-            evaluation: "B-TESS",
-            candidate: "Aidan Johnson",
-            evaluator: "Kevin Clear",
-            date: new Date("2023-09-03"),
-            completed: false,
-        },
-        {
-            evaluation: "B-TESS",
-            candidate: "Aidan Johnson",
-            evaluator: "Kevin Clear",
-            date: new Date("2023-09-03"),
-            completed: false,
-        },
-        {
-            evaluation: "B-TESS",
-            candidate: "Aidan Johnson",
-            evaluator: "Kevin Clear",
-            date: new Date("2023-09-03"),
-            completed: false,
-        },
-        {
-            evaluation: "B-TESS",
-            candidate: "Aidan Johnson",
-            evaluator: "Kevin Clear",
-            date: new Date("2023-09-03"),
-            completed: false,
-        },
-        {
-            evaluation: "B-TESS",
-            candidate: "Aidan Johnson",
-            evaluator: "Kevin Clear",
-            date: new Date("2023-09-03"),
-            completed: false,
-        },
-    ];
+  const [EvaluationRatings, setEvaluationRatings] = useState([]);
+  const loggedInUserRole = getLoggedInUserRole();
+
+
+  useEffect(() => {
+    fetchEvaluationRatings();
+  }, []);
+
+  //const response = await get("/connect/token", tokenRequest);
+// Retrieve evaluation ratings from API
+  const fetchEvaluationRatings = async () => {
+    try {
+      const userId = getLoggedInUserId();
+
+      const response = await get(`/api/EvaluationRating/${userId}`);
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch performance evaluations");
+      }
+
+      const data = await response.json();
+
+      setEvaluationRatings(data);
+    } catch (error) {
+      console.error("Error fetching evaluation ratings:", error);
+    }
+  };
 
   return(
       <Stack spacing={8} mt="24px" px={{ base: "10px", md: "30px" }} align="center">
-      <Heading fontSize={{ base: "3xl", md: "5xl" }}>Evaluations</Heading>
+      <Heading fontSize={{ base: "3xl", md: "5xl" }}>My Evaluations</Heading>
       <TableContainer maxWidth="100%">
         <Table variant="simple" size="lg" className="responsiveTable">
           <Thead>
             <Tr>
               <Th className="responsiveTable th">Evaluation</Th>
               <Th className="responsiveTable th">Candidate</Th>
-              <Th className="responsiveTable th">Evaluator</Th>
+              {loggedInUserRole === 'Supervisor' && <Th className="responsiveTable th">Evaluator</Th>}
               <Th className="responsiveTable th">Date</Th>
               <Th className="responsiveTable th">Status</Th>
             </Tr>
           </Thead>
           <Tbody>
-            {data.map((row, i) => (
+            {EvaluationRatings.map((row, i) => (
               <Tr key={i}>
-                <Td>{row.evaluation}</Td>
-                <Td>{row.candidate}</Td>
-                <Td>{row.evaluator}</Td>
-                <Td>{row.date.toLocaleDateString()}</Td>
-                <Td>
-                  {row.completed ? "Completed" : "In Progress"}
-                </Td>
+                <Td><a href="">{row.performanceEvaluationTitle}</a></Td>
+                <Td>{row.reviewedCandidateName}</Td>
+                {loggedInUserRole === 'Supervisor' && <Td>{row.evaluatorName}</Td>}
+                <Td>{new Date(row.actualDate).toLocaleDateString()}</Td>
+                <Td>{row.evaluationStatus }</Td>
               </Tr>
             ))}
           </Tbody>

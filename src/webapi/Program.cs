@@ -3,6 +3,7 @@
 // The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
 // See the LICENSE and NOTICES files in the project root for more information.
 
+using eppeta.webapi.Evaluations.Data;
 using eppeta.webapi.Identity.Data;
 using eppeta.webapi.Identity.Models;
 using eppeta.webapi.Infrastructure;
@@ -54,7 +55,7 @@ internal class Program
 
             // Add authentication configuration service to the container.
             builder.Services.AddScoped<IODSAPIAuthenticationConfigurationService>(
-                provider => new ODSAPIAuthenticationConfigurationService("https://localhost:443/api/", "populated", "populatedSecret")
+                provider => new ODSAPIAuthenticationConfigurationService(builder.Configuration["OdsApiBasePath"], builder.Configuration["ODSAPIKey"], builder.Configuration["ODSAPISecret"])
             );
 
             var app = builder.Build();
@@ -108,11 +109,15 @@ internal class Program
                 options.AddPolicy(name: AllowedOriginsPolicy, policy =>
                 {
                     policy.WithOrigins(AppSettings.AllowedOrigins)
-                          .WithHeaders(HeaderNames.ContentType, "Content-Type");
+                          .WithHeaders(HeaderNames.ContentType, "Content-Type")
+                          .WithHeaders(HeaderNames.Authorization, "Authorization");
                 });
             });
         }
 
+        // When registering multiple DbContext types, make sure that the constructor
+        // for each context type has a DbContextOptions<TContext> parameter rather
+        // than a non-generic DbContextOptions parameter
         static void ConfigureDatabaseConnection(WebApplicationBuilder builder)
         {
             var connectionString = builder.Configuration.GetConnectionString(ConnectionStringName) ?? throw new InvalidOperationException($"Connection string '{ConnectionStringName}' not found.");
@@ -123,8 +128,16 @@ internal class Program
                 options.UseOpenIddict();
             });
 
+            builder.Services.AddDbContext<EvaluationDbContext>(options =>
+            {
+                options.UseSqlServer(connectionString);
+            });
+
             builder.Services.AddScoped<IIdentityRepository, IdentityDbContext>();
+            builder.Services.AddScoped<IEvaluationRepository, EvaluationDbContext>();
         }
+
+
 
         static void ConfigureLocalIdentityProvider(IServiceCollection services)
         {
@@ -147,6 +160,9 @@ internal class Program
                     // send password request without _also_ providing a client_id.
                     options.AllowPasswordFlow();
                     options.AcceptAnonymousClients();
+
+                    // Turned off token encryption, will discusss need for encrypted JWT later in project development
+                    options.DisableAccessTokenEncryption();
 
                     options.AddDevelopmentEncryptionCertificate()
                         .AddDevelopmentSigningCertificate();

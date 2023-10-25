@@ -4,12 +4,12 @@
 // See the LICENSE and NOTICES files in the project root for more information.
 
 import { transform as _transform } from "lodash-es";
+import { getToken } from "../components/TokenHelpers";
+
 
 // TODO: replace hard-coded with some sort of runtime setting
 // Will be fixed in EPPETA-19.
 const BaseUrl = "https://localhost:7065";
-
-let token = "";
 
 const modify = async (verb, route, values) => {
   if (!route.startsWith("/")) {
@@ -22,6 +22,7 @@ const modify = async (verb, route, values) => {
     body: JSON.stringify(values),
   };
 
+  const token = getToken();
   if (token) {
     request.headers["Authorization"] = `bearer ${token}`;
   }
@@ -67,8 +68,4 @@ const postForm = async (route, values) => {
   return await fetch(url, request);
 };
 
-const setToken = (tokenResponse) => {
-  token = tokenResponse.access_token;
-};
-
-export { post, postForm, put, setToken };
+export { post, postForm, get };

@@ -3,6 +3,7 @@
 // The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
 // See the LICENSE and NOTICES files in the project root for more information.
 
+using eppeta.webapi.Evaluations.Models;
 using Microsoft.AspNetCore.Identity;
 
 namespace eppeta.webapi.Identity.Models;
@@ -24,5 +25,17 @@ public class ApplicationUser : IdentityUser
     public string LastName { get; set; } = string.Empty;
 
     public DateTime? DeletedAt { get; set; }
+
+    // One-to-many relationship with PerformanceEvaluationRating
+    // One-to-many relationship with EvaluationRating
+    // One-to-many relationship with EvaluationObjectiveRating
+    // One-to-many relationship with EvaluationElementRating
+    public ICollection<PerformanceEvaluationRating> PerformanceEvaluationRatings { get; set; } = new List<PerformanceEvaluationRating>();
+
+    public ICollection<EvaluationRating> EvaluationRatings { get; set; } = new List<EvaluationRating>();
+
+    public ICollection<EvaluationObjectiveRating> EvaluationObjectiveRatings { get; set; } = new List<EvaluationObjectiveRating>();
+
+    public ICollection<EvaluationElementRating> EvaluationElementRatings { get; set; } = new List<EvaluationElementRating>();
 
 }

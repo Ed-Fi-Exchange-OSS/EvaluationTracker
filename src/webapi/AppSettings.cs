@@ -61,11 +61,11 @@ public class AppSettings
         }
     }
 
-    public static string BasePath
+    public static string OdsApiBasePath
     {
         get
         {
-            return GetInstance().GetValue<string>("BasePath");
+            return GetInstance().GetValue<string>("OdsApiBasePath");
         }
     }
 
