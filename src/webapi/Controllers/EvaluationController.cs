@@ -21,8 +21,8 @@ public class EvaluationController : ControllerBase
     private readonly IODSAPIAuthenticationConfigurationService _service;
     private readonly IEvaluationRepository _evaluationRepository;
     private readonly IMemoryCache _memoryCache;
-    private string dataExpirationKey = "DataExpiration";
-    private TimeSpan dataExpirationInterval = TimeSpan.FromDays(1);
+    private const string dataExpirationKey = "DataExpiration";
+    private readonly TimeSpan dataExpirationInterval = TimeSpan.FromDays(1);
 
     public EvaluationController(IODSAPIAuthenticationConfigurationService service, IEvaluationRepository evaluationRepository, IMemoryCache memoryCache)
     {
@@ -57,8 +57,8 @@ public class EvaluationController : ControllerBase
         var matchingEvObjCols = performanceEvaluationCols.Intersect(evaluationObjectivesCols).Except(nonJoinCols).ToArray();
         var matchingObjElCols = evaluationObjectivesCols.Intersect(evaluationElementsCols).Except(nonJoinCols).ToArray();
         // build selectors: comma separated list of common column names
-        string colEvObjSelector = "new {" + string.Join(",", matchingEvObjCols) + "}";
-        string colObjElSelector = "new {" + string.Join(",", matchingObjElCols) + "}";
+        var colEvObjSelector = "new {" + string.Join(",", matchingEvObjCols) + "}";
+        var colObjElSelector = "new {" + string.Join(",", matchingObjElCols) + "}";
         // join performanceEvaluation with evaluationObjectives
         var filteredObjectives = performanceEvaluation.AsQueryable().Join(
             evaluationObjectives.AsQueryable(), colEvObjSelector, colEvObjSelector,
@@ -70,7 +70,7 @@ public class EvaluationController : ControllerBase
         var availableEvaluationObjectives = new List<AvailableEvaluationObjective>();
         foreach (var availableObjective in availableObjectives)
         {
-            AvailableEvaluationObjective naeo = new AvailableEvaluationObjective
+            var naeo = new AvailableEvaluationObjective
             {
                 Name = availableObjective.EvaluationObjectiveTitle,
                 EvaluationObjectiveId = availableObjective.Id

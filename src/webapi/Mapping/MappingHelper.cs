@@ -7,7 +7,6 @@
 using eppeta.webapi.DTO;
 using eppeta.webapi.Evaluations.Models;
 using eppeta.webapi.Identity.Models;
-using System.Runtime.CompilerServices;
 
 namespace eppeta.webapi.Mapping
 {
@@ -15,6 +14,8 @@ namespace eppeta.webapi.Mapping
     {
         public static PerformedEvaluation ToRatingDTO(this EvaluationRating ratingEntity, ApplicationUser user)
         {
+            if (user is null) throw new ArgumentNullException(nameof(user));
+
             var evaluationDTO = new DTO.PerformedEvaluation
             {
                 PerformanceEvaluationTitle = ratingEntity.PerformanceEvaluationTitle,
@@ -31,6 +32,9 @@ namespace eppeta.webapi.Mapping
 
         public static void PopulateEvaluationPK(object srcEvaluationObject, object dstEvaluationObject)
         {
+            if (srcEvaluationObject is null) throw new ArgumentNullException(nameof(srcEvaluationObject));
+            if (dstEvaluationObject is null) throw new ArgumentNullException(nameof(dstEvaluationObject));
+
             string[] evalPKCols =
                 {
                 "EducationOrganizationId",
@@ -43,11 +47,20 @@ namespace eppeta.webapi.Mapping
             };
             var srcObjType = srcEvaluationObject.GetType();
             var dstObjType = dstEvaluationObject.GetType();
+
+            var dstProperties = dstObjType.GetProperties().ToList();
+            var srcProperties = srcObjType.GetProperties().ToList();
             foreach (var pkCol in evalPKCols)
             {
-                dstObjType.GetProperty(pkCol).SetValue(
-                    dstEvaluationObject,
-                    srcObjType.GetProperty(pkCol).GetValue(srcEvaluationObject));
+                if (dstProperties.Exists(x => x.Name == pkCol) && srcProperties.Exists(x => x.Name == pkCol))
+                {
+                    // Disabled: the filters above solve this.
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+                    dstObjType.GetProperty(pkCol).SetValue(
+                        dstEvaluationObject,
+                        srcObjType.GetProperty(pkCol).GetValue(srcEvaluationObject));
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
+                }
             }
         }
     }
