@@ -180,7 +180,8 @@ namespace eppeta.webapi.Evaluations.Data
                         if (property.Name != "Id")
                             property.SetValue(epe, property.GetValue(pe));
                     PerformanceEvaluations.Update((PerformanceEvaluation)epe);
-                } else
+                }
+                else
                     // Add new records
                     PerformanceEvaluations.Update(pe);
             }

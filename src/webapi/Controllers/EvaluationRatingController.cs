@@ -105,7 +105,8 @@ namespace eppeta.webapi.Controllers
                     }
                 }
                 return Ok();
-            }catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 return Problem(ex.Message);
             }

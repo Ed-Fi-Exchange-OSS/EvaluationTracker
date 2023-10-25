@@ -21,7 +21,7 @@ namespace EdFi.OdsApi.SdkClient
         public async Task<string> ObtainNewBearerToken()
         {
             var oauthClient = new ApiClient(_oauthUrl);
-   
+
             var configuration = new Configuration() { BasePath = _oauthUrl };
             var bearerTokenRequestOptions = new RequestOptions() { Operation = String.Empty };
             bearerTokenRequestOptions.FormParameters.Add("client_id", _clientKey);

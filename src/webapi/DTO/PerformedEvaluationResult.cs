@@ -16,7 +16,7 @@ namespace eppeta.webapi.DTO
         public string ReviewedPersonName { get; set; } = string.Empty;
         public int PerformanceEvaluationId { get; set; }
         public DateTime StartDateTime { get; set; }
-        public DateTime EndDateTime { get; set; } 
+        public DateTime EndDateTime { get; set; }
         public List<PerformedEvaluationResultObjective> ObjectiveResults { get; set; } = new List<PerformedEvaluationResultObjective>();
         public class PerformedEvaluationResultObjective
         {
