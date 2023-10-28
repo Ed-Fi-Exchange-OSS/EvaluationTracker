@@ -23,7 +23,7 @@ namespace EdFi.OdsApi.SdkClient
             var oauthClient = new ApiClient(_oauthUrl);
 
             var configuration = new Configuration() { BasePath = _oauthUrl };
-            var bearerTokenRequestOptions = new RequestOptions() { Operation = String.Empty };
+            var bearerTokenRequestOptions = new RequestOptions() { Operation = string.Empty };
             bearerTokenRequestOptions.FormParameters.Add("client_id", _clientKey);
             bearerTokenRequestOptions.FormParameters.Add("client_secret", _clientSecret);
             bearerTokenRequestOptions.FormParameters.Add("grant_type", "client_credentials");
@@ -36,7 +36,7 @@ namespace EdFi.OdsApi.SdkClient
                 throw new AuthenticationException($"Unable to retrieve an access token. Error message: ${message}");
             }
 
-            if (bearerTokenResponse.Data.Error != null || bearerTokenResponse.Data.TokenType != "bearer")
+            if (bearerTokenResponse.Data.Error != string.Empty || bearerTokenResponse.Data.TokenType != "bearer")
             {
                 throw new AuthenticationException(
                     "Unable to retrieve an access token. Please verify that your application secret is correct.");
