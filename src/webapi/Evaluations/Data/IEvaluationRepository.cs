@@ -11,25 +11,27 @@ namespace eppeta.webapi.Evaluations.Data;
 
 public interface IEvaluationRepository
 {
+    Task<Status> GetStatusByText(string description);
     Task<List<Evaluation>> GetAllEvaluations();
     Task<PerformanceEvaluation> GetPerformanceEvaluationById(int performanceEvaluationId);
     Task<List<PerformanceEvaluation>> GetAllPerformanceEvaluations();
     Task UpdatePerformanceEvaluations(List<PerformanceEvaluation> performanceEvaluations);
     Task<List<EvaluationObjective>> GetAllEvaluationObjectives();
     Task<EvaluationObjective> GetEvaluationObjectiveById(int id);
+    Task<EvaluationObjectiveRating> GetEvaluationObjectiveRatingById(int id);
     Task<List<EvaluationElement>> GetAllEvaluationElements();
     Task<EvaluationElement> GetEvaluationElementById(int id);
+    Task<EvaluationElementRatingResult> GetEvaluationElementRatingResultById(int id);
     Task<List<PerformanceEvaluationRating>> GetAllPerformanceEvaluationRatings();
     Task UpdateEvaluationObjectives(List<EvaluationObjective> evaluationObjects);
     Task UpdateEvaluationElements(List<EvaluationElement> evaluationElements);
-    Task UpdateEvaluationRatings(List<EvaluationRating> evaluationRatings);
-    Task UpdateEvaluationObjectiveRatings(List<EvaluationObjectiveRating> evaluationObjectiveRatings);
-    Task UpdateEvaluationElementRatingResults(List<EvaluationElementRatingResult> evaluationElementRatingResults);
+    Task<List<int>> UpdateEvaluationRatings(List<EvaluationRating> evaluationRatings);
+    Task<List<int>> UpdateEvaluationObjectiveRatings(List<EvaluationObjectiveRating> evaluationObjectiveRatings);
+    Task<List<int>> UpdateEvaluationElementRatingResults(List<EvaluationElementRatingResult> evaluationElementRatingResults);
     Task<List<EvaluationRating>> GetEvaluationRatingsByUserId(string userId);
+    Task<EvaluationRating> GetEvaluationRatingById(int id);
     Task<List<PerformanceEvaluationRating>> GetPerformanceEvaluationRatingsByUserId(string userId);
     Task<PerformanceEvaluationRating> GetPerformanceEvaluationRatingById(int id);
-
     Task CreatePerformanceEvaluationRating(PerformanceEvaluationRating rating);
-
-    Task UpdatePerformanceEvaluationRating(PerformanceEvaluationRating rating);
+    Task<List<int>> UpdatePerformanceEvaluationRatings(List<PerformanceEvaluationRating> performanceEvaluationRatings);
 }
