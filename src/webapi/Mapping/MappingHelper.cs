@@ -24,25 +24,41 @@ namespace eppeta.webapi.Mapping
             return evaluationDTO;
         }
 
-        public static void PopulateEvaluationPK(object srcEvaluationObject, object dstEvaluationObject)
+        public static void CopyMatchingPKProperties(object srcObject, object dstObject)
         {
-            string[] evalPKCols =
+            string[] pkCols =
                 {
                 "EducationOrganizationId",
-                "EvaluationPeriodDescriptor",
-                "EvaluationTitle",
                 "PerformanceEvaluationTitle",
                 "PerformanceEvaluationTypeDescriptor",
                 "SchoolYear",
-                "TermDescriptor"
+                "TermDescriptor",
+                "EvaluationTitle",
+                "EvaluationPeriodDescriptor",
+                "EvaluationDate",
+                "EvaluationTypeDescriptor",
+                "PersonId",
+                "SourceSystemDescriptor",
+                "EvaluationObjectiveTitle",
+                "EvaluationElementTitle"
             };
-            var srcObjType = srcEvaluationObject.GetType();
-            var dstObjType = dstEvaluationObject.GetType();
-            foreach (var pkCol in evalPKCols)
+            var srcObjType = srcObject.GetType();
+            var dstObjType = dstObject.GetType();
+            foreach (var pkCol in pkCols)
             {
-                dstObjType.GetProperty(pkCol).SetValue(
-                    dstEvaluationObject,
-                    srcObjType.GetProperty(pkCol).GetValue(srcEvaluationObject));
+                var srcProp = srcObjType.GetProperty(pkCol);
+                if (srcProp == null)
+                {
+                    Console.WriteLine($"Property {pkCol} not found in object type {srcObject.GetType().Name}");
+                    continue;
+                }
+                var dstProp = dstObjType.GetProperty(pkCol);
+                if (dstProp == null)
+                {
+                    Console.WriteLine($"Property {pkCol} not found in object type {dstObject.GetType().Name}");
+                    continue;
+                }
+                dstProp.SetValue(dstObject, srcProp.GetValue(srcObject));
             }
         }
     }
