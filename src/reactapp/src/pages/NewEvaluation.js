@@ -18,6 +18,7 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { useNavigate } from 'react-router-dom';
+import { get } from "../components/FetchHelpers"
 
 export default function NewEvaluation() {
   const [selectedEvaluation, setSelectedEvaluation] = useState(null);
@@ -38,7 +39,7 @@ export default function NewEvaluation() {
 
   const fetchAvailableEvaluations = async () => {
     try {
-      const response = await fetch("https://localhost:7065/api/PerformanceEvaluation");
+      const response = await get("/api/PerformanceEvaluation");
       if (!response.ok) {
         throw new Error("Failed to fetch performance evaluations");
       }
@@ -59,7 +60,7 @@ export default function NewEvaluation() {
 
   const fetchCandidates = async () => {
     try {
-      const response = await fetch("https://localhost:7065/api/Candidate");
+      const response = await get("/api/Candidate");
       if (!response.ok) {
         throw new Error("Failed to fetch candidates");
       }
@@ -99,7 +100,7 @@ export default function NewEvaluation() {
                 defaultValue={selectedEvaluation}
                 onChange={setSelectedEvaluation}
                 options={evaluationData}
-                getOptionValue={option => option.value}
+                getOptionValue={option => option.id}
                 getOptionLabel={option => option.performanceEvaluationTitle}
               />
 

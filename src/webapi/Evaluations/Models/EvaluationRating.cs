@@ -39,12 +39,14 @@ namespace eppeta.webapi.Evaluations.Models
         public string? EvaluationRatingStatusDescriptor { get; set; } 
         public DateTime CreateDate { get; set; }
         public DateTime LastModifiedDate { get; set; }
-        public string? CandidateName { get; set; } = string.Empty;  
+        public string CandidateName { get; set; } = string.Empty;  
         [Required]
         [Column("EdFi_Id")]
         [StringLength(50)]
         public string EdFiId { get; set; }= string.Empty;
         public string UserId { get; set; } = string.Empty;
+        public int StatusId { get; set; } = 1;
+
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }

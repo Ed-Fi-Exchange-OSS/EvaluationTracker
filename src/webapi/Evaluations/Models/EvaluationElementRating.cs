@@ -48,12 +48,9 @@ namespace eppeta.webapi.Evaluations.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-
         // Foreign keys
         [ForeignKey("UserId")]
         public ApplicationUser? ApplicationUser { get; set; }
-        [ForeignKey("StatusId")]
-        public Status? RecordStatus { get; set; }
     public static explicit operator TpdmEvaluationElementRating(EvaluationElementRating evaluationElementRating)
         => new TpdmEvaluationElementRating
         (
