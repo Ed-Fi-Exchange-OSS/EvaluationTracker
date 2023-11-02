@@ -43,7 +43,7 @@ public class EvaluationController : ControllerBase
     }
 
     [HttpGet("{performanceEvaluationId}")]
-    public async Task<ActionResult<List<AvailableEvaluationObjective>>> GetEvaluationObjectivesElementsTitles(int performanceEvaluationId)
+    public async Task<ActionResult<List<AvailablePerformanceEvaluation>>> GetEvaluationObjectivesElementsTitles(int performanceEvaluationId)
     {
         if (performanceEvaluationId == 0)
             return BadRequest();
@@ -51,7 +51,7 @@ public class EvaluationController : ControllerBase
         string[] nonJoinCols = { "EdFiId", "Id", "CreateDate", "LastModifiedDate" };
         // get performanceEvaluation, evaluationObjective and evaluationElements records, columns and matching columns
         var performanceEvaluation = new List<PerformanceEvaluation> { await _evaluationRepository.GetPerformanceEvaluationById(performanceEvaluationId) };
-        if (performanceEvaluation == null)
+        if (!performanceEvaluation.Any())
             return NotFound();
         var evaluationObjectives = await _evaluationRepository.GetAllEvaluationObjectives();
         var evaluationElements = await _evaluationRepository.GetAllEvaluationElements();
@@ -71,26 +71,34 @@ public class EvaluationController : ControllerBase
         var availableObjectives = filteredObjectives.AsQueryable().GroupJoin(
             evaluationElements.AsQueryable(), colObjElSelector, colObjElSelector,
             "new (outer.Id, outer.EvaluationObjectiveTitle, inner as elements)").ToDynamicList();
-        var availableEvaluationObjectives = new List<AvailableEvaluationObjective>();
+        var availablePerformanceEvaluation = new AvailablePerformanceEvaluation();
+        availablePerformanceEvaluation.PerformanceEvaluationId = performanceEvaluationId;
         foreach (var availableObjective in availableObjectives)
         {
-            AvailableEvaluationObjective naeo = new AvailableEvaluationObjective
+            AvailablePerformanceEvaluation.AvailableEvaluationObjective naeo = new AvailablePerformanceEvaluation.AvailableEvaluationObjective
             {
                 Name = availableObjective.EvaluationObjectiveTitle,
                 EvaluationObjectiveId = availableObjective.Id
             };
             foreach (EvaluationElement el in availableObjective.elements)
             {
-                naeo.EvaluationElements.Add(new AvailableEvaluationObjective.AvailableEvaluationElement
+                naeo.EvaluationElements.Add(new AvailablePerformanceEvaluation.AvailableEvaluationElement
                 {
                     Name = el.EvaluationElementTitle,
                     EvaluationElementId = el.Id
                 });
             }
-            availableEvaluationObjectives.Add(naeo);
+            availablePerformanceEvaluation.EvaluationObjectives.Add(naeo);
         }
-        return Ok(availableEvaluationObjectives);
-
+        availablePerformanceEvaluation.RatingLevels.AddRange(performanceEvaluation.First()
+                .PerformanceEvaluationRatingLevels.Select(l => new AvailablePerformanceEvaluation.AvailableRatingLevel
+                {
+                    Name = l.EvaluationRatingLevelDescriptor.Split('#').Last(),
+                    RatingLevel = (int)l.MaxRating,
+                    RatingLevelId = l.Id
+                }
+            ));
+        return Ok(availablePerformanceEvaluation);
     }
     // GET: api/EvaluationApi
     // The GetEvaluation method is slow due to the need to retrieve configuration first
@@ -122,8 +130,8 @@ public class EvaluationController : ControllerBase
                 var peApi = new PerformanceEvaluationsApi(authenticatedConfiguration);
                 peApi.Configuration.DefaultHeaders.Add("Content-Type", "application/json");
                 var tpdmPerformanceEvaluations = await peApi.GetPerformanceEvaluationsAsync(limit: 100, offset: 0);
-                await _evaluationRepository.UpdatePerformanceEvaluations(tpdmPerformanceEvaluations.Select(pe => (PerformanceEvaluation)pe).ToList());
-
+                var performanceEvaluations = tpdmPerformanceEvaluations.Select(pe => (PerformanceEvaluation)pe).ToList();
+                await _evaluationRepository.UpdatePerformanceEvaluations(performanceEvaluations);
                 // set next expiration time
                 var cachedValue = _memoryCache.GetOrCreate(
                     dataExpirationKey,
