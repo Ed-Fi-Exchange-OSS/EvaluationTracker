@@ -52,9 +52,6 @@ public partial class EvaluationElementRatingResult
     [Required]
     [StringLength(225)]
     public string UserId { get; set; }
-    public int StatusId { get; set; } = 1;
     [Key]
     public int Id { get; set; }
-    [ForeignKey("StatusId")]
-    public Status? RecordStatus { get; set; }
 }

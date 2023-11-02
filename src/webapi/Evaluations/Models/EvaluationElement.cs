@@ -77,5 +77,21 @@ public partial class EvaluationElement
         SchoolYear = (short)tpdmEvaluationElement.EvaluationObjectiveReference.SchoolYear,
         TermDescriptor = tpdmEvaluationElement.EvaluationObjectiveReference.TermDescriptor
     };
-
+    public static explicit operator TpdmEvaluationElement(EvaluationElement evaluationElement)
+        => new TpdmEvaluationElement
+        (
+            evaluationObjectiveReference : new TpdmEvaluationObjectiveReference
+            (
+                educationOrganizationId : (int)evaluationElement.EducationOrganizationId,
+                evaluationObjectiveTitle : evaluationElement.EvaluationObjectiveTitle,
+                evaluationPeriodDescriptor : evaluationElement.EvaluationPeriodDescriptor,
+                evaluationTitle : evaluationElement.EvaluationTitle,
+                performanceEvaluationTitle : evaluationElement.PerformanceEvaluationTitle,
+                performanceEvaluationTypeDescriptor : evaluationElement.PerformanceEvaluationTypeDescriptor,
+                schoolYear : evaluationElement.SchoolYear,
+                termDescriptor : evaluationElement.TermDescriptor
+            ),
+            evaluationElementTitle : evaluationElement.EvaluationElementTitle,
+            evaluationTypeDescriptor : evaluationElement.EvaluationTypeDescriptor
+        );
 }

@@ -3,6 +3,7 @@
 // The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
 // See the LICENSE and NOTICES files in the project root for more information.
 
+using EdFi.OdsApi.Sdk.Models.All;
 using eppeta.webapi.Identity.Models;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -48,12 +49,42 @@ namespace eppeta.webapi.Evaluations.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        public int StatusId { get; set; } = 1;
         // Foreign keys
         [ForeignKey("UserId")]
         public ApplicationUser? ApplicationUser { get; set; }
-        [ForeignKey("StatusId")]
-        public Status? RecordStatus { get; set; }
+
+        public static explicit operator TpdmEvaluationObjectiveRating(EvaluationObjectiveRating evaluationObjectiveRating)
+        {
+            return new TpdmEvaluationObjectiveRating
+            (
+                evaluationObjectiveReference : new TpdmEvaluationObjectiveReference
+                (
+                    educationOrganizationId : (int)evaluationObjectiveRating.EducationOrganizationId,
+                    evaluationObjectiveTitle : evaluationObjectiveRating.EvaluationObjectiveTitle,
+                    evaluationPeriodDescriptor : evaluationObjectiveRating.EvaluationPeriodDescriptor,
+                    evaluationTitle : evaluationObjectiveRating.EvaluationTitle,
+                    performanceEvaluationTitle : evaluationObjectiveRating.PerformanceEvaluationTitle,
+                    performanceEvaluationTypeDescriptor : evaluationObjectiveRating.PerformanceEvaluationTypeDescriptor,
+                    schoolYear : evaluationObjectiveRating.SchoolYear,
+                    termDescriptor : evaluationObjectiveRating.TermDescriptor
+                ),
+                evaluationRatingReference : new TpdmEvaluationRatingReference
+                (
+                    educationOrganizationId : (int)evaluationObjectiveRating.EducationOrganizationId,
+                    evaluationPeriodDescriptor : evaluationObjectiveRating.EvaluationPeriodDescriptor,
+                    evaluationTitle : evaluationObjectiveRating.EvaluationTitle,
+                    performanceEvaluationTitle : evaluationObjectiveRating.PerformanceEvaluationTitle,
+                    performanceEvaluationTypeDescriptor : evaluationObjectiveRating.PerformanceEvaluationTypeDescriptor,
+                    evaluationDate : evaluationObjectiveRating.EvaluationDate,
+                    schoolYear : evaluationObjectiveRating.SchoolYear,
+                    termDescriptor : evaluationObjectiveRating.TermDescriptor,
+                    personId : evaluationObjectiveRating.PersonId,
+                    sourceSystemDescriptor : evaluationObjectiveRating.SourceSystemDescriptor
+                ),
+                objectiveRatingLevelDescriptor : evaluationObjectiveRating.ObjectiveRatingLevelDescriptor,
+                comments : evaluationObjectiveRating.Comments
+            );
+        }
     }
 }
 
