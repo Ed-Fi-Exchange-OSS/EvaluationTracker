@@ -45,7 +45,6 @@ namespace eppeta.webapi.Evaluations.Models
         [StringLength(50)]
         public string EdFiId { get; set; }= string.Empty;
         public string UserId { get; set; } = string.Empty;
-        public int StatusId { get; set; } = 1;
 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
