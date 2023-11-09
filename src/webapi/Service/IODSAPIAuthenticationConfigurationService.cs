@@ -10,6 +10,6 @@ namespace eppeta.webapi.Service
 {
     public interface IODSAPIAuthenticationConfigurationService
     {
-        Configuration GetAuthenticatedConfiguration();
+        Task<Configuration> GetAuthenticatedConfiguration();
     }
 }

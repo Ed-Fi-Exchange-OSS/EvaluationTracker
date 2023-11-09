@@ -9,19 +9,15 @@ using System.Linq.Dynamic.Core;
 
 namespace eppeta.webapi.Evaluations.Data
 {
+
+    // Disabled because Entity Framework sets the DbSets collections and we don't need to guard against null as we normally would.
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+#pragma warning disable CS8603 // Possible null reference
     public class EvaluationDbContext : DbContext, IEvaluationRepository
     {
         public EvaluationDbContext(DbContextOptions<EvaluationDbContext> options)
             : base(options)
         {
-            Evaluations = Set<Evaluation>();
-            PerformanceEvaluations = Set<PerformanceEvaluation>();
-            EvaluationElements = Set<EvaluationElement>();
-            EvaluationObjectives = Set<EvaluationObjective>();
-            PerformanceEvaluationRatings = Set<PerformanceEvaluationRating>();
-            EvaluationRatings = Set<EvaluationRating>();
-            EvaluationObjectiveRatings = Set<EvaluationObjectiveRating>();
-            EvaluationElementRatings = Set<EvaluationElementRating>();
         }
 
         public async Task<List<Evaluation>> GetAllEvaluations()
@@ -46,24 +42,27 @@ namespace eppeta.webapi.Evaluations.Data
             return await EvaluationObjectives.ToListAsync();
         }
 
-        private object FilterByRequiredFields<T>(List<T> listToFilter, object referenceObject)
+        private static object FilterByRequiredFields<T>(List<T> listToFilter, object referenceObject)
         {
             var requiredProperties = referenceObject.GetType().GetProperties()
                 .Where(p => p.IsDefined(typeof(System.ComponentModel.DataAnnotations.RequiredAttribute), true)
                     && p.Name != "EdFiId").ToList();
-            List<string> colFilter = new List<string>();
-            foreach (var property in requiredProperties)
+            var colFilter = new List<string>();
+            foreach (var property in requiredProperties.Where(x => x is not null))
             {
                 if (property.PropertyType == typeof(DateTime))
                 {
                     // SQL needs exact datetime format
-                    string dateTimeVal = ((DateTime)property.GetValue(referenceObject)).ToString("yyyy-MM-dd HH:mm:ss.FFF");
+                    // Disabled: `property` cannot be null, due to filter in the foreach
+#pragma warning disable CS8605 // Unboxing a possibly null value.
+                    var dateTimeVal = ((DateTime)property.GetValue(referenceObject)).ToString("yyyy-MM-dd HH:mm:ss.FFF");
+#pragma warning restore CS8605 // Unboxing a possibly null value.
                     colFilter.Add($"{property.Name} == \"{dateTimeVal}\"");
                 }
                 else
                     colFilter.Add($"{property.Name} == \"{property.GetValue(referenceObject)}\"");
             }
-            string whereClause = String.Join(" and ", colFilter);
+            var whereClause = string.Join(" and ", colFilter);
             return listToFilter.AsQueryable().Where(whereClause).FirstOrDefault();
         }
 
@@ -180,7 +179,8 @@ namespace eppeta.webapi.Evaluations.Data
                         if (property.Name != "Id")
                             property.SetValue(epe, property.GetValue(pe));
                     PerformanceEvaluations.Update((PerformanceEvaluation)epe);
-                } else
+                }
+                else
                     // Add new records
                     PerformanceEvaluations.Update(pe);
             }
@@ -273,10 +273,11 @@ namespace eppeta.webapi.Evaluations.Data
             return await EvaluationElements.ToListAsync();
         }
 
-        Task<EvaluationElement> IEvaluationRepository.GetEvaluationElementById(int id)
+        Task<EvaluationElement?> IEvaluationRepository.GetEvaluationElementById(int id)
         {
             return EvaluationElements.Where(ee => ee.Id == id).FirstOrDefaultAsync();
         }
 
     }
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 }

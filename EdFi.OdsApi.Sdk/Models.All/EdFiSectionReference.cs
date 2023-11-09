@@ -155,30 +155,30 @@ namespace EdFi.OdsApi.Sdk.Models.All
             {
                 return false;
             }
-            return 
+            return
                 (
                     this.LocalCourseCode == input.LocalCourseCode ||
                     (this.LocalCourseCode != null &&
                     this.LocalCourseCode.Equals(input.LocalCourseCode))
-                ) && 
+                ) &&
                 (
                     this.SchoolId == input.SchoolId ||
                     this.SchoolId.Equals(input.SchoolId)
-                ) && 
+                ) &&
                 (
                     this.SchoolYear == input.SchoolYear ||
                     this.SchoolYear.Equals(input.SchoolYear)
-                ) && 
+                ) &&
                 (
                     this.SectionIdentifier == input.SectionIdentifier ||
                     (this.SectionIdentifier != null &&
                     this.SectionIdentifier.Equals(input.SectionIdentifier))
-                ) && 
+                ) &&
                 (
                     this.SessionName == input.SessionName ||
                     (this.SessionName != null &&
                     this.SessionName.Equals(input.SessionName))
-                ) && 
+                ) &&
                 (
                     this.Link == input.Link ||
                     (this.Link != null &&
@@ -227,19 +227,19 @@ namespace EdFi.OdsApi.Sdk.Models.All
             // LocalCourseCode (string) maxLength
             if (this.LocalCourseCode != null && this.LocalCourseCode.Length > 60)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for LocalCourseCode, length must be less than 60.", new [] { "LocalCourseCode" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for LocalCourseCode, length must be less than 60.", new[] { "LocalCourseCode" });
             }
 
             // SectionIdentifier (string) maxLength
             if (this.SectionIdentifier != null && this.SectionIdentifier.Length > 255)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for SectionIdentifier, length must be less than 255.", new [] { "SectionIdentifier" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for SectionIdentifier, length must be less than 255.", new[] { "SectionIdentifier" });
             }
 
             // SessionName (string) maxLength
             if (this.SessionName != null && this.SessionName.Length > 60)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for SessionName, length must be less than 60.", new [] { "SessionName" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for SessionName, length must be less than 60.", new[] { "SessionName" });
             }
 
             yield break;

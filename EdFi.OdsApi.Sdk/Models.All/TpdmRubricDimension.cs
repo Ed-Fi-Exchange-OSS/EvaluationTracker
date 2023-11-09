@@ -159,36 +159,36 @@ namespace EdFi.OdsApi.Sdk.Models.All
             {
                 return false;
             }
-            return 
+            return
                 (
                     this.Id == input.Id ||
                     (this.Id != null &&
                     this.Id.Equals(input.Id))
-                ) && 
+                ) &&
                 (
                     this.RubricRating == input.RubricRating ||
                     this.RubricRating.Equals(input.RubricRating)
-                ) && 
+                ) &&
                 (
                     this.EvaluationElementReference == input.EvaluationElementReference ||
                     (this.EvaluationElementReference != null &&
                     this.EvaluationElementReference.Equals(input.EvaluationElementReference))
-                ) && 
+                ) &&
                 (
                     this.CriterionDescription == input.CriterionDescription ||
                     (this.CriterionDescription != null &&
                     this.CriterionDescription.Equals(input.CriterionDescription))
-                ) && 
+                ) &&
                 (
                     this.DimensionOrder == input.DimensionOrder ||
                     (this.DimensionOrder != null &&
                     this.DimensionOrder.Equals(input.DimensionOrder))
-                ) && 
+                ) &&
                 (
                     this.RubricRatingLevelDescriptor == input.RubricRatingLevelDescriptor ||
                     (this.RubricRatingLevelDescriptor != null &&
                     this.RubricRatingLevelDescriptor.Equals(input.RubricRatingLevelDescriptor))
-                ) && 
+                ) &&
                 (
                     this.Etag == input.Etag ||
                     (this.Etag != null &&
@@ -244,13 +244,13 @@ namespace EdFi.OdsApi.Sdk.Models.All
             // CriterionDescription (string) maxLength
             if (this.CriterionDescription != null && this.CriterionDescription.Length > 1024)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for CriterionDescription, length must be less than 1024.", new [] { "CriterionDescription" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for CriterionDescription, length must be less than 1024.", new[] { "CriterionDescription" });
             }
 
             // RubricRatingLevelDescriptor (string) maxLength
             if (this.RubricRatingLevelDescriptor != null && this.RubricRatingLevelDescriptor.Length > 306)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for RubricRatingLevelDescriptor, length must be less than 306.", new [] { "RubricRatingLevelDescriptor" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for RubricRatingLevelDescriptor, length must be less than 306.", new[] { "RubricRatingLevelDescriptor" });
             }
 
             yield break;

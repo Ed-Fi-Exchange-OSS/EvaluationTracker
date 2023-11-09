@@ -6,6 +6,7 @@
 using eppeta.webapi.Evaluations.Data;
 using eppeta.webapi.Identity.Data;
 using eppeta.webapi.Identity.Models;
+using eppeta.webapi.Infrastructure;
 using eppeta.webapi.Service;
 using eppeta.webapi.Swagger;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -15,52 +16,91 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
 using Quartz;
-
+using Serilog;
 
 namespace eppeta.webapi;
 
 internal class Program
 {
-    const string ConnectionStringName = "DefaultConnection";
-    const string TokenEndpoint = "connect/token";
-    const string AllowedOriginsPolicy = "AllowedOriginsPolicy";
+    private const string ConnectionStringName = "DefaultConnection";
+    private const string TokenEndpoint = "connect/token";
+    private const string AllowedOriginsPolicy = "AllowedOriginsPolicy";
 
-    private static void Main(string[] args)
+    private static async Task Main(string[] args)
     {
-        var builder = WebApplication.CreateBuilder(args);
-        AppSettings.Initialize(builder.Configuration);
-        // Use the TrustAllSSLCerts method in the AppSettings class to trust all SSL certificates.
-        AppSettings.TrustAllSSLCerts();
+        // For logging before we've read the log settings
+        Log.Logger = new LoggerConfiguration()
+               .Enrich.FromLogContext()
+               .WriteTo.Console(outputTemplate: "[{Timestamp:yyyy-MM-dd HH:mm:ss.fff}] {Level:u3} {Message:lj}{NewLine}{Exception}")
+               .CreateBootstrapLogger();
 
-        // Add services to the container.
-        builder.Services.AddControllers();
-        ConfigureCorsService(builder.Services);
-        ConfigureDatabaseConnection(builder);
-        ConfigureLocalIdentityProvider(builder.Services);
-        ConfigureQuartz(builder.Services);
-        ConfigureSwaggerUIServices(builder.Services);
-        ConfigureAspNetAuth(builder.Services);
-
-        // Add authentication configuration service to the container.
-        builder.Services.AddScoped<IODSAPIAuthenticationConfigurationService>(
-            provider => new ODSAPIAuthenticationConfigurationService(builder.Configuration["OdsApiBasePath"], builder.Configuration["ODSAPIKey"], builder.Configuration["ODSAPISecret"])
-        );
-
-        var app = builder.Build();
-
-        // Configure the HTTP request pipeline.
-        ConfigureSwaggerUIApp(app);
-        app.UseForwardedHeaders();
-        app.UseRouting();
-        app.UseCors(AllowedOriginsPolicy);
-        app.UseAuthentication();
-        app.UseAuthorization();
-        app.UseEndpoints(endpoints =>
+        try
         {
-            endpoints.MapControllers();
-            endpoints.MapDefaultControllerRoute();
-        });
-        app.Run();
+            Log.Information("Starting EPP Evaluation Tracker API...");
+            var builder = WebApplication.CreateBuilder(args);
+            AppSettings.Initialize(builder.Configuration);
+            // Use the TrustAllSSLCerts method in the AppSettings class to trust all SSL certificates.
+            AppSettings.OptionallyTrustAllSSLCerts();
+
+            // Add services to the container.
+            builder.Services.AddControllers();
+            ConfigureLogging(builder);
+            ConfigureWebHost(builder);
+            ConfigureCorsService(builder.Services);
+            ConfigureDatabaseConnection(builder);
+            ConfigureLocalIdentityProvider(builder.Services);
+            ConfigureQuartz(builder.Services);
+            ConfigureSwaggerUIServices(builder.Services);
+            ConfigureAspNetAuth(builder.Services);
+
+            // Add authentication configuration service to the container.
+            builder.Services.AddScoped<IODSAPIAuthenticationConfigurationService>(
+                provider => new ODSAPIAuthenticationConfigurationService(builder.Configuration["OdsApiBasePath"], builder.Configuration["ODSAPIKey"], builder.Configuration["ODSAPISecret"])
+            );
+
+            var app = builder.Build();
+
+            // Configure the HTTP request pipeline.
+            ConfigureSwaggerUIApp(app);
+            app.UseForwardedHeaders();
+            app.UseMiddleware<LoggingMiddleware>();
+            app.UseRouting();
+            app.UseCors(AllowedOriginsPolicy);
+            app.UseAuthentication();
+            app.UseAuthorization();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+                endpoints.MapDefaultControllerRoute();
+            });
+            await app.RunAsync();
+        }
+        catch (Exception ex)
+        {
+            Log.Fatal(ex, "Application start-up failed");
+            Environment.Exit(1);
+        }
+        finally
+        {
+            await Log.CloseAndFlushAsync();
+        }
+
+        static void ConfigureLogging(WebApplicationBuilder builder)
+        {
+            builder.Host.UseSerilog((context, services, configuration) =>
+                configuration
+                    .ReadFrom.Configuration(context.Configuration)
+                    .ReadFrom.Services(services)
+                    .Enrich.FromLogContext()
+            );
+        }
+
+        static void ConfigureWebHost(WebApplicationBuilder builder)
+        {
+            builder.WebHost.ConfigureKestrel(
+                // Security through obscurity: don't add a header revealing the web server
+                serverOptions => { serverOptions.AddServerHeader = false; });
+        }
 
         static void ConfigureCorsService(IServiceCollection services)
         {
@@ -202,7 +242,7 @@ internal class Program
                         {
                             Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "bearerAuth" }
                         },
-                        new string[] {}
+                        Array.Empty<string>()
                     }
                 });
 

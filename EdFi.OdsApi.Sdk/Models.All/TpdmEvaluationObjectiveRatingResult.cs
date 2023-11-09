@@ -121,16 +121,16 @@ namespace EdFi.OdsApi.Sdk.Models.All
             {
                 return false;
             }
-            return 
+            return
                 (
                     this.Rating == input.Rating ||
                     this.Rating.Equals(input.Rating)
-                ) && 
+                ) &&
                 (
                     this.RatingResultTitle == input.RatingResultTitle ||
                     (this.RatingResultTitle != null &&
                     this.RatingResultTitle.Equals(input.RatingResultTitle))
-                ) && 
+                ) &&
                 (
                     this.ResultDatatypeTypeDescriptor == input.ResultDatatypeTypeDescriptor ||
                     (this.ResultDatatypeTypeDescriptor != null &&
@@ -170,13 +170,13 @@ namespace EdFi.OdsApi.Sdk.Models.All
             // RatingResultTitle (string) maxLength
             if (this.RatingResultTitle != null && this.RatingResultTitle.Length > 50)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for RatingResultTitle, length must be less than 50.", new [] { "RatingResultTitle" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for RatingResultTitle, length must be less than 50.", new[] { "RatingResultTitle" });
             }
 
             // ResultDatatypeTypeDescriptor (string) maxLength
             if (this.ResultDatatypeTypeDescriptor != null && this.ResultDatatypeTypeDescriptor.Length > 306)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for ResultDatatypeTypeDescriptor, length must be less than 306.", new [] { "ResultDatatypeTypeDescriptor" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for ResultDatatypeTypeDescriptor, length must be less than 306.", new[] { "ResultDatatypeTypeDescriptor" });
             }
 
             yield break;

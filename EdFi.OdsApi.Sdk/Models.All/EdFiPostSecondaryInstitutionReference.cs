@@ -100,11 +100,11 @@ namespace EdFi.OdsApi.Sdk.Models.All
             {
                 return false;
             }
-            return 
+            return
                 (
                     this.PostSecondaryInstitutionId == input.PostSecondaryInstitutionId ||
                     this.PostSecondaryInstitutionId.Equals(input.PostSecondaryInstitutionId)
-                ) && 
+                ) &&
                 (
                     this.Link == input.Link ||
                     (this.Link != null &&

@@ -229,64 +229,64 @@ namespace EdFi.OdsApi.Sdk.Models.All
             {
                 return false;
             }
-            return 
+            return
                 (
                     this.Id == input.Id ||
                     (this.Id != null &&
                     this.Id.Equals(input.Id))
-                ) && 
+                ) &&
                 (
                     this.EvaluationPeriodDescriptor == input.EvaluationPeriodDescriptor ||
                     (this.EvaluationPeriodDescriptor != null &&
                     this.EvaluationPeriodDescriptor.Equals(input.EvaluationPeriodDescriptor))
-                ) && 
+                ) &&
                 (
                     this.PerformanceEvaluationTitle == input.PerformanceEvaluationTitle ||
                     (this.PerformanceEvaluationTitle != null &&
                     this.PerformanceEvaluationTitle.Equals(input.PerformanceEvaluationTitle))
-                ) && 
+                ) &&
                 (
                     this.PerformanceEvaluationTypeDescriptor == input.PerformanceEvaluationTypeDescriptor ||
                     (this.PerformanceEvaluationTypeDescriptor != null &&
                     this.PerformanceEvaluationTypeDescriptor.Equals(input.PerformanceEvaluationTypeDescriptor))
-                ) && 
+                ) &&
                 (
                     this.TermDescriptor == input.TermDescriptor ||
                     (this.TermDescriptor != null &&
                     this.TermDescriptor.Equals(input.TermDescriptor))
-                ) && 
+                ) &&
                 (
                     this.EducationOrganizationReference == input.EducationOrganizationReference ||
                     (this.EducationOrganizationReference != null &&
                     this.EducationOrganizationReference.Equals(input.EducationOrganizationReference))
-                ) && 
+                ) &&
                 (
                     this.SchoolYearTypeReference == input.SchoolYearTypeReference ||
                     (this.SchoolYearTypeReference != null &&
                     this.SchoolYearTypeReference.Equals(input.SchoolYearTypeReference))
-                ) && 
+                ) &&
                 (
                     this.AcademicSubjectDescriptor == input.AcademicSubjectDescriptor ||
                     (this.AcademicSubjectDescriptor != null &&
                     this.AcademicSubjectDescriptor.Equals(input.AcademicSubjectDescriptor))
-                ) && 
+                ) &&
                 (
                     this.GradeLevels == input.GradeLevels ||
                     this.GradeLevels != null &&
                     input.GradeLevels != null &&
                     this.GradeLevels.SequenceEqual(input.GradeLevels)
-                ) && 
+                ) &&
                 (
                     this.PerformanceEvaluationDescription == input.PerformanceEvaluationDescription ||
                     (this.PerformanceEvaluationDescription != null &&
                     this.PerformanceEvaluationDescription.Equals(input.PerformanceEvaluationDescription))
-                ) && 
+                ) &&
                 (
                     this.RatingLevels == input.RatingLevels ||
                     this.RatingLevels != null &&
                     input.RatingLevels != null &&
                     this.RatingLevels.SequenceEqual(input.RatingLevels)
-                ) && 
+                ) &&
                 (
                     this.Etag == input.Etag ||
                     (this.Etag != null &&
@@ -365,37 +365,37 @@ namespace EdFi.OdsApi.Sdk.Models.All
             // EvaluationPeriodDescriptor (string) maxLength
             if (this.EvaluationPeriodDescriptor != null && this.EvaluationPeriodDescriptor.Length > 306)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for EvaluationPeriodDescriptor, length must be less than 306.", new [] { "EvaluationPeriodDescriptor" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for EvaluationPeriodDescriptor, length must be less than 306.", new[] { "EvaluationPeriodDescriptor" });
             }
 
             // PerformanceEvaluationTitle (string) maxLength
             if (this.PerformanceEvaluationTitle != null && this.PerformanceEvaluationTitle.Length > 50)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for PerformanceEvaluationTitle, length must be less than 50.", new [] { "PerformanceEvaluationTitle" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for PerformanceEvaluationTitle, length must be less than 50.", new[] { "PerformanceEvaluationTitle" });
             }
 
             // PerformanceEvaluationTypeDescriptor (string) maxLength
             if (this.PerformanceEvaluationTypeDescriptor != null && this.PerformanceEvaluationTypeDescriptor.Length > 306)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for PerformanceEvaluationTypeDescriptor, length must be less than 306.", new [] { "PerformanceEvaluationTypeDescriptor" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for PerformanceEvaluationTypeDescriptor, length must be less than 306.", new[] { "PerformanceEvaluationTypeDescriptor" });
             }
 
             // TermDescriptor (string) maxLength
             if (this.TermDescriptor != null && this.TermDescriptor.Length > 306)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for TermDescriptor, length must be less than 306.", new [] { "TermDescriptor" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for TermDescriptor, length must be less than 306.", new[] { "TermDescriptor" });
             }
 
             // AcademicSubjectDescriptor (string) maxLength
             if (this.AcademicSubjectDescriptor != null && this.AcademicSubjectDescriptor.Length > 306)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for AcademicSubjectDescriptor, length must be less than 306.", new [] { "AcademicSubjectDescriptor" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for AcademicSubjectDescriptor, length must be less than 306.", new[] { "AcademicSubjectDescriptor" });
             }
 
             // PerformanceEvaluationDescription (string) maxLength
             if (this.PerformanceEvaluationDescription != null && this.PerformanceEvaluationDescription.Length > 255)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for PerformanceEvaluationDescription, length must be less than 255.", new [] { "PerformanceEvaluationDescription" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for PerformanceEvaluationDescription, length must be less than 255.", new[] { "PerformanceEvaluationDescription" });
             }
 
             yield break;

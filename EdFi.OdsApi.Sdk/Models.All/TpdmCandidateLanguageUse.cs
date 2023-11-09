@@ -96,7 +96,7 @@ namespace EdFi.OdsApi.Sdk.Models.All
             {
                 return false;
             }
-            return 
+            return
                 (
                     this.LanguageUseDescriptor == input.LanguageUseDescriptor ||
                     (this.LanguageUseDescriptor != null &&
@@ -131,7 +131,7 @@ namespace EdFi.OdsApi.Sdk.Models.All
             // LanguageUseDescriptor (string) maxLength
             if (this.LanguageUseDescriptor != null && this.LanguageUseDescriptor.Length > 306)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for LanguageUseDescriptor, length must be less than 306.", new [] { "LanguageUseDescriptor" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for LanguageUseDescriptor, length must be less than 306.", new[] { "LanguageUseDescriptor" });
             }
 
             yield break;

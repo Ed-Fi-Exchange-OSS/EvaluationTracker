@@ -135,22 +135,22 @@ namespace EdFi.OdsApi.Sdk.Models.All
             {
                 return false;
             }
-            return 
+            return
                 (
                     this.Namespace == input.Namespace ||
                     (this.Namespace != null &&
                     this.Namespace.Equals(input.Namespace))
-                ) && 
+                ) &&
                 (
                     this.SurveyIdentifier == input.SurveyIdentifier ||
                     (this.SurveyIdentifier != null &&
                     this.SurveyIdentifier.Equals(input.SurveyIdentifier))
-                ) && 
+                ) &&
                 (
                     this.SurveyResponseIdentifier == input.SurveyResponseIdentifier ||
                     (this.SurveyResponseIdentifier != null &&
                     this.SurveyResponseIdentifier.Equals(input.SurveyResponseIdentifier))
-                ) && 
+                ) &&
                 (
                     this.Link == input.Link ||
                     (this.Link != null &&
@@ -197,19 +197,19 @@ namespace EdFi.OdsApi.Sdk.Models.All
             // Namespace (string) maxLength
             if (this.Namespace != null && this.Namespace.Length > 255)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Namespace, length must be less than 255.", new [] { "Namespace" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Namespace, length must be less than 255.", new[] { "Namespace" });
             }
 
             // SurveyIdentifier (string) maxLength
             if (this.SurveyIdentifier != null && this.SurveyIdentifier.Length > 60)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for SurveyIdentifier, length must be less than 60.", new [] { "SurveyIdentifier" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for SurveyIdentifier, length must be less than 60.", new[] { "SurveyIdentifier" });
             }
 
             // SurveyResponseIdentifier (string) maxLength
             if (this.SurveyResponseIdentifier != null && this.SurveyResponseIdentifier.Length > 60)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for SurveyResponseIdentifier, length must be less than 60.", new [] { "SurveyResponseIdentifier" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for SurveyResponseIdentifier, length must be less than 60.", new[] { "SurveyResponseIdentifier" });
             }
 
             yield break;

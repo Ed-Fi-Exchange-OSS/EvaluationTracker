@@ -105,12 +105,12 @@ namespace EdFi.OdsApi.Sdk.Models.All
             {
                 return false;
             }
-            return 
+            return
                 (
                     this.StudentUniqueId == input.StudentUniqueId ||
                     (this.StudentUniqueId != null &&
                     this.StudentUniqueId.Equals(input.StudentUniqueId))
-                ) && 
+                ) &&
                 (
                     this.Link == input.Link ||
                     (this.Link != null &&
@@ -149,7 +149,7 @@ namespace EdFi.OdsApi.Sdk.Models.All
             // StudentUniqueId (string) maxLength
             if (this.StudentUniqueId != null && this.StudentUniqueId.Length > 32)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for StudentUniqueId, length must be less than 32.", new [] { "StudentUniqueId" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for StudentUniqueId, length must be less than 32.", new[] { "StudentUniqueId" });
             }
 
             yield break;

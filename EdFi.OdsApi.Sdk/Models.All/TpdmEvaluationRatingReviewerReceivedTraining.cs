@@ -98,12 +98,12 @@ namespace EdFi.OdsApi.Sdk.Models.All
             {
                 return false;
             }
-            return 
+            return
                 (
                     this.InterRaterReliabilityScore == input.InterRaterReliabilityScore ||
                     (this.InterRaterReliabilityScore != null &&
                     this.InterRaterReliabilityScore.Equals(input.InterRaterReliabilityScore))
-                ) && 
+                ) &&
                 (
                     this.ReceivedTrainingDate == input.ReceivedTrainingDate ||
                     (this.ReceivedTrainingDate != null &&

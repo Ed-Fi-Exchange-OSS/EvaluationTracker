@@ -180,48 +180,48 @@ namespace EdFi.OdsApi.Sdk.Models.All
             {
                 return false;
             }
-            return 
+            return
                 (
                     this.Id == input.Id ||
                     (this.Id != null &&
                     this.Id.Equals(input.Id))
-                ) && 
+                ) &&
                 (
                     this.EvaluationElementTitle == input.EvaluationElementTitle ||
                     (this.EvaluationElementTitle != null &&
                     this.EvaluationElementTitle.Equals(input.EvaluationElementTitle))
-                ) && 
+                ) &&
                 (
                     this.EvaluationObjectiveReference == input.EvaluationObjectiveReference ||
                     (this.EvaluationObjectiveReference != null &&
                     this.EvaluationObjectiveReference.Equals(input.EvaluationObjectiveReference))
-                ) && 
+                ) &&
                 (
                     this.EvaluationTypeDescriptor == input.EvaluationTypeDescriptor ||
                     (this.EvaluationTypeDescriptor != null &&
                     this.EvaluationTypeDescriptor.Equals(input.EvaluationTypeDescriptor))
-                ) && 
+                ) &&
                 (
                     this.MaxRating == input.MaxRating ||
                     (this.MaxRating != null &&
                     this.MaxRating.Equals(input.MaxRating))
-                ) && 
+                ) &&
                 (
                     this.MinRating == input.MinRating ||
                     (this.MinRating != null &&
                     this.MinRating.Equals(input.MinRating))
-                ) && 
+                ) &&
                 (
                     this.RatingLevels == input.RatingLevels ||
                     this.RatingLevels != null &&
                     input.RatingLevels != null &&
                     this.RatingLevels.SequenceEqual(input.RatingLevels)
-                ) && 
+                ) &&
                 (
                     this.SortOrder == input.SortOrder ||
                     (this.SortOrder != null &&
                     this.SortOrder.Equals(input.SortOrder))
-                ) && 
+                ) &&
                 (
                     this.Etag == input.Etag ||
                     (this.Etag != null &&
@@ -288,13 +288,13 @@ namespace EdFi.OdsApi.Sdk.Models.All
             // EvaluationElementTitle (string) maxLength
             if (this.EvaluationElementTitle != null && this.EvaluationElementTitle.Length > 255)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for EvaluationElementTitle, length must be less than 255.", new [] { "EvaluationElementTitle" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for EvaluationElementTitle, length must be less than 255.", new[] { "EvaluationElementTitle" });
             }
 
             // EvaluationTypeDescriptor (string) maxLength
             if (this.EvaluationTypeDescriptor != null && this.EvaluationTypeDescriptor.Length > 306)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for EvaluationTypeDescriptor, length must be less than 306.", new [] { "EvaluationTypeDescriptor" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for EvaluationTypeDescriptor, length must be less than 306.", new[] { "EvaluationTypeDescriptor" });
             }
 
             yield break;

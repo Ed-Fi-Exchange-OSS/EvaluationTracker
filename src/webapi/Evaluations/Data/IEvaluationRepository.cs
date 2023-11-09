@@ -4,8 +4,6 @@
 // See the LICENSE and NOTICES files in the project root for more information.
 
 using eppeta.webapi.Evaluations.Models;
-using eppeta.webapi.Identity.Models;
-using System.Diagnostics;
 
 namespace eppeta.webapi.Evaluations.Data;
 
@@ -18,7 +16,7 @@ public interface IEvaluationRepository
     Task<List<EvaluationObjective>> GetAllEvaluationObjectives();
     Task<EvaluationObjective> GetEvaluationObjectiveById(int id);
     Task<List<EvaluationElement>> GetAllEvaluationElements();
-    Task<EvaluationElement> GetEvaluationElementById(int id);
+    Task<EvaluationElement?> GetEvaluationElementById(int id);
     Task<List<PerformanceEvaluationRating>> GetAllPerformanceEvaluationRatings();
     Task UpdateEvaluationObjectives(List<EvaluationObjective> evaluationObjects);
     Task UpdateEvaluationElements(List<EvaluationElement> evaluationElements);

@@ -96,7 +96,7 @@ namespace EdFi.OdsApi.Sdk.Models.All
             {
                 return false;
             }
-            return 
+            return
                 (
                     this.DisabilityDesignationDescriptor == input.DisabilityDesignationDescriptor ||
                     (this.DisabilityDesignationDescriptor != null &&
@@ -131,7 +131,7 @@ namespace EdFi.OdsApi.Sdk.Models.All
             // DisabilityDesignationDescriptor (string) maxLength
             if (this.DisabilityDesignationDescriptor != null && this.DisabilityDesignationDescriptor.Length > 306)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for DisabilityDesignationDescriptor, length must be less than 306.", new [] { "DisabilityDesignationDescriptor" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for DisabilityDesignationDescriptor, length must be less than 306.", new[] { "DisabilityDesignationDescriptor" });
             }
 
             yield break;

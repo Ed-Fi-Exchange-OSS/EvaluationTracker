@@ -175,43 +175,43 @@ namespace EdFi.OdsApi.Sdk.Models.All
             {
                 return false;
             }
-            return 
+            return
                 (
                     this.Id == input.Id ||
                     (this.Id != null &&
                     this.Id.Equals(input.Id))
-                ) && 
+                ) &&
                 (
                     this.ProgramName == input.ProgramName ||
                     (this.ProgramName != null &&
                     this.ProgramName.Equals(input.ProgramName))
-                ) && 
+                ) &&
                 (
                     this.ProgramTypeDescriptor == input.ProgramTypeDescriptor ||
                     (this.ProgramTypeDescriptor != null &&
                     this.ProgramTypeDescriptor.Equals(input.ProgramTypeDescriptor))
-                ) && 
+                ) &&
                 (
                     this.EducationOrganizationReference == input.EducationOrganizationReference ||
                     (this.EducationOrganizationReference != null &&
                     this.EducationOrganizationReference.Equals(input.EducationOrganizationReference))
-                ) && 
+                ) &&
                 (
                     this.AccreditationStatusDescriptor == input.AccreditationStatusDescriptor ||
                     (this.AccreditationStatusDescriptor != null &&
                     this.AccreditationStatusDescriptor.Equals(input.AccreditationStatusDescriptor))
-                ) && 
+                ) &&
                 (
                     this.GradeLevels == input.GradeLevels ||
                     this.GradeLevels != null &&
                     input.GradeLevels != null &&
                     this.GradeLevels.SequenceEqual(input.GradeLevels)
-                ) && 
+                ) &&
                 (
                     this.ProgramId == input.ProgramId ||
                     (this.ProgramId != null &&
                     this.ProgramId.Equals(input.ProgramId))
-                ) && 
+                ) &&
                 (
                     this.Etag == input.Etag ||
                     (this.Etag != null &&
@@ -274,25 +274,25 @@ namespace EdFi.OdsApi.Sdk.Models.All
             // ProgramName (string) maxLength
             if (this.ProgramName != null && this.ProgramName.Length > 255)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for ProgramName, length must be less than 255.", new [] { "ProgramName" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for ProgramName, length must be less than 255.", new[] { "ProgramName" });
             }
 
             // ProgramTypeDescriptor (string) maxLength
             if (this.ProgramTypeDescriptor != null && this.ProgramTypeDescriptor.Length > 306)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for ProgramTypeDescriptor, length must be less than 306.", new [] { "ProgramTypeDescriptor" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for ProgramTypeDescriptor, length must be less than 306.", new[] { "ProgramTypeDescriptor" });
             }
 
             // AccreditationStatusDescriptor (string) maxLength
             if (this.AccreditationStatusDescriptor != null && this.AccreditationStatusDescriptor.Length > 306)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for AccreditationStatusDescriptor, length must be less than 306.", new [] { "AccreditationStatusDescriptor" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for AccreditationStatusDescriptor, length must be less than 306.", new[] { "AccreditationStatusDescriptor" });
             }
 
             // ProgramId (string) maxLength
             if (this.ProgramId != null && this.ProgramId.Length > 20)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for ProgramId, length must be less than 20.", new [] { "ProgramId" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for ProgramId, length must be less than 20.", new[] { "ProgramId" });
             }
 
             yield break;

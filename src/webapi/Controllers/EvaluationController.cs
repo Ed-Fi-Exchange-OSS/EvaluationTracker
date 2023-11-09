@@ -5,13 +5,9 @@
 
 using EdFi.OdsApi.Sdk.Apis.All;
 using Microsoft.AspNetCore.Mvc;
-using EdFi.OdsApi.Sdk.Client;
 using eppeta.webapi.Service;
-using EdFi.OdsApi.SdkClient;
 using eppeta.webapi.Evaluations.Data;
 using eppeta.webapi.Evaluations.Models;
-using EdFi.OdsApi.Sdk.Models.All;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Caching.Memory;
 using eppeta.webapi.DTO;
 using System.Linq.Dynamic.Core;
@@ -25,8 +21,8 @@ public class EvaluationController : ControllerBase
     private readonly IODSAPIAuthenticationConfigurationService _service;
     private readonly IEvaluationRepository _evaluationRepository;
     private readonly IMemoryCache _memoryCache;
-    private string dataExpirationKey = "DataExpiration";
-    private TimeSpan dataExpirationInterval = TimeSpan.FromDays(1);
+    private const string dataExpirationKey = "DataExpiration";
+    private readonly TimeSpan dataExpirationInterval = TimeSpan.FromDays(1);
 
     public EvaluationController(IODSAPIAuthenticationConfigurationService service, IEvaluationRepository evaluationRepository, IMemoryCache memoryCache)
     {
@@ -36,10 +32,10 @@ public class EvaluationController : ControllerBase
     }
 
     [HttpGet("configuration")]
-    public Configuration GetAuthenticatedConfiguration()
+    public async Task<ActionResult> GetAuthenticatedConfiguration()
     {
-        var authenticatedConfiguration = _service.GetAuthenticatedConfiguration();
-        return authenticatedConfiguration;
+        var authenticatedConfiguration = await _service.GetAuthenticatedConfiguration();
+        return Ok(authenticatedConfiguration);
     }
 
     [HttpGet("{performanceEvaluationId}")]
@@ -61,8 +57,8 @@ public class EvaluationController : ControllerBase
         var matchingEvObjCols = performanceEvaluationCols.Intersect(evaluationObjectivesCols).Except(nonJoinCols).ToArray();
         var matchingObjElCols = evaluationObjectivesCols.Intersect(evaluationElementsCols).Except(nonJoinCols).ToArray();
         // build selectors: comma separated list of common column names
-        string colEvObjSelector = "new {" + string.Join(",", matchingEvObjCols) + "}";
-        string colObjElSelector = "new {" + string.Join(",", matchingObjElCols) + "}";
+        var colEvObjSelector = "new {" + string.Join(",", matchingEvObjCols) + "}";
+        var colObjElSelector = "new {" + string.Join(",", matchingObjElCols) + "}";
         // join performanceEvaluation with evaluationObjectives
         var filteredObjectives = performanceEvaluation.AsQueryable().Join(
             evaluationObjectives.AsQueryable(), colEvObjSelector, colEvObjSelector,
@@ -74,7 +70,7 @@ public class EvaluationController : ControllerBase
         var availableEvaluationObjectives = new List<AvailableEvaluationObjective>();
         foreach (var availableObjective in availableObjectives)
         {
-            AvailableEvaluationObjective naeo = new AvailableEvaluationObjective
+            var naeo = new AvailableEvaluationObjective
             {
                 Name = availableObjective.EvaluationObjectiveTitle,
                 EvaluationObjectiveId = availableObjective.Id
@@ -98,52 +94,39 @@ public class EvaluationController : ControllerBase
     [HttpGet("Sync")]
     public async Task<ActionResult> SyncEvaluationComponents()
     {
-        try
+        // Check if already synced dependencies in cache
+        if (_memoryCache.Get(dataExpirationKey) == null)
         {
-            // Check if already synced dependecies in cache
-            if (_memoryCache.Get(dataExpirationKey) == null)
-            {
-                // Refresh Evaluation data from API
-                // Get ODS/API token
-                var authenticatedConfiguration = _service.GetAuthenticatedConfiguration();
+            // Refresh Evaluation data from API
+            // Get ODS/API token
+            var authenticatedConfiguration = await _service.GetAuthenticatedConfiguration();
 
-                //// Get Evaluation Objectives and update repository
-                var objectivesApi = new EvaluationObjectivesApi(authenticatedConfiguration);
-                objectivesApi.Configuration.DefaultHeaders.Add("Content-Type", "application/json");
-                var tpdmEvaluationObjectives = await objectivesApi.GetEvaluationObjectivesAsync(limit: 100, offset: 0);
-                await _evaluationRepository.UpdateEvaluationObjectives(tpdmEvaluationObjectives.Select(teo => (EvaluationObjective)teo).ToList());
+            //// Get Evaluation Objectives and update repository
+            var objectivesApi = new EvaluationObjectivesApi(authenticatedConfiguration);
+            objectivesApi.Configuration.DefaultHeaders.Add("Content-Type", "application/json");
+            var tpdmEvaluationObjectives = await objectivesApi.GetEvaluationObjectivesAsync(limit: 100, offset: 0);
+            await _evaluationRepository.UpdateEvaluationObjectives(tpdmEvaluationObjectives.Select(teo => (EvaluationObjective)teo).ToList());
 
-                // Get Evaluation Elements which contain the EvaluationObjectiveTitles and update repository
-                var elementsApi = new EvaluationElementsApi(authenticatedConfiguration);
-                elementsApi.Configuration.DefaultHeaders.Add("Content-Type", "application/json");
-                var tpdmEvaluationElements = await elementsApi.GetEvaluationElementsAsync(limit: 100, offset: 0);
-                await _evaluationRepository.UpdateEvaluationElements(tpdmEvaluationElements.Select(tee => (EvaluationElement)tee).ToList());
+            // Get Evaluation Elements which contain the EvaluationObjectiveTitles and update repository
+            var elementsApi = new EvaluationElementsApi(authenticatedConfiguration);
+            elementsApi.Configuration.DefaultHeaders.Add("Content-Type", "application/json");
+            var tpdmEvaluationElements = await elementsApi.GetEvaluationElementsAsync(limit: 100, offset: 0);
+            await _evaluationRepository.UpdateEvaluationElements(tpdmEvaluationElements.Select(tee => (EvaluationElement)tee).ToList());
 
-                var peApi = new PerformanceEvaluationsApi(authenticatedConfiguration);
-                peApi.Configuration.DefaultHeaders.Add("Content-Type", "application/json");
-                var tpdmPerformanceEvaluations = await peApi.GetPerformanceEvaluationsAsync(limit: 100, offset: 0);
-                await _evaluationRepository.UpdatePerformanceEvaluations(tpdmPerformanceEvaluations.Select(pe => (PerformanceEvaluation)pe).ToList());
+            var peApi = new PerformanceEvaluationsApi(authenticatedConfiguration);
+            peApi.Configuration.DefaultHeaders.Add("Content-Type", "application/json");
+            var tpdmPerformanceEvaluations = await peApi.GetPerformanceEvaluationsAsync(limit: 100, offset: 0);
+            await _evaluationRepository.UpdatePerformanceEvaluations(tpdmPerformanceEvaluations.Select(pe => (PerformanceEvaluation)pe).ToList());
 
-                // set next expiration time
-                var cachedValue = _memoryCache.GetOrCreate(
-                    dataExpirationKey,
-                    cacheEntry =>
-                    {
-                        cacheEntry.AbsoluteExpirationRelativeToNow = dataExpirationInterval;
-                        return DateTime.Now;
-                    });
-            }
-            return Ok();
+            // set next expiration time
+            var cachedValue = _memoryCache.GetOrCreate(
+                dataExpirationKey,
+                cacheEntry =>
+                {
+                    cacheEntry.AbsoluteExpirationRelativeToNow = dataExpirationInterval;
+                    return DateTime.Now;
+                });
         }
-
-        // temporary for debugging
-        // TODO: Remove this catch block and add logging middleware EPPETA-25
-        catch (Exception ex)
-        {
-#pragma warning disable CA2200 // Rethrow to preserve stack details
-            return Problem(ex.Message);
-#pragma warning restore CA2200 // Rethrow to preserve stack details
-        }
+        return NoContent();
     }
-
 }

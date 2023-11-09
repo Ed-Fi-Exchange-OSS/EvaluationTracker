@@ -156,32 +156,32 @@ namespace EdFi.OdsApi.Sdk.Models.All
             {
                 return false;
             }
-            return 
+            return
                 (
                     this.OtherNameTypeDescriptor == input.OtherNameTypeDescriptor ||
                     (this.OtherNameTypeDescriptor != null &&
                     this.OtherNameTypeDescriptor.Equals(input.OtherNameTypeDescriptor))
-                ) && 
+                ) &&
                 (
                     this.FirstName == input.FirstName ||
                     (this.FirstName != null &&
                     this.FirstName.Equals(input.FirstName))
-                ) && 
+                ) &&
                 (
                     this.GenerationCodeSuffix == input.GenerationCodeSuffix ||
                     (this.GenerationCodeSuffix != null &&
                     this.GenerationCodeSuffix.Equals(input.GenerationCodeSuffix))
-                ) && 
+                ) &&
                 (
                     this.LastSurname == input.LastSurname ||
                     (this.LastSurname != null &&
                     this.LastSurname.Equals(input.LastSurname))
-                ) && 
+                ) &&
                 (
                     this.MiddleName == input.MiddleName ||
                     (this.MiddleName != null &&
                     this.MiddleName.Equals(input.MiddleName))
-                ) && 
+                ) &&
                 (
                     this.PersonalTitlePrefix == input.PersonalTitlePrefix ||
                     (this.PersonalTitlePrefix != null &&
@@ -236,37 +236,37 @@ namespace EdFi.OdsApi.Sdk.Models.All
             // OtherNameTypeDescriptor (string) maxLength
             if (this.OtherNameTypeDescriptor != null && this.OtherNameTypeDescriptor.Length > 306)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for OtherNameTypeDescriptor, length must be less than 306.", new [] { "OtherNameTypeDescriptor" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for OtherNameTypeDescriptor, length must be less than 306.", new[] { "OtherNameTypeDescriptor" });
             }
 
             // FirstName (string) maxLength
             if (this.FirstName != null && this.FirstName.Length > 75)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for FirstName, length must be less than 75.", new [] { "FirstName" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for FirstName, length must be less than 75.", new[] { "FirstName" });
             }
 
             // GenerationCodeSuffix (string) maxLength
             if (this.GenerationCodeSuffix != null && this.GenerationCodeSuffix.Length > 10)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for GenerationCodeSuffix, length must be less than 10.", new [] { "GenerationCodeSuffix" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for GenerationCodeSuffix, length must be less than 10.", new[] { "GenerationCodeSuffix" });
             }
 
             // LastSurname (string) maxLength
             if (this.LastSurname != null && this.LastSurname.Length > 75)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for LastSurname, length must be less than 75.", new [] { "LastSurname" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for LastSurname, length must be less than 75.", new[] { "LastSurname" });
             }
 
             // MiddleName (string) maxLength
             if (this.MiddleName != null && this.MiddleName.Length > 75)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for MiddleName, length must be less than 75.", new [] { "MiddleName" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for MiddleName, length must be less than 75.", new[] { "MiddleName" });
             }
 
             // PersonalTitlePrefix (string) maxLength
             if (this.PersonalTitlePrefix != null && this.PersonalTitlePrefix.Length > 30)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for PersonalTitlePrefix, length must be less than 30.", new [] { "PersonalTitlePrefix" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for PersonalTitlePrefix, length must be less than 30.", new[] { "PersonalTitlePrefix" });
             }
 
             yield break;

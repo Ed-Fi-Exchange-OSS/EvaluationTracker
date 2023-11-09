@@ -3,12 +3,8 @@
 // The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
 // See the LICENSE and NOTICES files in the project root for more information.
 
-using EdFi.OdsApi.Sdk.Apis.All;
 using Microsoft.AspNetCore.Mvc;
-using EdFi.OdsApi.Sdk.Client;
 using eppeta.webapi.Service;
-using EdFi.OdsApi.SdkClient;
-using EdFi.OdsApi.Sdk.Models.All;
 using eppeta.webapi.Evaluations.Data;
 
 namespace webapi.Controllers;
@@ -27,10 +23,10 @@ public class PerformanceEvaluationController : ControllerBase
     }
 
     [HttpGet("configuration")]
-    public Configuration GetAuthenticatedConfiguration()
+    public async Task<ActionResult> GetAuthenticatedConfiguration()
     {
-        var authenticatedConfiguration = _service.GetAuthenticatedConfiguration();
-        return authenticatedConfiguration;
+        var authenticatedConfiguration = await _service.GetAuthenticatedConfiguration();
+        return Ok(authenticatedConfiguration);
     }
 
     // GET: api/EvaluationApi
@@ -39,20 +35,8 @@ public class PerformanceEvaluationController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<Dictionary<string, List<string>>>> GetPerformanceEvaluations()
     {
-        try
-        {
-            var performanceEvaluations = await _evaluationRepository.GetAllPerformanceEvaluations();
-            return Ok(performanceEvaluations);
-        }
-
-        // temporary for debugging
-        // TODO: Remove this catch block and add logging middleware EPPETA-25
-        catch (Exception ex)
-        {
-#pragma warning disable CA2200 // Rethrow to preserve stack details
-            throw ex;
-#pragma warning restore CA2200 // Rethrow to preserve stack details
-        }
+        var performanceEvaluations = await _evaluationRepository.GetAllPerformanceEvaluations();
+        return Ok(performanceEvaluations);
     }
 
 }

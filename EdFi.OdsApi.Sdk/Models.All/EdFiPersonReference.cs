@@ -120,17 +120,17 @@ namespace EdFi.OdsApi.Sdk.Models.All
             {
                 return false;
             }
-            return 
+            return
                 (
                     this.PersonId == input.PersonId ||
                     (this.PersonId != null &&
                     this.PersonId.Equals(input.PersonId))
-                ) && 
+                ) &&
                 (
                     this.SourceSystemDescriptor == input.SourceSystemDescriptor ||
                     (this.SourceSystemDescriptor != null &&
                     this.SourceSystemDescriptor.Equals(input.SourceSystemDescriptor))
-                ) && 
+                ) &&
                 (
                     this.Link == input.Link ||
                     (this.Link != null &&
@@ -173,13 +173,13 @@ namespace EdFi.OdsApi.Sdk.Models.All
             // PersonId (string) maxLength
             if (this.PersonId != null && this.PersonId.Length > 32)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for PersonId, length must be less than 32.", new [] { "PersonId" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for PersonId, length must be less than 32.", new[] { "PersonId" });
             }
 
             // SourceSystemDescriptor (string) maxLength
             if (this.SourceSystemDescriptor != null && this.SourceSystemDescriptor.Length > 306)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for SourceSystemDescriptor, length must be less than 306.", new [] { "SourceSystemDescriptor" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for SourceSystemDescriptor, length must be less than 306.", new[] { "SourceSystemDescriptor" });
             }
 
             yield break;

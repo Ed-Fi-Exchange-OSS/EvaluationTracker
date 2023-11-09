@@ -9,9 +9,7 @@ using eppeta.webapi.DTO;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using eppeta.webapi.Identity.Models;
-using OpenIddict.Abstractions;
 using eppeta.webapi.Mapping;
-using PerformanceEvaluationRating = eppeta.webapi.Evaluations.Models.PerformanceEvaluationRating;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -24,13 +22,11 @@ namespace eppeta.webapi.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IEvaluationRepository _evaluationRepository;
-        private readonly IOpenIddictTokenManager _tokenManager;
 
-        public EvaluationRatingController(UserManager<ApplicationUser> userManager, IEvaluationRepository evaluationRepository, IOpenIddictTokenManager tokenManager)
+        public EvaluationRatingController(UserManager<ApplicationUser> userManager, IEvaluationRepository evaluationRepository)
         {
             _userManager = userManager;
             _evaluationRepository = evaluationRepository;
-            _tokenManager = tokenManager;
         }
 
         [HttpGet()]
@@ -66,49 +62,45 @@ namespace eppeta.webapi.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Post(PerformedEvaluationResult evaluationResult, string userId)
         {
-            try
+            if (evaluationResult == null)
+                return BadRequest();
+
+            foreach (var objRes in evaluationResult.ObjectiveResults)
             {
-                if (evaluationResult == null)
-                    return BadRequest();
-                foreach (var objRes in evaluationResult.ObjectiveResults)
+                // Create EvaluationRating, EvaluationObjectiveRating
+                var evalObjective = await _evaluationRepository.GetEvaluationObjectiveById(objRes.Id);
+                var user = await _userManager.FindByIdAsync(userId);
+                var newEvalRating = new EvaluationRating();
+                var newObjRating = new EvaluationObjectiveRating();
+                MappingHelper.PopulateEvaluationPK(evalObjective, newEvalRating);
+                MappingHelper.PopulateEvaluationPK(evalObjective, newObjRating);
+                newEvalRating.EvaluationDate = newObjRating.EvaluationDate = evaluationResult.StartDateTime;
+                newEvalRating.PersonId = newObjRating.PersonId = evaluationResult.ReviewedPersonId;
+                newEvalRating.SourceSystemDescriptor = newObjRating.SourceSystemDescriptor = evaluationResult.ReviewedPersonSourceSystemDescriptor;
+                newEvalRating.UserId = newObjRating.UserId = user.Id;
+                newEvalRating.CandidateName = evaluationResult.ReviewedPersonName;
+                newObjRating.Comments = objRes.Comment;
+                newObjRating.EvaluationObjectiveTitle = evalObjective.EvaluationObjectiveTitle;
+                await _evaluationRepository.UpdateEvaluationRatings(new List<EvaluationRating> { newEvalRating });
+                await _evaluationRepository.UpdateEvaluationObjectiveRatings(new List<EvaluationObjectiveRating> { newObjRating });
+                foreach (var elRes in objRes.Elements)
                 {
-                    // Create EvaluationRating, EvaluationObjectiveRating
-                    var evalObjective = await _evaluationRepository.GetEvaluationObjectiveById(objRes.Id);
-                    var user = await _userManager.FindByIdAsync(userId);
-                    EvaluationRating newEvalRating = new EvaluationRating();
-                    EvaluationObjectiveRating newObjRating = new EvaluationObjectiveRating();
-                    MappingHelper.PopulateEvaluationPK(evalObjective, newEvalRating);
-                    MappingHelper.PopulateEvaluationPK(evalObjective, newObjRating);
-                    newEvalRating.EvaluationDate = newObjRating.EvaluationDate = evaluationResult.StartDateTime;
-                    newEvalRating.PersonId = newObjRating.PersonId = evaluationResult.ReviewedPersonId;
-                    newEvalRating.SourceSystemDescriptor = newObjRating.SourceSystemDescriptor = evaluationResult.ReviewedPersonSourceSystemDescriptor;
-                    newEvalRating.UserId = newObjRating.UserId = user.Id;
-                    newEvalRating.CandidateName = evaluationResult.ReviewedPersonName;
-                    newObjRating.Comments = objRes.Comment;
-                    newObjRating.EvaluationObjectiveTitle = evalObjective.EvaluationObjectiveTitle;
-                    await _evaluationRepository.UpdateEvaluationRatings(new List<EvaluationRating> { newEvalRating });
-                    await _evaluationRepository.UpdateEvaluationObjectiveRatings(new List<EvaluationObjectiveRating> { newObjRating });
-                    foreach (var elRes in objRes.Elements)
-                    {
-                        var evalElement = await _evaluationRepository.GetEvaluationElementById(elRes.Id);
-                        EvaluationElementRatingResult elementRatingResult = new EvaluationElementRatingResult();
-                        MappingHelper.PopulateEvaluationPK(evalElement, elementRatingResult);
-                        elementRatingResult.EvaluationElementTitle = evalElement.EvaluationElementTitle;
-                        elementRatingResult.EvaluationObjectiveTitle = evalElement.EvaluationObjectiveTitle;
-                        elementRatingResult.PersonId = newObjRating.PersonId;
-                        elementRatingResult.SourceSystemDescriptor = newObjRating.SourceSystemDescriptor;
-                        elementRatingResult.RatingResultTitle = evalElement.EvaluationElementTitle.Substring(0, Math.Min(50, evalElement.EvaluationElementTitle.Length)); // TODO: No result title is returned from frontend. Truncating element title
-                        elementRatingResult.Rating = elRes.Score;
-                        elementRatingResult.UserId = user.Id;
-                        elementRatingResult.ResultDatatypeTypeDescriptor = "uri://ed-fi.org/ResultDatatypeTypeDescriptor/Integer"; // TODO: harcoding this based on the type of elRes.Score
-                        await _evaluationRepository.UpdateEvaluationElementRatingResults(new List<EvaluationElementRatingResult> { elementRatingResult });
-                    }
+                    var evalElement = await _evaluationRepository.GetEvaluationElementById(elRes.Id) ?? throw new InvalidOperationException($"Evaluation element for id {elRes.Id} does not exist, which shouldn't have happened.");
+
+                    var elementRatingResult = new EvaluationElementRatingResult();
+                    MappingHelper.PopulateEvaluationPK(evalElement, elementRatingResult);
+                    elementRatingResult.EvaluationElementTitle = evalElement.EvaluationElementTitle;
+                    elementRatingResult.EvaluationObjectiveTitle = evalElement.EvaluationObjectiveTitle;
+                    elementRatingResult.PersonId = newObjRating.PersonId;
+                    elementRatingResult.SourceSystemDescriptor = newObjRating.SourceSystemDescriptor;
+                    elementRatingResult.RatingResultTitle = evalElement.EvaluationElementTitle[..Math.Min(50, evalElement.EvaluationElementTitle.Length)]; // TODO: No result title is returned from frontend. Truncating element title
+                    elementRatingResult.Rating = elRes.Score;
+                    elementRatingResult.UserId = user.Id;
+                    elementRatingResult.ResultDatatypeTypeDescriptor = "uri://ed-fi.org/ResultDatatypeTypeDescriptor/Integer"; // TODO: harcoding this based on the type of elRes.Score
+                    await _evaluationRepository.UpdateEvaluationElementRatingResults(new List<EvaluationElementRatingResult> { elementRatingResult });
                 }
-                return Ok();
-            }catch (Exception ex)
-            {
-                return Problem(ex.Message);
             }
+            return NoContent();
         }
     }
 }

@@ -141,27 +141,27 @@ namespace EdFi.OdsApi.Sdk.Models.All
             {
                 return false;
             }
-            return 
+            return
                 (
                     this.TelephoneNumberTypeDescriptor == input.TelephoneNumberTypeDescriptor ||
                     (this.TelephoneNumberTypeDescriptor != null &&
                     this.TelephoneNumberTypeDescriptor.Equals(input.TelephoneNumberTypeDescriptor))
-                ) && 
+                ) &&
                 (
                     this.TelephoneNumber == input.TelephoneNumber ||
                     (this.TelephoneNumber != null &&
                     this.TelephoneNumber.Equals(input.TelephoneNumber))
-                ) && 
+                ) &&
                 (
                     this.DoNotPublishIndicator == input.DoNotPublishIndicator ||
                     (this.DoNotPublishIndicator != null &&
                     this.DoNotPublishIndicator.Equals(input.DoNotPublishIndicator))
-                ) && 
+                ) &&
                 (
                     this.OrderOfPriority == input.OrderOfPriority ||
                     (this.OrderOfPriority != null &&
                     this.OrderOfPriority.Equals(input.OrderOfPriority))
-                ) && 
+                ) &&
                 (
                     this.TextMessageCapabilityIndicator == input.TextMessageCapabilityIndicator ||
                     (this.TextMessageCapabilityIndicator != null &&
@@ -212,13 +212,13 @@ namespace EdFi.OdsApi.Sdk.Models.All
             // TelephoneNumberTypeDescriptor (string) maxLength
             if (this.TelephoneNumberTypeDescriptor != null && this.TelephoneNumberTypeDescriptor.Length > 306)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for TelephoneNumberTypeDescriptor, length must be less than 306.", new [] { "TelephoneNumberTypeDescriptor" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for TelephoneNumberTypeDescriptor, length must be less than 306.", new[] { "TelephoneNumberTypeDescriptor" });
             }
 
             // TelephoneNumber (string) maxLength
             if (this.TelephoneNumber != null && this.TelephoneNumber.Length > 24)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for TelephoneNumber, length must be less than 24.", new [] { "TelephoneNumber" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for TelephoneNumber, length must be less than 24.", new[] { "TelephoneNumber" });
             }
 
             yield break;
