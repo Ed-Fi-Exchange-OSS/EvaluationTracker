@@ -83,7 +83,7 @@ namespace eppeta.webapi.Evaluations.Data
                 var eeo = FilterByRequiredFields(EvaluationObjectives.ToList(), eo);
                 if (eeo != null)
                 {
-                    foreach (var property in typeof(EvaluationElement).GetProperties())
+                    foreach (var property in typeof(EvaluationObjective).GetProperties())
                         if (property.Name != "Id")
                             property.SetValue(eeo, property.GetValue(eo));
                     EvaluationObjectives.Update((EvaluationObjective)eeo);
