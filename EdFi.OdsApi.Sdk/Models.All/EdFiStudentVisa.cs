@@ -96,7 +96,7 @@ namespace EdFi.OdsApi.Sdk.Models.All
             {
                 return false;
             }
-            return 
+            return
                 (
                     this.VisaDescriptor == input.VisaDescriptor ||
                     (this.VisaDescriptor != null &&
@@ -131,7 +131,7 @@ namespace EdFi.OdsApi.Sdk.Models.All
             // VisaDescriptor (string) maxLength
             if (this.VisaDescriptor != null && this.VisaDescriptor.Length > 306)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for VisaDescriptor, length must be less than 306.", new [] { "VisaDescriptor" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for VisaDescriptor, length must be less than 306.", new[] { "VisaDescriptor" });
             }
 
             yield break;

@@ -84,7 +84,7 @@ namespace EdFi.OdsApi.Sdk.Models.All
             {
                 return false;
             }
-            return 
+            return
                 (
                     this.PersonReference == input.PersonReference ||
                     (this.PersonReference != null &&

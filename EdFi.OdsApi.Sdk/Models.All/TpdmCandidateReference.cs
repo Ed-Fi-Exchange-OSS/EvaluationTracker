@@ -105,12 +105,12 @@ namespace EdFi.OdsApi.Sdk.Models.All
             {
                 return false;
             }
-            return 
+            return
                 (
                     this.CandidateIdentifier == input.CandidateIdentifier ||
                     (this.CandidateIdentifier != null &&
                     this.CandidateIdentifier.Equals(input.CandidateIdentifier))
-                ) && 
+                ) &&
                 (
                     this.Link == input.Link ||
                     (this.Link != null &&
@@ -149,7 +149,7 @@ namespace EdFi.OdsApi.Sdk.Models.All
             // CandidateIdentifier (string) maxLength
             if (this.CandidateIdentifier != null && this.CandidateIdentifier.Length > 32)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for CandidateIdentifier, length must be less than 32.", new [] { "CandidateIdentifier" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for CandidateIdentifier, length must be less than 32.", new[] { "CandidateIdentifier" });
             }
 
             yield break;

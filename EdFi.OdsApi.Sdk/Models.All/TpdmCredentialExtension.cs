@@ -158,42 +158,42 @@ namespace EdFi.OdsApi.Sdk.Models.All
             {
                 return false;
             }
-            return 
+            return
                 (
                     this.CertificationRouteDescriptor == input.CertificationRouteDescriptor ||
                     (this.CertificationRouteDescriptor != null &&
                     this.CertificationRouteDescriptor.Equals(input.CertificationRouteDescriptor))
-                ) && 
+                ) &&
                 (
                     this.CredentialStatusDescriptor == input.CredentialStatusDescriptor ||
                     (this.CredentialStatusDescriptor != null &&
                     this.CredentialStatusDescriptor.Equals(input.CredentialStatusDescriptor))
-                ) && 
+                ) &&
                 (
                     this.EducatorRoleDescriptor == input.EducatorRoleDescriptor ||
                     (this.EducatorRoleDescriptor != null &&
                     this.EducatorRoleDescriptor.Equals(input.EducatorRoleDescriptor))
-                ) && 
+                ) &&
                 (
                     this.BoardCertificationIndicator == input.BoardCertificationIndicator ||
                     (this.BoardCertificationIndicator != null &&
                     this.BoardCertificationIndicator.Equals(input.BoardCertificationIndicator))
-                ) && 
+                ) &&
                 (
                     this.CertificationTitle == input.CertificationTitle ||
                     (this.CertificationTitle != null &&
                     this.CertificationTitle.Equals(input.CertificationTitle))
-                ) && 
+                ) &&
                 (
                     this.CredentialStatusDate == input.CredentialStatusDate ||
                     (this.CredentialStatusDate != null &&
                     this.CredentialStatusDate.Equals(input.CredentialStatusDate))
-                ) && 
+                ) &&
                 (
                     this.PersonReference == input.PersonReference ||
                     (this.PersonReference != null &&
                     this.PersonReference.Equals(input.PersonReference))
-                ) && 
+                ) &&
                 (
                     this.StudentAcademicRecords == input.StudentAcademicRecords ||
                     this.StudentAcademicRecords != null &&
@@ -257,25 +257,25 @@ namespace EdFi.OdsApi.Sdk.Models.All
             // CertificationRouteDescriptor (string) maxLength
             if (this.CertificationRouteDescriptor != null && this.CertificationRouteDescriptor.Length > 306)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for CertificationRouteDescriptor, length must be less than 306.", new [] { "CertificationRouteDescriptor" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for CertificationRouteDescriptor, length must be less than 306.", new[] { "CertificationRouteDescriptor" });
             }
 
             // CredentialStatusDescriptor (string) maxLength
             if (this.CredentialStatusDescriptor != null && this.CredentialStatusDescriptor.Length > 306)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for CredentialStatusDescriptor, length must be less than 306.", new [] { "CredentialStatusDescriptor" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for CredentialStatusDescriptor, length must be less than 306.", new[] { "CredentialStatusDescriptor" });
             }
 
             // EducatorRoleDescriptor (string) maxLength
             if (this.EducatorRoleDescriptor != null && this.EducatorRoleDescriptor.Length > 306)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for EducatorRoleDescriptor, length must be less than 306.", new [] { "EducatorRoleDescriptor" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for EducatorRoleDescriptor, length must be less than 306.", new[] { "EducatorRoleDescriptor" });
             }
 
             // CertificationTitle (string) maxLength
             if (this.CertificationTitle != null && this.CertificationTitle.Length > 64)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for CertificationTitle, length must be less than 64.", new [] { "CertificationTitle" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for CertificationTitle, length must be less than 64.", new[] { "CertificationTitle" });
             }
 
             yield break;

@@ -76,5 +76,9 @@
             "markdown",
             "batch"
         ]
-    }
+    },
+    "sarif-viewer.connectToGithubCodeScanning": "off",
+    "cSpell.words": [
+        "Tpdm"
+    ]
 }

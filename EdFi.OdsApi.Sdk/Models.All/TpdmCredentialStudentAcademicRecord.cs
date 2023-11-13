@@ -95,7 +95,7 @@ namespace EdFi.OdsApi.Sdk.Models.All
             {
                 return false;
             }
-            return 
+            return
                 (
                     this.StudentAcademicRecordReference == input.StudentAcademicRecordReference ||
                     (this.StudentAcademicRecordReference != null &&

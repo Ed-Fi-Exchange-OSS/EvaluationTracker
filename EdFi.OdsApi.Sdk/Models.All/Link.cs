@@ -95,12 +95,12 @@ namespace EdFi.OdsApi.Sdk.Models.All
             {
                 return false;
             }
-            return 
+            return
                 (
                     this.Rel == input.Rel ||
                     (this.Rel != null &&
                     this.Rel.Equals(input.Rel))
-                ) && 
+                ) &&
                 (
                     this.Href == input.Href ||
                     (this.Href != null &&

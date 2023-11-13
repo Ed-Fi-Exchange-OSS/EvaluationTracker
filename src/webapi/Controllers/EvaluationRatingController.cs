@@ -9,11 +9,10 @@ using eppeta.webapi.DTO;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using eppeta.webapi.Identity.Models;
-using OpenIddict.Abstractions;
 using eppeta.webapi.Mapping;
-using EdFi.OdsApi.Sdk.Apis.All;
 using eppeta.webapi.Service;
 using EdFi.OdsApi.Sdk.Models.All;
+using OpenIddict.Abstractions;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -28,14 +27,13 @@ namespace eppeta.webapi.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IEvaluationRepository _evaluationRepository;
         private readonly IOpenIddictTokenManager _tokenManager;
-        private string _resultDatatype = "uri://ed-fi.org/ResultDatatypeTypeDescriptor#Integer";
+        private readonly string _resultDatatype = "uri://ed-fi.org/ResultDatatypeTypeDescriptor#Integer";
 
         public EvaluationRatingController(IODSAPIAuthenticationConfigurationService service, UserManager<ApplicationUser> userManager, IEvaluationRepository evaluationRepository, IOpenIddictTokenManager tokenManager)
         {
             _service = service;
             _userManager = userManager;
             _evaluationRepository = evaluationRepository;
-            _tokenManager = tokenManager;
         }
 
         [HttpGet()]
@@ -77,12 +75,12 @@ namespace eppeta.webapi.Controllers
             if (evaluationResult == null)
                 throw new ArgumentNullException(nameof(evaluationResult));
             // this dict stores the list of Ids created/updated for each object type while saving just in case we need them later
-            Dictionary<Type, List<int>> result = new Dictionary<Type, List<int>>() {
+            var result = new Dictionary<Type, List<int>>() {
                 { typeof(PerformanceEvaluationRating), new List<int>{ } },
                 { typeof(EvaluationObjectiveRating), new List<int>{ } },
                 { typeof(EvaluationElementRatingResult), new List<int>{ } },
             };
-            PerformanceEvaluationRating newPerEvalRating = new PerformanceEvaluationRating();
+            var newPerEvalRating = new PerformanceEvaluationRating();
             var performanceEvaluation = await _evaluationRepository.GetPerformanceEvaluationById(evaluationResult.PerformanceEvaluationId);
             if (performanceEvaluation == null)
                 throw new ArgumentException($"PerformanceEvaluationId not found");
@@ -99,7 +97,7 @@ namespace eppeta.webapi.Controllers
             {
                 // Create EvaluationRating, EvaluationObjectiveRating
                 var evalObjective = await _evaluationRepository.GetEvaluationObjectiveById(objRes.Id);
-                EvaluationObjectiveRating newObjRating = new EvaluationObjectiveRating();
+                var newObjRating = new EvaluationObjectiveRating();
                 MappingHelper.CopyMatchingPKProperties(newPerEvalRating, newObjRating);
                 MappingHelper.CopyMatchingPKProperties(evalObjective, newObjRating);
                 newObjRating.Comments = objRes.Comment;
@@ -109,7 +107,7 @@ namespace eppeta.webapi.Controllers
                 foreach (var elRes in objRes.Elements)
                 {
                     var evalElement = await _evaluationRepository.GetEvaluationElementById(elRes.Id);
-                    EvaluationElementRatingResult elementRatingResult = new EvaluationElementRatingResult();
+                    var elementRatingResult = new EvaluationElementRatingResult();
                     MappingHelper.CopyMatchingPKProperties(newObjRating, elementRatingResult);
                     MappingHelper.CopyMatchingPKProperties(evalElement, elementRatingResult);
                     elementRatingResult.RatingResultTitle = evalElement.EvaluationElementTitle.Substring(0, Math.Min(50, evalElement.EvaluationElementTitle.Length)); // TODO: No result title is returned from frontend. Truncating element title
@@ -158,13 +156,13 @@ namespace eppeta.webapi.Controllers
                 };
             // build dict with APIs
             var apis = new Dictionary<string, dynamic>();
-            var authenticatedConfiguration = _service.GetAuthenticatedConfiguration();
+            var authenticatedConfiguration = _service.GetAuthenticatedConfiguration().Result;
             foreach (var api in apiList)
             {
-                Type apiClassType = Type.GetType($"EdFi.OdsApi.Sdk.Apis.All.{api},EdFi.OdsApi.Sdk");
+                var apiClassType = Type.GetType($"EdFi.OdsApi.Sdk.Apis.All.{api},EdFi.OdsApi.Sdk");
                 if (apiClassType == null)
                     throw new Exception($"Missing API class for {api}");
-                apis[api] = Activator.CreateInstance(apiClassType, authenticatedConfiguration);
+                apis[api] = Activator.CreateInstance(apiClassType, new object[] { authenticatedConfiguration });
                 apis[api].Configuration.DefaultHeaders.Add("Content-Type", "application/json");
             }
 
@@ -236,6 +234,7 @@ namespace eppeta.webapi.Controllers
                 await _evaluationRepository.UpdatePerformanceEvaluationRatings(new List<PerformanceEvaluationRating> { performanceEvaluationRatingPost });
                 return Problem(ex.Message);
             }
+            return NoContent();
         }
     }
 }

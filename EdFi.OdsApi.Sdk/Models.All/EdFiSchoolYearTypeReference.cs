@@ -100,11 +100,11 @@ namespace EdFi.OdsApi.Sdk.Models.All
             {
                 return false;
             }
-            return 
+            return
                 (
                     this.SchoolYear == input.SchoolYear ||
                     this.SchoolYear.Equals(input.SchoolYear)
-                ) && 
+                ) &&
                 (
                     this.Link == input.Link ||
                     (this.Link != null &&

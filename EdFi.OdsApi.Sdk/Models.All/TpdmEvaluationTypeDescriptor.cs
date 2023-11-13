@@ -198,51 +198,51 @@ namespace EdFi.OdsApi.Sdk.Models.All
             {
                 return false;
             }
-            return 
+            return
                 (
                     this.Id == input.Id ||
                     (this.Id != null &&
                     this.Id.Equals(input.Id))
-                ) && 
+                ) &&
                 (
                     this.EvaluationTypeDescriptorId == input.EvaluationTypeDescriptorId ||
                     this.EvaluationTypeDescriptorId.Equals(input.EvaluationTypeDescriptorId)
-                ) && 
+                ) &&
                 (
                     this.CodeValue == input.CodeValue ||
                     (this.CodeValue != null &&
                     this.CodeValue.Equals(input.CodeValue))
-                ) && 
+                ) &&
                 (
                     this.Description == input.Description ||
                     (this.Description != null &&
                     this.Description.Equals(input.Description))
-                ) && 
+                ) &&
                 (
                     this.EffectiveBeginDate == input.EffectiveBeginDate ||
                     (this.EffectiveBeginDate != null &&
                     this.EffectiveBeginDate.Equals(input.EffectiveBeginDate))
-                ) && 
+                ) &&
                 (
                     this.EffectiveEndDate == input.EffectiveEndDate ||
                     (this.EffectiveEndDate != null &&
                     this.EffectiveEndDate.Equals(input.EffectiveEndDate))
-                ) && 
+                ) &&
                 (
                     this.Namespace == input.Namespace ||
                     (this.Namespace != null &&
                     this.Namespace.Equals(input.Namespace))
-                ) && 
+                ) &&
                 (
                     this.PriorDescriptorId == input.PriorDescriptorId ||
                     (this.PriorDescriptorId != null &&
                     this.PriorDescriptorId.Equals(input.PriorDescriptorId))
-                ) && 
+                ) &&
                 (
                     this.ShortDescription == input.ShortDescription ||
                     (this.ShortDescription != null &&
                     this.ShortDescription.Equals(input.ShortDescription))
-                ) && 
+                ) &&
                 (
                     this.Etag == input.Etag ||
                     (this.Etag != null &&
@@ -310,25 +310,25 @@ namespace EdFi.OdsApi.Sdk.Models.All
             // CodeValue (string) maxLength
             if (this.CodeValue != null && this.CodeValue.Length > 50)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for CodeValue, length must be less than 50.", new [] { "CodeValue" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for CodeValue, length must be less than 50.", new[] { "CodeValue" });
             }
 
             // Description (string) maxLength
             if (this.Description != null && this.Description.Length > 1024)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Description, length must be less than 1024.", new [] { "Description" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Description, length must be less than 1024.", new[] { "Description" });
             }
 
             // Namespace (string) maxLength
             if (this.Namespace != null && this.Namespace.Length > 255)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Namespace, length must be less than 255.", new [] { "Namespace" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Namespace, length must be less than 255.", new[] { "Namespace" });
             }
 
             // ShortDescription (string) maxLength
             if (this.ShortDescription != null && this.ShortDescription.Length > 75)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for ShortDescription, length must be less than 75.", new [] { "ShortDescription" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for ShortDescription, length must be less than 75.", new[] { "ShortDescription" });
             }
 
             yield break;

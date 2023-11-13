@@ -4,8 +4,6 @@
 // See the LICENSE and NOTICES files in the project root for more information.
 
 using eppeta.webapi.Evaluations.Models;
-using eppeta.webapi.Identity.Models;
-using System.Diagnostics;
 
 namespace eppeta.webapi.Evaluations.Data;
 

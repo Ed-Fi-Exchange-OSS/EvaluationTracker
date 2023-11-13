@@ -257,77 +257,77 @@ namespace EdFi.OdsApi.Sdk.Models.All
             {
                 return false;
             }
-            return 
+            return
                 (
                     this.AddressTypeDescriptor == input.AddressTypeDescriptor ||
                     (this.AddressTypeDescriptor != null &&
                     this.AddressTypeDescriptor.Equals(input.AddressTypeDescriptor))
-                ) && 
+                ) &&
                 (
                     this.StateAbbreviationDescriptor == input.StateAbbreviationDescriptor ||
                     (this.StateAbbreviationDescriptor != null &&
                     this.StateAbbreviationDescriptor.Equals(input.StateAbbreviationDescriptor))
-                ) && 
+                ) &&
                 (
                     this.City == input.City ||
                     (this.City != null &&
                     this.City.Equals(input.City))
-                ) && 
+                ) &&
                 (
                     this.PostalCode == input.PostalCode ||
                     (this.PostalCode != null &&
                     this.PostalCode.Equals(input.PostalCode))
-                ) && 
+                ) &&
                 (
                     this.StreetNumberName == input.StreetNumberName ||
                     (this.StreetNumberName != null &&
                     this.StreetNumberName.Equals(input.StreetNumberName))
-                ) && 
+                ) &&
                 (
                     this.LocaleDescriptor == input.LocaleDescriptor ||
                     (this.LocaleDescriptor != null &&
                     this.LocaleDescriptor.Equals(input.LocaleDescriptor))
-                ) && 
+                ) &&
                 (
                     this.ApartmentRoomSuiteNumber == input.ApartmentRoomSuiteNumber ||
                     (this.ApartmentRoomSuiteNumber != null &&
                     this.ApartmentRoomSuiteNumber.Equals(input.ApartmentRoomSuiteNumber))
-                ) && 
+                ) &&
                 (
                     this.BuildingSiteNumber == input.BuildingSiteNumber ||
                     (this.BuildingSiteNumber != null &&
                     this.BuildingSiteNumber.Equals(input.BuildingSiteNumber))
-                ) && 
+                ) &&
                 (
                     this.CongressionalDistrict == input.CongressionalDistrict ||
                     (this.CongressionalDistrict != null &&
                     this.CongressionalDistrict.Equals(input.CongressionalDistrict))
-                ) && 
+                ) &&
                 (
                     this.CountyFIPSCode == input.CountyFIPSCode ||
                     (this.CountyFIPSCode != null &&
                     this.CountyFIPSCode.Equals(input.CountyFIPSCode))
-                ) && 
+                ) &&
                 (
                     this.DoNotPublishIndicator == input.DoNotPublishIndicator ||
                     (this.DoNotPublishIndicator != null &&
                     this.DoNotPublishIndicator.Equals(input.DoNotPublishIndicator))
-                ) && 
+                ) &&
                 (
                     this.Latitude == input.Latitude ||
                     (this.Latitude != null &&
                     this.Latitude.Equals(input.Latitude))
-                ) && 
+                ) &&
                 (
                     this.Longitude == input.Longitude ||
                     (this.Longitude != null &&
                     this.Longitude.Equals(input.Longitude))
-                ) && 
+                ) &&
                 (
                     this.NameOfCounty == input.NameOfCounty ||
                     (this.NameOfCounty != null &&
                     this.NameOfCounty.Equals(input.NameOfCounty))
-                ) && 
+                ) &&
                 (
                     this.Periods == input.Periods ||
                     this.Periods != null &&
@@ -419,79 +419,79 @@ namespace EdFi.OdsApi.Sdk.Models.All
             // AddressTypeDescriptor (string) maxLength
             if (this.AddressTypeDescriptor != null && this.AddressTypeDescriptor.Length > 306)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for AddressTypeDescriptor, length must be less than 306.", new [] { "AddressTypeDescriptor" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for AddressTypeDescriptor, length must be less than 306.", new[] { "AddressTypeDescriptor" });
             }
 
             // StateAbbreviationDescriptor (string) maxLength
             if (this.StateAbbreviationDescriptor != null && this.StateAbbreviationDescriptor.Length > 306)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for StateAbbreviationDescriptor, length must be less than 306.", new [] { "StateAbbreviationDescriptor" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for StateAbbreviationDescriptor, length must be less than 306.", new[] { "StateAbbreviationDescriptor" });
             }
 
             // City (string) maxLength
             if (this.City != null && this.City.Length > 30)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for City, length must be less than 30.", new [] { "City" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for City, length must be less than 30.", new[] { "City" });
             }
 
             // PostalCode (string) maxLength
             if (this.PostalCode != null && this.PostalCode.Length > 17)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for PostalCode, length must be less than 17.", new [] { "PostalCode" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for PostalCode, length must be less than 17.", new[] { "PostalCode" });
             }
 
             // StreetNumberName (string) maxLength
             if (this.StreetNumberName != null && this.StreetNumberName.Length > 150)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for StreetNumberName, length must be less than 150.", new [] { "StreetNumberName" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for StreetNumberName, length must be less than 150.", new[] { "StreetNumberName" });
             }
 
             // LocaleDescriptor (string) maxLength
             if (this.LocaleDescriptor != null && this.LocaleDescriptor.Length > 306)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for LocaleDescriptor, length must be less than 306.", new [] { "LocaleDescriptor" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for LocaleDescriptor, length must be less than 306.", new[] { "LocaleDescriptor" });
             }
 
             // ApartmentRoomSuiteNumber (string) maxLength
             if (this.ApartmentRoomSuiteNumber != null && this.ApartmentRoomSuiteNumber.Length > 50)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for ApartmentRoomSuiteNumber, length must be less than 50.", new [] { "ApartmentRoomSuiteNumber" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for ApartmentRoomSuiteNumber, length must be less than 50.", new[] { "ApartmentRoomSuiteNumber" });
             }
 
             // BuildingSiteNumber (string) maxLength
             if (this.BuildingSiteNumber != null && this.BuildingSiteNumber.Length > 20)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for BuildingSiteNumber, length must be less than 20.", new [] { "BuildingSiteNumber" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for BuildingSiteNumber, length must be less than 20.", new[] { "BuildingSiteNumber" });
             }
 
             // CongressionalDistrict (string) maxLength
             if (this.CongressionalDistrict != null && this.CongressionalDistrict.Length > 30)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for CongressionalDistrict, length must be less than 30.", new [] { "CongressionalDistrict" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for CongressionalDistrict, length must be less than 30.", new[] { "CongressionalDistrict" });
             }
 
             // CountyFIPSCode (string) maxLength
             if (this.CountyFIPSCode != null && this.CountyFIPSCode.Length > 5)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for CountyFIPSCode, length must be less than 5.", new [] { "CountyFIPSCode" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for CountyFIPSCode, length must be less than 5.", new[] { "CountyFIPSCode" });
             }
 
             // Latitude (string) maxLength
             if (this.Latitude != null && this.Latitude.Length > 20)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Latitude, length must be less than 20.", new [] { "Latitude" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Latitude, length must be less than 20.", new[] { "Latitude" });
             }
 
             // Longitude (string) maxLength
             if (this.Longitude != null && this.Longitude.Length > 20)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Longitude, length must be less than 20.", new [] { "Longitude" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Longitude, length must be less than 20.", new[] { "Longitude" });
             }
 
             // NameOfCounty (string) maxLength
             if (this.NameOfCounty != null && this.NameOfCounty.Length > 30)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for NameOfCounty, length must be less than 30.", new [] { "NameOfCounty" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for NameOfCounty, length must be less than 30.", new[] { "NameOfCounty" });
             }
 
             yield break;

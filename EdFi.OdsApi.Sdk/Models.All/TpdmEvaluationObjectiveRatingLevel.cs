@@ -116,17 +116,17 @@ namespace EdFi.OdsApi.Sdk.Models.All
             {
                 return false;
             }
-            return 
+            return
                 (
                     this.EvaluationRatingLevelDescriptor == input.EvaluationRatingLevelDescriptor ||
                     (this.EvaluationRatingLevelDescriptor != null &&
                     this.EvaluationRatingLevelDescriptor.Equals(input.EvaluationRatingLevelDescriptor))
-                ) && 
+                ) &&
                 (
                     this.MaxRating == input.MaxRating ||
                     (this.MaxRating != null &&
                     this.MaxRating.Equals(input.MaxRating))
-                ) && 
+                ) &&
                 (
                     this.MinRating == input.MinRating ||
                     (this.MinRating != null &&
@@ -169,7 +169,7 @@ namespace EdFi.OdsApi.Sdk.Models.All
             // EvaluationRatingLevelDescriptor (string) maxLength
             if (this.EvaluationRatingLevelDescriptor != null && this.EvaluationRatingLevelDescriptor.Length > 306)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for EvaluationRatingLevelDescriptor, length must be less than 306.", new [] { "EvaluationRatingLevelDescriptor" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for EvaluationRatingLevelDescriptor, length must be less than 306.", new[] { "EvaluationRatingLevelDescriptor" });
             }
 
             yield break;

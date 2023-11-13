@@ -31,3 +31,4 @@ bin
 /src/webapi/appsettings.Docker.json
 
 *.trx
+*.log

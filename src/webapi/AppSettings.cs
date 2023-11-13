@@ -4,7 +4,7 @@
 // See the LICENSE and NOTICES files in the project root for more information.
 
 using Microsoft.IdentityModel.Tokens;
-using System.Net.NetworkInformation;
+using System.Configuration;
 
 namespace eppeta.webapi;
 
@@ -21,13 +21,18 @@ public class AppSettings
         _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
     }
 
-    private Lazy<Authentication> _authentication = new(() => new Authentication(
-                    GetInstance()._configuration.GetValue<string>("Authentication:IssuerUrl"),
-                    GetInstance()._configuration.GetValue<string>("Authentication:Audience"),
-                    GetInstance()._configuration.GetValue<string>("Authentication:Authority"),
-                    GetInstance()._configuration.GetValue<string>("Authentication:SigningKey"),
-                    GetInstance()._configuration.GetValue<bool>("Authentication:NewUsersAreAdministrators"),
-                    GetInstance()._configuration.GetValue<bool>("Authentication:RequireHttps")
+    private T GetValue<T>(string key)
+    {
+        return _configuration.GetValue<T>(key) ?? throw new ConfigurationErrorsException($"Missing settings value for {key}");
+    }
+
+    private readonly Lazy<Authentication> _authentication = new(() => new Authentication(
+                    GetInstance().GetValue<string>("Authentication:IssuerUrl"),
+                    GetInstance().GetValue<string>("Authentication:Audience"),
+                    GetInstance().GetValue<string>("Authentication:Authority"),
+                    GetInstance().GetValue<string>("Authentication:SigningKey"),
+                    GetInstance().GetValue<bool>("Authentication:NewUsersAreAdministrators"),
+                    GetInstance().GetValue<bool>("Authentication:RequireHttps")
                 ));
 
     private static AppSettings GetInstance()
@@ -52,7 +57,7 @@ public class AppSettings
     {
         get
         {
-            return GetInstance()._configuration.GetValue<string>("CorsAllowedOrigins").Split(",");
+            return GetInstance().GetValue<string>("CorsAllowedOrigins").Split(",");
         }
     }
 
@@ -60,14 +65,14 @@ public class AppSettings
     {
         get
         {
-            return GetInstance()._configuration.GetValue<string>("OdsApiBasePath");
+            return GetInstance().GetValue<string>("OdsApiBasePath");
         }
     }
 
     // Add a method to accept all SSL certs if the TrustAllSSLCerts is true in the appsettings.json file.
-    public static void TrustAllSSLCerts()
+    public static void OptionallyTrustAllSSLCerts()
     {
-        if (GetInstance()._configuration.GetValue<bool>("TrustAllSSLCerts"))
+        if (GetInstance().GetValue<bool>("TrustAllSSLCerts"))
         {
             // Trust all SSL certs -- needed unless signed SSL certificates are configured.
             System.Net.ServicePointManager.ServerCertificateValidationCallback =

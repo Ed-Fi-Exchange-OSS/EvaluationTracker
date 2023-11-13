@@ -96,7 +96,7 @@ namespace EdFi.OdsApi.Sdk.Models.All
             {
                 return false;
             }
-            return 
+            return
                 (
                     this.RaceDescriptor == input.RaceDescriptor ||
                     (this.RaceDescriptor != null &&
@@ -131,7 +131,7 @@ namespace EdFi.OdsApi.Sdk.Models.All
             // RaceDescriptor (string) maxLength
             if (this.RaceDescriptor != null && this.RaceDescriptor.Length > 306)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for RaceDescriptor, length must be less than 306.", new [] { "RaceDescriptor" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for RaceDescriptor, length must be less than 306.", new[] { "RaceDescriptor" });
             }
 
             yield break;
