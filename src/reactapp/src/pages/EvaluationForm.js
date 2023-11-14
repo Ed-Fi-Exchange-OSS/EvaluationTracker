@@ -264,7 +264,7 @@ export default function EvaluationForm() {
         </VStack>
         <Box>
           <Box>
-            {Object.entries(evaluationMetadata).map(([index, objective]) => (
+            {evaluationMetadata?.evaluationObjectives?.map((objective) => (
               <Box key={objective.evaluationObjectiveId} mt={4}>
                 <Heading fontSize="lg" fontWeight="bold">{objective.name}</Heading>
                 <Table cellSpacing="10" cellPadding="5">

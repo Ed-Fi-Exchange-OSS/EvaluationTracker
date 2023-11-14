@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using EdFi.OdsApi.Sdk.Models.All;
 using Microsoft.EntityFrameworkCore;
 
 namespace eppeta.webapi.Evaluations.Models;
@@ -17,20 +18,23 @@ namespace eppeta.webapi.Evaluations.Models;
 public partial class Evaluation
 {
     [Required]
+    public long EducationOrganizationId { get; set; }
+    [Required]
+    public string EvaluationPeriodDescriptor { get; set; }
+    [Required]
     [StringLength(50)]
-    public string EvaluationTitle { get; set; } = string.Empty;
-
-    [StringLength(255)]
-    public string EvaluationDescription { get; set; } = string.Empty;
-
-    [Column(TypeName = "decimal(6, 3)")]
-    public decimal? MinRating { get; set; }
-
-    [Column(TypeName = "decimal(6, 3)")]
-    public decimal? MaxRating { get; set; }
-
-    public int? EvaluationTypeDescriptorId { get; set; }
-
+    public string EvaluationTitle { get; set; }
+    [Required]
+    [StringLength(50)]
+    public string PerformanceEvaluationTitle { get; set; }
+    [Required]
+    public string PerformanceEvaluationTypeDescriptor { get; set; }
+    [Required]
+    public short SchoolYear { get; set; }
+    [Required]
+    public string TermDescriptor { get; set; }
+    [StringLength(306)]
+    public string? EvaluationTypeDescriptor { get; set; }
     [Column(TypeName = "datetime")]
     public DateTime CreateDate { get; set; }
 
@@ -41,9 +45,24 @@ public partial class Evaluation
     [Column("EdFi_Id")]
     [StringLength(50)]
     public string EdFiId { get; set; }
-
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-
     public int Id { get; set; }
+
+
+    public static explicit operator TpdmEvaluation(Evaluation evaluation)
+        => new TpdmEvaluation
+        (
+            performanceEvaluationReference: new TpdmPerformanceEvaluationReference
+            (
+                educationOrganizationId: (int)evaluation.EducationOrganizationId,
+                evaluationPeriodDescriptor: evaluation.EvaluationPeriodDescriptor,
+                performanceEvaluationTitle: evaluation.PerformanceEvaluationTitle,
+                performanceEvaluationTypeDescriptor: evaluation.PerformanceEvaluationTypeDescriptor,
+                schoolYear: evaluation.SchoolYear,
+                termDescriptor: evaluation.TermDescriptor
+            ),
+            evaluationTitle: evaluation.EvaluationTitle,
+            evaluationTypeDescriptor: evaluation.EvaluationTypeDescriptor
+        );
 }

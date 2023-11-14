@@ -7,6 +7,7 @@
 using eppeta.webapi.DTO;
 using eppeta.webapi.Evaluations.Models;
 using eppeta.webapi.Identity.Models;
+using System;
 
 namespace eppeta.webapi.Mapping
 {
@@ -30,37 +31,45 @@ namespace eppeta.webapi.Mapping
             return evaluationDTO;
         }
 
-        public static void PopulateEvaluationPK(object srcEvaluationObject, object dstEvaluationObject)
+        public static void CopyMatchingPKProperties(object srcObject, object dstObject)
         {
-            if (srcEvaluationObject is null) throw new ArgumentNullException(nameof(srcEvaluationObject));
-            if (dstEvaluationObject is null) throw new ArgumentNullException(nameof(dstEvaluationObject));
-
-            string[] evalPKCols =
+            if (srcObject is null) throw new ArgumentNullException(nameof(srcObject));
+            if (dstObject is null) throw new ArgumentNullException(nameof(dstObject));
+            string[] pkCols =
                 {
                 "EducationOrganizationId",
-                "EvaluationPeriodDescriptor",
-                "EvaluationTitle",
                 "PerformanceEvaluationTitle",
                 "PerformanceEvaluationTypeDescriptor",
                 "SchoolYear",
-                "TermDescriptor"
+                "TermDescriptor",
+                "EvaluationTitle",
+                "EvaluationPeriodDescriptor",
+                "EvaluationDate",
+                "EvaluationTypeDescriptor",
+                "PersonId",
+                "SourceSystemDescriptor",
+                "EvaluationObjectiveTitle",
+                "EvaluationElementTitle"
             };
-            var srcObjType = srcEvaluationObject.GetType();
-            var dstObjType = dstEvaluationObject.GetType();
-
-            var dstProperties = dstObjType.GetProperties().ToList();
-            var srcProperties = srcObjType.GetProperties().ToList();
-            foreach (var pkCol in evalPKCols)
+            var srcObjType = srcObject.GetType();
+            var dstObjType = dstObject.GetType();
+            foreach (var pkCol in pkCols)
             {
-                if (dstProperties.Exists(x => x.Name == pkCol) && srcProperties.Exists(x => x.Name == pkCol))
+                var srcProp = srcObjType.GetProperty(pkCol);
+                if (srcProp == null)
                 {
-                    // Disabled: the filters above solve this.
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
-                    dstObjType.GetProperty(pkCol).SetValue(
-                        dstEvaluationObject,
-                        srcObjType.GetProperty(pkCol).GetValue(srcEvaluationObject));
-#pragma warning restore CS8602 // Dereference of a possibly null reference.
+                    Console.WriteLine($"Property {pkCol} not found in object type {srcObject.GetType().Name}");
+                    continue;
                 }
+                var dstProp = dstObjType.GetProperty(pkCol);
+                if (dstProp == null)
+                {
+                    Console.WriteLine($"Property {pkCol} not found in object type {dstObject.GetType().Name}");
+                    continue;
+                }
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+                dstProp.SetValue(dstObject, srcProp.GetValue(srcObject));
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
             }
         }
     }

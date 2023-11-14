@@ -50,8 +50,10 @@ public partial class PerformanceEvaluation
 
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-
     public int Id { get; set; }
+
+    public ICollection<PerformanceEvaluationRatingLevel> PerformanceEvaluationRatingLevels { get; set; } = new List<PerformanceEvaluationRatingLevel>();
+
 
     public static explicit operator PerformanceEvaluation(TpdmPerformanceEvaluation tpdmPerformanceEvaluation)
     => new PerformanceEvaluation
@@ -64,5 +66,18 @@ public partial class PerformanceEvaluation
         PerformanceEvaluationTitle = tpdmPerformanceEvaluation.PerformanceEvaluationTitle,
         SchoolYear = (short)tpdmPerformanceEvaluation.SchoolYearTypeReference.SchoolYear,
         TermDescriptor = tpdmPerformanceEvaluation.TermDescriptor,
+        PerformanceEvaluationRatingLevels = tpdmPerformanceEvaluation.RatingLevels.Select(l => (PerformanceEvaluationRatingLevel)l).ToList()
     };
+
+    public static explicit operator TpdmPerformanceEvaluation(PerformanceEvaluation performanceEvaluation)
+        => new TpdmPerformanceEvaluation(
+            educationOrganizationReference: new EdFiEducationOrganizationReference
+            ( educationOrganizationId: (int)performanceEvaluation.EducationOrganizationId),
+            evaluationPeriodDescriptor: performanceEvaluation.EvaluationPeriodDescriptor,
+            performanceEvaluationDescription: performanceEvaluation.PerformanceEvaluationDescription,
+            performanceEvaluationTitle: performanceEvaluation.PerformanceEvaluationTitle,
+            performanceEvaluationTypeDescriptor: performanceEvaluation.PerformanceEvaluationTypeDescriptor,
+            schoolYearTypeReference: new EdFiSchoolYearTypeReference { SchoolYear = performanceEvaluation.SchoolYear },
+            termDescriptor: performanceEvaluation.TermDescriptor
+        );
 }

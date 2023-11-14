@@ -15,9 +15,15 @@ namespace eppeta.webapi.Evaluations.Data
 #pragma warning disable CS8603 // Possible null reference
     public class EvaluationDbContext : DbContext, IEvaluationRepository
     {
+
         public EvaluationDbContext(DbContextOptions<EvaluationDbContext> options)
             : base(options)
         {
+        }
+
+        public async Task<Status> GetStatusByText(string text)
+        {
+            return await Statuses.Where(s => s.StatusText.ToLower() == text.ToLower()).FirstOrDefaultAsync();
         }
 
         public async Task<List<Evaluation>> GetAllEvaluations()
@@ -26,7 +32,9 @@ namespace eppeta.webapi.Evaluations.Data
         }
         public async Task<PerformanceEvaluation> GetPerformanceEvaluationById(int performanceEvaluationId)
         {
-            return await PerformanceEvaluations.Where(e => e.Id == performanceEvaluationId).FirstOrDefaultAsync();
+            return await PerformanceEvaluations
+                .Include(pe => pe.PerformanceEvaluationRatingLevels)
+                .Where(e => e.Id == performanceEvaluationId).FirstOrDefaultAsync();
         }
 
         public async Task<List<EvaluationElement>> GetAllEvaluationElements()
@@ -74,7 +82,7 @@ namespace eppeta.webapi.Evaluations.Data
                 var eeo = FilterByRequiredFields(EvaluationObjectives.ToList(), eo);
                 if (eeo != null)
                 {
-                    foreach (var property in typeof(EvaluationElement).GetProperties())
+                    foreach (var property in typeof(EvaluationObjective).GetProperties())
                         if (property.Name != "Id")
                             property.SetValue(eeo, property.GetValue(eo));
                     EvaluationObjectives.Update((EvaluationObjective)eeo);
@@ -107,7 +115,7 @@ namespace eppeta.webapi.Evaluations.Data
         }
 
 
-        public async Task UpdateEvaluationRatings(List<EvaluationRating> evaluationRatings)
+        public async Task<List<int>> UpdateEvaluationRatings(List<EvaluationRating> evaluationRatings)
         {
             // Since the surrogate Id is Identity then match on required cols and update existing records
             foreach (var er in evaluationRatings)
@@ -119,16 +127,18 @@ namespace eppeta.webapi.Evaluations.Data
                         if (property.Name != "Id")
                             property.SetValue(eer, property.GetValue(er));
                     EvaluationRatings.Update((EvaluationRating)eer);
+                    er.Id = ((EvaluationRating)eer).Id;
                 }
                 else
                     // Add new records
                     EvaluationRatings.Update(er);
             }
             await SaveChangesAsync();
+            return evaluationRatings.Select(er => er.Id).ToList();
         }
 
 
-        public async Task UpdateEvaluationObjectiveRatings(List<EvaluationObjectiveRating> evaluationObjectiveRatings)
+        public async Task<List<int>> UpdateEvaluationObjectiveRatings(List<EvaluationObjectiveRating> evaluationObjectiveRatings)
         {
             // Since the surrogate Id is Identity then match on required cols and update existing records
             foreach (var er in evaluationObjectiveRatings)
@@ -140,15 +150,17 @@ namespace eppeta.webapi.Evaluations.Data
                         if (property.Name != "Id")
                             property.SetValue(eer, property.GetValue(er));
                     EvaluationObjectiveRatings.Update((EvaluationObjectiveRating)eer);
+                    er.Id = (((EvaluationObjectiveRating)eer).Id);
                 }
                 else
                     // Add new records
                     EvaluationObjectiveRatings.Update(er);
             }
             await SaveChangesAsync();
+            return evaluationObjectiveRatings.Select(eor => eor.Id).ToList();
         }
 
-        public async Task UpdateEvaluationElementRatingResults(List<EvaluationElementRatingResult> evaluationElementRatingResults)
+        public async Task<List<int>> UpdateEvaluationElementRatingResults(List<EvaluationElementRatingResult> evaluationElementRatingResults)
         {
             // Since the surrogate Id is Identity then match on required cols and update existing records
             foreach (var er in evaluationElementRatingResults)
@@ -160,23 +172,26 @@ namespace eppeta.webapi.Evaluations.Data
                         if (property.Name != "Id")
                             property.SetValue(eer, property.GetValue(er));
                     EvaluationElementRatingResults.Update((EvaluationElementRatingResult)eer);
+                    er.Id = ((EvaluationElementRatingResult)eer).Id;
                 }
                 else
                     // Add new records
                     EvaluationElementRatingResults.Update(er);
             }
             await SaveChangesAsync();
+            return evaluationElementRatingResults.Select(eerr => eerr.Id).ToList();
         }
         public async Task UpdatePerformanceEvaluations(List<PerformanceEvaluation> performanceEvaluations)
         {
             // Since the surrogate Id is Identity then match on required cols and update existing records
             foreach (var pe in performanceEvaluations)
             {
-                var epe = FilterByRequiredFields(PerformanceEvaluations.ToList(), pe);
+                var epe = FilterByRequiredFields(PerformanceEvaluations
+                    .Include(pe => pe.PerformanceEvaluationRatingLevels).ToList(), pe);
                 if (epe != null)
                 {
                     foreach (var property in typeof(PerformanceEvaluation).GetProperties())
-                        if (property.Name != "Id")
+                        if (property.Name != "Id" && property.Name != "PerformanceEvaluationRatingLevels")
                             property.SetValue(epe, property.GetValue(pe));
                     PerformanceEvaluations.Update((PerformanceEvaluation)epe);
                 }
@@ -197,6 +212,10 @@ namespace eppeta.webapi.Evaluations.Data
         {
             return await PerformanceEvaluationRatings.ToListAsync();
         }
+        public async Task<EvaluationRating> GetEvaluationRatingById(int id)
+        {
+            return await EvaluationRatings.Where(e => e.Id == id).FirstOrDefaultAsync();
+        }
 
         public async Task<List<EvaluationRating>> GetEvaluationRatingsByUserId(string userId)
         {
@@ -213,19 +232,35 @@ namespace eppeta.webapi.Evaluations.Data
             return await PerformanceEvaluationRatings.Where(r => r.Id == id).FirstOrDefaultAsync();
         }
 
-        public async Task UpdatePerformanceEvaluationRating(PerformanceEvaluationRating rating)
+        public async Task<List<int>> UpdatePerformanceEvaluationRatings(List<PerformanceEvaluationRating> performanceEvaluationRatings)
         {
-            PerformanceEvaluationRatings.Update(rating);
+            // Since the surrogate Id is Identity then match on required cols and update existing records
+            foreach (var pe in performanceEvaluationRatings)
+            {
+                var epe = FilterByRequiredFields(PerformanceEvaluationRatings.ToList(), pe);
+                if (epe != null)
+                {
+                    foreach (var property in typeof(PerformanceEvaluationRating).GetProperties())
+                        if (property.Name != "Id")
+                            property.SetValue(epe, property.GetValue(pe));
+                    PerformanceEvaluationRatings.Update((PerformanceEvaluationRating)epe);
+                    pe.Id = ((PerformanceEvaluationRating)epe).Id;
+                }
+                else
+                    // Add new records
+                    PerformanceEvaluationRatings.Update(pe);
+            }
             await SaveChangesAsync();
+            return performanceEvaluationRatings.Select(per => per.Id).ToList();
         }
-
+        public DbSet<Status> Statuses { get; set; }
         public DbSet<Evaluation> Evaluations { get; set; }
         public DbSet<PerformanceEvaluation> PerformanceEvaluations { get; set; }
         public DbSet<EvaluationElement> EvaluationElements { get; set; }
         public DbSet<EvaluationObjective> EvaluationObjectives { get; set; }
         // DbSet for ratings entities
         public DbSet<PerformanceEvaluationRating> PerformanceEvaluationRatings { get; set; }
-
+        public DbSet<PerformanceEvaluationRatingLevel> PerformanceEvaluationRatingLevels { get; set; }
         public DbSet<EvaluationRating> EvaluationRatings { get; set; }
         public DbSet<EvaluationElementRatingResult> EvaluationElementRatingResults { get; set; }
 
@@ -233,15 +268,38 @@ namespace eppeta.webapi.Evaluations.Data
 
         public DbSet<EvaluationElementRating> EvaluationElementRatings { get; set; }
 
+        async Task<EvaluationObjective> IEvaluationRepository.GetEvaluationObjectiveById(int id)
+        {
+            return await EvaluationObjectives.Where(eo => eo.Id == id).FirstOrDefaultAsync();
+        }
+        async Task<EvaluationObjectiveRating> IEvaluationRepository.GetEvaluationObjectiveRatingById(int id)
+        {
+            return await EvaluationObjectiveRatings.Where(eor => eor.Id == id).FirstOrDefaultAsync();
+        }
+        async Task<List<EvaluationElement>> IEvaluationRepository.GetAllEvaluationElements()
+        {
+            return await EvaluationElements.ToListAsync();
+        }
+
+        Task<EvaluationElement> IEvaluationRepository.GetEvaluationElementById(int id)
+        {
+            return EvaluationElements.Where(ee => ee.Id == id).FirstOrDefaultAsync();
+        }
+        Task<EvaluationElementRatingResult> IEvaluationRepository.GetEvaluationElementRatingResultById(int id)
+        {
+            return EvaluationElementRatingResults.Where(ee => ee.Id == id).FirstOrDefaultAsync();
+        }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.HasDefaultSchema("eppeta");
+            modelBuilder.Entity<Status>().ToTable(nameof(Status));
             modelBuilder.Entity<Evaluation>().ToTable(nameof(Evaluation));
             modelBuilder.Entity<EvaluationObjective>().ToTable(nameof(EvaluationObjective));
             modelBuilder.Entity<EvaluationElement>().ToTable(nameof(EvaluationElement));
             modelBuilder.Entity<PerformanceEvaluation>().ToTable(nameof(PerformanceEvaluation));
             modelBuilder.Entity<PerformanceEvaluationRating>().ToTable(nameof(PerformanceEvaluationRating));
+            modelBuilder.Entity<PerformanceEvaluationRatingLevel>().ToTable(nameof(PerformanceEvaluationRatingLevel));
             modelBuilder.Entity<EvaluationRating>().ToTable(nameof(EvaluationRating));
             modelBuilder.Entity<EvaluationObjectiveRating>().ToTable(nameof(EvaluationObjectiveRating));
             modelBuilder.Entity<EvaluationElementRating>().ToTable(nameof(EvaluationElementRating));
@@ -263,20 +321,6 @@ namespace eppeta.webapi.Evaluations.Data
                 .HasColumnType("decimal(6, 3)");
         }
 
-        async Task<EvaluationObjective> IEvaluationRepository.GetEvaluationObjectiveById(int id)
-        {
-            return await EvaluationObjectives.Where(eo => eo.Id == id).FirstOrDefaultAsync();
-        }
-
-        async Task<List<EvaluationElement>> IEvaluationRepository.GetAllEvaluationElements()
-        {
-            return await EvaluationElements.ToListAsync();
-        }
-
-        Task<EvaluationElement?> IEvaluationRepository.GetEvaluationElementById(int id)
-        {
-            return EvaluationElements.Where(ee => ee.Id == id).FirstOrDefaultAsync();
-        }
 
     }
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
