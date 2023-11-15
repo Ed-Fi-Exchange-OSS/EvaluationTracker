@@ -4,6 +4,7 @@
 // See the LICENSE and NOTICES files in the project root for more information.
 
 using EdFi.OdsApi.Sdk.Models.All;
+using eppeta.webapi.DTO;
 using eppeta.webapi.Identity.Models;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -29,6 +30,8 @@ namespace eppeta.webapi.Evaluations.Models
         public short SchoolYear { get; set; }
         [Required]
         public string TermDescriptor { get; set; } = string.Empty;
+        public string? ReviewedCandidateName { get; set; }
+        public string? EvaluatorName { get; set; }
         public string? PerformanceEvaluationRatingLevelDescriptor { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime? EndTime { get; set; }
@@ -69,6 +72,19 @@ namespace eppeta.webapi.Evaluations.Models
                     actualDuration: (performanceEvaluationRating.EndTime - performanceEvaluationRating.StartTime)?.Minutes,
                     performanceEvaluationRatingLevelDescriptor: performanceEvaluationRating.PerformanceEvaluationRatingLevelDescriptor
                 );
+
+        public static explicit operator PerformedEvaluation(PerformanceEvaluationRating performanceEvaluationRating)
+            => new PerformedEvaluation
+            {
+                ActualDate = performanceEvaluationRating.StartTime,
+                EvaluationStatus = performanceEvaluationRating.RecordStatus != null ? performanceEvaluationRating.RecordStatus.StatusText : "Not Uploaded",
+                PerformanceEvaluationRatingId = performanceEvaluationRating.Id,
+                PerformanceEvaluationTitle = performanceEvaluationRating.PerformanceEvaluationTitle,
+                ReviewedPersonId = performanceEvaluationRating.PersonId,
+                ReviewedPersonIdSourceSystemDescriptor = performanceEvaluationRating.SourceSystemDescriptor,
+                EvaluatorName = performanceEvaluationRating.EvaluatorName,
+                ReviewedCandidateName = performanceEvaluationRating.ReviewedCandidateName
+            };
     }
 }
 
