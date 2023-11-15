@@ -30,6 +30,8 @@ CREATE TABLE eppeta.PerformanceEvaluationRating (
     PerformanceEvaluationTypeDescriptor [nvarchar](306) NOT NULL,
     [PersonId] [nvarchar](32) NOT NULL,
     [SourceSystemDescriptor] [nvarchar](306) NOT NULL,
+    [ReviewedCandidateName] [nvarchar](255) NULL,
+    [EvaluatorName] [nvarchar](255) NULL,
     [SchoolYear] [smallint] NOT NULL,
     TermDescriptor [nvarchar](306) NOT NULL,
     PerformanceEvaluationRatingLevelDescriptor [nvarchar](306) NULL,

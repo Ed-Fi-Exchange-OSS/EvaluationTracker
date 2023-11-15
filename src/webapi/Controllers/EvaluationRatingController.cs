@@ -39,9 +39,11 @@ namespace eppeta.webapi.Controllers
         [HttpGet()]
         public async Task<ActionResult<IEnumerable<PerformedEvaluation>>> GetPerformedEvaluations()
         {
-            var ratings = await _evaluationRepository.GetAllPerformanceEvaluationRatings();
+            var performanceEvaluationRatings = await _evaluationRepository.GetAllPerformanceEvaluationRatings();
+            if (performanceEvaluationRatings == null)
+                return NotFound();
 
-            return Ok(ratings);
+            return Ok(performanceEvaluationRatings.Select(per => (PerformedEvaluation)per).ToList());
         }
 
         [HttpGet("{userId}")]
@@ -51,16 +53,12 @@ namespace eppeta.webapi.Controllers
         public async Task<ActionResult<IEnumerable<PerformedEvaluation>>> GetPerformedEvaluations([FromRoute] string userId)
         {
             if (userId is null || userId == string.Empty) { return NotFound(); }
-            var ratingEntities = await _evaluationRepository.GetEvaluationRatingsByUserId(userId);
+            var performanceEvaluationRatings = await _evaluationRepository.GetPerformanceEvaluationRatingsByUserId(userId);
 
-            if (ratingEntities == null)
-            {
+            if (performanceEvaluationRatings == null)
                 return NotFound();
-            }
 
-            var ratingDTOs = ratingEntities.Select(rating => rating.ToRatingDTO(_userManager.FindByIdAsync(userId).Result));
-
-            return Ok(ratingDTOs);
+            return Ok(performanceEvaluationRatings.Select(per => (PerformedEvaluation)per).ToList());
         }
 
         /// <summary>
@@ -86,12 +84,14 @@ namespace eppeta.webapi.Controllers
                 throw new ArgumentException($"PerformanceEvaluationId not found");
             MappingHelper.CopyMatchingPKProperties(performanceEvaluation, newPerEvalRating);
             var user = await _userManager.FindByIdAsync(userId);
+            newPerEvalRating.ReviewedCandidateName = evaluationResult.ReviewedCandidateName;
+            newPerEvalRating.EvaluatorName = evaluationResult.EvaluatorName;
             newPerEvalRating.StartTime = evaluationResult.StartDateTime;
             newPerEvalRating.PersonId = evaluationResult.ReviewedPersonId;
             newPerEvalRating.SourceSystemDescriptor = evaluationResult.ReviewedPersonSourceSystemDescriptor;
             newPerEvalRating.UserId = user.Id;
             newPerEvalRating.StatusId = (int)((await _evaluationRepository.GetStatusByText("Not Uploaded"))?.Id);
-            newPerEvalRating.EndTime = DateTime.Now;
+            newPerEvalRating.EndTime = evaluationResult.EndDateTime;
             result[typeof(PerformanceEvaluationRating)].AddRange(await _evaluationRepository.UpdatePerformanceEvaluationRatings(new List<PerformanceEvaluationRating> { newPerEvalRating }));
             foreach (var objRes in evaluationResult.ObjectiveResults)
             {

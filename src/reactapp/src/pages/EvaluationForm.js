@@ -138,13 +138,14 @@ export default function EvaluationForm() {
 
     completedEvaluation.reviewedPersonId = selectedCandidate.personId;
     completedEvaluation.reviewedPersonSourceSystemDescriptor = selectedCandidate.sourceSystemDescriptor;
-    completedEvaluation.reviewedPersonName = selectedCandidate.candidateName;
+    completedEvaluation.evaluatorName = loggedInUser.name;
+    completedEvaluation.reviewedCandidateName = selectedCandidate.candidateName;
     completedEvaluation.performanceEvaluationId = selectedEvaluation.id;
     completedEvaluation.startDateTime = evaluationDate;
     !evaluationEndTime ?
       completedEvaluation.endDateTime = new Date() : completedEvaluation.endDateTime = evaluationEndTime;
 
-    completedEvaluation.objectiveResults = evaluationMetadata.flatMap((objective) => {
+    completedEvaluation.objectiveResults = evaluationMetadata.evaluationObjectives.flatMap((objective) => {
 
       // Map elements for this objective - Using flat map will either map the element if a rating exists
       // or will return empty if no score was provided for the element (i.e. N/A was chosen)
