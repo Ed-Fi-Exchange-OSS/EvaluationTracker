@@ -25,6 +25,10 @@ namespace eppeta.webapi.Evaluations.Data
         {
             return await Statuses.Where(s => s.StatusText.ToLower() == text.ToLower()).FirstOrDefaultAsync();
         }
+        public async Task<Status> GetStatusById(int id)
+        {
+            return await Statuses.Where(s => s.Id == id).FirstOrDefaultAsync();
+        }
 
         public async Task<List<Evaluation>> GetAllEvaluations()
         {
