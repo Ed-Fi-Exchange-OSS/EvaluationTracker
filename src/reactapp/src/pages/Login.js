@@ -25,10 +25,11 @@ import { Formik, Form } from "formik";
 import InputField from "../components/InputField";
 import { postForm, get } from "../components/FetchHelpers";
 import { setToken } from "../components/TokenHelpers"
+import { defaultErrorMessage, AlertMessage } from "../components/AlertMessage";
 
 export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
-
+  const [error, setError] = useState(null);
 
   // sync dependencies while login
   get("/api/Evaluation/Sync");
@@ -37,8 +38,7 @@ export default function LoginForm() {
   const loadEvaluationsPage = () => {
     window.location.href = "/main";
   };
-
-  const onSubmitLogin = async (values) => {
+  const onSubmitLogin = async (values) => {    
     const tokenRequest = {
       grant_type: "password",
       username: values.email,
@@ -52,16 +52,16 @@ export default function LoginForm() {
       if (!response.ok) {
         console.error(message);
         // TODO use proper user notifications in EPPETA-18
-        alert(JSON.stringify(message));
+        setError(message.error_description);
         return;
       }
-
       setToken(message);
       console.info("Successful sign-in");
       loadEvaluationsPage();
       return;
-    } catch (error) {
-      console.error(error);
+    } catch (exception) {
+      setError(defaultErrorMessage);
+      console.error(exception);
     }
   };
 
@@ -101,6 +101,7 @@ export default function LoginForm() {
                     <Checkbox>Remember me</Checkbox>
                     <Link color={"blue.400"}>Forgot password?</Link>
                   </Stack>
+                  {error && <AlertMessage message={error} />}
                   <Button
                     type="submit"
                     bg={"blue.400"}
