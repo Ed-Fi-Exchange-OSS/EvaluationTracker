@@ -57,32 +57,78 @@ namespace eppeta.webapi.Evaluations.Models
         {
             return new TpdmEvaluationObjectiveRating
             (
-                evaluationObjectiveReference : new TpdmEvaluationObjectiveReference
+                evaluationObjectiveReference: new TpdmEvaluationObjectiveReference
                 (
-                    educationOrganizationId : (int)evaluationObjectiveRating.EducationOrganizationId,
-                    evaluationObjectiveTitle : evaluationObjectiveRating.EvaluationObjectiveTitle,
-                    evaluationPeriodDescriptor : evaluationObjectiveRating.EvaluationPeriodDescriptor,
-                    evaluationTitle : evaluationObjectiveRating.EvaluationTitle,
-                    performanceEvaluationTitle : evaluationObjectiveRating.PerformanceEvaluationTitle,
-                    performanceEvaluationTypeDescriptor : evaluationObjectiveRating.PerformanceEvaluationTypeDescriptor,
-                    schoolYear : evaluationObjectiveRating.SchoolYear,
-                    termDescriptor : evaluationObjectiveRating.TermDescriptor
+                    educationOrganizationId: (int)evaluationObjectiveRating.EducationOrganizationId,
+                    evaluationObjectiveTitle: evaluationObjectiveRating.EvaluationObjectiveTitle,
+                    evaluationPeriodDescriptor: evaluationObjectiveRating.EvaluationPeriodDescriptor,
+                    evaluationTitle: evaluationObjectiveRating.EvaluationTitle,
+                    performanceEvaluationTitle: evaluationObjectiveRating.PerformanceEvaluationTitle,
+                    performanceEvaluationTypeDescriptor: evaluationObjectiveRating.PerformanceEvaluationTypeDescriptor,
+                    schoolYear: evaluationObjectiveRating.SchoolYear,
+                    termDescriptor: evaluationObjectiveRating.TermDescriptor
                 ),
-                evaluationRatingReference : new TpdmEvaluationRatingReference
+                evaluationRatingReference: new TpdmEvaluationRatingReference
                 (
-                    educationOrganizationId : (int)evaluationObjectiveRating.EducationOrganizationId,
-                    evaluationPeriodDescriptor : evaluationObjectiveRating.EvaluationPeriodDescriptor,
-                    evaluationTitle : evaluationObjectiveRating.EvaluationTitle,
-                    performanceEvaluationTitle : evaluationObjectiveRating.PerformanceEvaluationTitle,
-                    performanceEvaluationTypeDescriptor : evaluationObjectiveRating.PerformanceEvaluationTypeDescriptor,
-                    evaluationDate : evaluationObjectiveRating.EvaluationDate,
-                    schoolYear : evaluationObjectiveRating.SchoolYear,
-                    termDescriptor : evaluationObjectiveRating.TermDescriptor,
-                    personId : evaluationObjectiveRating.PersonId,
-                    sourceSystemDescriptor : evaluationObjectiveRating.SourceSystemDescriptor
+                    educationOrganizationId: (int)evaluationObjectiveRating.EducationOrganizationId,
+                    evaluationPeriodDescriptor: evaluationObjectiveRating.EvaluationPeriodDescriptor,
+                    evaluationTitle: evaluationObjectiveRating.EvaluationTitle,
+                    performanceEvaluationTitle: evaluationObjectiveRating.PerformanceEvaluationTitle,
+                    performanceEvaluationTypeDescriptor: evaluationObjectiveRating.PerformanceEvaluationTypeDescriptor,
+                    evaluationDate: evaluationObjectiveRating.EvaluationDate,
+                    schoolYear: evaluationObjectiveRating.SchoolYear,
+                    termDescriptor: evaluationObjectiveRating.TermDescriptor,
+                    personId: evaluationObjectiveRating.PersonId,
+                    sourceSystemDescriptor: evaluationObjectiveRating.SourceSystemDescriptor
                 ),
-                objectiveRatingLevelDescriptor : evaluationObjectiveRating.ObjectiveRatingLevelDescriptor,
-                comments : evaluationObjectiveRating.Comments
+                objectiveRatingLevelDescriptor: evaluationObjectiveRating.ObjectiveRatingLevelDescriptor,
+                comments: evaluationObjectiveRating.Comments
+            );
+        }
+
+        public static explicit operator TpdmEvaluationRating(EvaluationObjectiveRating evaluationObjectiveRating)
+        {
+            return new TpdmEvaluationRating
+            (
+                performanceEvaluationRatingReference: new TpdmPerformanceEvaluationRatingReference
+                (
+                    educationOrganizationId: (int)evaluationObjectiveRating.EducationOrganizationId,
+                    evaluationPeriodDescriptor: evaluationObjectiveRating.EvaluationPeriodDescriptor,
+                    performanceEvaluationTitle: evaluationObjectiveRating.PerformanceEvaluationTitle,
+                    performanceEvaluationTypeDescriptor: evaluationObjectiveRating.PerformanceEvaluationTypeDescriptor,
+                    schoolYear: evaluationObjectiveRating.SchoolYear,
+                    termDescriptor: evaluationObjectiveRating.TermDescriptor,
+                    personId: evaluationObjectiveRating.PersonId,
+                    sourceSystemDescriptor: evaluationObjectiveRating.SourceSystemDescriptor
+                ),
+                evaluationReference: new TpdmEvaluationReference
+                (
+                    educationOrganizationId: (int)evaluationObjectiveRating.EducationOrganizationId,
+                    evaluationPeriodDescriptor: evaluationObjectiveRating.EvaluationPeriodDescriptor,
+                    evaluationTitle: evaluationObjectiveRating.EvaluationTitle,
+                    performanceEvaluationTitle: evaluationObjectiveRating.PerformanceEvaluationTitle,
+                    performanceEvaluationTypeDescriptor: evaluationObjectiveRating.PerformanceEvaluationTypeDescriptor,
+                    schoolYear: evaluationObjectiveRating.SchoolYear,
+                    termDescriptor: evaluationObjectiveRating.TermDescriptor
+                ),
+                evaluationDate: evaluationObjectiveRating.EvaluationDate
+            );
+        }
+
+        public static explicit operator TpdmEvaluation(EvaluationObjectiveRating evaluationObjectiveRating)
+        {
+            return new TpdmEvaluation
+            (
+                performanceEvaluationReference: new TpdmPerformanceEvaluationReference
+                (
+                    educationOrganizationId: (int)evaluationObjectiveRating.EducationOrganizationId,
+                    evaluationPeriodDescriptor: evaluationObjectiveRating.EvaluationPeriodDescriptor,
+                    performanceEvaluationTitle: evaluationObjectiveRating.PerformanceEvaluationTitle,
+                    performanceEvaluationTypeDescriptor: evaluationObjectiveRating.PerformanceEvaluationTypeDescriptor,
+                    schoolYear: evaluationObjectiveRating.SchoolYear,
+                    termDescriptor: evaluationObjectiveRating.TermDescriptor
+                ),
+                evaluationTitle: evaluationObjectiveRating.EvaluationTitle
             );
         }
     }

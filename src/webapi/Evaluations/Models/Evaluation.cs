@@ -35,16 +35,12 @@ public partial class Evaluation
     public string TermDescriptor { get; set; }
     [StringLength(306)]
     public string? EvaluationTypeDescriptor { get; set; }
-    [Column(TypeName = "datetime")]
-    public DateTime CreateDate { get; set; }
+    public DateTime? CreateDate { get; set; }
 
-    [Column(TypeName = "datetime")]
-    public DateTime LastModifiedDate { get; set; }
-
-    [Required]
+    public DateTime? LastModifiedDate { get; set; }
     [Column("EdFi_Id")]
     [StringLength(50)]
-    public string EdFiId { get; set; }
+    public string? EdFiId { get; set; }
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
@@ -65,4 +61,17 @@ public partial class Evaluation
             evaluationTitle: evaluation.EvaluationTitle,
             evaluationTypeDescriptor: evaluation.EvaluationTypeDescriptor
         );
+
+    public static explicit operator Evaluation(TpdmEvaluation tpdmEvaluation)
+        => new Evaluation
+        {
+            EducationOrganizationId = tpdmEvaluation.PerformanceEvaluationReference.EducationOrganizationId,
+            EvaluationTitle = tpdmEvaluation.EvaluationTitle,
+            EvaluationPeriodDescriptor = tpdmEvaluation.PerformanceEvaluationReference.EvaluationPeriodDescriptor,
+            EvaluationTypeDescriptor = tpdmEvaluation.EvaluationTypeDescriptor,
+            PerformanceEvaluationTitle = tpdmEvaluation.PerformanceEvaluationReference.PerformanceEvaluationTitle,
+            PerformanceEvaluationTypeDescriptor = tpdmEvaluation.PerformanceEvaluationReference.PerformanceEvaluationTypeDescriptor,
+            SchoolYear = (short)tpdmEvaluation.PerformanceEvaluationReference.SchoolYear,
+            TermDescriptor = tpdmEvaluation.PerformanceEvaluationReference.TermDescriptor,
+        };
 }
