@@ -4,6 +4,7 @@
 // See the LICENSE and NOTICES files in the project root for more information.
 
 using EdFi.OdsApi.Sdk.Models.All;
+using eppeta.webapi.DTO;
 using eppeta.webapi.Identity.Models;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -39,7 +40,6 @@ namespace eppeta.webapi.Evaluations.Models
         public string? EvaluationRatingStatusDescriptor { get; set; }
         public DateTime CreateDate { get; set; }
         public DateTime LastModifiedDate { get; set; }
-        public string CandidateName { get; set; } = string.Empty;
         [Required]
         [Column("EdFi_Id")]
         [StringLength(50)]
@@ -78,10 +78,38 @@ namespace eppeta.webapi.Evaluations.Models
                     termDescriptor : evaluationRating.TermDescriptor
                 ),
                 evaluationDate : evaluationRating.EvaluationDate,
-                evaluationRatingLevelDescriptor : evaluationRating.EvaluationRatingLevelDescriptor,
-                evaluationRatingStatusDescriptor : evaluationRating.EvaluationRatingStatusDescriptor
+                evaluationRatingLevelDescriptor: evaluationRating.EvaluationRatingLevelDescriptor ?? string.Empty,
+                evaluationRatingStatusDescriptor : evaluationRating?.EvaluationRatingStatusDescriptor ?? string.Empty
             );
         }
+
+        public static explicit operator TpdmEvaluation(EvaluationRating evaluationRating)
+        {
+            return new TpdmEvaluation(
+                performanceEvaluationReference: new TpdmPerformanceEvaluationReference
+                (
+                    educationOrganizationId: (int)evaluationRating.EducationOrganizationId,
+                    evaluationPeriodDescriptor: evaluationRating.EvaluationPeriodDescriptor,
+                    performanceEvaluationTitle: evaluationRating.PerformanceEvaluationTitle,
+                    performanceEvaluationTypeDescriptor: evaluationRating.PerformanceEvaluationTypeDescriptor,
+                    schoolYear: evaluationRating.SchoolYear,
+                    termDescriptor: evaluationRating.TermDescriptor
+                ),
+                // TODO: verify EvaluationTitle assignment
+                evaluationTitle: evaluationRating.EvaluationTitle
+           );
+        }
+
+        public static explicit operator PerformedEvaluation(EvaluationRating evaluationRating)
+            => new PerformedEvaluation
+            {
+                ActualDate = evaluationRating.EvaluationDate,
+                PerformanceEvaluationRatingId = evaluationRating.Id,
+                PerformanceEvaluationTitle = evaluationRating.PerformanceEvaluationTitle,
+                ReviewedPersonId = evaluationRating.PersonId,
+                ReviewedPersonIdSourceSystemDescriptor = evaluationRating.SourceSystemDescriptor
+            };
+
     }
 }
 
