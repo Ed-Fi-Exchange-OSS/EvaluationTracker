@@ -6,6 +6,7 @@
 using eppeta.webapi.Evaluations.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Dynamic.Core;
+using System.Runtime.ConstrainedExecution;
 
 namespace eppeta.webapi.Evaluations.Data
 {
@@ -38,6 +39,35 @@ namespace eppeta.webapi.Evaluations.Data
         {
             return await Evaluations.ToListAsync();
         }
+        public async Task<Evaluation> GetEvaluationById(int id)
+        {
+            return await Evaluations.Where(e => e.Id == id).FirstOrDefaultAsync();
+        }
+        public async Task UpdateEvaluations(List<Evaluation> evaluations)
+        {
+            // Since the surrogate Id is Identity then match on required cols and update existing records
+            foreach (var e in evaluations)
+            {
+                var ee = FilterByRequiredFields(Evaluations.ToList(), e).FirstOrDefault();
+                if (ee != null)
+                {
+                    foreach (var property in typeof(Evaluation).GetProperties())
+                        if (property.Name != "Id")
+                            property.SetValue(ee, property.GetValue(e));
+                    Evaluations.Update((Evaluation)ee);
+                    e.Id = ((Evaluation)ee).Id;
+                }
+                else
+                    // Add new records
+                    Evaluations.Update(e);
+            }
+            await SaveChangesAsync();
+        }
+
+        public async Task<List<EvaluationRating>> GetAllEvaluationRatings()
+        {
+            return await EvaluationRatings.ToListAsync();
+        }
         public async Task<PerformanceEvaluation> GetPerformanceEvaluationById(int performanceEvaluationId)
         {
             return await PerformanceEvaluations
@@ -58,28 +88,39 @@ namespace eppeta.webapi.Evaluations.Data
             return await EvaluationObjectives.ToListAsync();
         }
 
-        private static object FilterByRequiredFields<T>(List<T> listToFilter, object referenceObject)
+        private static List<T> FilterByRequiredFields<T>(List<T> listToFilter, object referenceObject)
         {
-            var requiredProperties = referenceObject.GetType().GetProperties()
+            if (!listToFilter.Any())
+                return listToFilter;
+            var requiredReferenceProperties = referenceObject.GetType().GetProperties()
                 .Where(p => p.IsDefined(typeof(System.ComponentModel.DataAnnotations.RequiredAttribute), true)
-                    && p.Name != "EdFiId").ToList();
+                    && p.Name != "EdFiId").Select(p => p.Name).ToList();
+            var requiredListProperties = listToFilter.First().GetType().GetProperties()
+                .Where(p => p.IsDefined(typeof(System.ComponentModel.DataAnnotations.RequiredAttribute), true)
+                    && p.Name != "EdFiId").Select(p => p.Name).ToList();
+
+            var referenceHasAllRequiredProperties = requiredListProperties.Intersect(requiredReferenceProperties).Count() == requiredListProperties.Count();
+            if (!referenceHasAllRequiredProperties)
+                throw new ArgumentException("Can't filter by required fields because the reference object doesn't have all the required fields of the object type in the list.");
             var colFilter = new List<string>();
-            foreach (var property in requiredProperties.Where(x => x is not null))
+            foreach (var propertyName in requiredListProperties)
             {
+                var property = listToFilter.First().GetType().GetProperty(propertyName);
+                var refProperty = referenceObject.GetType().GetProperty(propertyName);
                 if (property.PropertyType == typeof(DateTime))
                 {
                     // SQL needs exact datetime format
-                    // Disabled: `property` cannot be null, due to filter in the foreach
+                    // Disabled: `propertyName` cannot be null, due to filter in the foreach
 #pragma warning disable CS8605 // Unboxing a possibly null value.
-                    var dateTimeVal = ((DateTime)property.GetValue(referenceObject)).ToString("yyyy-MM-dd HH:mm:ss.FFF");
+                    var dateTimeVal = ((DateTime)refProperty.GetValue(referenceObject)).ToString("yyyy-MM-dd HH:mm:ss.FFF");
 #pragma warning restore CS8605 // Unboxing a possibly null value.
-                    colFilter.Add($"{property.Name} == \"{dateTimeVal}\"");
+                    colFilter.Add($"{propertyName} == \"{dateTimeVal}\"");
                 }
                 else
-                    colFilter.Add($"{property.Name} == \"{property.GetValue(referenceObject)}\"");
+                    colFilter.Add($"{propertyName} == \"{refProperty.GetValue(referenceObject)}\"");
             }
             var whereClause = string.Join(" and ", colFilter);
-            return listToFilter.AsQueryable().Where(whereClause).FirstOrDefault();
+            return listToFilter.AsQueryable().Where(whereClause).ToList();
         }
 
         public async Task UpdateEvaluationObjectives(List<EvaluationObjective> evaluationObjectives)
@@ -87,7 +128,7 @@ namespace eppeta.webapi.Evaluations.Data
             // Since the surrogate Id is Identity then match on required cols and update existing records
             foreach (var eo in evaluationObjectives)
             {
-                var eeo = FilterByRequiredFields(EvaluationObjectives.ToList(), eo);
+                var eeo = FilterByRequiredFields(EvaluationObjectives.ToList(), eo).FirstOrDefault();
                 if (eeo != null)
                 {
                     foreach (var property in typeof(EvaluationObjective).GetProperties())
@@ -107,7 +148,7 @@ namespace eppeta.webapi.Evaluations.Data
             // Since the surrogate Id is Identity then match on required cols and update existing records
             foreach (var ee in evaluationElements)
             {
-                var eee = FilterByRequiredFields(EvaluationElements.ToList(), ee);
+                var eee = FilterByRequiredFields(EvaluationElements.ToList(), ee).FirstOrDefault();
                 if (eee != null)
                 {
                     foreach (var property in typeof(EvaluationElement).GetProperties())
@@ -128,7 +169,7 @@ namespace eppeta.webapi.Evaluations.Data
             // Since the surrogate Id is Identity then match on required cols and update existing records
             foreach (var er in evaluationRatings)
             {
-                var eer = FilterByRequiredFields(EvaluationRatings.ToList(), er);
+                var eer = FilterByRequiredFields(EvaluationRatings.ToList(), er).FirstOrDefault();
                 if (eer != null)
                 {
                     foreach (var property in typeof(EvaluationRating).GetProperties())
@@ -151,7 +192,7 @@ namespace eppeta.webapi.Evaluations.Data
             // Since the surrogate Id is Identity then match on required cols and update existing records
             foreach (var er in evaluationObjectiveRatings)
             {
-                var eer = FilterByRequiredFields(EvaluationObjectiveRatings.ToList(), er);
+                var eer = FilterByRequiredFields(EvaluationObjectiveRatings.ToList(), er).FirstOrDefault();
                 if (eer != null)
                 {
                     foreach (var property in typeof(EvaluationObjectiveRating).GetProperties())
@@ -173,7 +214,7 @@ namespace eppeta.webapi.Evaluations.Data
             // Since the surrogate Id is Identity then match on required cols and update existing records
             foreach (var er in evaluationElementRatingResults)
             {
-                var eer = FilterByRequiredFields(EvaluationElementRatingResults.ToList(), er);
+                var eer = FilterByRequiredFields(EvaluationElementRatingResults.ToList(), er).FirstOrDefault();
                 if (eer != null)
                 {
                     foreach (var property in typeof(EvaluationElementRatingResult).GetProperties())
@@ -195,7 +236,7 @@ namespace eppeta.webapi.Evaluations.Data
             foreach (var pe in performanceEvaluations)
             {
                 var epe = FilterByRequiredFields(PerformanceEvaluations
-                    .Include(pe => pe.PerformanceEvaluationRatingLevels).ToList(), pe);
+                    .Include(pe => pe.PerformanceEvaluationRatingLevels).ToList(), pe).FirstOrDefault();
                 if (epe != null)
                 {
                     foreach (var property in typeof(PerformanceEvaluation).GetProperties())
@@ -245,7 +286,7 @@ namespace eppeta.webapi.Evaluations.Data
             // Since the surrogate Id is Identity then match on required cols and update existing records
             foreach (var pe in performanceEvaluationRatings)
             {
-                var epe = FilterByRequiredFields(PerformanceEvaluationRatings.ToList(), pe);
+                var epe = FilterByRequiredFields(PerformanceEvaluationRatings.ToList(), pe).FirstOrDefault();
                 if (epe != null)
                 {
                     foreach (var property in typeof(PerformanceEvaluationRating).GetProperties())
@@ -280,20 +321,15 @@ namespace eppeta.webapi.Evaluations.Data
         {
             return await EvaluationObjectives.Where(eo => eo.Id == id).FirstOrDefaultAsync();
         }
-        async Task<EvaluationObjectiveRating> IEvaluationRepository.GetEvaluationObjectiveRatingById(int id)
+        public async Task<EvaluationObjectiveRating> GetEvaluationObjectiveRatingById(int id)
         {
             return await EvaluationObjectiveRatings.Where(eor => eor.Id == id).FirstOrDefaultAsync();
         }
-        async Task<List<EvaluationElement>> IEvaluationRepository.GetAllEvaluationElements()
-        {
-            return await EvaluationElements.ToListAsync();
-        }
-
-        Task<EvaluationElement> IEvaluationRepository.GetEvaluationElementById(int id)
+        public Task<EvaluationElement> GetEvaluationElementById(int id)
         {
             return EvaluationElements.Where(ee => ee.Id == id).FirstOrDefaultAsync();
         }
-        Task<EvaluationElementRatingResult> IEvaluationRepository.GetEvaluationElementRatingResultById(int id)
+        public Task<EvaluationElementRatingResult> GetEvaluationElementRatingResultById(int id)
         {
             return EvaluationElementRatingResults.Where(ee => ee.Id == id).FirstOrDefaultAsync();
         }
@@ -330,8 +366,8 @@ namespace eppeta.webapi.Evaluations.Data
             modelBuilder.Entity<EvaluationElementRatingResult>().ToTable(nameof(EvaluationElementRatingResult)).Property(e => e.CreateDate).HasDefaultValueSql("getdate()");
 
             // Configure the Many-to-one relationship between PerformedEvaluation and ApplicationUser
-            // Reference the ApplicationUser property in PerformedEvaluation
-            // Reference the PerformanceEvaluationRatings ICollection property in ApplicationUser
+            // Reference the ApplicationUser propertyName in PerformedEvaluation
+            // Reference the PerformanceEvaluationRatings ICollection propertyName in ApplicationUser
             // Use the UserId foreign key in PerformedEvaluation
             modelBuilder.Entity<PerformanceEvaluationRating>()
                 .HasOne(p => p.ApplicationUser)
@@ -339,13 +375,58 @@ namespace eppeta.webapi.Evaluations.Data
                 .HasForeignKey(p => p.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // EF couldn't determine the appropriate column type for the Rating property
+            // EF couldn't determine the appropriate column type for the Rating propertyName
             modelBuilder.Entity<EvaluationElementRating>()
                 .Property(e => e.Rating)
                 .HasColumnType("decimal(6, 3)");
         }
+        public async Task<List<PerformanceEvaluation>> GetPerformanceEvaluationsByPK(object samePKObject)
+        {
+            var pes = FilterByRequiredFields(PerformanceEvaluations.ToList(), samePKObject);
+            if (pes.Any())
+                return pes;
+            return null;
+        }
 
+        public async Task<List<EvaluationObjectiveRating>> GetEvaluationObjectiveRatingsByPK(object samePKObject)
+        {
+            var eos = FilterByRequiredFields(EvaluationObjectiveRatings.ToList(), samePKObject);
+            if (eos.Any())
+                return eos;
+            return null;
+        }
 
+        public async Task<List<EvaluationElementRatingResult>> GetEvaluationElementRatingResultsByPK(object samePKObject)
+        {
+            var es = FilterByRequiredFields(EvaluationElementRatingResults.ToList(), samePKObject);
+            if (es.Any())
+                return es;
+            return null;
+        }
+
+        public async Task<List<EvaluationObjective>> GetEvaluationObjectivesByPK(object samePKObject)
+        {
+            var eos = FilterByRequiredFields(EvaluationObjectives.ToList(), samePKObject);
+            if (eos.Any())
+                return eos;
+            return null;
+        }
+
+        public async Task<List<EvaluationElement>> GetEvaluationElementsByPK(object samePKObject)
+        {
+            var es = FilterByRequiredFields(EvaluationElements.ToList(), samePKObject);
+            if (es.Any())
+                return es;
+            return null;
+        }
+
+        public async Task<List<EvaluationRating>> GetEvaluationRatingsByPK(object samePKObject)
+        {
+            var er = FilterByRequiredFields(EvaluationRatings.ToList(), samePKObject);
+            if (er.Any())
+                return er;
+            return null;
+        }
     }
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 }
