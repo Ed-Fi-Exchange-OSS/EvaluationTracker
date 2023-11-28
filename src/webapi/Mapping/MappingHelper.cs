@@ -13,24 +13,6 @@ namespace eppeta.webapi.Mapping
 {
     public static class MappingHelper
     {
-        public static PerformedEvaluation ToRatingDTO(this EvaluationRating ratingEntity, ApplicationUser user)
-        {
-            if (user is null) throw new ArgumentNullException(nameof(user));
-
-            var evaluationDTO = new DTO.PerformedEvaluation
-            {
-                PerformanceEvaluationTitle = ratingEntity.PerformanceEvaluationTitle,
-                ActualDate = ratingEntity.EvaluationDate,
-                EvaluatorName = $"{user.FirstName} {user.LastName}",
-                ReviewedCandidateName = ratingEntity.CandidateName,
-                PerformanceEvaluationRatingId = ratingEntity.Id,
-                ReviewedPersonId = ratingEntity.PersonId,
-                ReviewedPersonIdSourceSystemDescriptor = ratingEntity.SourceSystemDescriptor
-            };
-
-            return evaluationDTO;
-        }
-
         public static void CopyMatchingPKProperties(object srcObject, object dstObject)
         {
             if (srcObject is null) throw new ArgumentNullException(nameof(srcObject));
