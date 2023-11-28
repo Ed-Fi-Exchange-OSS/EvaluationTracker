@@ -1,9 +1,17 @@
 import React from 'react';
-import { Alert, AlertIcon, AlertDescription } from "@chakra-ui/react";
+import { Alert, AlertDescription } from "@chakra-ui/react";
 
 const defaultErrorMessage = 'Something went wrong. Please try again later.';
-// message can be string | string[]
-const AlertMessage = ({ message, status='error' }) => {
+
+/**
+ * 
+ * @param
+ * message: a single message or a list of message to be added as a list.
+ * status?: "error" | "warning" | "info" | "success";
+ * @returns an alert component
+ */
+const AlertMessage = ({ message, status = 'error' }) => {
+  // message can be string | string[]
   let content;
   if (Array.isArray(message)) {
     // If message is an array of strings, map over the array to create list items
