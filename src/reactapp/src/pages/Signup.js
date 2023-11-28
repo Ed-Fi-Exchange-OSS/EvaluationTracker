@@ -20,13 +20,14 @@ import {
 import { useState } from "react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { Formik, Form } from "formik";
-import { isObject, mapValues } from "lodash-es";
 
 import InputField from "../components/InputField";
 import { post } from "../components/FetchHelpers";
+import { defaultErrorMessage, AlertMessage } from "../components/AlertMessage";
 
 export default function SignupForm() {
   const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState(null);
 
   const loadSignInPage = () => {
     // TODO: what if the site is running behind a proxy? Then / might be the wrong base
@@ -38,30 +39,37 @@ export default function SignupForm() {
     try {
       const response = await post("/accounts", values);
       const message = await response.json();
-
+      let alertMessage;
+      let listErrors = [];
       if (response.ok) {
         console.info("User has been created");
         loadSignInPage();
         return;
       }
-
-      if (message.error) {
-        let alertMessage = message.error;
-        if (isObject(message.error)) {
-          // Converting .NET ModelState to something more readable
-          alertMessage = JSON.stringify(mapValues(message.error, (v) => v.errors));
+      // Message error Handling
+      if (message.validationError) {
+        if (message.validationError.errors) {
+          listErrors = message.validationError.errors;
         }
-
-        // TODO: improve display of errors in EPPETA-16
-        alert(alertMessage);
-        console.error(alertMessage);
-        return false;
+        else if (message.validationError.error) {
+          listErrors = message.validationError.error.errors;
+        }
+        else if (message.validationError.Password) {
+          listErrors = message.validationError.Password.errors;
+        }
+        if (listErrors) {
+          alertMessage = listErrors.map((v) => v.errorMessage);
+          setError(alertMessage);
+          console.error(alertMessage);
+        }
+        return;
       } else if (response.status === 409) {
-        alert("This email address has already been registered.");
+        setError("This email address has already been registered.");
         return false;
       }
     } catch (error) {
       console.error(error);
+      setError(defaultErrorMessage);
       return false;
     }
   };
@@ -129,6 +137,9 @@ export default function SignupForm() {
                   >
                     Sign Up
                   </Button>
+                </Stack>
+                <Stack spacing={10} pt={2}>
+                  {error && <AlertMessage message={error} />}
                 </Stack>
                 <Stack pt={6}>
                   <Text align={"center"}>
