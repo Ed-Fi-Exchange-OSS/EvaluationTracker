@@ -11,15 +11,22 @@ public interface IEvaluationRepository
 {
     Task<Status> GetStatusByText(string description);
     Task<Status> GetStatusById(int id);
+    Task<Evaluation> GetEvaluationById(int id);
     Task<List<Evaluation>> GetAllEvaluations();
+    Task UpdateEvaluations(List<Evaluation> evaluations);
     Task<PerformanceEvaluation> GetPerformanceEvaluationById(int performanceEvaluationId);
+    Task<List<PerformanceEvaluation>> GetPerformanceEvaluationsByPK(object samePKObject);
     Task<List<PerformanceEvaluation>> GetAllPerformanceEvaluations();
     Task UpdatePerformanceEvaluations(List<PerformanceEvaluation> performanceEvaluations);
     Task<List<EvaluationObjective>> GetAllEvaluationObjectives();
     Task<EvaluationObjective> GetEvaluationObjectiveById(int id);
+    Task<List<EvaluationObjective>> GetEvaluationObjectivesByPK(object samePKObject);
+    Task<List<EvaluationObjectiveRating>> GetEvaluationObjectiveRatingsByPK(object samePKObject);
     Task<EvaluationObjectiveRating> GetEvaluationObjectiveRatingById(int id);
     Task<List<EvaluationElement>> GetAllEvaluationElements();
     Task<EvaluationElement> GetEvaluationElementById(int id);
+    Task<List<EvaluationElement>> GetEvaluationElementsByPK(object samePKObject);
+    Task<List<EvaluationElementRatingResult>> GetEvaluationElementRatingResultsByPK(object samePKObject);
     Task<EvaluationElementRatingResult> GetEvaluationElementRatingResultById(int id);
     Task<List<PerformanceEvaluationRating>> GetAllPerformanceEvaluationRatings();
     Task UpdateEvaluationObjectives(List<EvaluationObjective> evaluationObjects);
@@ -28,7 +35,9 @@ public interface IEvaluationRepository
     Task<List<int>> UpdateEvaluationObjectiveRatings(List<EvaluationObjectiveRating> evaluationObjectiveRatings);
     Task<List<int>> UpdateEvaluationElementRatingResults(List<EvaluationElementRatingResult> evaluationElementRatingResults);
     Task<List<EvaluationRating>> GetEvaluationRatingsByUserId(string userId);
+    Task<List<EvaluationRating>> GetAllEvaluationRatings();
     Task<EvaluationRating> GetEvaluationRatingById(int id);
+    Task<List<EvaluationRating>> GetEvaluationRatingsByPK(object samePKObject);
     Task<List<PerformanceEvaluationRating>> GetPerformanceEvaluationRatingsByUserId(string userId);
     Task<PerformanceEvaluationRating> GetPerformanceEvaluationRatingById(int id);
     Task CreatePerformanceEvaluationRating(PerformanceEvaluationRating rating);
