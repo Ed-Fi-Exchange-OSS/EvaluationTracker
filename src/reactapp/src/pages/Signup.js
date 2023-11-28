@@ -27,6 +27,7 @@ import { defaultErrorMessage, AlertMessage } from "../components/AlertMessage";
 
 export default function SignupForm() {
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [error, setError] = useState(null);
 
   const loadSignInPage = () => {
@@ -46,8 +47,12 @@ export default function SignupForm() {
         loadSignInPage();
         return;
       }
+      if (values.password !== values.confirmPassword) {
+        setError('Passwords do not match');
+        return;
+      }
       // Message error Handling
-      if (message.validationError) {
+      else if (message.validationError) {
         if (message.validationError.errors) {
           listErrors = message.validationError.errors;
         }
@@ -120,6 +125,20 @@ export default function SignupForm() {
                         onClick={() => setShowPassword((showPassword) => !showPassword)}
                       >
                         {showPassword ? <ViewIcon /> : <ViewOffIcon />}
+                      </Button>
+                    </InputRightElement>
+                  </InputGroup>                
+                </FormControl>
+                <FormControl id="confirmPassword" isRequired>
+                  <FormLabel>Confirm Password</FormLabel>
+                  <InputGroup>
+                    <InputField type={showPassword ? "text" : "password"} name="confirmPassword" />
+                    <InputRightElement h={"full"}>
+                      <Button
+                        variant={"ghost"}
+                        onClick={() => setShowConfirmPassword((showConfirmPassword) => !showConfirmPassword)}
+                      >
+                        {showConfirmPassword ? <ViewIcon /> : <ViewOffIcon />}
                       </Button>
                     </InputRightElement>
                   </InputGroup>
