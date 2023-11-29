@@ -38,6 +38,11 @@ export default function SignupForm() {
 
   const onSubmitSignup = async (values) => {
     try {
+      // if password don't match, stop the flow.
+      if (values.password !== values.confirmPassword) {
+        setError('Passwords do not match');
+        return;
+      }
       const response = await post("/accounts", values);
       const message = await response.json();
       let alertMessage;
@@ -47,12 +52,8 @@ export default function SignupForm() {
         loadSignInPage();
         return;
       }
-      if (values.password !== values.confirmPassword) {
-        setError('Passwords do not match');
-        return;
-      }
       // Message error Handling
-      else if (message.validationError) {
+      if (message.validationError) {
         if (message.validationError.errors) {
           listErrors = message.validationError.errors;
         }
