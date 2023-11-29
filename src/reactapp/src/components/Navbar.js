@@ -101,19 +101,21 @@ export default function WithSubnavigation() {
                     </Button>
           </Stack>}
           {getLoggedInUserName() && <Stack
+            minW={'400px'}
             flex={{ base: 1, md: 0 }}
             justify={'flex-end'}
             direction={'row'}
             spacing={6}>
-            <Text>
-              Welcome { getLoggedInUserName() }
-            </Text>
+            <Flex alignItems='center'>
+              <Text>
+                Welcome { getLoggedInUserName() }
+              </Text>
+            </Flex>
             <Button onClick={() => {
               clearToken('');
               window.location.href = "/login"
               }}
               as={'a'}
-              display={{ base: 'none', md: 'inline-flex' }}
               fontSize={'sm'}
               fontWeight={600}
               color={'white'}

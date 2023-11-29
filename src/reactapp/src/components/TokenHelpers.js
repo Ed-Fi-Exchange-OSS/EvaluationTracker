@@ -6,7 +6,8 @@
 import jwt_decode from "jwt-decode"
 
 const setToken = (tokenResponse) => {
-  sessionStorage.setItem('token', tokenResponse.access_token);
+  if (tokenResponse)
+    sessionStorage.setItem('token', tokenResponse.access_token);
 };
 
 const getToken = () => {
@@ -14,17 +15,21 @@ const getToken = () => {
 };
 
 const getLoggedInUserId = () => {
-  const jwt = sessionStorage.getItem('token');
+  const jwt = getToken();
+  if (!jwt) return null;
   return jwt_decode(jwt).sub;
 };
 
 const getLoggedInUserName = () => {
-  const jwt = sessionStorage.getItem('token');
-  return jwt_decode(jwt).name;
+  const jwt = getToken();
+  if (!jwt) return null;
+  const firstName = jwt_decode(jwt).name.split(" ")[0];
+  return firstName;
 };
 
 const getLoggedInUserRole = () => {
-  const jwt = sessionStorage.getItem('token');
+  const jwt = getToken();
+  if (!jwt) return null;
   return jwt_decode(jwt).role;
 };
 
