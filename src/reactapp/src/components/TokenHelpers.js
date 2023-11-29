@@ -23,8 +23,13 @@ const getLoggedInUserId = () => {
 const getLoggedInUserName = () => {
   const jwt = getToken();
   if (!jwt) return null;
-  const firstName = jwt_decode(jwt).name.split(" ")[0];
-  return firstName;
+  return jwt_decode(jwt).name;
+};
+
+const getLoggedInUserFirstName = () => {
+  const username = getLoggedInUserName();
+  if (!username) return null;
+  return username.split(" ")[0];
 };
 
 const getLoggedInUserRole = () => {
@@ -37,4 +42,4 @@ const clearToken = () => {
   sessionStorage.removeItem('token');
 }
 
-export { setToken, getToken, clearToken, getLoggedInUserId, getLoggedInUserName, getLoggedInUserRole }
+export { setToken, getToken, clearToken, getLoggedInUserId, getLoggedInUserName, getLoggedInUserFirstName, getLoggedInUserRole }

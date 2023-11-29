@@ -28,7 +28,7 @@ import {
 } from '@chakra-ui/icons';
 import logo from '../assets/logo.jpg'
 import { Image } from "@chakra-ui/react"
-import { getLoggedInUserName, clearToken } from "../components/TokenHelpers";
+import { getLoggedInUserName, getLoggedInUserFirstName, clearToken } from "../components/TokenHelpers";
 
 export default function WithSubnavigation() {
     const { isOpen, onToggle } = useDisclosure();
@@ -108,7 +108,7 @@ export default function WithSubnavigation() {
             spacing={6}>
             <Flex alignItems='center'>
               <Text>
-                Welcome { getLoggedInUserName() }
+                Welcome { getLoggedInUserFirstName() }
               </Text>
             </Flex>
             <Button onClick={() => {

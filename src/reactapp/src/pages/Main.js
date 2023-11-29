@@ -42,9 +42,13 @@ export default function EvaluationTable() {
 // Retrieve evaluation ratings from API
   const fetchEvaluationRatings = async (userId) => {
     try {
-      const userId = getLoggedInUserId();
+      let response;
 
-      const response = await get(`/api/EvaluationRating/${userId}`);
+      if (getLoggedInUserRole() === 'Supervisor') {
+        response = await get('/api/EvaluationRating/');
+      } else {
+        response = await get(`/api/EvaluationRating/${userId}`);
+      }
 
       if (!response.ok) {
         throw new Error("Failed to fetch performance evaluations");
