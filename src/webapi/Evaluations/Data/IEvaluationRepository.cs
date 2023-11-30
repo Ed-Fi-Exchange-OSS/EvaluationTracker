@@ -9,6 +9,7 @@ namespace eppeta.webapi.Evaluations.Data;
 
 public interface IEvaluationRepository
 {
+    Task<List<Status>> GetAllStatuses();
     Task<Status> GetStatusByText(string description);
     Task<Status> GetStatusById(int id);
     Task<List<Evaluation>> GetAllEvaluations();

@@ -73,6 +73,10 @@ export default function SignupForm() {
         setError("This email address has already been registered.");
         return false;
       }
+      else if (message.message) {
+        setError(message.message);
+        return false;
+      }
     } catch (error) {
       console.error(error);
       setError(defaultErrorMessage);

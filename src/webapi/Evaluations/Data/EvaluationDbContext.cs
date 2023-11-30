@@ -20,7 +20,11 @@ namespace eppeta.webapi.Evaluations.Data
             : base(options)
         {
         }
-
+        
+        public async Task<List<Status>> GetAllStatuses()
+        {
+            return await Statuses.ToListAsync();
+        }
         public async Task<Status> GetStatusByText(string text)
         {
             return await Statuses.Where(s => s.StatusText.ToLower() == text.ToLower()).FirstOrDefaultAsync();

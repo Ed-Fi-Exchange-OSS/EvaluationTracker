@@ -38,6 +38,13 @@ public class EvaluationController : ControllerBase
         return Ok(authenticatedConfiguration);
     }
 
+    [HttpGet("EvaluationStatuses")]
+    public async Task<ActionResult<List<Status>>> GetEvaluationStatuses()
+    {
+        var statuses = await _evaluationRepository.GetAllStatuses();
+        return statuses;
+    }
+
     [HttpGet("{performanceEvaluationId}")]
     public async Task<ActionResult<List<AvailablePerformanceEvaluation>>> GetEvaluationObjectivesElementsTitles(int performanceEvaluationId)
     {

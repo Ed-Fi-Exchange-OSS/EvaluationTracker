@@ -4,29 +4,33 @@
 // See the LICENSE and NOTICES files in the project root for more information.
 
 import {
-    Table,
-    Thead,
-    Tbody,
-    Tr,
-    Th,
-    Td,
-    TableContainer,
     Button,
     Box,
-    Stack,
-  Heading,
+    Stack, HStack,
+    Heading,
 } from "@chakra-ui/react";
+import { DeleteIcon } from '@chakra-ui/icons'
+import Select from 'react-select';
 import "../App.css";
 import React, { useEffect, useState } from "react";
 import { get } from "../components/FetchHelpers";
 import { getLoggedInUserId, getLoggedInUserRole } from "../components/TokenHelpers";
-
+import SortableTable from "../components/SortableTable";
 
 //Created a table to display the data from react objects
 export default function EvaluationTable() {
   const [EvaluationRatings, setEvaluationRatings] = useState([]);
   const loggedInUserRole = getLoggedInUserRole();
-
+  const [selectedOptions, setSelectedOptions] = useState([]);
+  const [statusOptions, setStatusOptions] = useState([]);
+  const filter = selectedOptions.map((o) => o.value);
+  const headers = [
+    { name: 'Evaluation', dataField: 'performanceEvaluationTitle', sortable: true, visible: true, link: { url: '', dataField: 'evaluationStatus' } },
+    { name: 'Candidate', dataField: 'reviewedCandidateName', sortable: true, visible: true },
+    { name: 'Evaluator', dataField: 'evaluatorName', sortable: false, visible: loggedInUserRole === 'Supervisor' },
+    { name: 'Date', dataField: 'actualDate', sortable: true, visible: true, format: value => new Date(value).toLocaleDateString() },
+    { name: 'Status', dataField: 'evaluationStatus', sortable: true, visible: true },
+  ];
 
   useEffect(() => {
     const userId = getLoggedInUserId();
@@ -34,11 +38,27 @@ export default function EvaluationTable() {
     if (userId == null) {
       window.location.href = "/login";
     }
-
+    fetchEvaluationStatuses();
     fetchEvaluationRatings(userId);
   }, []);
 
-  //const response = await get("/connect/token", tokenRequest);
+  // const response = await get("/connect/token", tokenRequest);
+  const fetchEvaluationStatuses = async () => {
+    try {
+      const response = await get('/api/Evaluation/EvaluationStatuses');
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch evaluation statuses");
+      }
+      const data = await response.json();
+
+      if (data) {
+        setStatusOptions(data.map(o => ({ label: o.statusText, value: o.statusText })));
+      }
+    } catch (error) {
+      console.error("Error fetching evaluation ratings:", error);
+    }
+  };
 // Retrieve evaluation ratings from API
   const fetchEvaluationRatings = async (userId) => {
     try {
@@ -62,33 +82,31 @@ export default function EvaluationTable() {
     }
   };
 
+  const clearFilter = () => {
+    setSelectedOptions([]);
+  };
+
+  const filterExpression = (item) => {
+    return filter.length === 0 || filter.includes(item.evaluationStatus);
+  };
+
   return(
       <Stack spacing={8} mt="24px" px={{ base: "10px", md: "30px" }} align="center">
       <Heading fontSize={{ base: "3xl", md: "5xl" }}>My Evaluations</Heading>
-      <TableContainer maxWidth="100%">
-        <Table variant="simple" size="lg" className="responsiveTable">
-          <Thead>
-            <Tr>
-              <Th className="responsiveTable th">Evaluation</Th>
-              <Th className="responsiveTable th">Candidate</Th>
-              {loggedInUserRole === 'Supervisor' && <Th className="responsiveTable th">Evaluator</Th>}
-              <Th className="responsiveTable th">Date</Th>
-              <Th className="responsiveTable th">Status</Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            {EvaluationRatings.map((row, i) => (
-              <Tr key={i}>
-                <Td><a href="">{row.performanceEvaluationTitle}</a></Td>
-                <Td>{row.reviewedCandidateName}</Td> 
-                {loggedInUserRole === 'Supervisor' && <Td>{row.evaluatorName}</Td>}
-                <Td>{new Date(row.actualDate).toLocaleDateString()}</Td> 
-                <Td>{row.evaluationStatus }</Td>
-              </Tr>
-            ))}
-          </Tbody>
-        </Table>
-      </TableContainer>
+      <HStack spacing={0}>
+        <Box flex="1">
+      <Select
+        value={selectedOptions}
+        onChange={(option) => setSelectedOptions(option) }
+        options={statusOptions}
+        isMulti
+        className="basic-multi-select"
+        classNamePrefix="select"
+        placeholder="Select status"
+          /></Box>
+        <Button colorScheme="red" onClick={clearFilter} m={0}><DeleteIcon></DeleteIcon></Button>
+      </HStack>
+      <SortableTable data={EvaluationRatings} headers={headers} paginate={true} itemsPerPage={50} filter={filterExpression} noRowsMessage="No evaluations to display" />
       <Box textAlign="center" mt="5" mb="10">
         <Button colorScheme="blue" onClick={() => (window.location.href = "/new")}>
           New Evaluation
