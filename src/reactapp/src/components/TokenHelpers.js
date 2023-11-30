@@ -6,7 +6,8 @@
 import jwt_decode from "jwt-decode"
 
 const setToken = (tokenResponse) => {
-  sessionStorage.setItem('token', tokenResponse.access_token);
+  if (tokenResponse)
+    sessionStorage.setItem('token', tokenResponse.access_token);
 };
 
 const getToken = () => {
@@ -14,18 +15,31 @@ const getToken = () => {
 };
 
 const getLoggedInUserId = () => {
-  const jwt = sessionStorage.getItem('token');
+  const jwt = getToken();
+  if (!jwt) return null;
   return jwt_decode(jwt).sub;
 };
 
 const getLoggedInUserName = () => {
-  const jwt = sessionStorage.getItem('token');
+  const jwt = getToken();
+  if (!jwt) return null;
   return jwt_decode(jwt).name;
 };
 
+const getLoggedInUserFirstName = () => {
+  const username = getLoggedInUserName();
+  if (!username) return null;
+  return username.split(" ")[0];
+};
+
 const getLoggedInUserRole = () => {
-  const jwt = sessionStorage.getItem('token');
+  const jwt = getToken();
+  if (!jwt) return null;
   return jwt_decode(jwt).role;
 };
 
-export { setToken, getToken, getLoggedInUserId, getLoggedInUserName, getLoggedInUserRole }
+const clearToken = () => {
+  sessionStorage.removeItem('token');
+}
+
+export { setToken, getToken, clearToken, getLoggedInUserId, getLoggedInUserName, getLoggedInUserFirstName, getLoggedInUserRole }

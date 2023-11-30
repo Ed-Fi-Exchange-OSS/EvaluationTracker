@@ -28,6 +28,7 @@ import {
 } from '@chakra-ui/icons';
 import logo from '../assets/logo.jpg'
 import { Image } from "@chakra-ui/react"
+import { getLoggedInUserName, getLoggedInUserFirstName, clearToken } from "../components/TokenHelpers";
 
 export default function WithSubnavigation() {
     const { isOpen, onToggle } = useDisclosure();
@@ -72,7 +73,7 @@ export default function WithSubnavigation() {
                     </Flex>
                 </Flex>
 
-                <Stack
+          {!getLoggedInUserName() && <Stack
                     flex={{ base: 1, md: 0 }}
                     justify={'flex-end'}
                     direction={'row'}
@@ -98,7 +99,34 @@ export default function WithSubnavigation() {
                         }}>
                         Sign Up
                     </Button>
-                </Stack>
+          </Stack>}
+          {getLoggedInUserName() && <Stack
+            minW={'400px'}
+            flex={{ base: 1, md: 0 }}
+            justify={'flex-end'}
+            direction={'row'}
+            spacing={6}>
+            <Flex alignItems='center'>
+              <Text>
+                Welcome { getLoggedInUserFirstName() }
+              </Text>
+            </Flex>
+            <Button onClick={() => {
+              clearToken('');
+              window.location.href = "/login"
+              }}
+              as={'a'}
+              fontSize={'sm'}
+              fontWeight={600}
+              color={'white'}
+              bg={'pink.400'}
+              href={'#'}
+              _hover={{
+                bg: 'pink.300',
+              }}>
+              Logout
+            </Button>
+          </Stack>}
             </Flex>
 
             <Collapse in={isOpen} animateOpacity>
