@@ -11,7 +11,7 @@ import { TriangleDownIcon, TriangleUpIcon, ChevronLeftIcon, ChevronRightIcon } f
  * Component to show a table header with sort options. 
  * @returns
  */
-const TableHeader = ({ columnKey, children, sortConfig, sortByColumn, sortable, visible }) => {
+const TableHeader = ({ columnKey, children, sortConfig, sortByColumn, sortable=false, visible=true }) => {
   const getIcon = () => {
     if (sortConfig && sortConfig.key === columnKey) {
       return sortConfig.direction === 'asc' ? <TriangleUpIcon />  : <TriangleDownIcon />;
@@ -85,7 +85,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
  * @param {any} noRowsMessage: message to be displayed if the tabla has no data.
  * @returns
  */
-const SortableTable = ({ headers, data, filter, paginate, itemsPerPage=50, noRowsMessage = "No items to display" }) => {
+const SortableTable = ({ headers, data, filter, paginate=false, itemsPerPage=50, noRowsMessage = "No items to display" }) => {
   const [sortConfig, setSortConfig] = useState(null);
   const [currentPage, setCurrentPage] = useState(0);
 

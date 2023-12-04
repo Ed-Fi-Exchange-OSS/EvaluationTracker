@@ -25,7 +25,7 @@ export default function EvaluationTable() {
   const [statusOptions, setStatusOptions] = useState([]);
   const filter = selectedOptions.map((o) => o.value);
   const headers = [
-    { name: 'Evaluation', dataField: 'performanceEvaluationTitle', sortable: true, visible: true, link: { url: '', dataField: 'evaluationStatus' } },
+    { name: 'Evaluation', dataField: 'performanceEvaluationTitle', sortable: true, visible: true, link: { url: '', dataField: '' } },
     { name: 'Candidate', dataField: 'reviewedCandidateName', sortable: true, visible: true },
     { name: 'Evaluator', dataField: 'evaluatorName', sortable: false, visible: loggedInUserRole === 'Supervisor' },
     { name: 'Date', dataField: 'actualDate', sortable: true, visible: true, format: value => new Date(value).toLocaleDateString() },
