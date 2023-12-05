@@ -100,8 +100,6 @@ namespace eppeta.webapi.Evaluations.Data
                     && p.Name != "EdFiId").Select(p => p.Name).ToList();
 
             requiredListProperties = requiredListProperties.Intersect(requiredReferenceProperties).ToList();
-            //if (!referenceHasAllRequiredProperties)
-            //    throw new ArgumentException("Can't filter by required fields because the reference object doesn't have all the required fields of the object type in the list.");
             var colFilter = new List<string>();
             foreach (var propertyName in requiredListProperties)
             {
@@ -132,8 +130,12 @@ namespace eppeta.webapi.Evaluations.Data
                 if (eeo != null)
                 {
                     foreach (var property in typeof(EvaluationObjective).GetProperties())
-                        if (property.Name != "Id")
+                    {
+                        if (property.Name == "LastModifiedDate")
+                            property.SetValue(eeo, DateTime.UtcNow);
+                        else if (property.Name != "Id")
                             property.SetValue(eeo, property.GetValue(eo));
+                    }
                     EvaluationObjectives.Update((EvaluationObjective)eeo);
                 }
                 else
@@ -173,8 +175,12 @@ namespace eppeta.webapi.Evaluations.Data
                 if (eer != null)
                 {
                     foreach (var property in typeof(EvaluationRating).GetProperties())
-                        if (property.Name != "Id")
+                    {
+                        if (property.Name == "LastModifiedDate")
+                            property.SetValue(eer, DateTime.UtcNow);
+                        else if (property.Name != "Id")
                             property.SetValue(eer, property.GetValue(er));
+                    }
                     EvaluationRatings.Update((EvaluationRating)eer);
                     er.Id = ((EvaluationRating)eer).Id;
                 }
@@ -196,8 +202,12 @@ namespace eppeta.webapi.Evaluations.Data
                 if (eer != null)
                 {
                     foreach (var property in typeof(EvaluationObjectiveRating).GetProperties())
-                        if (property.Name != "Id")
+                    {
+                        if (property.Name == "LastModifiedDate")
+                            property.SetValue(eer, DateTime.UtcNow);
+                        else if (property.Name != "Id")
                             property.SetValue(eer, property.GetValue(er));
+                    }
                     EvaluationObjectiveRatings.Update((EvaluationObjectiveRating)eer);
                     er.Id = (((EvaluationObjectiveRating)eer).Id);
                 }
