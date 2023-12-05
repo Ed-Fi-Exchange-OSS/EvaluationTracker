@@ -99,9 +99,9 @@ namespace eppeta.webapi.Evaluations.Data
                 .Where(p => p.IsDefined(typeof(System.ComponentModel.DataAnnotations.RequiredAttribute), true)
                     && p.Name != "EdFiId").Select(p => p.Name).ToList();
 
-            var referenceHasAllRequiredProperties = requiredListProperties.Intersect(requiredReferenceProperties).Count() == requiredListProperties.Count();
-            if (!referenceHasAllRequiredProperties)
-                throw new ArgumentException("Can't filter by required fields because the reference object doesn't have all the required fields of the object type in the list.");
+            requiredListProperties = requiredListProperties.Intersect(requiredReferenceProperties).ToList();
+            //if (!referenceHasAllRequiredProperties)
+            //    throw new ArgumentException("Can't filter by required fields because the reference object doesn't have all the required fields of the object type in the list.");
             var colFilter = new List<string>();
             foreach (var propertyName in requiredListProperties)
             {

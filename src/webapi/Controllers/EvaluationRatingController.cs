@@ -79,7 +79,7 @@ namespace eppeta.webapi.Controllers
                 { typeof(EvaluationObjectiveRating).Name, new List<int>{ } },
                 { typeof(EvaluationElementRatingResult).Name, new List<int>{ } },
             };
-            var perEval = await _evaluationRepository.GetPerformanceEvaluationById(evaluationResult.PerformanceEvaluationId);
+            var perEval = await _evaluationRepository.GetPerformanceEvaluationRatingById(evaluationResult.PerformanceEvaluationId);
             if (perEval == null)
                 throw new ArgumentException($"PerformanceEvaluation not found");
             var newPerEvalRating = new PerformanceEvaluationRating();
