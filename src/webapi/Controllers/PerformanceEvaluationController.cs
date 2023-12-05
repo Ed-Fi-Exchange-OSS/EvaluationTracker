@@ -72,15 +72,15 @@ public class PerformanceEvaluationController : ControllerBase
             var evaluationElementRatings = await _evaluationRepository.GetEvaluationElementRatingResultsByPK(evaluationObjectiveRating);
             foreach (var evaluationElementRating in evaluationElementRatings)
             {
-                var evaluationElement = _evaluationRepository.GetEvaluationElementsByPK(evaluationElementRating);
+                var evaluationElement = _evaluationRepository.GetEvaluationElementsByPK(evaluationElementRating).Result;
                 objectiveResult.Elements.Add(new PerformedEvaluationResult.PerformedEvaluationResultElement
                 {
                     Score = (int)evaluationElementRating.Rating,
-                    Id = evaluationElement.Id,
+                    Id = evaluationElement.FirstOrDefault().Id,
                 });
             }
             performedEvaluation.ObjectiveResults.Add(objectiveResult);
         }
-        return Ok(performanceEvaluationRating);
+        return Ok(performedEvaluation);
     }
 }
