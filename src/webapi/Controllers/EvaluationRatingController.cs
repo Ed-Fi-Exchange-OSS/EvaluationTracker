@@ -81,7 +81,7 @@ namespace eppeta.webapi.Controllers
             };
             var perEval = await _evaluationRepository.GetPerformanceEvaluationById(evaluationResult.PerformanceEvaluationId);
             if (perEval == null)
-                throw new ArgumentException($"PerformanceEvaluation not found");
+                throw new ArgumentException("PerformanceEvaluation not found");
             var newPerEvalRating = new PerformanceEvaluationRating();
             MappingHelper.CopyMatchingPKProperties(perEval, newPerEvalRating);
             var user = await _userManager.FindByIdAsync(userId);
@@ -130,8 +130,20 @@ namespace eppeta.webapi.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Save(PerformedEvaluationResult evaluationResult, string userId)
         {
-            var ids = await SaveEvaluation(evaluationResult, userId);
-            return Ok(ids);
+            try
+            {
+                var ids = await SaveEvaluation(evaluationResult, userId);
+                return Ok(ids);
+            }
+            catch(ArgumentException e)
+            {
+                return NotFound(e.Message);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+            
         }
 
         [HttpPost]
@@ -162,18 +174,19 @@ namespace eppeta.webapi.Controllers
                 apis[api] = Activator.CreateInstance(apiClassType, new object[] { authenticatedConfiguration });
                 apis[api].Configuration.DefaultHeaders.Add("Content-Type", "application/json");
             }
-
-            // Make sure the evaluation objects are saved before posting to EdFi API
-            var ids = await SaveEvaluation(evaluationResult, userId);
-            // Make sure data dependencies are met
-            var performanceEvaluationPost = await _evaluationRepository.GetPerformanceEvaluationById(evaluationResult.PerformanceEvaluationId);
-            // POST performanceEvaluation
-            var res = await apis["PerformanceEvaluationsApi"].PostPerformanceEvaluationWithHttpInfoAsync((TpdmPerformanceEvaluation)performanceEvaluationPost);
-            if (res.ErrorText != null)
-                throw new Exception(res.ErrorText);
-            var performanceEvaluationRatingPost = await _evaluationRepository.GetPerformanceEvaluationRatingById(ids[typeof(PerformanceEvaluationRating).Name].First());
+            PerformanceEvaluationRating? performanceEvaluationRatingPost = null;
             try
             {
+                // Make sure the evaluation objects are saved before posting to EdFi API
+                var ids = await SaveEvaluation(evaluationResult, userId);
+                // Make sure data dependencies are met
+                var performanceEvaluationPost = await _evaluationRepository.GetPerformanceEvaluationById(evaluationResult.PerformanceEvaluationId);
+                // POST performanceEvaluation
+                var res = await apis["PerformanceEvaluationsApi"].PostPerformanceEvaluationWithHttpInfoAsync((TpdmPerformanceEvaluation)performanceEvaluationPost);
+                if (res.ErrorText != null)
+                    throw new Exception(res.ErrorText);
+                performanceEvaluationRatingPost = await _evaluationRepository.GetPerformanceEvaluationRatingById(ids[typeof(PerformanceEvaluationRating).Name].First());
+            
                 // POST performanceEvaluationRating
                 res = await apis["PerformanceEvaluationRatingsApi"].PostPerformanceEvaluationRatingWithHttpInfoAsync((TpdmPerformanceEvaluationRating)performanceEvaluationRatingPost);
                 if (res.ErrorText != null)
@@ -227,10 +240,18 @@ namespace eppeta.webapi.Controllers
                 await _evaluationRepository.UpdatePerformanceEvaluationRatings(new List<PerformanceEvaluationRating> { performanceEvaluationRatingPost });
                 return Ok(ids);
             }
+
+            catch (ArgumentException e)
+            {
+                return NotFound(e.Message);
+            }
             catch (Exception ex)
             {
-                performanceEvaluationRatingPost.StatusId = (await _evaluationRepository.GetStatusByText("failed")).Id;
-                await _evaluationRepository.UpdatePerformanceEvaluationRatings(new List<PerformanceEvaluationRating> { performanceEvaluationRatingPost });
+                if (performanceEvaluationRatingPost != null)
+                {
+                    performanceEvaluationRatingPost.StatusId = (await _evaluationRepository.GetStatusByText("failed")).Id;
+                    await _evaluationRepository.UpdatePerformanceEvaluationRatings(new List<PerformanceEvaluationRating> { performanceEvaluationRatingPost });
+                }
                 return Problem(ex.Message);
             }
         }

@@ -58,6 +58,7 @@ public class PerformanceEvaluationController : ControllerBase
             EndDateTime = performanceEvaluationRating.EndTime,
             EvaluatorName = performanceEvaluationRating.EvaluatorName,
             PerformanceEvaluationTitle = performanceEvaluationRating.PerformanceEvaluationTitle,
+            UserId = performanceEvaluationRating.UserId,
             ObjectiveResults = new List<PerformedEvaluationResult.PerformedEvaluationResultObjective>()
         };
         var evaluationObjectiveRatings = await _evaluationRepository.GetEvaluationObjectiveRatingsByPK(performanceEvaluationRating);
