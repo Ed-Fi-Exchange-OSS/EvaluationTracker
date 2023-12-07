@@ -5,7 +5,6 @@
 
 using Microsoft.IdentityModel.Tokens;
 using System.Configuration;
-using System.Drawing.Printing;
 
 namespace eppeta.webapi;
 
@@ -36,7 +35,7 @@ public class AppSettings
                     GetInstance().GetValue<bool>("Authentication:RequireHttps")
                 ));
 
-    private readonly Lazy<SyncOdsAssetsSettings> _syncOdsAssets = new(() => new SyncOdsAssetsSettings(
+    private readonly Lazy<SyncOdsAssetsSettings> _syncOdsAssetsSettings = new(() => new SyncOdsAssetsSettings(
         GetInstance().GetValue<int>("SyncOdsAssets:PeriodInHours")
     ));
 
@@ -58,11 +57,11 @@ public class AppSettings
         }
     }
 
-    public static SyncOdsAssetsSettings SyncOdsAssets
+    public static SyncOdsAssetsSettings SyncOdsAssetsSettings
     {
         get
         {
-            return GetInstance()._syncOdsAssets.Value;
+            return GetInstance()._syncOdsAssetsSettings.Value;
         }
     }
 

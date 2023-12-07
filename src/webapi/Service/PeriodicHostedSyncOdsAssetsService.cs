@@ -2,7 +2,7 @@ namespace eppeta.webapi.Service
 {
     class PeriodicHostedSyncOdsAssetsService : BackgroundService
     {
-        private readonly TimeSpan _period = TimeSpan.FromHours(AppSettings.SyncOdsAssets.PeriodInHours);
+        private readonly TimeSpan _period = TimeSpan.FromHours(AppSettings.SyncOdsAssetsSettings.PeriodInHours);
         private readonly ILogger<PeriodicHostedSyncOdsAssetsService> _logger;
         private readonly IServiceScopeFactory _factory;
         private long _executionCount = 0;
