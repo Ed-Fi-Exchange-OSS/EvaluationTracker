@@ -71,7 +71,7 @@ export default function EvaluationForm() {
   }, []);
 
   const processRatingLevelOptions = async (ratingLevels) => {
-    const processedRatingLevels = [{ "label": "N/A - Not Applicable", "value": -1 }, ...ratingLevels.map((level) => {
+    const processedRatingLevels = [{ "label": "N/A - Not Assessed", "value": -1 }, ...ratingLevels.map((level) => {
       return {
         "label": level.name,
         "value": level.ratingLevel
