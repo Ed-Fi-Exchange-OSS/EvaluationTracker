@@ -59,8 +59,8 @@ internal class Program
                 provider => new ODSAPIAuthenticationConfigurationService(builder.Configuration["OdsApiBasePath"], builder.Configuration["ODSAPIKey"], builder.Configuration["ODSAPISecret"])
             );
 
-            // Sync
-            builder.Services.AddScoped<OdsSyncService>();
+            // Sync ODS Assets
+            builder.Services.AddScoped<SyncOdsAssets>();
             builder.Services.AddSingleton<PeriodicHostedSyncService>();
             builder.Services.AddHostedService(
                 provider => provider.GetRequiredService<PeriodicHostedSyncService>());
@@ -82,14 +82,14 @@ internal class Program
             });
 
             //A get route shall return the current state of our background sync service:
-            app.MapGet("/sync", (
+            app.MapGet("/syncOdsAssets", (
                 PeriodicHostedSyncService service) =>
                 {
                     return new PeriodicHostedSyncServiceState(service.IsEnabled);
                 });
 
             //And a patch route shall let us set the desired state of our background sync service:
-            app.MapMethods("/sync", new[] { "PATCH" }, (
+            app.MapMethods("/syncOdsAssets", new[] { "PATCH" }, (
                 PeriodicHostedSyncServiceState state,
                 PeriodicHostedSyncService service) =>
                 {

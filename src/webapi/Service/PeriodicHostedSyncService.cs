@@ -2,15 +2,13 @@ namespace eppeta.webapi.Service
 {
     class PeriodicHostedSyncService : BackgroundService
     {
-        private readonly TimeSpan _period = TimeSpan.FromDays(1);
+        private readonly TimeSpan _period = TimeSpan.FromHours(AppSettings.SyncOdsAssets.PeriodInHours);
         private readonly ILogger<PeriodicHostedSyncService> _logger;
         private readonly IServiceScopeFactory _factory;
-        private int _executionCount = 0;
+        private long _executionCount = 0;
         public bool IsEnabled { get; set; } = true;
 
-        public PeriodicHostedSyncService(
-            ILogger<PeriodicHostedSyncService> logger,
-            IServiceScopeFactory factory)
+        public PeriodicHostedSyncService(ILogger<PeriodicHostedSyncService> logger, IServiceScopeFactory factory)
         {
             _logger = logger;
             _factory = factory;
@@ -30,36 +28,28 @@ namespace eppeta.webapi.Service
                 !stoppingToken.IsCancellationRequested &&
                 await timer.WaitForNextTickAsync(stoppingToken))
             {
-                try
+                if (IsEnabled)
                 {
-                    if (IsEnabled)
-                    {
-                        // We cannot use the default dependency injection behavior, because ExecuteAsync is
-                        // a long-running method while the background service is running.
-                        // To prevent open resources and instances, only create the services and other references on a run
+                    // We cannot use the default dependency injection behavior, because ExecuteAsync is
+                    // a long-running method while the background service is running.
+                    // To prevent open resources and instances, only create the services and other references on a run
 
-                        // Create scope, so we get request services
-                        await using AsyncServiceScope asyncScope = _factory.CreateAsyncScope();
+                    // Create scope, so we get request services
+                    await using AsyncServiceScope asyncScope = _factory.CreateAsyncScope();
 
-                        // Get service from scope
-                        OdsSyncService sampleService = asyncScope.ServiceProvider.GetRequiredService<OdsSyncService>();
-                        await sampleService.SyncAsync();
+                    // Get service from scope
+                    SyncOdsAssets syncOdsAssets = asyncScope.ServiceProvider.GetRequiredService<SyncOdsAssets>();
+                    await syncOdsAssets.SyncAsync();
 
-                        // Sample count increment
-                        _executionCount++;
-                        _logger.LogInformation(
-                            $"Executed PeriodicHostedService - Count: {_executionCount}");
-                    }
-                    else
-                    {
-                        _logger.LogInformation(
-                            "Skipped PeriodicHostedService");
-                    }
+                    // Sample count increment
+                    _executionCount++;
+                    _logger.LogInformation(
+                        $"Executed PeriodicHostedService - Count: {_executionCount}");
                 }
-                catch (Exception ex)
+                else
                 {
                     _logger.LogInformation(
-                        $"Failed to execute PeriodicHostedService with exception message {ex.Message}. Good luck next round!");
+                        "Skipped PeriodicHostedService");
                 }
             }
         }
