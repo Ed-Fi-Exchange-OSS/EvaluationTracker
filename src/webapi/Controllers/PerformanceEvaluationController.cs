@@ -62,26 +62,32 @@ public class PerformanceEvaluationController : ControllerBase
             ObjectiveResults = new List<PerformedEvaluationResult.PerformedEvaluationResultObjective>()
         };
         var evaluationObjectiveRatings = await _evaluationRepository.GetEvaluationObjectiveRatingsByPK(performanceEvaluationRating);
-        foreach (var evaluationObjectiveRating in evaluationObjectiveRatings)
+        if (evaluationObjectiveRatings != null)
         {
-            var evaluationObjective = _evaluationRepository.GetEvaluationObjectivesByPK(evaluationObjectiveRating).Result.FirstOrDefault();
-            var objectiveResult = new PerformedEvaluationResult.PerformedEvaluationResultObjective
+            foreach (var evaluationObjectiveRating in evaluationObjectiveRatings)
             {
-                Id = evaluationObjective.Id,
-                Comment = evaluationObjectiveRating.Comments,
-                Elements = new List<PerformedEvaluationResult.PerformedEvaluationResultElement>()
-            };
-            var evaluationElementRatings = await _evaluationRepository.GetEvaluationElementRatingResultsByPK(evaluationObjectiveRating);
-            foreach (var evaluationElementRating in evaluationElementRatings)
-            {
-                var evaluationElement = _evaluationRepository.GetEvaluationElementsByPK(evaluationElementRating).Result;
-                objectiveResult.Elements.Add(new PerformedEvaluationResult.PerformedEvaluationResultElement
+                var evaluationObjective = _evaluationRepository.GetEvaluationObjectivesByPK(evaluationObjectiveRating).Result.FirstOrDefault();
+                var objectiveResult = new PerformedEvaluationResult.PerformedEvaluationResultObjective
                 {
-                    Score = (int)evaluationElementRating.Rating,
-                    Id = evaluationElement.FirstOrDefault().Id,
-                });
+                    Id = evaluationObjective.Id,
+                    Comment = evaluationObjectiveRating.Comments,
+                    Elements = new List<PerformedEvaluationResult.PerformedEvaluationResultElement>()
+                };
+                var evaluationElementRatings = await _evaluationRepository.GetEvaluationElementRatingResultsByPK(evaluationObjectiveRating);
+                if (evaluationElementRatings != null)
+                {
+                    foreach (var evaluationElementRating in evaluationElementRatings)
+                    {
+                        var evaluationElement = _evaluationRepository.GetEvaluationElementsByPK(evaluationElementRating).Result;
+                        objectiveResult.Elements.Add(new PerformedEvaluationResult.PerformedEvaluationResultElement
+                        {
+                            Score = (int)evaluationElementRating.Rating,
+                            Id = evaluationElement.FirstOrDefault().Id,
+                        });
+                    }
+                }
+                performedEvaluation.ObjectiveResults.Add(objectiveResult);
             }
-            performedEvaluation.ObjectiveResults.Add(objectiveResult);
         }
         return Ok(performedEvaluation);
     }
