@@ -36,7 +36,7 @@ public class AppSettings
                 ));
 
     private readonly Lazy<SyncOdsAssetsSettings> _syncOdsAssetsSettings = new(() => new SyncOdsAssetsSettings(
-        GetInstance().GetValue<int>("SyncOdsAssets:PeriodInHours")
+        GetInstance().GetValue<int>("SyncOdsAssetsSettings:PeriodInHours")
     ));
 
     private static AppSettings GetInstance()
