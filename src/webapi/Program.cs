@@ -61,9 +61,9 @@ internal class Program
 
             // Sync ODS Assets
             builder.Services.AddScoped<SyncOdsAssets>();
-            builder.Services.AddSingleton<PeriodicHostedSyncService>();
+            builder.Services.AddSingleton<PeriodicHostedSyncOdsAssetsService>();
             builder.Services.AddHostedService(
-                provider => provider.GetRequiredService<PeriodicHostedSyncService>());
+                provider => provider.GetRequiredService<PeriodicHostedSyncOdsAssetsService>());
 
             var app = builder.Build();
 
@@ -83,15 +83,15 @@ internal class Program
 
             //A get route shall return the current state of our background sync service:
             app.MapGet("/syncOdsAssets", (
-                PeriodicHostedSyncService service) =>
+                PeriodicHostedSyncOdsAssetsService service) =>
                 {
-                    return new PeriodicHostedSyncServiceState(service.IsEnabled);
+                    return new PeriodicHostedSyncOdsAssetsServiceState(service.IsEnabled);
                 });
 
             //And a patch route shall let us set the desired state of our background sync service:
             app.MapMethods("/syncOdsAssets", new[] { "PATCH" }, (
-                PeriodicHostedSyncServiceState state,
-                PeriodicHostedSyncService service) =>
+                PeriodicHostedSyncOdsAssetsServiceState state,
+                PeriodicHostedSyncOdsAssetsService service) =>
                 {
                     service.IsEnabled = state.IsEnabled;
                 });

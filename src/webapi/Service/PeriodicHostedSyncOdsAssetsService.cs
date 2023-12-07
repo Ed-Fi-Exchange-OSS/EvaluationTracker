@@ -1,14 +1,14 @@
 namespace eppeta.webapi.Service
 {
-    class PeriodicHostedSyncService : BackgroundService
+    class PeriodicHostedSyncOdsAssetsService : BackgroundService
     {
         private readonly TimeSpan _period = TimeSpan.FromHours(AppSettings.SyncOdsAssets.PeriodInHours);
-        private readonly ILogger<PeriodicHostedSyncService> _logger;
+        private readonly ILogger<PeriodicHostedSyncOdsAssetsService> _logger;
         private readonly IServiceScopeFactory _factory;
         private long _executionCount = 0;
         public bool IsEnabled { get; set; } = true;
 
-        public PeriodicHostedSyncService(ILogger<PeriodicHostedSyncService> logger, IServiceScopeFactory factory)
+        public PeriodicHostedSyncOdsAssetsService(ILogger<PeriodicHostedSyncOdsAssetsService> logger, IServiceScopeFactory factory)
         {
             _logger = logger;
             _factory = factory;
