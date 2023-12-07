@@ -48,31 +48,7 @@ export default function EvaluationForm() {
 
 
   const location = useLocation();
-
-  // This will be replaced with data from the ODS/API once EPPETA-38 is complete
-  const ratingLevels = [
-    {
-      "codeValue": "Improvement Needed",
-      "maxRating": 1
-    },
-    {
-      "codeValue": "Developing",
-      "maxRating": 2
-    },
-    {
-      "codeValue": "Proficient",
-      "maxRating": 3
-    },
-    {
-      "codeValue": "Acomplished",
-      "maxRating": 4
-    },
-    {
-      "codeValue": "Distinguished",
-      "maxRating": 5
-    }
-  ];
-
+  
   useEffect(() => {
     setLoggedInUser({
       "name": getLoggedInUserName(),
@@ -95,10 +71,10 @@ export default function EvaluationForm() {
   }, []);
 
   const processRatingLevelOptions = async (ratingLevels) => {
-    const processedRatingLevels = [{ "label": "N/A - Not Applicable", "value": -1 }, ...ratingLevels.map((level) => {
+    const processedRatingLevels = [{ "label": "N/A - Not Assessed", "value": -1 }, ...ratingLevels.map((level) => {
       return {
-        "label": level.codeValue,
-        "value": level.maxRating
+        "label": level.name,
+        "value": level.ratingLevel
       }
     })];
     setRatingLevelOptions(processedRatingLevels); // Save to state
@@ -125,7 +101,7 @@ export default function EvaluationForm() {
 
       const evaluationData = await response.json();
 
-      processRatingLevelOptions(ratingLevels);
+      processRatingLevelOptions(evaluationData.ratingLevels);
       setEvaluationMetadata(evaluationData);
     } catch (error) {
       console.error("Error fetching evaluation objectives:", error);
