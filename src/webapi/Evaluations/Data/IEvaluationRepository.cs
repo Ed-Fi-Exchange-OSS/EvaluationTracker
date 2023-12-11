@@ -12,6 +12,7 @@ public interface IEvaluationRepository
     Task<Status> GetStatusByText(string description);
     Task<Status> GetStatusById(int id);
     Task<Evaluation> GetEvaluationById(int id);
+    Task<List<PerformanceEvaluation>> GetEvaluationByPK(object samePKObject);
     Task<List<Evaluation>> GetAllEvaluations();
     Task UpdateEvaluations(List<Evaluation> evaluations);
     Task<PerformanceEvaluation> GetPerformanceEvaluationById(int performanceEvaluationId);

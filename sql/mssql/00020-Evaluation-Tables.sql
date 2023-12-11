@@ -104,6 +104,7 @@ CREATE TABLE eppeta.EvaluationRating (
     [SourceSystemDescriptor] [nvarchar](306) NOT NULL,
     [TermDescriptor] [nvarchar](306) NOT NULL,
     [EvaluationRatingLevelDescriptor] [nvarchar](306) NULL,
+    [CandidateName] [nvarchar](50) NULL,
     [EvaluationRatingStatusDescriptor] [nvarchar](306) NULL,
     [CreateDate] [datetime2](3) NOT NULL,
     [LastModifiedDate] [datetime2](3) NOT NULL,

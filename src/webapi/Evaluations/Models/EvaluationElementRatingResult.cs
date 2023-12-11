@@ -16,6 +16,7 @@ public partial class EvaluationElementRatingResult
 {
     [Required]
     public long EducationOrganizationId { get; set; }
+    [Required]
     public DateTime EvaluationDate { get; set; }
     [Required]
     [StringLength(255)]
