@@ -57,10 +57,16 @@ public class PerformanceEvaluationController : ControllerBase
             StartDateTime = performanceEvaluationRating.StartTime,
             EndDateTime = performanceEvaluationRating.EndTime,
             EvaluatorName = performanceEvaluationRating.EvaluatorName,
+            StatusId = performanceEvaluationRating.StatusId,
             PerformanceEvaluationTitle = performanceEvaluationRating.PerformanceEvaluationTitle,
             UserId = performanceEvaluationRating.UserId,
             ObjectiveResults = new List<PerformedEvaluationResult.PerformedEvaluationResultObjective>()
         };
+
+        var evaluation = await _evaluationRepository.GetEvaluationByPK(performanceEvaluationRating);
+        if (evaluation != null)
+            performedEvaluation.EvaluationId = evaluation.First().Id;
+        
         var evaluationObjectiveRatings = await _evaluationRepository.GetEvaluationObjectiveRatingsByPK(performanceEvaluationRating);
         if (evaluationObjectiveRatings != null)
         {

@@ -43,6 +43,13 @@ namespace eppeta.webapi.Evaluations.Data
         {
             return await Evaluations.Where(e => e.Id == id).FirstOrDefaultAsync();
         }
+        public async Task<List<PerformanceEvaluation>> GetEvaluationByPK(object samePKObject)
+        {
+            var es = FilterByRequiredFields(PerformanceEvaluations.ToList(), samePKObject);
+            if (es.Any())
+                return es;
+            return null;
+        }
         public async Task UpdateEvaluations(List<Evaluation> evaluations)
         {
             // Since the surrogate Id is Identity then match on required cols and update existing records
@@ -100,6 +107,7 @@ namespace eppeta.webapi.Evaluations.Data
                     && p.Name != "EdFiId").Select(p => p.Name).ToList();
 
             requiredListProperties = requiredListProperties.Intersect(requiredReferenceProperties).ToList();
+
             var colFilter = new List<string>();
             foreach (var propertyName in requiredListProperties)
             {
