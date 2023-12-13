@@ -17,6 +17,7 @@ namespace eppeta.webapi.DTO
         public string ReviewedPersonSourceSystemDescriptor { get; set; } = string.Empty;
         public string ReviewedCandidateName { get; set; } = string.Empty;
         public int PerformanceEvaluationId { get; set; }
+        public int PerformanceEvaluationRatingId { get; set; }
         public int EvaluationId { get; set; }
         public string PerformanceEvaluationTitle { get; set; } = string.Empty;
         public int? StatusId { get; set; }
