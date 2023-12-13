@@ -21,22 +21,23 @@ import {
 import { useState, React } from "react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { Formik, Form } from "formik";
-
 import InputField from "../components/InputField";
 import { postForm, get } from "../components/FetchHelpers";
-import { setToken } from "../components/TokenHelpers"
+import { setToken } from "../components/TokenHelpers";
 import { defaultErrorMessage, AlertMessage } from "../components/AlertMessage";
+import { useNavigate } from "react-router-dom";
 
 export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   // sync dependencies while login
   get("/api/Evaluation/Sync");
 
 
   const loadEvaluationsPage = () => {
-    window.location.href = "/main";
+    navigate("/main");
   };
   const onSubmitLogin = async (values) => {    
     const tokenRequest = {
@@ -118,6 +119,6 @@ export default function LoginForm() {
           </Formik>
         </Box>
       </Stack>
-    </Flex>
+      </Flex>
   );
 }

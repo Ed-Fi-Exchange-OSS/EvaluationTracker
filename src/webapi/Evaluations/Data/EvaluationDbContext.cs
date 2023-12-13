@@ -282,7 +282,7 @@ namespace eppeta.webapi.Evaluations.Data
 
         public async Task<List<PerformanceEvaluationRating>> GetAllPerformanceEvaluationRatings()
         {
-            return await PerformanceEvaluationRatings.ToListAsync();
+            return await PerformanceEvaluationRatings.Include(m => m.RecordStatus).ToListAsync();
         }
         public async Task<EvaluationRating> GetEvaluationRatingById(int id)
         {
