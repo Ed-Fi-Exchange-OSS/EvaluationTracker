@@ -82,9 +82,9 @@ namespace eppeta.webapi.Controllers
             var perEvalRating = new PerformanceEvaluationRating();
             var user = await _userManager.FindByIdAsync(userId);
 
-            if (evaluationResult.PerformanceEvaluationRatingId > 0)
+            if (evaluationResult.PerformanceEvaluationId > 0)
             {
-                perEvalRating = await _evaluationRepository.GetPerformanceEvaluationRatingById(evaluationResult.PerformanceEvaluationRatingId);
+                perEvalRating = await _evaluationRepository.GetPerformanceEvaluationRatingById(evaluationResult.PerformanceEvaluationId);
                 if (perEvalRating != null)
                 {
                     // Treat the request as an update
@@ -105,7 +105,7 @@ namespace eppeta.webapi.Controllers
             }
             else
             {
-                var perEval = await _evaluationRepository.GetPerformanceEvaluationById(evaluationResult.PerformanceEvaluationId);
+                var perEval = await _evaluationRepository.GetPerformanceEvaluationById(evaluationResult.EvaluationId);
                 if (perEval == null)
                     throw new ArgumentException("PerformanceEvaluation not found");
                 MappingHelper.CopyMatchingPKProperties(perEval, perEvalRating);
@@ -206,7 +206,7 @@ namespace eppeta.webapi.Controllers
                 // Make sure the evaluation objects are saved before posting to EdFi API
                 var ids = await SaveEvaluation(evaluationResult, userId);
                 // Make sure data dependencies are met
-                var performanceEvaluationPost = await _evaluationRepository.GetPerformanceEvaluationById(evaluationResult.PerformanceEvaluationId);
+                var performanceEvaluationPost = await _evaluationRepository.GetPerformanceEvaluationById(evaluationResult.EvaluationId);
                 // POST performanceEvaluation
                 var res = await apis["PerformanceEvaluationsApi"].PostPerformanceEvaluationWithHttpInfoAsync((TpdmPerformanceEvaluation)performanceEvaluationPost);
                 if (res.ErrorText != null)
