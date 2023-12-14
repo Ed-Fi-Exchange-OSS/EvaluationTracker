@@ -97,12 +97,15 @@ export default function EvaluationForm() {
 
   const setSelectedOptionRatingLevel = (performanceEvaluationData) => {
     const elementRatingCopy = [...elementRatings];
+    const objectiveNotesCopy = [...objectiveNotes];
     performanceEvaluationData?.objectiveResults?.forEach((objectiveResults, i) => {
+      objectiveNotesCopy.push(objectiveResults?.comment ?? "");
       objectiveResults?.elements?.forEach((obj) => {
         elementRatingCopy.push({ "name": obj.id, "value": obj.score });
       });
     });
     setElementRatings(elementRatingCopy);
+    setObjectiveNotes(objectiveNotesCopy);
   }
 
   // Retrieve an existing evaluation from API
@@ -181,7 +184,7 @@ export default function EvaluationForm() {
       "name": getLoggedInUserName(),
       "role": getLoggedInUserRole()
     });
- 
+    processRatingLevelOptions(ratingLevels);
     if (id) {
       loadExistingEvaluation();
     }
@@ -225,8 +228,6 @@ export default function EvaluationForm() {
         }
 
         const evaluationData = await response.json();
-
-        processRatingLevelOptions(ratingLevels);
         setEvaluationMetadata(evaluationData);
       }
     } catch (error) {
@@ -244,7 +245,6 @@ export default function EvaluationForm() {
     completedEvaluation.reviewedPersonSourceSystemDescriptor = selectedCandidate.sourceSystemDescriptor;
     completedEvaluation.evaluatorName = currentEvaluator.evaluatorName;
     completedEvaluation.reviewedCandidateName = selectedCandidate.candidateName;
-    completedEvaluation.performanceEvaluationId = selectedEvaluation.id;
     completedEvaluation.startDateTime = evaluationDate;
     !evaluationEndTime ?
       completedEvaluation.endDateTime = new Date() : completedEvaluation.endDateTime = evaluationEndTime;
@@ -274,7 +274,7 @@ export default function EvaluationForm() {
   const saveEvaluation = async () => {
     try {
       const completedEvaluation = getCompletedEvaluationData();
-      const response = await post(`/api/EvaluationRating?userId=${getLoggedInUserId()}`, completedEvaluation);
+      const response = await post(`/api/EvaluationRating?userId=${getLoggedInUserId() }`, completedEvaluation);
       if (response.ok) {
         toast({
           title: "Success.",
@@ -349,7 +349,11 @@ export default function EvaluationForm() {
   };
   
   const getSelectedOptionRatingLevel = (name) => {
-    const elementRatingCopy = [...elementRatings];
+    const elementRatingCopy = [...elementRatings,
+     {
+       "codeValue": "N/A - Not Applicable",
+        "maxRating": -1
+      }];
     const locatedIndex = elementRatingCopy.findIndex((element) => element.name === name);
     if (locatedIndex >= 0) {
       const locatedIndexRatingOptions = ratingLevels.findIndex((element) => element.maxRating === elementRatingCopy[locatedIndex].value);
@@ -359,7 +363,10 @@ export default function EvaluationForm() {
       }];
       return selectedValue;
     }
-    return [];
+    return [{
+      "label": "N/A - Not Applicable",
+      "value": "-1"
+    }];
   }
 
   const handleNotesUpdates = (e) => {
