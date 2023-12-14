@@ -81,9 +81,11 @@ namespace eppeta.webapi.Controllers
             };
             var perEvalRating = new PerformanceEvaluationRating();
             var user = await _userManager.FindByIdAsync(userId);
+            var isUpdate = false;
 
             if (evaluationResult.PerformanceEvaluationId > 0)
             {
+                isUpdate = true;
                 perEvalRating = await _evaluationRepository.GetPerformanceEvaluationRatingById(evaluationResult.PerformanceEvaluationId);
                 if (perEvalRating != null)
                 {
@@ -109,7 +111,7 @@ namespace eppeta.webapi.Controllers
                 if (perEval == null)
                     throw new ArgumentException("PerformanceEvaluation not found");
                 MappingHelper.CopyMatchingPKProperties(perEval, perEvalRating);
-                
+
                 perEvalRating.ReviewedCandidateName = evaluationResult.ReviewedCandidateName;
                 perEvalRating.EvaluatorName = evaluationResult.EvaluatorName;
                 perEvalRating.StartTime = perEvalRating.CreateDate = evaluationResult.StartDateTime;
@@ -122,23 +124,44 @@ namespace eppeta.webapi.Controllers
             }
             foreach (var objRes in evaluationResult.ObjectiveResults)
             {
-                // Create EvaluationRating, EvaluationObjectiveRating
+                // Create or Update EvaluationObjectiveRating
                 var evalObjective = await _evaluationRepository.GetEvaluationObjectiveById(objRes.Id);
-                var newEvalRating = new EvaluationRating();
-                var newObjRating = new EvaluationObjectiveRating();
-                MappingHelper.CopyMatchingPKProperties(perEvalRating, newObjRating);
-                MappingHelper.CopyMatchingPKProperties(evalObjective, newObjRating);
-                MappingHelper.CopyMatchingPKProperties(newObjRating, newEvalRating);
-                newObjRating.Comments = objRes.Comment;
-                newObjRating.UserId = newEvalRating.UserId = user.Id;
-                newObjRating.EvaluationDate = newEvalRating.EvaluationDate = evaluationResult.StartDateTime;
-                result[newObjRating.GetType().Name].AddRange(await _evaluationRepository.UpdateEvaluationObjectiveRatings(new List<EvaluationObjectiveRating> { newObjRating }));
-                result[newEvalRating.GetType().Name].AddRange(await _evaluationRepository.UpdateEvaluationRatings(new List<EvaluationRating> { newEvalRating }));
+
+                var objRating = new EvaluationObjectiveRating();
+                MappingHelper.CopyMatchingPKProperties(perEvalRating, objRating);
+                MappingHelper.CopyMatchingPKProperties(evalObjective, objRating);
+                if (isUpdate)
+                    objRating.EvaluationDate = perEvalRating.StartTime;
+                else
+                    objRating.EvaluationDate = evaluationResult.StartDateTime;
+
+                var evalObjectiveRatings = await _evaluationRepository.GetEvaluationObjectiveRatingsByPK(objRating);
+
+                if (isUpdate && evalObjectiveRatings != null)
+                {
+                    objRating = evalObjectiveRatings.First();
+                }
+                else
+                {
+                    objRating.UserId = user.Id;
+                }
+                objRating.Comments = objRes.Comment;
+                result[objRating.GetType().Name].AddRange(await _evaluationRepository.UpdateEvaluationObjectiveRatings(new List<EvaluationObjectiveRating> { objRating }));
+
+                if (!isUpdate)
+                {
+                    // Create EvaluationRating
+                    var newEvalRating = new EvaluationRating();
+                    MappingHelper.CopyMatchingPKProperties(objRating, newEvalRating);
+                    newEvalRating.UserId = user.Id;
+                    result[newEvalRating.GetType().Name].AddRange(await _evaluationRepository.UpdateEvaluationRatings(new List<EvaluationRating> { newEvalRating }));
+                }
+
                 foreach (var elRes in objRes.Elements)
                 {
                     var evalElement = await _evaluationRepository.GetEvaluationElementById(elRes.Id);
                     var elementRatingResult = new EvaluationElementRatingResult();
-                    MappingHelper.CopyMatchingPKProperties(newObjRating, elementRatingResult);
+                    MappingHelper.CopyMatchingPKProperties(objRating, elementRatingResult);
                     MappingHelper.CopyMatchingPKProperties(evalElement, elementRatingResult);
                     elementRatingResult.RatingResultTitle = evalElement.EvaluationElementTitle.Substring(0, Math.Min(50, evalElement.EvaluationElementTitle.Length)); // TODO: No result title is returned from frontend. Truncating element title
                     elementRatingResult.Rating = elRes.Score;
