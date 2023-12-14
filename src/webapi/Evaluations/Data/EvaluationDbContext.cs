@@ -105,6 +105,11 @@ namespace eppeta.webapi.Evaluations.Data
             requiredListProperties = requiredListProperties.Intersect(requiredReferenceProperties).ToList();
 
             var colFilter = new List<string>();
+
+            // ToDo. We'll need to think how we can remove these 2 lines.
+            if (referenceObject.GetType() == typeof(PerformanceEvaluationRating) && listToFilter.First().GetType() == typeof(EvaluationObjectiveRating))
+                colFilter.Add($"EvaluationDate == \"{((PerformanceEvaluationRating)referenceObject).StartTime.ToString("yyyy-MM-dd HH:mm:ss.FFF")}\"");
+
             foreach (var propertyName in requiredListProperties)
             {
                 var property = listToFilter.First().GetType().GetProperty(propertyName);
