@@ -134,7 +134,7 @@ export default function EvaluationForm() {
         }
         setPerformanceEvaluationData(retrievedPerformanceEvaluationData);
         setSelectedOptionRatingLevel(retrievedPerformanceEvaluationData);
-        setEvaluationDate(new Date(retrievedPerformanceEvaluationData.startDateTime));
+        setEvaluationDate(new Date(retrievedPerformanceEvaluationData.startDateTime+"Z"));
         setCurrentEvaluator({ "evaluatorId": retrievedPerformanceEvaluationData.userId, "evaluatorName": retrievedPerformanceEvaluationData.evaluatorName });
         const candidateReceived = {
           candidateName: retrievedPerformanceEvaluationData.reviewedCandidateName,
@@ -236,7 +236,10 @@ export default function EvaluationForm() {
   const getCompletedEvaluationData = () => {
     const completedEvaluation = {
     };
-
+    completedEvaluation.evaluationId = selectedEvaluation.id;
+    if (id) {
+      completedEvaluation.performanceEvaluationId = id;
+    }
     completedEvaluation.reviewedPersonId = selectedCandidate.personId;
     completedEvaluation.reviewedPersonSourceSystemDescriptor = selectedCandidate.sourceSystemDescriptor;
     completedEvaluation.evaluatorName = currentEvaluator.evaluatorName;
@@ -255,7 +258,7 @@ export default function EvaluationForm() {
         return elementRatingValue?.value > -1 ? { id: element.evaluationElementId, score: elementRatingValue?.value } : [];
       });
 
-      const objectiveNote = objectiveNotes.find((note) => note.objectiveId === objective.evaluationObjectiveId);
+      const objectiveNote = objectiveNotes.find((note) => note.objectiveId == objective.evaluationObjectiveId);
 
       const objectiveRating = {
         id: objective.evaluationObjectiveId,
@@ -368,10 +371,7 @@ export default function EvaluationForm() {
 
     setObjectiveNotes(objectiveNotesCopy);
   };
-
-
-
-  
+   
 
   return (<Skeleton isLoaded={evaluationDataLoaded && componentsDataLoaded} animation="wave" count="3.5">
     <Container maxW={"7xl"} mb='10'>
