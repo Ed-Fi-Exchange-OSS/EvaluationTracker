@@ -21,6 +21,9 @@ namespace eppeta.webapi.Service
             // But instead, WaitForNextTickAsync provides a mechanism that blocks a task and can thus be used in a While loop.
             using PeriodicTimer timer = new PeriodicTimer(_period);
 
+            // One initial syncronization before the while loop
+            await ExecuteAsync();
+
             // When ASP.NET Core is intentionally shut down, the background service receives information
             // via the stopping token that it has been canceled.
             // We check the cancellation to avoid blocking the application shutdown.
@@ -28,29 +31,34 @@ namespace eppeta.webapi.Service
                 !stoppingToken.IsCancellationRequested &&
                 await timer.WaitForNextTickAsync(stoppingToken))
             {
-                if (IsEnabled)
-                {
-                    // We cannot use the default dependency injection behavior, because ExecuteAsync is
-                    // a long-running method while the background service is running.
-                    // To prevent open resources and instances, only create the services and other references on a run
+                await ExecuteAsync();
+            }
+        }
 
-                    // Create scope, so we get request services
-                    await using AsyncServiceScope asyncScope = _factory.CreateAsyncScope();
+        private async Task ExecuteAsync()
+        {
+            if (IsEnabled)
+            {
+                // We cannot use the default dependency injection behavior, because ExecuteAsync is
+                // a long-running method while the background service is running.
+                // To prevent open resources and instances, only create the services and other references on a run
 
-                    // Get service from scope
-                    SyncOdsAssets syncOdsAssets = asyncScope.ServiceProvider.GetRequiredService<SyncOdsAssets>();
-                    await syncOdsAssets.SyncAsync();
+                // Create scope, so we get request services
+                await using AsyncServiceScope asyncScope = _factory.CreateAsyncScope();
 
-                    // Sample count increment
-                    _executionCount++;
-                    _logger.LogInformation(
-                        $"Executed PeriodicHostedService - Count: {_executionCount}");
-                }
-                else
-                {
-                    _logger.LogInformation(
-                        "Skipped PeriodicHostedService");
-                }
+                // Get service from scope
+                SyncOdsAssets syncOdsAssets = asyncScope.ServiceProvider.GetRequiredService<SyncOdsAssets>();
+                await syncOdsAssets.SyncAsync();
+
+                // Sample count increment
+                _executionCount++;
+                _logger.LogInformation(
+                    $"Executed PeriodicHostedService - Count: {_executionCount}");
+            }
+            else
+            {
+                _logger.LogInformation(
+                    "Skipped PeriodicHostedService");
             }
         }
     }
