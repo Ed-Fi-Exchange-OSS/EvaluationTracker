@@ -296,12 +296,12 @@ namespace eppeta.webapi.Evaluations.Data
 
         public async Task<List<PerformanceEvaluationRating>> GetPerformanceEvaluationRatingsByUserId(string userId)
         {
-            return await PerformanceEvaluationRatings.Where(r => r.UserId == userId).ToListAsync();
+            return await PerformanceEvaluationRatings.Include(m => m.RecordStatus).Where(r => r.UserId == userId).ToListAsync();
         }
 
         public async Task<PerformanceEvaluationRating> GetPerformanceEvaluationRatingById(int id)
         {
-            return await PerformanceEvaluationRatings.Where(r => r.Id == id).FirstOrDefaultAsync();
+            return await PerformanceEvaluationRatings.Include(m => m.RecordStatus).Where(r => r.Id == id).FirstOrDefaultAsync();
         }
 
         public async Task<List<int>> UpdatePerformanceEvaluationRatings(List<PerformanceEvaluationRating> performanceEvaluationRatings)
