@@ -55,9 +55,6 @@ public partial class EvaluationElement
     [StringLength(306)]
     public string TermDescriptor { get; set; }
 
-    [StringLength(306)]
-    public string EvaluationTypeDescriptor { get; set; }
-
     public DateTime CreateDate { get; set; }
 
     public DateTime LastModifiedDate { get; set; }
@@ -71,7 +68,6 @@ public partial class EvaluationElement
     => new EvaluationElement
     {
         EvaluationElementTitle= tpdmEvaluationElement.EvaluationElementTitle,
-        EvaluationTypeDescriptor = tpdmEvaluationElement.EvaluationTypeDescriptor,
         EdFiId = tpdmEvaluationElement.Id,
         EvaluationObjectiveTitle = tpdmEvaluationElement.EvaluationObjectiveReference.EvaluationObjectiveTitle,
         EducationOrganizationId = tpdmEvaluationElement.EvaluationObjectiveReference.EducationOrganizationId,
@@ -96,7 +92,6 @@ public partial class EvaluationElement
                 schoolYear : evaluationElement.SchoolYear,
                 termDescriptor : evaluationElement.TermDescriptor
             ),
-            evaluationElementTitle : evaluationElement.EvaluationElementTitle,
-            evaluationTypeDescriptor : evaluationElement.EvaluationTypeDescriptor
+            evaluationElementTitle : evaluationElement.EvaluationElementTitle
         );
 }
