@@ -39,9 +39,10 @@ import { getLoggedInUserId, getLoggedInUserName, getLoggedInUserRole } from "../
 import { AlertMessageDialog } from "../components/AlertMessageDialog";
 
 export default function EvaluationForm() {
-  const [evaluationDataLoaded, setEvaluationDataLoaded] = useState(false);
+  const [isEvaluationLoaded, setIsEvaluationLoaded] = useState(false);
   const [componentsDataLoaded, setComponentsDataLoaded] = useState(false);
   const [loggedInUser, setLoggedInUser] = useState({ "name": "", "role": null });
+  const [evaluationDataLoaded, setEvaluationDataLoaded] = useState({});
   const [selectedCandidate, setSelectedCandidate] = useState({});
   const [selectedEvaluation, setSelectedEvaluation] = useState({});
   const [ratingLevelOptions, setRatingLevelOptions] = useState([]);
@@ -95,11 +96,14 @@ export default function EvaluationForm() {
     setElementRatings(elementRatingCopy);
   };
 
-  const setSelectedOptionRatingLevel = (performanceEvaluationData) => {
+  const setSelectedOptionRatingLevel = (evaluationMetadataReceived) => {
+    const performanceEvaluationData = evaluationDataLoaded;
     const elementRatingCopy = [...elementRatings];
     const objectiveNotesCopy = [...objectiveNotes];
+    const evaluationObjectivesCopy = [...evaluationMetadataReceived?.evaluationObjectives];
     performanceEvaluationData?.objectiveResults?.forEach((objectiveResults, i) => {
-      objectiveNotesCopy.push(objectiveResults?.comment ?? "");
+      const locatedIndex = evaluationObjectivesCopy.findIndex((element) => element.evaluationObjectiveId === objectiveResults.id);
+      objectiveNotesCopy.push({ "objectiveId": objectiveResults.id, "name": evaluationObjectivesCopy[locatedIndex], "value": objectiveResults?.comment ?? "" });
       objectiveResults?.elements?.forEach((obj) => {
         elementRatingCopy.push({ "name": obj.id, "value": obj.score });
       });
@@ -130,13 +134,13 @@ export default function EvaluationForm() {
         }
 
         const retrievedPerformanceEvaluationData = await response.json();
+        setEvaluationDataLoaded(retrievedPerformanceEvaluationData);
         if (getLoggedInUserRole() !== 'Supervisor' && retrievedPerformanceEvaluationData.userId !== getLoggedInUserId()) {
           setAlertMessageText("You do not have access to the evaluation");
           setUserHasAccessToEvaluation(false);
           return;
         }
         setPerformanceEvaluationData(retrievedPerformanceEvaluationData);
-        setSelectedOptionRatingLevel(retrievedPerformanceEvaluationData);
         setEvaluationDate(new Date(retrievedPerformanceEvaluationData.startDateTime+"Z"));
         setCurrentEvaluator({ "evaluatorId": retrievedPerformanceEvaluationData.userId, "evaluatorName": retrievedPerformanceEvaluationData.evaluatorName });
         const candidateReceived = {
@@ -180,6 +184,7 @@ export default function EvaluationForm() {
   };   
 
   useEffect(() => {
+    setIsEvaluationLoaded(false);
     setLoggedInUser({
       "name": getLoggedInUserName(),
       "role": getLoggedInUserRole()
@@ -192,7 +197,7 @@ export default function EvaluationForm() {
       setCurrentEvaluator({ "evaluatorId": getLoggedInUserId(), "evaluatorName": getLoggedInUserName() });
       loadDataForNewEvaluation();
     }
-    setEvaluationDataLoaded(true);
+    setIsEvaluationLoaded(true);
   }, [id]);
 
   
@@ -207,8 +212,9 @@ export default function EvaluationForm() {
   }
 
   useEffect(() => {
+    setComponentsDataLoaded(false);
     fetchEvaluationObjectives();
-    setComponentsDataLoaded(true);
+    setComponentsDataLoaded(selectedEvaluation.id ? true : false);
   }, [selectedEvaluation]);
 
   // Retrieve evaluation objectives from API
@@ -229,11 +235,13 @@ export default function EvaluationForm() {
 
         const evaluationData = await response.json();
         setEvaluationMetadata(evaluationData);
+        setSelectedOptionRatingLevel(evaluationData);
       }
     } catch (error) {
       console.error("Error fetching evaluation objectives:", error);
     }
   };
+
   const getCompletedEvaluationData = () => {
     const completedEvaluation = {
     };
@@ -373,14 +381,13 @@ export default function EvaluationForm() {
     const objectiveNotesCopy = [...objectiveNotes];
     const note = { "objectiveId": e.target.id, "name": e.target.name, "value": e.target.value };
 
-    const locatedIndex = objectiveNotesCopy.findIndex((objective) => objective.name === e.target.name && objective.objectiveId === e.target.id);
+    const locatedIndex = objectiveNotesCopy.findIndex((objective) => objective.name.name === e.target.name && objective.objectiveId == e.target.id);
     locatedIndex >= 0 ? objectiveNotesCopy[locatedIndex] = note : objectiveNotesCopy.push(note);
 
     setObjectiveNotes(objectiveNotesCopy);
-  };
-   
+  };   
 
-  return (<Skeleton isLoaded={evaluationDataLoaded && componentsDataLoaded} animation="wave" count="3.5">
+  return (<Skeleton isLoaded={isEvaluationLoaded && componentsDataLoaded} circle={ true } count={3.5} >
     <Container maxW={"7xl"} mb='10'>
         {(!userHasAccessToEvaluation || !evaluationLoaded) ? (<>
         <Stack textAlign={"center"}
