@@ -190,7 +190,6 @@ CREATE TABLE [eppeta].[EvaluationElement](
 	[PerformanceEvaluationTypeDescriptor] [nvarchar](306) NOT NULL,
 	[SchoolYear] [smallint] NOT NULL,
 	[TermDescriptor] [nvarchar](306) NOT NULL,
-	[EvaluationTypeDescriptor] [nvarchar](306) NULL,
 	[CreateDate] [datetime2](3) NOT NULL,
 	[LastModifiedDate] [datetime2](3) NOT NULL,
 	[EdFi_Id] nvarchar(50) NULL,
