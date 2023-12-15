@@ -61,31 +61,7 @@ export default function EvaluationForm() {
   const navigate = useNavigate();
   const toast = useToast();  
   const borderColor = useColorModeValue("gray.200", "gray.600"); 
-  // This will be replaced with data from the ODS/API once EPPETA-38 is complete
-  const ratingLevels = [
-    {
-      "codeValue": "Improvement Needed",
-      "maxRating": 1
-    },
-    {
-      "codeValue": "Developing",
-      "maxRating": 2
-    },
-    {
-      "codeValue": "Proficient",
-      "maxRating": 3
-    },
-    {
-      "codeValue": "Acomplished",
-      "maxRating": 4
-    },
-    {
-      "codeValue": "Distinguished",
-      "maxRating": 5
-    }
-  ];
-    
-
+  
   const setRatingLevel = (name, value) => {
     const elementRatingCopy = [...elementRatings];
     const rating = { "name": name, "value": value };
@@ -189,7 +165,7 @@ export default function EvaluationForm() {
       "name": getLoggedInUserName(),
       "role": getLoggedInUserRole()
     });
-    processRatingLevelOptions(ratingLevels);
+    
     if (id) {
       loadExistingEvaluation();
     }
@@ -204,8 +180,8 @@ export default function EvaluationForm() {
   const processRatingLevelOptions = async (ratingLevels) => {
     const processedRatingLevels = [{ "label": "N/A - Not Applicable", "value": -1 }, ...ratingLevels.map((level) => {
       return {
-        "label": level.codeValue,
-        "value": level.maxRating
+        "label": level.name,
+        "value": level.ratingLevel
       }
     })];
     setRatingLevelOptions(processedRatingLevels); // Save to state
@@ -234,6 +210,7 @@ export default function EvaluationForm() {
         }
 
         const evaluationData = await response.json();
+        processRatingLevelOptions(evaluationData.ratingLevels);
         setEvaluationMetadata(evaluationData);
         setSelectedOptionRatingLevel(evaluationData);
       }
@@ -360,14 +337,19 @@ export default function EvaluationForm() {
     const elementRatingCopy = [...elementRatings,
      {
        "codeValue": "N/A - Not Applicable",
-        "maxRating": -1
+        "ratingLevel": -1
       }];
+    const ratingLevels = [...evaluationMetadata.ratingLevels,
+    {
+      "name": "N/A - Not Applicable",
+      "ratingLevel": -1
+    }];
     const locatedIndex = elementRatingCopy.findIndex((element) => element.name === name);
     if (locatedIndex >= 0) {
-      const locatedIndexRatingOptions = ratingLevels.findIndex((element) => element.maxRating === elementRatingCopy[locatedIndex].value);
+      const locatedIndexRatingOptions = ratingLevels.findIndex((element) => element.ratingLevel === elementRatingCopy[locatedIndex].value);
       const selectedValue = [{
-        "label": ratingLevels[locatedIndexRatingOptions]?.codeValue ?? "N/A - Not Applicable",
-        "value": ratingLevels[locatedIndexRatingOptions]?.maxRating ?? -1,
+        "label": ratingLevels[locatedIndexRatingOptions]?.name ?? "N/A - Not Applicable",
+        "value": ratingLevels[locatedIndexRatingOptions]?.ratingLevel ?? -1,
       }];
       return selectedValue;
     }
@@ -387,7 +369,7 @@ export default function EvaluationForm() {
     setObjectiveNotes(objectiveNotesCopy);
   };   
 
-  return (<Skeleton isLoaded={isEvaluationLoaded && componentsDataLoaded} circle={ true } count={3.5} >
+  return (<Skeleton isLoaded={isEvaluationLoaded && componentsDataLoaded} count={3.5} >
     <Container maxW={"7xl"} mb='10'>
         {(!userHasAccessToEvaluation || !evaluationLoaded) ? (<>
         <Stack textAlign={"center"}
