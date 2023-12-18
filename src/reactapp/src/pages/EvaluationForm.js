@@ -178,7 +178,7 @@ export default function EvaluationForm() {
 
   
   const processRatingLevelOptions = async (ratingLevels) => {
-    const processedRatingLevels = [{ "label": "N/A - Not Applicable", "value": -1 }, ...ratingLevels.map((level) => {
+    const processedRatingLevels = [{ "label": "N/A - Not Assessed", "value": -1 }, ...ratingLevels.map((level) => {
       return {
         "label": level.name,
         "value": level.ratingLevel
@@ -336,25 +336,25 @@ export default function EvaluationForm() {
   const getSelectedOptionRatingLevel = (name) => {
     const elementRatingCopy = [...elementRatings,
      {
-       "codeValue": "N/A - Not Applicable",
+       "codeValue": "N/A - Not Assessed",
         "ratingLevel": -1
       }];
     const ratingLevels = [...evaluationMetadata.ratingLevels,
     {
-      "name": "N/A - Not Applicable",
+      "name": "N/A - Not Assessed",
       "ratingLevel": -1
     }];
     const locatedIndex = elementRatingCopy.findIndex((element) => element.name === name);
     if (locatedIndex >= 0) {
       const locatedIndexRatingOptions = ratingLevels.findIndex((element) => element.ratingLevel === elementRatingCopy[locatedIndex].value);
       const selectedValue = [{
-        "label": ratingLevels[locatedIndexRatingOptions]?.name ?? "N/A - Not Applicable",
+        "label": ratingLevels[locatedIndexRatingOptions]?.name ?? "N/A - Not Assessed",
         "value": ratingLevels[locatedIndexRatingOptions]?.ratingLevel ?? -1,
       }];
       return selectedValue;
     }
     return [{
-      "label": "N/A - Not Applicable",
+      "label": "N/A - Not Assessed",
       "value": "-1"
     }];
   }
@@ -445,7 +445,7 @@ export default function EvaluationForm() {
             of Education. The Dimensions within each domain ensure
             clinical teachers have the knowledge and skills to teach
             in Texas public schools. Please complete the form by
-            checking the appropriate box. Use Not Applicable (NA)
+            checking the appropriate box. Use Not Assessed (NA)
             when the element is not observed or is irrelevant to the
             particular setting/observation/evaluation.
           </Text>
@@ -461,7 +461,7 @@ export default function EvaluationForm() {
             ** Requires written “COMMENTS” specifying observed, shared or recorded evidence if scoring 2=Needs Improvement
           </Text>
           <Text fontSize={"sm"}>
-            * Proficient is the goal N/A= Not Applicable (N/A)
+            * Proficient is the goal N/A= Not Assessed (N/A)
           </Text>
 
           <HStack display='flex' spacing="20px" mb="5" mt="5">
