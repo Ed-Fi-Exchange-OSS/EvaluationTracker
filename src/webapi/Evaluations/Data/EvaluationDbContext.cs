@@ -287,7 +287,7 @@ namespace eppeta.webapi.Evaluations.Data
                 if (candidate != null)
                 {
                     foreach (var property in typeof(Candidate).GetProperties())
-                        if (property.Name != "Id")
+                        if (property.Name != "Id" && property.PropertyType != typeof(DateTime))
                             property.SetValue(candidate, property.GetValue(ca));
                     Candidates.Update((Candidate)candidate);
                 }
