@@ -11,6 +11,7 @@ using eppeta.webapi.Service;
 using eppeta.webapi.Swagger;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Net.Http.Headers;
@@ -58,6 +59,12 @@ internal class Program
                 provider => new ODSAPIAuthenticationConfigurationService(builder.Configuration["OdsApiBasePath"], builder.Configuration["ODSAPIKey"], builder.Configuration["ODSAPISecret"])
             );
 
+            // Sync ODS Assets
+            builder.Services.AddScoped<SyncOdsAssets>();
+            builder.Services.AddSingleton<PeriodicHostedSyncOdsAssetsService>();
+            builder.Services.AddHostedService(
+                provider => provider.GetRequiredService<PeriodicHostedSyncOdsAssetsService>());
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -73,6 +80,22 @@ internal class Program
                 endpoints.MapControllers();
                 endpoints.MapDefaultControllerRoute();
             });
+
+            //A get route shall return the current state of our background sync service:
+            app.MapGet("/syncOdsAssets", (
+                PeriodicHostedSyncOdsAssetsService service) =>
+                {
+                    return new PeriodicHostedSyncOdsAssetsServiceState(service.IsEnabled);
+                });
+
+            //And a patch route shall let us set the desired state of our background sync service:
+            app.MapMethods("/syncOdsAssets", new[] { "PATCH" }, (
+                PeriodicHostedSyncOdsAssetsServiceState state,
+                PeriodicHostedSyncOdsAssetsService service) =>
+                {
+                    service.IsEnabled = state.IsEnabled;
+                });
+
             await app.RunAsync();
         }
         catch (Exception ex)

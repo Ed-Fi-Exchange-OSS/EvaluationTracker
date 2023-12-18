@@ -31,10 +31,6 @@ export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState(null);
 
-  // sync dependencies while login
-  get("/api/Evaluation/Sync");
-
-
   const loadEvaluationsPage = () => {
     window.location.href = "/main";
   };
