@@ -34,7 +34,7 @@ namespace eppeta.webapi.Evaluations.Models
         public string? ReviewedCandidateName { get; set; }
         public string? EvaluatorName { get; set; }
         public string? PerformanceEvaluationRatingLevelDescriptor { get; set; }
-        [Required]
+        //[Required]
         public DateTime StartTime { get; set; }
         public DateTime? EndTime { get; set; }
         public DateTime CreateDate { get; set; }

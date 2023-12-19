@@ -80,21 +80,27 @@ namespace eppeta.webapi.Controllers
                 { typeof(EvaluationElementRatingResult).Name, new List<int>{ } },
             };
             var perEvalRating = new PerformanceEvaluationRating();
+            var evalRating = new EvaluationRating();
             var user = await _userManager.FindByIdAsync(userId);
             var isUpdate = false;
+            var dateTimeUtNow = DateTime.UtcNow;
 
-            if (evaluationResult.PerformanceEvaluationId > 0)
+            if (evaluationResult.EvaluationRatingId > 0)
             {
                 isUpdate = true;
-                perEvalRating = await _evaluationRepository.GetPerformanceEvaluationRatingById(evaluationResult.PerformanceEvaluationId);
-                if (perEvalRating != null)
+                evalRating = await _evaluationRepository.GetEvaluationRatingById(evaluationResult.EvaluationRatingId);
+                if (evalRating != null)
                 {
-                    // Treat the request as an update
-                    perEvalRating.ReviewedCandidateName = evaluationResult.ReviewedCandidateName;
-                    perEvalRating.EvaluatorName = evaluationResult.EvaluatorName;
-                    perEvalRating.PersonId = evaluationResult.ReviewedPersonId;
-                    perEvalRating.SourceSystemDescriptor = evaluationResult.ReviewedPersonSourceSystemDescriptor;
-                    perEvalRating.EndTime = evaluationResult.EndDateTime ?? DateTime.Now;
+                    perEvalRating = (await _evaluationRepository.GetPerformanceEvaluationRatingsByPK(evalRating)).FirstOrDefault();
+                    if (perEvalRating != null)
+                    {
+                        // Treat the request as an update
+                        perEvalRating.ReviewedCandidateName = evaluationResult.ReviewedCandidateName;
+                        perEvalRating.EvaluatorName = evaluationResult.EvaluatorName;
+                        perEvalRating.PersonId = evaluationResult.ReviewedPersonId;
+                        perEvalRating.SourceSystemDescriptor = evaluationResult.ReviewedPersonSourceSystemDescriptor;
+                        perEvalRating.EndTime = evaluationResult.EndDateTime ?? dateTimeUtNow;
+                    }
 
                     result[perEvalRating.GetType().Name].AddRange(
                         await _evaluationRepository.UpdatePerformanceEvaluationRatings(new List<PerformanceEvaluationRating> { perEvalRating }));
@@ -108,19 +114,38 @@ namespace eppeta.webapi.Controllers
             else
             {
                 var perEval = await _evaluationRepository.GetPerformanceEvaluationById(evaluationResult.EvaluationId);
-                if (perEval == null)
+                var eval = await _evaluationRepository.GetEvaluationsByPK(perEval);
+                if (perEval == null || eval == null)
                     throw new ArgumentException("PerformanceEvaluation not found");
                 MappingHelper.CopyMatchingPKProperties(perEval, perEvalRating);
-
+                perEvalRating.UserId = user.Id;
                 perEvalRating.ReviewedCandidateName = evaluationResult.ReviewedCandidateName;
                 perEvalRating.EvaluatorName = evaluationResult.EvaluatorName;
-                perEvalRating.StartTime = perEvalRating.CreateDate = evaluationResult.StartDateTime;
                 perEvalRating.PersonId = evaluationResult.ReviewedPersonId;
                 perEvalRating.SourceSystemDescriptor = evaluationResult.ReviewedPersonSourceSystemDescriptor;
-                perEvalRating.UserId = user.Id;
-                perEvalRating.StatusId = (int)((await _evaluationRepository.GetStatusByText("Not Uploaded"))?.Id ?? 1);
-                perEvalRating.EndTime = evaluationResult.EndDateTime ?? DateTime.Now;
-                result[perEvalRating.GetType().Name].AddRange(await _evaluationRepository.UpdatePerformanceEvaluationRatings(new List<PerformanceEvaluationRating> { perEvalRating }));
+
+                var newPerEvalRating = await _evaluationRepository.GetPerformanceEvaluationRatingsByPK(perEvalRating);
+                if (newPerEvalRating == null)
+                {
+                    perEvalRating.ReviewedCandidateName = evaluationResult.ReviewedCandidateName;
+                    perEvalRating.EvaluatorName = evaluationResult.EvaluatorName;
+                    perEvalRating.StartTime = dateTimeUtNow;
+                    perEvalRating.PersonId = evaluationResult.ReviewedPersonId;
+                    perEvalRating.SourceSystemDescriptor = evaluationResult.ReviewedPersonSourceSystemDescriptor;
+                    perEvalRating.UserId = user.Id;
+                    perEvalRating.StatusId = (int)((await _evaluationRepository.GetStatusByText("Not Uploaded"))?.Id ?? 1);
+                    perEvalRating.EndTime = evaluationResult.EndDateTime ?? DateTime.Now;
+                    result[perEvalRating.GetType().Name].AddRange(await _evaluationRepository.UpdatePerformanceEvaluationRatings(new List<PerformanceEvaluationRating> { perEvalRating }));
+                }
+
+                // Create EvaluationRating
+                var newEvalRating = new EvaluationRating();
+                MappingHelper.CopyMatchingPKProperties(evalRating, newEvalRating); 
+                MappingHelper.CopyMatchingPKProperties(perEvalRating, newEvalRating);
+                newEvalRating.UserId = user.Id;
+                newEvalRating.EvaluationDate = dateTimeUtNow;
+                newEvalRating.EvaluationTitle = eval.First().EvaluationTitle;
+                result[newEvalRating.GetType().Name].AddRange(await _evaluationRepository.UpdateEvaluationRatings(new List<EvaluationRating> { newEvalRating }));
             }
             foreach (var objRes in evaluationResult.ObjectiveResults)
             {
@@ -130,32 +155,19 @@ namespace eppeta.webapi.Controllers
                 var objRating = new EvaluationObjectiveRating();
                 MappingHelper.CopyMatchingPKProperties(perEvalRating, objRating);
                 MappingHelper.CopyMatchingPKProperties(evalObjective, objRating);
-                if (isUpdate)
-                    objRating.EvaluationDate = perEvalRating.StartTime;
-                else
-                    objRating.EvaluationDate = evaluationResult.StartDateTime;
 
                 var evalObjectiveRatings = await _evaluationRepository.GetEvaluationObjectiveRatingsByPK(objRating);
 
                 if (isUpdate && evalObjectiveRatings != null)
-                {
                     objRating = evalObjectiveRatings.First();
-                }
                 else
                 {
                     objRating.UserId = user.Id;
+                    objRating.EvaluationDate = dateTimeUtNow;
                 }
+
                 objRating.Comments = objRes.Comment;
                 result[objRating.GetType().Name].AddRange(await _evaluationRepository.UpdateEvaluationObjectiveRatings(new List<EvaluationObjectiveRating> { objRating }));
-
-                if (!isUpdate)
-                {
-                    // Create EvaluationRating
-                    var newEvalRating = new EvaluationRating();
-                    MappingHelper.CopyMatchingPKProperties(objRating, newEvalRating);
-                    newEvalRating.UserId = user.Id;
-                    result[newEvalRating.GetType().Name].AddRange(await _evaluationRepository.UpdateEvaluationRatings(new List<EvaluationRating> { newEvalRating }));
-                }
 
                 foreach (var elRes in objRes.Elements)
                 {
@@ -163,10 +175,20 @@ namespace eppeta.webapi.Controllers
                     var elementRatingResult = new EvaluationElementRatingResult();
                     MappingHelper.CopyMatchingPKProperties(objRating, elementRatingResult);
                     MappingHelper.CopyMatchingPKProperties(evalElement, elementRatingResult);
-                    elementRatingResult.RatingResultTitle = evalElement.EvaluationElementTitle.Substring(0, Math.Min(50, evalElement.EvaluationElementTitle.Length)); // TODO: No result title is returned from frontend. Truncating element title
+
+                    var evalElementRatings = await _evaluationRepository.GetEvaluationElementRatingResultsByPK(elementRatingResult);
+
+                    if (isUpdate && evalElementRatings != null)
+                        elementRatingResult = evalElementRatings.First();
+                    else
+                    {
+                        elementRatingResult.UserId = user.Id;
+                        elementRatingResult.EvaluationDate = dateTimeUtNow;
+                        elementRatingResult.ResultDatatypeTypeDescriptor = _resultDatatype; // TODO: harcoding this based on the type of elRes.Score
+                        elementRatingResult.RatingResultTitle = evalElement.EvaluationElementTitle.Substring(0, Math.Min(50, evalElement.EvaluationElementTitle.Length)); // TODO: No result title is returned from frontend. Truncating element title
+                    }
+                    
                     elementRatingResult.Rating = elRes.Score;
-                    elementRatingResult.UserId = user.Id;
-                    elementRatingResult.ResultDatatypeTypeDescriptor = _resultDatatype; // TODO: harcoding this based on the type of elRes.Score
                     result[elementRatingResult.GetType().Name].AddRange(await _evaluationRepository.UpdateEvaluationElementRatingResults(new List<EvaluationElementRatingResult> { elementRatingResult }));
                 }
             }

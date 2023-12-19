@@ -22,6 +22,12 @@ namespace eppeta.webapi.Service
             var authenticatedConfiguration = await _service.GetAuthenticatedConfiguration();
 
             //// Get Evaluation Objectives and update repository
+            var evaluationsApi = new EvaluationsApi(authenticatedConfiguration);
+            evaluationsApi.Configuration.DefaultHeaders.Add("Content-Type", "application/json");
+            var tpdmEvaluations = await evaluationsApi.GetEvaluationsAsync(limit: 100, offset: 0);
+            await _evaluationRepository.UpdateEvaluations(tpdmEvaluations.Select(teo => (Evaluation)teo).ToList());
+
+            //// Get Evaluation Objectives and update repository
             var objectivesApi = new EvaluationObjectivesApi(authenticatedConfiguration);
             objectivesApi.Configuration.DefaultHeaders.Add("Content-Type", "application/json");
             var tpdmEvaluationObjectives = await objectivesApi.GetEvaluationObjectivesAsync(limit: 100, offset: 0);

@@ -63,7 +63,7 @@ public class PerformanceEvaluationController : ControllerBase
             ObjectiveResults = new List<PerformedEvaluationResult.PerformedEvaluationResultObjective>()
         };
 
-        var evaluation = await _evaluationRepository.GetEvaluationByPK(performanceEvaluationRating);
+        var evaluation = await _evaluationRepository.GetPerformanceEvaluationByPK(performanceEvaluationRating);
         if (evaluation != null)
             performedEvaluation.EvaluationId = evaluation.First().Id;
         
