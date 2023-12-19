@@ -35,6 +35,7 @@ CREATE TABLE eppeta.PerformanceEvaluationRating (
     [SchoolYear] [smallint] NOT NULL,
     TermDescriptor [nvarchar](306) NOT NULL,
     PerformanceEvaluationRatingLevelDescriptor [nvarchar](306) NULL,
+    Comments NVARCHAR(1024) NULL,
     StartTime [datetime2](3) NOT NULL,
     EndTime [datetime2](3) NULL,
     [CreateDate] [datetime2](3) NOT NULL,

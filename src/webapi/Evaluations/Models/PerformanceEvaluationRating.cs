@@ -31,6 +31,7 @@ namespace eppeta.webapi.Evaluations.Models
         public short SchoolYear { get; set; }
         [Required]
         public string TermDescriptor { get; set; } = string.Empty;
+        public string? Comments { get; set; }
         public string? ReviewedCandidateName { get; set; }
         public string? EvaluatorName { get; set; }
         public string? PerformanceEvaluationRatingLevelDescriptor { get; set; }
@@ -80,7 +81,8 @@ namespace eppeta.webapi.Evaluations.Models
                             actualDuration: (int)((performanceEvaluationRating.EndTime ?? DateTime.Now) - performanceEvaluationRating.StartTime).TotalMinutes,
                             // The API doesn't like a value here
                             //actualTime: TimeOnly.FromDateTime(performanceEvaluationRating.StartTime).ToShortTimeString(),
-                            performanceEvaluationRatingLevelDescriptor: performanceEvaluationRating?.PerformanceEvaluationRatingLevelDescriptor ?? string.Empty
+                            performanceEvaluationRatingLevelDescriptor: performanceEvaluationRating?.PerformanceEvaluationRatingLevelDescriptor ?? string.Empty,
+                            comments: performanceEvaluationRating?.Comments ?? string.Empty
                         );
         }
 
@@ -95,7 +97,8 @@ namespace eppeta.webapi.Evaluations.Models
                 ReviewedPersonId = performanceEvaluationRating.PersonId,
                 ReviewedPersonIdSourceSystemDescriptor = performanceEvaluationRating.SourceSystemDescriptor,
                 EvaluatorName = performanceEvaluationRating.EvaluatorName,
-                ReviewedCandidateName = performanceEvaluationRating.ReviewedCandidateName
+                ReviewedCandidateName = performanceEvaluationRating.ReviewedCandidateName,
+                Comments = performanceEvaluationRating.Comments
             };
         }
     }
