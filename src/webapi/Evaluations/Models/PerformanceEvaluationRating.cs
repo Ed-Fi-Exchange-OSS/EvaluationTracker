@@ -13,6 +13,7 @@ namespace eppeta.webapi.Evaluations.Models
 {
     public class PerformanceEvaluationRating
     {
+
         [Required]
         public long EducationOrganizationId { get; set; }
         [Required]
@@ -33,9 +34,16 @@ namespace eppeta.webapi.Evaluations.Models
         public string? ReviewedCandidateName { get; set; }
         public string? EvaluatorName { get; set; }
         public string? PerformanceEvaluationRatingLevelDescriptor { get; set; }
+        [Required]
         public DateTime StartTime { get; set; }
         public DateTime? EndTime { get; set; }
         public DateTime CreateDate { get; set; }
+        [NotMapped]
+        public DateTime ActualDate { get; set; }
+        [NotMapped]
+        public int ActualDuration { get; set; }
+        [NotMapped]
+        public string? ActualTime { get; set; }
         [Column("EdFi_Id")]
         [StringLength(50)]
         public string? EdFiId { get; set; }
@@ -69,8 +77,10 @@ namespace eppeta.webapi.Evaluations.Models
                         sourceSystemDescriptor: performanceEvaluationRating.SourceSystemDescriptor
                     ),
                     actualDate: performanceEvaluationRating.StartTime,
-                    actualDuration: (performanceEvaluationRating.EndTime - performanceEvaluationRating.StartTime)?.Minutes,
-                    performanceEvaluationRatingLevelDescriptor: performanceEvaluationRating.PerformanceEvaluationRatingLevelDescriptor
+                    actualDuration: (int)((performanceEvaluationRating.EndTime ?? DateTime.Now) - performanceEvaluationRating.StartTime).TotalMinutes,
+                    // The API doesn't like a value here
+                    //actualTime: TimeOnly.FromDateTime(performanceEvaluationRating.StartTime).ToShortTimeString(),
+                    performanceEvaluationRatingLevelDescriptor: performanceEvaluationRating?.PerformanceEvaluationRatingLevelDescriptor ?? string.Empty
                 );
 
         public static explicit operator PerformedEvaluation(PerformanceEvaluationRating performanceEvaluationRating)

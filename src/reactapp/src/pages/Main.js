@@ -7,9 +7,11 @@ import {
     Button,
     Box,
     Stack, HStack,
-    Heading,
+  Heading,
+  Skeleton
 } from "@chakra-ui/react";
 import { DeleteIcon } from '@chakra-ui/icons'
+import { useNavigate } from "react-router-dom";
 import Select from 'react-select';
 import "../App.css";
 import React, { useEffect, useState } from "react";
@@ -23,23 +25,26 @@ export default function EvaluationTable() {
   const loggedInUserRole = getLoggedInUserRole();
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [statusOptions, setStatusOptions] = useState([]);
+  const [componentsDataLoaded, setComponentsDataLoaded] = useState(false);
   const filter = selectedOptions.map((o) => o.value);
   const headers = [
-    { name: 'Evaluation', dataField: 'performanceEvaluationTitle', sortable: true, visible: true, link: { url: '', dataField: '' } },
+    { name: 'Evaluation', dataField: 'performanceEvaluationTitle', sortable: true, visible: true, link: { url: '/evaluation/', dataField: 'performanceEvaluationRatingId' } },
     { name: 'Candidate', dataField: 'reviewedCandidateName', sortable: true, visible: true },
     { name: 'Evaluator', dataField: 'evaluatorName', sortable: true, visible: loggedInUserRole === 'Supervisor' },
     { name: 'Date', dataField: 'actualDate', sortable: true, visible: true, format: value => new Date(value).toLocaleDateString() },
     { name: 'Status', dataField: 'evaluationStatus', sortable: true, visible: true },
   ];
+  const navigate = useNavigate();
 
   useEffect(() => {
     const userId = getLoggedInUserId();
 
     if (userId == null) {
-      window.location.href = "/login";
+      navigate("/login");
     }
     fetchEvaluationStatuses();
     fetchEvaluationRatings(userId);
+    setComponentsDataLoaded(true);
   }, []);
 
   // const response = await get("/connect/token", tokenRequest);
@@ -90,7 +95,8 @@ export default function EvaluationTable() {
     return filter.length === 0 || filter.includes(item.evaluationStatus);
   };
 
-  return(
+  return (
+    <Skeleton isLoaded={componentsDataLoaded}>
       <Stack spacing={8} mt="24px" px={{ base: "10px", md: "30px" }} align="center">
       <Heading fontSize={{ base: "3xl", md: "5xl" }}>My Evaluations</Heading>
       <HStack spacing={0}>
@@ -112,6 +118,7 @@ export default function EvaluationTable() {
           New Evaluation
         </Button>
       </Box>
-    </Stack>
+      </Stack>
+      </Skeleton>
   );
 }

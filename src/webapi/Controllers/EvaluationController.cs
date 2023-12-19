@@ -11,6 +11,7 @@ using eppeta.webapi.Evaluations.Models;
 using Microsoft.Extensions.Caching.Memory;
 using eppeta.webapi.DTO;
 using System.Linq.Dynamic.Core;
+using System.Linq.Expressions;
 
 namespace webapi.Controllers;
 
@@ -54,7 +55,7 @@ public class EvaluationController : ControllerBase
         string[] nonJoinCols = { "EdFiId", "Id", "CreateDate", "LastModifiedDate" };
         // get performanceEvaluation, evaluationObjective and evaluationElements records, columns and matching columns
         var performanceEvaluation = new List<PerformanceEvaluation> { await _evaluationRepository.GetPerformanceEvaluationById(performanceEvaluationId) };
-        if (!performanceEvaluation.Any())
+        if (!performanceEvaluation.Any() || performanceEvaluation[0] == null)
             return NotFound();
         var evaluationObjectives = await _evaluationRepository.GetAllEvaluationObjectives();
         var evaluationElements = await _evaluationRepository.GetAllEvaluationElements();

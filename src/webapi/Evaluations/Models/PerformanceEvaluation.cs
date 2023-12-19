@@ -36,7 +36,6 @@ public partial class PerformanceEvaluation
     [Required]
     public string TermDescriptor { get; set; }
 
-    [Required]
     [StringLength(255)]
     public string PerformanceEvaluationDescription { get; set; }
 

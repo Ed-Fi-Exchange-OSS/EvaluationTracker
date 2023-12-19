@@ -12,12 +12,16 @@ namespace eppeta.webapi.DTO
     public class PerformedEvaluationResult
     {
         public string EvaluatorName { get; set; } = string.Empty;
+        public string UserId { get; set; } = string.Empty;
         public string ReviewedPersonId { get; set; } = string.Empty;
         public string ReviewedPersonSourceSystemDescriptor { get; set; } = string.Empty;
         public string ReviewedCandidateName { get; set; } = string.Empty;
         public int PerformanceEvaluationId { get; set; }
+        public int EvaluationId { get; set; }
+        public string PerformanceEvaluationTitle { get; set; } = string.Empty;
+        public int? StatusId { get; set; }
         public DateTime StartDateTime { get; set; }
-        public DateTime EndDateTime { get; set; }
+        public DateTime? EndDateTime { get; set; }
         public List<PerformedEvaluationResultObjective> ObjectiveResults { get; set; } = new List<PerformedEvaluationResultObjective>();
         public class PerformedEvaluationResultObjective
         {

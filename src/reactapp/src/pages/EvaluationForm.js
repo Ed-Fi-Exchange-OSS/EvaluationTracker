@@ -4,72 +4,179 @@
 // See the LICENSE and NOTICES files in the project root for more information.
 
 import {
-  Box,
-  Container,
-  Stack,
-  Text,
-  VStack,
-  Button,
+    Box,
+    Button,
+    ButtonGroup,
+    Container,
+    FormControl,
+    FormLabel,
+    HStack,
   Heading,
-  StackDivider,
-  useColorModeValue,
-  HStack,
-  FormControl,
-  FormLabel,
-  ButtonGroup,
-  Table,
-  Textarea,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
+    Skeleton,
+    Stack,
+    StackDivider,
+    Table,
+    Tbody,
+    Td,
+    Text,
+    Textarea,
+    Th,
+    Thead,
+    Tr,
+    VStack,
+    useColorModeValue,
+    useToast,
 } from "@chakra-ui/react";
-import "../App.css";
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
 import DatePicker from "react-datepicker";
-import Select from 'react-select';
-import { get, post } from "../components/FetchHelpers";
-import { getLoggedInUserName, getLoggedInUserRole, getLoggedInUserId } from "../components/TokenHelpers";
 import "react-datepicker/dist/react-datepicker.css";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import Select from 'react-select';
+import "../App.css";
+import { get, post } from "../components/FetchHelpers";
+import { AlertMessage } from "../components/AlertMessage";
+import { getLoggedInUserId, getLoggedInUserName, getLoggedInUserRole } from "../components/TokenHelpers";
+import { AlertMessageDialog } from "../components/AlertMessageDialog";
 
 export default function EvaluationForm() {
+  const [isEvaluationLoaded, setIsEvaluationLoaded] = useState(false);
+  const [componentsDataLoaded, setComponentsDataLoaded] = useState(false);
   const [loggedInUser, setLoggedInUser] = useState({ "name": "", "role": null });
+  const [evaluationDataLoaded, setEvaluationDataLoaded] = useState({});
   const [selectedCandidate, setSelectedCandidate] = useState({});
   const [selectedEvaluation, setSelectedEvaluation] = useState({});
   const [ratingLevelOptions, setRatingLevelOptions] = useState([]);
   const [evaluationMetadata, setEvaluationMetadata] = useState({});
-
+  const [currentEvaluator, setCurrentEvaluator] = useState({});
   const [evaluationDate, setEvaluationDate] = useState(new Date());
   const [evaluationEndTime, setEvaluationEndTime] = useState(null);
   const [elementRatings, setElementRatings] = useState([]);
   const [objectiveNotes, setObjectiveNotes] = useState([]);
-
-
+  const [performanceEvaluationData, setPerformanceEvaluationData] = useState(null);
+  const [userHasAccessToEvaluation, setUserHasAccessToEvaluation] = useState(true);
+  const [evaluationLoaded, setEvaluationLoaded] = useState(true);
+  const [alertMessageText, setAlertMessageText] = useState(true);
+  const { id } = useParams();
   const location = useLocation();
+  const navigate = useNavigate();
+  const toast = useToast();  
+  const borderColor = useColorModeValue("gray.200", "gray.600"); 
   
-  useEffect(() => {
-    setLoggedInUser({
-      "name": getLoggedInUserName(),
-      "role": getLoggedInUserRole()
-    });
+  const setRatingLevel = (name, value) => {
+    const elementRatingCopy = [...elementRatings];
+    const rating = { "name": name, "value": value };
 
+    const locatedIndex = elementRatingCopy.findIndex((element) => element.name === name);
+    locatedIndex >= 0 ? elementRatingCopy[locatedIndex] = rating : elementRatingCopy.push(rating);
+
+    setElementRatings(elementRatingCopy);
+  };
+
+  const setSelectedOptionRatingLevel = (evaluationMetadataReceived) => {
+    const performanceEvaluationData = evaluationDataLoaded;
+    const elementRatingCopy = [...elementRatings];
+    const objectiveNotesCopy = [...objectiveNotes];
+    const evaluationObjectivesCopy = [...evaluationMetadataReceived?.evaluationObjectives];
+    performanceEvaluationData?.objectiveResults?.forEach((objectiveResults, i) => {
+      const locatedIndex = evaluationObjectivesCopy.findIndex((element) => element.evaluationObjectiveId === objectiveResults.id);
+      objectiveNotesCopy.push({ "objectiveId": objectiveResults.id, "name": evaluationObjectivesCopy[locatedIndex], "value": objectiveResults?.comment ?? "" });
+      objectiveResults?.elements?.forEach((obj) => {
+        elementRatingCopy.push({ "name": obj.id, "value": obj.score });
+      });
+    });
+    setElementRatings(elementRatingCopy);
+    setObjectiveNotes(objectiveNotesCopy);
+  }
+
+  // Retrieve an existing evaluation from API
+  const loadExistingEvaluation = async () => {
+    try {
+      if (id) {
+        const response = await get(`/api/PerformanceEvaluation/${id}`);
+        // If the evaluation doesn't exist, show an error message
+        if (response.status === 404) {
+          setAlertMessageText("The requested evaluation does not exist");
+          setEvaluationLoaded(false);
+          return;
+        }
+        else if (!response.ok) {
+          throw new Error("Failed to fetch performance evaluation"); 
+        }
+
+        // Check if the response is valid JSON
+        const contentType = response.headers.get("Content-Type");
+        if (!contentType || !contentType.includes("application/json")) {
+          throw new Error("Response is not valid JSON");
+        }
+
+        const retrievedPerformanceEvaluationData = await response.json();
+        setEvaluationDataLoaded(retrievedPerformanceEvaluationData);
+        if (getLoggedInUserRole() !== 'Supervisor' && retrievedPerformanceEvaluationData.userId !== getLoggedInUserId()) {
+          setAlertMessageText("You do not have access to the evaluation");
+          setUserHasAccessToEvaluation(false);
+          return;
+        }
+        setPerformanceEvaluationData(retrievedPerformanceEvaluationData);
+        setEvaluationDate(new Date(retrievedPerformanceEvaluationData.startDateTime+"Z"));
+        setCurrentEvaluator({ "evaluatorId": retrievedPerformanceEvaluationData.userId, "evaluatorName": retrievedPerformanceEvaluationData.evaluatorName });
+        const candidateReceived = {
+          candidateName: retrievedPerformanceEvaluationData.reviewedCandidateName,
+          personId: retrievedPerformanceEvaluationData.reviewedPersonId,
+          sourceSystemDescriptor: retrievedPerformanceEvaluationData.reviewedPersonSourceSystemDescriptor
+        }
+        const evaluationHeader = {
+          id: retrievedPerformanceEvaluationData.evaluationId,
+          performanceEvaluationTitle: retrievedPerformanceEvaluationData.performanceEvaluationTitle
+        }
+        sessionStorage.setItem("evaluation", JSON.stringify(evaluationHeader));
+        setSelectedEvaluation(evaluationHeader);
+        sessionStorage.setItem("candidate", JSON.stringify(candidateReceived));
+        setSelectedCandidate(candidateReceived);
+        const startDate = new Date(retrievedPerformanceEvaluationData.startDateTime);
+        const endDate = new Date(retrievedPerformanceEvaluationData.startDateTime);
+        if (endDate > startDate) {
+          setEvaluationEndTime(new Date(endDate - startDate));
+        }        
+      }
+    } catch (error) {
+      console.error("Error fetching performance evaluation:", error);
+    }
+  };
+
+  const loadDataForNewEvaluation = () => {
+    setCurrentEvaluator({ "evaluatorId": getLoggedInUserRole(), "evaluatorName": getLoggedInUserName() });
     if (location?.state?.candidate) {
       sessionStorage.setItem("candidate", JSON.stringify(location.state.candidate));
       setSelectedCandidate(location.state.candidate);
     } else {
       setSelectedCandidate(JSON.parse(sessionStorage.getItem("candidate")));
     }
-
     if (location?.state?.evaluation) {
       sessionStorage.setItem("evaluation", JSON.stringify(location.state.evaluation));
       setSelectedEvaluation(location.state.evaluation);
     } else {
       setSelectedEvaluation(JSON.parse(sessionStorage.getItem("evaluation")));
     }
-  }, []);
+  };   
 
+  useEffect(() => {
+    setIsEvaluationLoaded(false);
+    setLoggedInUser({
+      "name": getLoggedInUserName(),
+      "role": getLoggedInUserRole()
+    });
+    
+    if (id) {
+      loadExistingEvaluation();
+    }
+    else {
+      setCurrentEvaluator({ "evaluatorId": getLoggedInUserId(), "evaluatorName": getLoggedInUserName() });
+      loadDataForNewEvaluation();
+    }
+    setIsEvaluationLoaded(true);
+  }, [id]);
+
+  
   const processRatingLevelOptions = async (ratingLevels) => {
     const processedRatingLevels = [{ "label": "N/A - Not Assessed", "value": -1 }, ...ratingLevels.map((level) => {
       return {
@@ -81,42 +188,48 @@ export default function EvaluationForm() {
   }
 
   useEffect(() => {
+    setComponentsDataLoaded(false);
     fetchEvaluationObjectives();
+    setComponentsDataLoaded(selectedEvaluation.id ? true : false);
   }, [selectedEvaluation]);
 
   // Retrieve evaluation objectives from API
   const fetchEvaluationObjectives = async () => {
     try {
-      const response = await get(`/api/Evaluation/${selectedEvaluation.id}`);
+      if (selectedEvaluation.id) {
+        const response = await get(`/api/Evaluation/${selectedEvaluation.id}`);
+        console.info(JSON.stringify(response));
+        if (!response.ok) {
+          throw new Error("Failed to fetch evaluation objectives");
+        }
 
-      if (!response.ok) {
-        throw new Error("Failed to fetch evaluation objectives");
+        // Check if the response is valid JSON
+        const contentType = response.headers.get("Content-Type");
+        if (!contentType || !contentType.includes("application/json")) {
+          throw new Error("Response is not valid JSON");
+        }
+
+        const evaluationData = await response.json();
+        processRatingLevelOptions(evaluationData.ratingLevels);
+        setEvaluationMetadata(evaluationData);
+        setSelectedOptionRatingLevel(evaluationData);
       }
-
-      // Check if the response is valid JSON
-      const contentType = response.headers.get("Content-Type");
-      if (!contentType || !contentType.includes("application/json")) {
-        throw new Error("Response is not valid JSON");
-      }
-
-      const evaluationData = await response.json();
-
-      processRatingLevelOptions(evaluationData.ratingLevels);
-      setEvaluationMetadata(evaluationData);
     } catch (error) {
       console.error("Error fetching evaluation objectives:", error);
     }
   };
 
-  const saveEvaluation = async () => {
+  const getCompletedEvaluationData = () => {
     const completedEvaluation = {
     };
-
+    completedEvaluation.evaluationId = selectedEvaluation.id;
+    if (id) {
+      completedEvaluation.performanceEvaluationId = id;
+    }
     completedEvaluation.reviewedPersonId = selectedCandidate.personId;
     completedEvaluation.reviewedPersonSourceSystemDescriptor = selectedCandidate.sourceSystemDescriptor;
-    completedEvaluation.evaluatorName = loggedInUser.name;
+    completedEvaluation.evaluatorName = currentEvaluator.evaluatorName;
     completedEvaluation.reviewedCandidateName = selectedCandidate.candidateName;
-    completedEvaluation.performanceEvaluationId = selectedEvaluation.id;
     completedEvaluation.startDateTime = evaluationDate;
     !evaluationEndTime ?
       completedEvaluation.endDateTime = new Date() : completedEvaluation.endDateTime = evaluationEndTime;
@@ -140,46 +253,169 @@ export default function EvaluationForm() {
       // If there are no score for the elements for this objective and no comment, ignore
       return (objectiveRating.comment || ratings.length > 0) ? objectiveRating : [];
     });
+    return completedEvaluation;
+  }
 
+  const saveEvaluation = async () => {
     try {
-      const response = await post(`/api/EvaluationRating?userId=${getLoggedInUserId()}`, completedEvaluation);
+      const completedEvaluation = getCompletedEvaluationData();
+      const response = await post(`/api/EvaluationRating?userId=${getLoggedInUserId() }`, completedEvaluation);
+      if (response.ok) {
+        toast({
+          title: "Success.",
+          description: "Your evaluation has been successfully saved.",
+          status: "success",
+          duration: 5000,
+          isClosable: true,
+        });
+        navigate("/main");
+      }
+      else {
+        toast({
+          title: "An error occurred.",
+          description: "Unable to save the evaluation.",
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        });
+      }
     } catch (e) {
+      toast({
+        title: "An error occurred.",
+        description: "Unable to save the evaluation.",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+      console.error("Error:", e);
     }
+    return true;
+  }
+
+  const approveEvaluation = async () => {
+    try {
+      const completedEvaluation = getCompletedEvaluationData();
+      const response = await post(`/api/EvaluationRating/Approve?userId=${getLoggedInUserId()}`, completedEvaluation);
+      if (response.ok) {
+        toast({
+          title: "Success.",
+          description: "Your approval has been successfully sent.",
+          status: "success",
+          duration: 5000,
+          isClosable: true,
+        });
+        navigate("/main");
+      }
+      else {
+        toast({
+          title: "An error occurred.",
+          description: "Unable to send the approval.",
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        });
+      }
+    } catch (e) {
+      toast({
+        title: "An error occurred.",
+        description: "Unable to send the approval.",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+      console.error("Error:", e);
+    }
+    return true;
   }
 
   // Rating drop down event handler
-  const setRatingLevel = (e, actionProps) => {
-    const elementRatingCopy = [...elementRatings];
-    const rating = { "name": actionProps.name, "value": e.value };
-
-    const locatedIndex = elementRatingCopy.findIndex((element) => element.name === actionProps.name);
-    locatedIndex >= 0 ? elementRatingCopy[locatedIndex] = rating : elementRatingCopy.push(rating);
-
-    setElementRatings(elementRatingCopy);
+  const handleChangeRatingLevel = (e, actionProps) => {
+    setRatingLevel(actionProps.name, e.value);
   };
+  
+  const getSelectedOptionRatingLevel = (name) => {
+    const elementRatingCopy = [...elementRatings,
+     {
+       "codeValue": "N/A - Not Assessed",
+        "ratingLevel": -1
+      }];
+    const ratingLevels = [...evaluationMetadata.ratingLevels,
+    {
+      "name": "N/A - Not Assessed",
+      "ratingLevel": -1
+    }];
+    const locatedIndex = elementRatingCopy.findIndex((element) => element.name === name);
+    if (locatedIndex >= 0) {
+      const locatedIndexRatingOptions = ratingLevels.findIndex((element) => element.ratingLevel === elementRatingCopy[locatedIndex].value);
+      const selectedValue = [{
+        "label": ratingLevels[locatedIndexRatingOptions]?.name ?? "N/A - Not Assessed",
+        "value": ratingLevels[locatedIndexRatingOptions]?.ratingLevel ?? -1,
+      }];
+      return selectedValue;
+    }
+    return [{
+      "label": "N/A - Not Assessed",
+      "value": "-1"
+    }];
+  }
 
   const handleNotesUpdates = (e) => {
     const objectiveNotesCopy = [...objectiveNotes];
     const note = { "objectiveId": e.target.id, "name": e.target.name, "value": e.target.value };
 
-    const locatedIndex = objectiveNotesCopy.findIndex((objective) => objective.name === e.target.name && objective.objectiveId === e.target.id);
+    const locatedIndex = objectiveNotesCopy.findIndex((objective) => objective.name.name === e.target.name && objective.objectiveId == e.target.id);
     locatedIndex >= 0 ? objectiveNotesCopy[locatedIndex] = note : objectiveNotesCopy.push(note);
 
     setObjectiveNotes(objectiveNotesCopy);
-  };
+  };   
 
-  return (
+  return (<Skeleton isLoaded={isEvaluationLoaded && componentsDataLoaded} count={3.5} >
     <Container maxW={"7xl"} mb='10'>
-      <Stack
-        spacing={{ base: 4, sm: 6 }}
-        direction={"column"}
-        divider={
-          <StackDivider
-            borderColor={useColorModeValue("gray.200", "gray.600")}
-          />
-        }
-      >
-        <VStack spacing={{ base: 4, sm: 2 }}>
+        {(!userHasAccessToEvaluation || !evaluationLoaded) ? (<>
+        <Stack textAlign={"center"}
+          spacing={{ base: 4, sm: 6 }}
+          direction={"column"}
+          divider={
+            <StackDivider
+              borderColor={borderColor}
+            />
+          }
+        > 
+          <Heading
+            lineHeight={1.1}
+            mt={5}
+            mb={5}
+            fontSize={"3xl"}
+            fontWeight={"700"}
+          >
+            Evaluation</Heading>
+        </Stack>
+        <Box textAlign="center" FontWeight="bold" >
+          <AlertMessage status="warning" message={alertMessageText} />
+        </Box>
+        <Box textAlign="center">
+          
+            <ButtonGroup variant="outline" spacing="6">
+              <Button
+                onClick={() => {
+                  navigate("/main");
+                }}
+              >
+                Return
+              </Button>
+            </ButtonGroup>
+          </Box>
+        </>)
+        : (<><Stack
+          spacing={{ base: 4, sm: 6 }}
+          direction={"column"}
+          divider={
+            <StackDivider
+              borderColor={borderColor}
+            />
+          }
+        >
+          <VStack spacing={{ base: 4, sm: 2 }}>
           <Heading
             lineHeight={1.1}
             mt={5}
@@ -199,7 +435,7 @@ export default function EvaluationForm() {
             <Box className="TitleBox">Date</Box>
             <Box className="Box">{evaluationDate?.toLocaleDateString()}</Box>
             <Box className="TitleBox">Evaluator</Box>
-            <Box className="Box">{loggedInUser.name}</Box>
+            <Box className="Box">{currentEvaluator.evaluatorName}</Box>
           </HStack>
           <HStack display='flex' spacing="20px" mb="5">
           </HStack>
@@ -209,7 +445,7 @@ export default function EvaluationForm() {
             of Education. The Dimensions within each domain ensure
             clinical teachers have the knowledge and skills to teach
             in Texas public schools. Please complete the form by
-            checking the appropriate box. Use Not Applicable (NA)
+            checking the appropriate box. Use Not Assessed (NA)
             when the element is not observed or is irrelevant to the
             particular setting/observation/evaluation.
           </Text>
@@ -225,7 +461,7 @@ export default function EvaluationForm() {
             ** Requires written “COMMENTS” specifying observed, shared or recorded evidence if scoring 2=Needs Improvement
           </Text>
           <Text fontSize={"sm"}>
-            * Proficient is the goal N/A= Not Applicable (N/A)
+            * Proficient is the goal N/A= Not Assessed (N/A)
           </Text>
 
           <HStack display='flex' spacing="20px" mb="5" mt="5">
@@ -258,10 +494,13 @@ export default function EvaluationForm() {
                         <Td maxWidth="200px">{element.name}</Td>
                         <Td maxWidth="150px">
                           <Select name={element.evaluationElementId} id={element.evaluationElementId} options={ratingLevelOptions}
-                            onChange={(e, action) => { setRatingLevel(e, action) }}
+                            onChange={(e, action) => {
+                              handleChangeRatingLevel(e, action)
+                            }}
+                            value={getSelectedOptionRatingLevel(element.evaluationElementId) }
                           />
                         </Td>
-                        {index === 0 && <Td rowSpan="4"><Textarea id={objective.evaluationObjectiveId} name={objective.name} onBlur={handleNotesUpdates} rows={(objective.evaluationElements.length * 3) - 1} resize="none" borderColor="gray.300" /></Td>}
+                        {index === 0 && <Td rowSpan="4"><Textarea id={objective.evaluationObjectiveId} name={objective.name} onBlur={handleNotesUpdates} rows={(objective.evaluationElements.length * 3) - 1} resize="none" borderColor="gray.300" defaultValue={(performanceEvaluationData ? performanceEvaluationData.objectiveResults.find(item => item.id === objective?.evaluationObjectiveId)?.comment ?? "" : "" ) } /></Td>}
                       </Tr>
                     ))}
                   </Tbody>
@@ -274,32 +513,15 @@ export default function EvaluationForm() {
         </Box>
       </Stack>
       <Box textAlign="center">
-        <ButtonGroup variant="outline" spacing="6">
-          <Button
-            onClick={() => {
-              saveEvaluation();
-              window.location.href = "/main";
-            }}
-            colorScheme="blue"
-          >
-            Save Evaluation
-          </Button>
-          <Button
-            onClick={() => {
-              window.location.href = "/main";
-            }}
-          >
-            Cancel
-          </Button>
-          {loggedInUser.role === 'Supervisor' && <Button
-            onClick={() => {
-              window.location.href = "/main";
-            }}
-          >
-            Approve Evaluation
-          </Button>}
+            <ButtonGroup variant="outline" spacing="6">
+              <AlertMessageDialog showIcon="warning" alertTitle="Save Evaluation" buttonColorScheme="blue" buttonText="Save" message="Are you sure you want to save the evaluation?" onYes={() => { saveEvaluation() }}></AlertMessageDialog>
+              <AlertMessageDialog showIcon="warning" alertTitle="Cancel process" buttonText="Cancel" message="Are you sure you want to cancel this process? All unsaved changes will be lost" onYes={() => { navigate("/main"); }}></AlertMessageDialog>
+              {loggedInUser.role === 'Supervisor' &&
+                <AlertMessageDialog showIcon="warning" alertTitle="Approve Evaluation" buttonText="Approve" message="Are you sure you want to approve this evaluation?" onYes={ () => approveEvaluation() }></AlertMessageDialog>
+                }
         </ButtonGroup>
-      </Box>
+        </Box> </>)}
     </Container>
+  </Skeleton>
   );
 }

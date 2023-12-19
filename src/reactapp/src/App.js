@@ -21,7 +21,7 @@ function App() {
                     <Route path="/login" element={<LoginForm />} />
                     <Route path="/main" element={<EvaluationTable />} />
                     <Route path="/new" element={<NewEvaluation />} />
-                    <Route path="/evaluation" element={<EvaluationForm />} />"
+                    <Route path="/evaluation/:id?" element={<EvaluationForm />} />"
                 </Routes>
             </Router>
         </ChakraProvider>

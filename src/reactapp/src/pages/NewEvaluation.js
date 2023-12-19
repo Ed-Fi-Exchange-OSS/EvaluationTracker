@@ -14,6 +14,7 @@ import {
   Button,
   ButtonGroup,
   Flex,
+  Skeleton,
   Stack,
   useColorModeValue,
 } from "@chakra-ui/react";
@@ -25,10 +26,12 @@ export default function NewEvaluation() {
   const [selectedCandidate, setSelectedCandidate] = useState(null);
   const [evaluationData, setEvaluationsData] = useState([]);
   const [candidateData, setCandidateData] = useState([]);
+  const [pageDataLoad, setPageDataLoad] = useState(false);
 
   useEffect(() => {
     fetchAvailableEvaluations();
     fetchCandidates();
+    setPageDataLoad(true);
   }, []);
 
   const navigate = useNavigate();
@@ -80,6 +83,7 @@ export default function NewEvaluation() {
   }
 
   return (
+    <Skeleton isLoaded={pageDataLoad} >
     <Flex minH={"100vh"} align={"center"} justify={"center"}>
       <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
         <Stack align={"center"}>
@@ -133,7 +137,7 @@ export default function NewEvaluation() {
                 </Button>
                 <Button
                   onClick={() => {
-                    window.location.href = "/main";
+                   navigate("/main");
                   }}
                 >
                   Cancel
@@ -143,6 +147,7 @@ export default function NewEvaluation() {
           </Stack>
         </Box>
       </Stack>
-    </Flex>
+      </Flex>
+    </Skeleton>
   );
 }
