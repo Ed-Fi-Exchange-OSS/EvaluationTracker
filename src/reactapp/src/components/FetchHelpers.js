@@ -9,7 +9,7 @@ import { getToken } from "../components/TokenHelpers";
 
 // TODO: replace hard-coded with some sort of runtime setting
 // Will be fixed in EPPETA-19.
-const BaseUrl = "https://localhost:7065";
+const BaseUrl = "http://localhost:5069";
 
 const modify = async (verb, route, values) => {
   if (!route.startsWith("/")) {
