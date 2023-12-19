@@ -283,7 +283,7 @@ namespace eppeta.webapi.Evaluations.Data
             // Since the surrogate Id is Identity then match on required cols and update existing records
             foreach (var ca in candidates)
             {
-                var candidate = FilterByRequiredFields(Candidates.ToList(), ca);
+                var candidate = FilterByRequiredFields(Candidates.ToList(), ca).FirstOrDefault();
                 if (candidate != null)
                 {
                     foreach (var property in typeof(Candidate).GetProperties())
