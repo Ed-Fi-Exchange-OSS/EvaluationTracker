@@ -32,10 +32,6 @@ export default function LoginForm() {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  // sync dependencies while login
-  get("/api/Evaluation/Sync");
-
-
   const loadEvaluationsPage = () => {
     navigate("/main");
   };

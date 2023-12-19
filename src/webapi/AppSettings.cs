@@ -35,6 +35,10 @@ public class AppSettings
                     GetInstance().GetValue<bool>("Authentication:RequireHttps")
                 ));
 
+    private readonly Lazy<SyncOdsAssetsSettings> _syncOdsAssetsSettings = new(() => new SyncOdsAssetsSettings(
+        GetInstance().GetValue<int>("SyncOdsAssetsSettings:PeriodInHours")
+    ));
+
     private static AppSettings GetInstance()
     {
         return _instance ?? throw new InvalidOperationException("AppSettings has not been initialized");
@@ -50,6 +54,14 @@ public class AppSettings
         get
         {
             return GetInstance()._authentication.Value;
+        }
+    }
+
+    public static SyncOdsAssetsSettings SyncOdsAssetsSettings
+    {
+        get
+        {
+            return GetInstance()._syncOdsAssetsSettings.Value;
         }
     }
 
@@ -111,4 +123,18 @@ public class Authentication
     }
 
     public Authentication() { }
+}
+
+public class SyncOdsAssetsSettings
+{
+    public int PeriodInHours { get; set; } = 24;
+
+    public SyncOdsAssetsSettings(int periodInHours)
+    {
+        PeriodInHours = periodInHours;
+    }
+
+    public SyncOdsAssetsSettings()
+    {
+    }
 }
