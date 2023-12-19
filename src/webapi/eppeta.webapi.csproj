@@ -34,8 +34,4 @@
         <ProjectReference Include="..\..\EdFi.OdsApi.Sdk\EdFi.OdsApi.Sdk.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="logs\" />
-    </ItemGroup>
-
 </Project>
