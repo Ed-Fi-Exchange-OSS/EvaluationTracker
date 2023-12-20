@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using eppeta.webapi.Service;
 using eppeta.webapi.Evaluations.Data;
 using eppeta.webapi.DTO;
+using eppeta.webapi.Evaluations.Models;
 
 namespace webapi.Controllers;
 
@@ -46,28 +47,30 @@ public class PerformanceEvaluationController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<PerformedEvaluationResult>> GetPerformedEvaluation(int PerformanceEvaluationRatingId)
     {
-        var performanceEvaluationRating = await _evaluationRepository.GetPerformanceEvaluationRatingById(PerformanceEvaluationRatingId);
-        if (performanceEvaluationRating == null)
+        var evaluationRating = await _evaluationRepository.GetEvaluationRatingById(PerformanceEvaluationRatingId);
+        var perEvalRatingDB = (await _evaluationRepository.GetPerformanceEvaluationRatingsByPK(evaluationRating)).FirstOrDefault();
+        if (evaluationRating == null || perEvalRatingDB == null)
             return NotFound();
+
         var performedEvaluation = new PerformedEvaluationResult {
-            PerformanceEvaluationId = performanceEvaluationRating.Id,
-            ReviewedCandidateName = performanceEvaluationRating.ReviewedCandidateName ?? string.Empty,
-            ReviewedPersonId = performanceEvaluationRating.PersonId,
-            ReviewedPersonSourceSystemDescriptor = performanceEvaluationRating.SourceSystemDescriptor,
-            StartDateTime = performanceEvaluationRating.StartTime,
-            EndDateTime = performanceEvaluationRating.EndTime,
-            EvaluatorName = performanceEvaluationRating.EvaluatorName,
-            StatusId = performanceEvaluationRating.StatusId,
-            PerformanceEvaluationTitle = performanceEvaluationRating.PerformanceEvaluationTitle,
-            UserId = performanceEvaluationRating.UserId,
+            EvaluationRatingId = evaluationRating.Id,
+            ReviewedCandidateName = perEvalRatingDB.ReviewedCandidateName ?? string.Empty,
+            ReviewedPersonId = evaluationRating.PersonId,
+            ReviewedPersonSourceSystemDescriptor = evaluationRating.SourceSystemDescriptor,
+            StartDateTime = perEvalRatingDB.StartTime,
+            EndDateTime = perEvalRatingDB.EndTime,
+            EvaluatorName = perEvalRatingDB.EvaluatorName,
+            StatusId = perEvalRatingDB.StatusId,
+            PerformanceEvaluationTitle = evaluationRating.PerformanceEvaluationTitle,
+            UserId = evaluationRating.UserId,
             ObjectiveResults = new List<PerformedEvaluationResult.PerformedEvaluationResultObjective>()
         };
 
-        var evaluation = await _evaluationRepository.GetPerformanceEvaluationByPK(performanceEvaluationRating);
+        var evaluation = await _evaluationRepository.GetPerformanceEvaluationByPK(evaluationRating);
         if (evaluation != null)
             performedEvaluation.EvaluationId = evaluation.First().Id;
         
-        var evaluationObjectiveRatings = await _evaluationRepository.GetEvaluationObjectiveRatingsByPK(performanceEvaluationRating);
+        var evaluationObjectiveRatings = await _evaluationRepository.GetEvaluationObjectiveRatingsByPK(evaluationRating);
         if (evaluationObjectiveRatings != null)
         {
             foreach (var evaluationObjectiveRating in evaluationObjectiveRatings)

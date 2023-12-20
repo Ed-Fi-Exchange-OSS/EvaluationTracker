@@ -107,9 +107,8 @@ namespace eppeta.webapi.Evaluations.Models
                 PerformanceEvaluationRatingId = evaluationRating.Id,
                 PerformanceEvaluationTitle = evaluationRating.PerformanceEvaluationTitle,
                 ReviewedPersonId = evaluationRating.PersonId,
-                ReviewedPersonIdSourceSystemDescriptor = evaluationRating.SourceSystemDescriptor
+                ReviewedPersonIdSourceSystemDescriptor = evaluationRating.SourceSystemDescriptor,
+                EvaluationTitle = evaluationRating.EvaluationTitle
             };
-
     }
 }
-

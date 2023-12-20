@@ -33,9 +33,9 @@ public partial class Evaluation
     public short SchoolYear { get; set; }
     [Required]
     public string TermDescriptor { get; set; }
-    public DateTime? CreateDate { get; set; }
+    public DateTime CreateDate { get; set; }
 
-    public DateTime? LastModifiedDate { get; set; }
+    public DateTime LastModifiedDate { get; set; }
     [Column("EdFi_Id")]
     [StringLength(50)]
     public string? EdFiId { get; set; }
