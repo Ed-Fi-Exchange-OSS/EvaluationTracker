@@ -8,22 +8,25 @@ import Nav from './components/Navbar';
 import EvaluationTable from './pages/Main';
 import NewEvaluation from './pages/NewEvaluation';
 import EvaluationForm from './pages/EvaluationForm';
+import PageTracker from "./components/PageTracker";
+
 
 function App() {
     // 2. Wrap ChakraProvider at the root of my app
     return (
         <ChakraProvider>
-            <Router>
-                <Nav />
-                <Routes>
-                    <Route path="/" element={<LoginForm />} />
-                    <Route path="/signup" element={<SignupForm />} />
-                    <Route path="/login" element={<LoginForm />} />
-                    <Route path="/main" element={<EvaluationTable />} />
-                    <Route path="/new" element={<NewEvaluation />} />
-                    <Route path="/evaluation/:id?" element={<EvaluationForm />} />"
-                </Routes>
-            </Router>
+          <Router>
+            <PageTracker/>
+            <Nav />
+            <Routes>
+                <Route path="/" element={<LoginForm />} />
+                <Route path="/signup" element={<SignupForm />} />
+                <Route path="/login" element={<LoginForm />} />
+                <Route path="/main" element={<EvaluationTable />} />
+                <Route path="/new" element={<NewEvaluation />} />
+                <Route path="/evaluation/:id?" element={<EvaluationForm />} />"
+            </Routes>
+          </Router>           
         </ChakraProvider>
     );
 }

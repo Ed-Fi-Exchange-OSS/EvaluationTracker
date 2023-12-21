@@ -15,7 +15,7 @@ const defaultErrorMessage = 'Something went wrong. Please try again later.';
  * status?: "error" | "warning" | "info" | "success";
  * @returns an alert component
  */
-const AlertMessage = ({ message = defaultErrorMessage, status = 'error' }) => {
+const AlertMessage = ({ message = defaultErrorMessage, status = 'error', children }) => {
   // message can be string | string[]
   let content;
   if (Array.isArray(message)) {
@@ -29,7 +29,9 @@ const AlertMessage = ({ message = defaultErrorMessage, status = 'error' }) => {
   return (
     <Alert status={status} borderRadius="md">
       <AlertDescription m={4} textAlign="center">{content}</AlertDescription>
+      { children }
     </Alert>
+
   );
 };
 

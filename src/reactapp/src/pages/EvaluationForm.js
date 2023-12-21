@@ -36,7 +36,8 @@ import "../App.css";
 import { get, post } from "../components/FetchHelpers";
 import { AlertMessage } from "../components/AlertMessage";
 import { getLoggedInUserId, getLoggedInUserName, getLoggedInUserRole } from "../components/TokenHelpers";
-import { AlertMessageDialog } from "../components/AlertMessageDialog";
+import { AlertMessageDialog } from "../components/AlertMessageDialog"
+import { isPageReload, savePageData, getStoredPageData } from "../components/PageTracker";
 
 export default function EvaluationForm() {
   const [isEvaluationLoaded, setIsEvaluationLoaded] = useState(false);
@@ -49,7 +50,7 @@ export default function EvaluationForm() {
   const [evaluationMetadata, setEvaluationMetadata] = useState({});
   const [currentEvaluator, setCurrentEvaluator] = useState({});
   const [evaluationDate, setEvaluationDate] = useState(new Date());
-  const [evaluationEndTime, setEvaluationEndTime] = useState(null);
+  const [evaluationEndTime, setEvaluationEndTime] = useState(new Date("1970-01-01"));
   const [elementRatings, setElementRatings] = useState([]);
   const [objectiveNotes, setObjectiveNotes] = useState([]);
   const [performanceEvaluationData, setPerformanceEvaluationData] = useState(null);
@@ -61,37 +62,138 @@ export default function EvaluationForm() {
   const navigate = useNavigate();
   const toast = useToast();  
   const borderColor = useColorModeValue("gray.200", "gray.600"); 
-  
+
+  /**
+   * Update rating levels and the page data to store the selected options.
+   * @param {any} name: rating id
+   * @param {any} value: score id
+   */
   const setRatingLevel = (name, value) => {
     const elementRatingCopy = [...elementRatings];
     const rating = { "name": name, "value": value };
-
     const locatedIndex = elementRatingCopy.findIndex((element) => element.name === name);
     locatedIndex >= 0 ? elementRatingCopy[locatedIndex] = rating : elementRatingCopy.push(rating);
-
-    setElementRatings(elementRatingCopy);
+    updateScore(Number(name), Number(value));
+    setElementRatings(elementRatingCopy);    
   };
 
+  
+  /**
+   * Restores notes and notes from an existing (or saved) evaluation.
+   * @param {any} evaluationMetadataReceived
+   */
   const setSelectedOptionRatingLevel = (evaluationMetadataReceived) => {
     const performanceEvaluationData = evaluationDataLoaded;
     const elementRatingCopy = [...elementRatings];
     const objectiveNotesCopy = [...objectiveNotes];
     const evaluationObjectivesCopy = [...evaluationMetadataReceived?.evaluationObjectives];
     performanceEvaluationData?.objectiveResults?.forEach((objectiveResults, i) => {
+      // Index of the evaluationObjective
       const locatedIndex = evaluationObjectivesCopy.findIndex((element) => element.evaluationObjectiveId === objectiveResults.id);
-      objectiveNotesCopy.push({ "objectiveId": objectiveResults.id, "name": evaluationObjectivesCopy[locatedIndex], "value": objectiveResults?.comment ?? "" });
+      // Add a note if doesn't exist or update an existing note.
+      const noteLocaltedIndex = objectiveNotesCopy.findIndex((element) => element?.objectiveId === objectiveResults.id);
+      if (noteLocaltedIndex > 0) {
+        objectiveNotesCopy[noteLocaltedIndex] = objectiveResults?.comment ?? "";
+      }
+      else {
+        objectiveNotesCopy.push({ "objectiveId": objectiveResults.id, "name": evaluationObjectivesCopy[locatedIndex], "value": objectiveResults?.comment ?? "" });
+      }
+      // Updates scores.
       objectiveResults?.elements?.forEach((obj) => {
-        elementRatingCopy.push({ "name": obj.id, "value": obj.score });
+        const elementRatingLocaltedIndex = elementRatingCopy.findIndex((element) => element?.name === obj.id);
+        if (elementRatingLocaltedIndex > 0) {
+          elementRatingCopy[elementRatingLocaltedIndex].value = obj.score;
+        }
+        else {
+          elementRatingCopy.push({ "name": obj.id, "value": obj.score });
+        }
       });
     });
     setElementRatings(elementRatingCopy);
     setObjectiveNotes(objectiveNotesCopy);
   }
 
-  // Retrieve an existing evaluation from API
+
+  /**
+   * Updates an score by elementId
+   * @param {any} elementId
+   * @param {any} newScore
+   */
+  const updateScore = (elementId, newScore) => {
+    const evaluationDataLoadedCopy = { ...evaluationDataLoaded };
+    let objectiveId = null;
+    
+    if (!evaluationDataLoadedCopy.objectiveResults) {
+      evaluationDataLoadedCopy.objectiveResults = [];
+    }
+    // if item was not found we need to search by metadata
+    for (let objective of evaluationMetadata?.evaluationObjectives) {
+      // Check if any element in the current result has the given element ID
+      if (objective.evaluationElements.some(e => e.evaluationElementId === elementId)) {
+        // If found, return the ID of the current result
+        objectiveId = objective.evaluationObjectiveId;
+      }
+    }
+    let result = evaluationDataLoadedCopy.objectiveResults.find(r => r.id === objectiveId);
+    if (!result) {
+      const evaluationObjectiveIndex = evaluationMetadata?.evaluationObjectives.findIndex(element => element.evaluationObjectiveId === objectiveId);
+      result = { id: Number(objectiveId), name: evaluationMetadata?.evaluationObjectives[evaluationObjectiveIndex], comment: '', elements: [] };
+      evaluationDataLoadedCopy.objectiveResults.push(result);
+    }
+    // Find or create the element object and update the score if provided
+    if (elementId !== undefined && newScore !== undefined) {
+      let element = result.elements.find(e => e.id === elementId);
+      if (!element) {
+        element = { id: elementId, score: 0 };
+        result.elements.push(element);
+      }
+      element.score = newScore;
+    }
+    savePageData(evaluationDataLoadedCopy);
+    setEvaluationDataLoaded(evaluationDataLoadedCopy);
+  };
+
+
+  /**
+   * Updates a comment
+   * @param {any} resultId
+   * @param {any} newComment
+   */
+  const updateEvaluationComment = (resultId, newComment) => {
+    const evaluationDataLoadedCopy = { ...evaluationDataLoaded };
+    // Find or create the result object
+    let result = evaluationDataLoadedCopy?.objectiveResults?.find(r => r.id === resultId);
+    if (!result) {
+      if (!evaluationDataLoadedCopy.objectiveResults) {
+        evaluationDataLoadedCopy.objectiveResults = [];
+      }
+      const evaluationObjectiveIndex = evaluationMetadata?.evaluationObjectives.findIndex(element => element.evaluationObjectiveId === resultId);
+      result = { id: Number(resultId), name: evaluationMetadata?.evaluationObjectives[evaluationObjectiveIndex], comment: newComment ?? '', elements: [] };
+      evaluationDataLoadedCopy.objectiveResults.push(result);
+    }
+    // Update the comment if provided
+    if (newComment !== undefined) {
+      result.comment = newComment;
+    }
+    savePageData(evaluationDataLoadedCopy);
+    setEvaluationDataLoaded(evaluationDataLoadedCopy);
+
+  }
+
+
+  /**
+   * Retrieves an existing evaluation from API
+   * @returns
+   */
   const loadExistingEvaluation = async () => {
     try {
-      if (id) {
+      let page_session_data = {};
+      const dataFromSession = getStoredPageData();
+      // if the page has data it tries to load that. 
+      if (isPageReload() && dataFromSession) {
+        page_session_data = dataFromSession;
+      }
+      else if (id) {
         const response = await get(`/api/PerformanceEvaluation/${id}`);
         // If the evaluation doesn't exist, show an error message
         if (response.status === 404) {
@@ -100,7 +202,7 @@ export default function EvaluationForm() {
           return;
         }
         else if (!response.ok) {
-          throw new Error("Failed to fetch performance evaluation"); 
+          throw new Error("Failed to fetch performance evaluation");
         }
 
         // Check if the response is valid JSON
@@ -108,41 +210,61 @@ export default function EvaluationForm() {
         if (!contentType || !contentType.includes("application/json")) {
           throw new Error("Response is not valid JSON");
         }
-
-        const retrievedPerformanceEvaluationData = await response.json();
-        setEvaluationDataLoaded(retrievedPerformanceEvaluationData);
-        if (getLoggedInUserRole() !== 'Supervisor' && retrievedPerformanceEvaluationData.userId !== getLoggedInUserId()) {
-          setAlertMessageText("You do not have access to the evaluation");
-          setUserHasAccessToEvaluation(false);
-          return;
-        }
-        setPerformanceEvaluationData(retrievedPerformanceEvaluationData);
-        setEvaluationDate(new Date(retrievedPerformanceEvaluationData.startDateTime+"Z"));
-        setCurrentEvaluator({ "evaluatorId": retrievedPerformanceEvaluationData.userId, "evaluatorName": retrievedPerformanceEvaluationData.evaluatorName });
-        const candidateReceived = {
-          candidateName: retrievedPerformanceEvaluationData.reviewedCandidateName,
-          personId: retrievedPerformanceEvaluationData.reviewedPersonId,
-          sourceSystemDescriptor: retrievedPerformanceEvaluationData.reviewedPersonSourceSystemDescriptor
-        }
-        const evaluationHeader = {
-          id: retrievedPerformanceEvaluationData.evaluationId,
-          performanceEvaluationTitle: retrievedPerformanceEvaluationData.performanceEvaluationTitle
-        }
-        sessionStorage.setItem("evaluation", JSON.stringify(evaluationHeader));
-        setSelectedEvaluation(evaluationHeader);
-        sessionStorage.setItem("candidate", JSON.stringify(candidateReceived));
-        setSelectedCandidate(candidateReceived);
-        const startDate = new Date(retrievedPerformanceEvaluationData.startDateTime);
-        const endDate = new Date(retrievedPerformanceEvaluationData.startDateTime);
+        page_session_data = await response.json();
+        const startDate = new Date(page_session_data.startDateTime);
+        const endDate = new Date(page_session_data.endDateTime);
+        const evaluationEndDate = (new Date(endDate - startDate));
         if (endDate > startDate) {
-          setEvaluationEndTime(new Date(endDate - startDate));
-        }        
+          page_session_data.evaluationEndDate = evaluationEndDate;
+          setEvaluationEndTime(page_session_data.evaluationEndDate);
+        }
+        else {
+          setEvaluationEndTime(null);
+        }
+        savePageData(page_session_data);
+      }      
+      else {
+        return;
       }
+      if (id && getLoggedInUserRole() !== 'Supervisor' && page_session_data.userId !== getLoggedInUserId()) {
+        setAlertMessageText("You do not have access to the evaluation");
+        setUserHasAccessToEvaluation(false);
+        return;
+      }
+      const currentStartDateTime = page_session_data?.startDateTime
+        ? new Date((page_session_data.startDateTime.endsWith("Z") ? page_session_data.startDateTime : page_session_data.startDateTime + "Z"))
+        : new Date();
+      const currentEndDateTime = page_session_data?.startDateTime
+        ? new Date((page_session_data.endDateTime.endsWith("Z") ? page_session_data.endDateTime : page_session_data.endDateTime + "Z"))
+        : new Date();
+      setEvaluationDate(currentStartDateTime);
+      setEvaluationEndTime(currentEndDateTime);
+      
+      setCurrentEvaluator({ "evaluatorId": page_session_data.userId, "evaluatorName": page_session_data.evaluatorName });
+      const candidateReceived = {
+        candidateName: page_session_data.reviewedCandidateName,
+        personId: page_session_data.reviewedPersonId,
+        sourceSystemDescriptor: page_session_data.reviewedPersonSourceSystemDescriptor
+      }
+      const evaluationHeader = {
+        id: page_session_data.evaluationId,
+        performanceEvaluationTitle: page_session_data.performanceEvaluationTitle
+      }
+      sessionStorage.setItem("evaluation", JSON.stringify(evaluationHeader));
+      setSelectedEvaluation(evaluationHeader);
+      sessionStorage.setItem("candidate", JSON.stringify(candidateReceived));
+      setSelectedCandidate(candidateReceived);
+      setEvaluationDataLoaded(page_session_data);
+      setPerformanceEvaluationData(page_session_data);
     } catch (error) {
       console.error("Error fetching performance evaluation:", error);
     }
   };
 
+
+  /**
+   * Prepares data to create a new evaluation.
+   */
   const loadDataForNewEvaluation = () => {
     setCurrentEvaluator({ "evaluatorId": getLoggedInUserRole(), "evaluatorName": getLoggedInUserName() });
     if (location?.state?.candidate) {
@@ -157,26 +279,17 @@ export default function EvaluationForm() {
     } else {
       setSelectedEvaluation(JSON.parse(sessionStorage.getItem("evaluation")));
     }
-  };   
+    const pageInitialData = {};
+    pageInitialData.startDateTime = evaluationDate;
+    pageInitialData.endDateTime = evaluationEndTime;
+    pageInitialData.objectiveResults = [];
+    savePageData(pageInitialData);
+  };
 
-  useEffect(() => {
-    setIsEvaluationLoaded(false);
-    setLoggedInUser({
-      "name": getLoggedInUserName(),
-      "role": getLoggedInUserRole()
-    });
-    
-    if (id) {
-      loadExistingEvaluation();
-    }
-    else {
-      setCurrentEvaluator({ "evaluatorId": getLoggedInUserId(), "evaluatorName": getLoggedInUserName() });
-      loadDataForNewEvaluation();
-    }
-    setIsEvaluationLoaded(true);
-  }, [id]);
-
-  
+  /**
+  * Adds rating level options
+  * @param {any} ratingLevels
+  */
   const processRatingLevelOptions = async (ratingLevels) => {
     const processedRatingLevels = [{ "label": "N/A - Not Assessed", "value": -1 }, ...ratingLevels.map((level) => {
       return {
@@ -187,13 +300,42 @@ export default function EvaluationForm() {
     setRatingLevelOptions(processedRatingLevels); // Save to state
   }
 
-  useEffect(() => {
-    setComponentsDataLoaded(false);
-    fetchEvaluationObjectives();
-    setComponentsDataLoaded(selectedEvaluation.id ? true : false);
-  }, [selectedEvaluation]);
 
-  // Retrieve evaluation objectives from API
+/**
+ * Gets selected option rating to be used by the Select component
+ * @param {any} name
+ * @returns
+ */
+  const getSelectedOptionRatingLevel = (name) => {
+    const elementRatingCopy = [...elementRatings,
+    {
+      "codeValue": "N/A - Not Assessed",
+      "ratingLevel": -1
+    }];
+    const ratingLevels = [...evaluationMetadata.ratingLevels,
+    {
+      "name": "N/A - Not Assessed",
+      "ratingLevel": -1
+    }];
+    const locatedIndex = elementRatingCopy.findIndex((element) => element.name === name);
+    if (locatedIndex >= 0) {
+      const locatedIndexRatingOptions = ratingLevels.findIndex((element) => element.ratingLevel === elementRatingCopy[locatedIndex].value);
+      const selectedValue = [{
+        "label": ratingLevels[locatedIndexRatingOptions]?.name ?? "N/A - Not Assessed",
+        "value": ratingLevels[locatedIndexRatingOptions]?.ratingLevel ?? -1,
+      }];
+      return selectedValue;
+    }
+    return [{
+      "label": "N/A - Not Assessed",
+      "value": "-1"
+    }];
+  }
+
+
+ /**
+ * Retrieves evaluation objectives from API
+ */
   const fetchEvaluationObjectives = async () => {
     try {
       if (selectedEvaluation.id) {
@@ -219,6 +361,11 @@ export default function EvaluationForm() {
     }
   };
 
+
+  /**
+   * Processes selected options and comments to save
+   * @returns an object with the data to store
+   */
   const getCompletedEvaluationData = () => {
     const completedEvaluation = {
     };
@@ -256,10 +403,62 @@ export default function EvaluationForm() {
     return completedEvaluation;
   }
 
+
+  /**
+ * Event to handle Select component changes
+ * @param {any} e
+ */
+  const handleChangeRatingLevel = (e, actionProps) => {
+    setRatingLevel(actionProps.name, e.value);
+  };
+
+
+  /**
+   * Event to update notes object
+   * @param {any} e
+   */
+  const handleNotesUpdates = (e) => {
+    const noteObjectiveId = Number(e.target.id);
+    const objectiveNotesCopy = [...objectiveNotes];
+    const note = { "objectiveId": noteObjectiveId, "name": { "name": e.target.name }, "value": e.target.value };
+
+    const locatedIndex = objectiveNotesCopy.findIndex((objective) => objective.name.name === e.target.name && objective.objectiveId === noteObjectiveId);
+    locatedIndex >= 0 ? objectiveNotesCopy[locatedIndex].value = e.target.value : objectiveNotesCopy.push(note);
+
+    setObjectiveNotes(objectiveNotesCopy);
+    updateEvaluationComment(noteObjectiveId, e.target.value, undefined, undefined);
+  };
+
+  /**
+   * Event that updates start date
+   */
+  const handleStartDateChanged = (date) => {
+    const pageDataCopy = { ...getStoredPageData() };
+    setEvaluationDate(date);
+    pageDataCopy.startDateTime = date;
+    setEvaluationEndTime(null);
+    pageDataCopy.endDateTime = null;
+    savePageData(pageDataCopy);
+  };
+
+  /**
+   * Event that updates end date
+   */
+  const handleEndDateChanged = (date) => {
+    const pageDataCopy = { ...getStoredPageData() };
+    setEvaluationEndTime(date);
+    pageDataCopy.endDateTime = date;
+    savePageData(pageDataCopy);
+  };
+
+  /**
+ * Saves the evaluation and send data to backend
+ * @returns
+ */
   const saveEvaluation = async () => {
     try {
       const completedEvaluation = getCompletedEvaluationData();
-      const response = await post(`/api/EvaluationRating?userId=${getLoggedInUserId() }`, completedEvaluation);
+      const response = await post(`/api/EvaluationRating?userId=${getLoggedInUserId()}`, completedEvaluation);
       if (response.ok) {
         toast({
           title: "Success.",
@@ -292,6 +491,11 @@ export default function EvaluationForm() {
     return true;
   }
 
+
+  /**
+   * Approves the evaluation and send data to backend
+   * @returns
+   */
   const approveEvaluation = async () => {
     try {
       const completedEvaluation = getCompletedEvaluationData();
@@ -328,47 +532,43 @@ export default function EvaluationForm() {
     return true;
   }
 
-  // Rating drop down event handler
-  const handleChangeRatingLevel = (e, actionProps) => {
-    setRatingLevel(actionProps.name, e.value);
-  };
-  
-  const getSelectedOptionRatingLevel = (name) => {
-    const elementRatingCopy = [...elementRatings,
-     {
-       "codeValue": "N/A - Not Assessed",
-        "ratingLevel": -1
-      }];
-    const ratingLevels = [...evaluationMetadata.ratingLevels,
-    {
-      "name": "N/A - Not Assessed",
-      "ratingLevel": -1
-    }];
-    const locatedIndex = elementRatingCopy.findIndex((element) => element.name === name);
-    if (locatedIndex >= 0) {
-      const locatedIndexRatingOptions = ratingLevels.findIndex((element) => element.ratingLevel === elementRatingCopy[locatedIndex].value);
-      const selectedValue = [{
-        "label": ratingLevels[locatedIndexRatingOptions]?.name ?? "N/A - Not Assessed",
-        "value": ratingLevels[locatedIndexRatingOptions]?.ratingLevel ?? -1,
-      }];
-      return selectedValue;
+
+  useEffect(() => {
+    if (isPageReload()) {
+      setIsEvaluationLoaded(false);
+      loadExistingEvaluation();
+      setIsEvaluationLoaded(true);
+    }    
+  }, []);
+
+
+  useEffect(() => {
+    setIsEvaluationLoaded(false);
+    setLoggedInUser({
+      "name": getLoggedInUserName(),
+      "role": getLoggedInUserRole()
+    });
+    
+    if (id) {
+      loadExistingEvaluation();
     }
-    return [{
-      "label": "N/A - Not Assessed",
-      "value": "-1"
-    }];
-  }
+    else {
+      setCurrentEvaluator({ "evaluatorId": getLoggedInUserId(), "evaluatorName": getLoggedInUserName() });
+      loadDataForNewEvaluation();
+    }
+    setIsEvaluationLoaded(true);
+  }, [id]);
 
-  const handleNotesUpdates = (e) => {
-    const objectiveNotesCopy = [...objectiveNotes];
-    const note = { "objectiveId": e.target.id, "name": e.target.name, "value": e.target.value };
 
-    const locatedIndex = objectiveNotesCopy.findIndex((objective) => objective.name.name === e.target.name && objective.objectiveId == e.target.id);
-    locatedIndex >= 0 ? objectiveNotesCopy[locatedIndex] = note : objectiveNotesCopy.push(note);
+  useEffect(() => {
+    if (selectedEvaluation.id) {
+      setComponentsDataLoaded(false);
+      fetchEvaluationObjectives();
+      setComponentsDataLoaded(selectedEvaluation.id ? true : false);
+    }
+  }, [selectedEvaluation]);
 
-    setObjectiveNotes(objectiveNotesCopy);
-  };   
-
+  
   return (<Skeleton isLoaded={isEvaluationLoaded && componentsDataLoaded} count={3.5} >
     <Container maxW={"7xl"} mb='10'>
         {(!userHasAccessToEvaluation || !evaluationLoaded) ? (<>
@@ -467,11 +667,11 @@ export default function EvaluationForm() {
           <HStack display='flex' spacing="20px" mb="5" mt="5">
             <FormControl style={{ width: '300px' }}>
               <FormLabel>Pre-Conference Start Time</FormLabel>
-              <DatePicker selected={evaluationDate} dateFormat="MM/dd/yy hh:mm" timeFormat="hh:mm" showTimeSelect={true} onChange={(date) => setEvaluationDate(date)} />
+                <DatePicker selected={evaluationDate} dateFormat="MM/dd/yy hh:mm" timeFormat="hh:mm" showTimeSelect={true} onChange={(date) => handleStartDateChanged(date)} />
             </FormControl>
             <FormControl style={{ width: '300px' }}>
               <FormLabel>End Time</FormLabel>
-              <DatePicker selected={evaluationEndTime} dateFormat="hh:mm" timeFormat="hh:mm" showTimeSelect={true} showTimeSelectOnly={true} onChange={(date) => setEvaluationEndTime(date)} />
+                <DatePicker selected={evaluationDate < evaluationEndTime ? evaluationEndTime : evaluationDate} dateFormat="hh:mm" timeFormat="hh:mm" showTimeSelect={true} showTimeSelectOnly={true} onChange={(date) => handleEndDateChanged(date)} />
             </FormControl>
           </HStack>
         </VStack>
@@ -500,7 +700,7 @@ export default function EvaluationForm() {
                             value={getSelectedOptionRatingLevel(element.evaluationElementId) }
                           />
                         </Td>
-                        {index === 0 && <Td rowSpan="4"><Textarea id={objective.evaluationObjectiveId} name={objective.name} onBlur={handleNotesUpdates} rows={(objective.evaluationElements.length * 3) - 1} resize="none" borderColor="gray.300" defaultValue={(performanceEvaluationData ? performanceEvaluationData.objectiveResults.find(item => item.id === objective?.evaluationObjectiveId)?.comment ?? "" : "" ) } /></Td>}
+                        {index === 0 && <Td rowSpan="4"><Textarea id={objective.evaluationObjectiveId} name={objective.name} onBlur={handleNotesUpdates} rows={(objective.evaluationElements.length * 3) - 1} resize="none" borderColor="gray.300" defaultValue={(performanceEvaluationData ? performanceEvaluationData?.objectiveResults?.find(item => item.id === objective?.evaluationObjectiveId)?.comment ?? "" : "" ) } /></Td>}
                       </Tr>
                     ))}
                   </Tbody>
