@@ -28,11 +28,12 @@ import {
 } from '@chakra-ui/icons';
 import logo from '../assets/logo.jpg'
 import { Image } from "@chakra-ui/react"
+import { useNavigate } from "react-router-dom";
 import { getLoggedInUserName, getLoggedInUserFirstName, clearToken } from "../components/TokenHelpers";
 
 export default function WithSubnavigation() {
     const { isOpen, onToggle } = useDisclosure();
-
+  const navigate = useNavigate();
     return (
         <Box>
             <Flex
@@ -112,8 +113,9 @@ export default function WithSubnavigation() {
               </Text>
             </Flex>
             <Button onClick={() => {
+              sessionStorage.clear();
               clearToken('');
-              window.location.href = "/login"
+              navigate("/login")
               }}
               as={'a'}
               fontSize={'sm'}
