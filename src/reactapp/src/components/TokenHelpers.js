@@ -11,7 +11,25 @@ const setToken = (tokenResponse) => {
 };
 
 const getToken = () => {
-  return sessionStorage.getItem('token');
+  const token = sessionStorage.getItem('token');
+  if (token) {
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    const expirationDate = new Date(payload.exp * 1000);
+    if (expirationDate < new Date()) {
+      sessionStorage.removeItem('token');
+      return null; 
+    }
+    else {
+      return token
+    }
+  }
+  else {
+    return null;
+  }
+};
+
+const validateToken = () => {
+  
 };
 
 const getLoggedInUserId = () => {
