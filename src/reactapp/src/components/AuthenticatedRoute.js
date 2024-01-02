@@ -10,26 +10,24 @@ import {
 } from '@chakra-ui/react';
 import { getToken } from "../components/TokenHelpers";
 
-const AuthenticatedRoute = ({ children, ...rest }) => {
+const AuthenticatedRoute = ({ element: authenticatedComponent, ...rest }) => {
   let navigate = useNavigate();
   const toast = useToast();
 
   useEffect(() => {
     if (!getToken()) {
-      if (window.location.pathname !== '/login') {
-        toast({
-          title: "Session has expired.",
-          description: "Your session has expired.Please log in again to continue.",
-          status: "warning",
-          duration: 5000,
-          isClosable: true,
-        });
-      }
+      toast({
+        title: "Session has expired.",
+        description: "Your session has expired.Please log in again to continue.",
+        status: "warning",
+        duration: 5000,
+        isClosable: true,
+      });
       navigate("/login");
       sessionStorage.clear();
     }
-  }, []);
+  });
 
-  return <>{children}</>;
+  return <>{authenticatedComponent}</>;
 }
  export default AuthenticatedRoute;

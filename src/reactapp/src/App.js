@@ -23,9 +23,9 @@ function App() {
                   <Route path="/" element={<LoginForm />} />
                   <Route path="/signup" element={<SignupForm />} />
                   <Route path="/login" element={<LoginForm />} />
-                  <Route path="/main" element={<><AuthenticatedRoute /><EvaluationTable /></>} />
-                  <Route path="/new" element={<><AuthenticatedRoute /><NewEvaluation /></>} />
-                  <Route path="/evaluation/:id?" element={<><AuthenticatedRoute /><EvaluationForm /></>} />
+                  <Route path="/main" element={<AuthenticatedRoute element={<EvaluationTable />} />} />
+                  <Route path="/new" element={<AuthenticatedRoute element={<NewEvaluation />} />} />
+                  <Route path="/evaluation/:id?" element={<AuthenticatedRoute element={<EvaluationForm />} />}  />
                 </Routes>
             </Router>
         </ChakraProvider>
