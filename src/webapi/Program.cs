@@ -44,7 +44,7 @@ internal class Program
             // Use the TrustAllSSLCerts method in the AppSettings class to trust all SSL certificates.
             AppSettings.OptionallyTrustAllSSLCerts();
             // get token timeout
-            int tokenTimeout = int.Parse(builder.Configuration["tokenTimeout"] ?? "15");
+            int authenticationTokenTimeout = int.Parse(builder.Configuration["AuthenticationTokenTimeout"] ?? "15");
 
             // Add services to the container.
             builder.Services.AddControllers();
@@ -52,7 +52,7 @@ internal class Program
             ConfigureWebHost(builder);
             ConfigureCorsService(builder.Services);
             ConfigureDatabaseConnection(builder);
-            ConfigureLocalIdentityProvider(builder.Services, tokenTimeout);
+            ConfigureLocalIdentityProvider(builder.Services, authenticationTokenTimeout);
             ConfigureQuartz(builder.Services);
             ConfigureSwaggerUIServices(builder.Services);
             ConfigureAspNetAuth(builder.Services);
@@ -165,9 +165,9 @@ internal class Program
 
 
 
-        static void ConfigureLocalIdentityProvider(IServiceCollection services, int tokenTimeout)
+        static void ConfigureLocalIdentityProvider(IServiceCollection services, int authenticationTokenTimeout)
         {
-            TimeSpan accessTokenLifetime = TimeSpan.FromMinutes(tokenTimeout);
+            TimeSpan accessTokenLifetime = TimeSpan.FromMinutes(authenticationTokenTimeout);
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<IdentityDbContext>()
                 .AddDefaultTokenProviders();
