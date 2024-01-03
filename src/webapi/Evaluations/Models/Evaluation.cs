@@ -34,7 +34,6 @@ public partial class Evaluation
     [Required]
     public string TermDescriptor { get; set; }
     [StringLength(306)]
-    public string? EvaluationTypeDescriptor { get; set; }
     public DateTime? CreateDate { get; set; }
 
     public DateTime? LastModifiedDate { get; set; }
@@ -58,8 +57,7 @@ public partial class Evaluation
                 schoolYear: evaluation.SchoolYear,
                 termDescriptor: evaluation.TermDescriptor
             ),
-            evaluationTitle: evaluation.EvaluationTitle,
-            evaluationTypeDescriptor: evaluation.EvaluationTypeDescriptor
+            evaluationTitle: evaluation.EvaluationTitle
         );
 
     public static explicit operator Evaluation(TpdmEvaluation tpdmEvaluation)
@@ -68,7 +66,6 @@ public partial class Evaluation
             EducationOrganizationId = tpdmEvaluation.PerformanceEvaluationReference.EducationOrganizationId,
             EvaluationTitle = tpdmEvaluation.EvaluationTitle,
             EvaluationPeriodDescriptor = tpdmEvaluation.PerformanceEvaluationReference.EvaluationPeriodDescriptor,
-            EvaluationTypeDescriptor = tpdmEvaluation.EvaluationTypeDescriptor,
             PerformanceEvaluationTitle = tpdmEvaluation.PerformanceEvaluationReference.PerformanceEvaluationTitle,
             PerformanceEvaluationTypeDescriptor = tpdmEvaluation.PerformanceEvaluationReference.PerformanceEvaluationTypeDescriptor,
             SchoolYear = (short)tpdmEvaluation.PerformanceEvaluationReference.SchoolYear,
