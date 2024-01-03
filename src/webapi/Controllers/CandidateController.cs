@@ -3,10 +3,9 @@
 // The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
 // See the LICENSE and NOTICES files in the project root for more information.
 
-using EdFi.OdsApi.Sdk.Apis.All;
 using eppeta.webapi.DTO;
+using eppeta.webapi.Evaluations.Data;
 using eppeta.webapi.Service;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace eppeta.webapi.Controllers
@@ -15,27 +14,27 @@ namespace eppeta.webapi.Controllers
     [ApiController]
     public class CandidateController : ControllerBase
     {
-        private readonly IODSAPIAuthenticationConfigurationService _service;
-        public CandidateController(IODSAPIAuthenticationConfigurationService service)
+        private readonly IEvaluationRepository _evaluationRepository;
+        public CandidateController(IODSAPIAuthenticationConfigurationService service, IEvaluationRepository evaluationRepository)
         {
-            _service = service;
+            _evaluationRepository = evaluationRepository;
         }
 
         [HttpGet]
-        public async Task<ActionResult<Dictionary<string, List<string>>>> GetCandidates()
+        public async Task<ActionResult<IEnumerable<Candidate>>> GetCandidates()
         {
-            // Get ODS/API token
-            var authenticatedConfiguration = await _service.GetAuthenticatedConfiguration();
-
-            var candidatesApi = new CandidatesApi(authenticatedConfiguration);
-            candidatesApi.Configuration.DefaultHeaders.Add("Content-Type", "application/json");
-            //TODO remove limit and filter by current term and school year
-            var candidates = await candidatesApi.GetCandidatesAsync(limit: 25, offset: 0);
-            var candidatesDictionary = new List<Candidate>();
-
-            candidatesDictionary = candidates.Where(x => x.PersonReference is not null).Select(x => new Candidate { CandidateName = $"{x.FirstName} {x.LastSurname}", PersonId = x.PersonReference.PersonId, SourceSystemDescriptor = x.PersonReference.SourceSystemDescriptor }).ToList();
-
-            return Ok(candidatesDictionary);
+            var candidates = await _evaluationRepository.GetAllCandidates();
+            if (candidates != null)
+            {
+                return Ok(candidates.Select(c => new Candidate()
+                {
+                    CandidateName = $"{c.FirstName} {c.LastName}",
+                    PersonId = c.PersonId,
+                    SourceSystemDescriptor = c.SourceSystemDescriptor
+                }).ToList());
+            }
+            else
+                return Ok(new List<Candidate>());
         }
     }
 }

@@ -39,6 +39,13 @@ namespace eppeta.webapi.Service
             var tpdmPerformanceEvaluations = await peApi.GetPerformanceEvaluationsAsync(limit: 100, offset: 0);
             var performanceEvaluations = tpdmPerformanceEvaluations.Select(pe => (PerformanceEvaluation)pe).ToList();
             await _evaluationRepository.UpdatePerformanceEvaluations(performanceEvaluations);
+
+            // Get Candidates
+            var candidadesApi = new CandidatesApi(authenticatedConfiguration);
+            candidadesApi.Configuration.DefaultHeaders.Add("Content-Type", "application/json");
+            var tpdmCandidates = await candidadesApi.GetCandidatesAsync(limit: 100, offset: 0);
+            var candidates = tpdmCandidates.Where(c => c.PersonReference != null).Select(c => (Candidate)c).ToList();
+            await _evaluationRepository.UpdateCandidates(candidates);
         }
     }
 }

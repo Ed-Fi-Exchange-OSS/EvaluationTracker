@@ -94,6 +94,10 @@ namespace eppeta.webapi.Evaluations.Data
         {
             return await EvaluationObjectives.ToListAsync();
         }
+        public async Task<List<Candidate>> GetAllCandidates()
+        {
+            return await Candidates.ToListAsync();
+        }
 
         private static List<T> FilterByRequiredFields<T>(List<T> listToFilter, object referenceObject)
         {
@@ -274,6 +278,26 @@ namespace eppeta.webapi.Evaluations.Data
             await SaveChangesAsync();
         }
 
+        public async Task UpdateCandidates(List<Candidate> candidates)
+        {
+            // Since the surrogate Id is Identity then match on required cols and update existing records
+            foreach (var ca in candidates)
+            {
+                var candidate = FilterByRequiredFields(Candidates.ToList(), ca).FirstOrDefault();
+                if (candidate != null)
+                {
+                    foreach (var property in typeof(Candidate).GetProperties())
+                        if (property.Name != "Id" && property.PropertyType != typeof(DateTime))
+                            property.SetValue(candidate, property.GetValue(ca));
+                    Candidates.Update((Candidate)candidate);
+                }
+                else
+                    // Add new records
+                    Candidates.Update(ca);
+            }
+            await SaveChangesAsync();
+        }
+
         public async Task CreatePerformanceEvaluationRating(PerformanceEvaluationRating rating)
         {
             PerformanceEvaluationRatings.Add(rating);
@@ -340,6 +364,8 @@ namespace eppeta.webapi.Evaluations.Data
 
         public DbSet<EvaluationElementRating> EvaluationElementRatings { get; set; }
 
+        public DbSet<Candidate> Candidates { get; set; }
+
         async Task<EvaluationObjective> IEvaluationRepository.GetEvaluationObjectiveById(int id)
         {
             return await EvaluationObjectives.Where(eo => eo.Id == id).FirstOrDefaultAsync();
@@ -361,6 +387,9 @@ namespace eppeta.webapi.Evaluations.Data
             base.OnModelCreating(modelBuilder);
             modelBuilder.HasDefaultSchema("eppeta");
             modelBuilder.Entity<Status>().ToTable(nameof(Status));
+
+            modelBuilder.Entity<Candidate>().ToTable(nameof(Candidate)).Property(e => e.CreateDate).HasDefaultValueSql("getdate()");
+            modelBuilder.Entity<Candidate>().Property(e => e.LastModifiedDate).HasDefaultValueSql("getdate()");
 
             modelBuilder.Entity<Evaluation>().ToTable(nameof(Evaluation)).Property(e => e.CreateDate).HasDefaultValueSql("getdate()");
             modelBuilder.Entity<Evaluation>().Property(e => e.LastModifiedDate).HasDefaultValueSql("getdate()");
