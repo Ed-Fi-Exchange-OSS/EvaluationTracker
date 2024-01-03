@@ -4,28 +4,28 @@
 // See the LICENSE and NOTICES files in the project root for more information.
 
 import {
-    Box,
-    Button,
-    ButtonGroup,
-    Container,
-    FormControl,
-    FormLabel,
-    HStack,
+  Box,
+  Button,
+  ButtonGroup,
+  Container,
+  FormControl,
+  FormLabel,
+  HStack,
   Heading,
-    Skeleton,
-    Stack,
-    StackDivider,
-    Table,
-    Tbody,
-    Td,
-    Text,
-    Textarea,
-    Th,
-    Thead,
-    Tr,
-    VStack,
-    useColorModeValue,
-    useToast,
+  Skeleton,
+  Stack,
+  StackDivider,
+  Table,
+  Tbody,
+  Td,
+  Text,
+  Textarea,
+  Th,
+  Thead,
+  Tr,
+  VStack,
+  useColorModeValue,
+  useToast,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
@@ -60,8 +60,8 @@ export default function EvaluationForm() {
   const { id } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
-  const toast = useToast();  
-  const borderColor = useColorModeValue("gray.200", "gray.600"); 
+  const toast = useToast();
+  const borderColor = useColorModeValue("gray.200", "gray.600");
 
   /**
    * Update rating levels and the page data to store the selected options.
@@ -74,10 +74,10 @@ export default function EvaluationForm() {
     const locatedIndex = elementRatingCopy.findIndex((element) => element.name === name);
     locatedIndex >= 0 ? elementRatingCopy[locatedIndex] = rating : elementRatingCopy.push(rating);
     updateScore(Number(name), Number(value));
-    setElementRatings(elementRatingCopy);    
+    setElementRatings(elementRatingCopy);
   };
 
-  
+
   /**
    * Restores notes and notes from an existing (or saved) evaluation.
    * @param {any} evaluationMetadataReceived
@@ -122,7 +122,7 @@ export default function EvaluationForm() {
   const updateScore = (elementId, newScore) => {
     const evaluationDataLoadedCopy = { ...evaluationDataLoaded };
     let objectiveId = null;
-    
+
     if (!evaluationDataLoadedCopy.objectiveResults) {
       evaluationDataLoadedCopy.objectiveResults = [];
     }
@@ -222,7 +222,7 @@ export default function EvaluationForm() {
           setEvaluationEndTime(null);
         }
         savePageData(page_session_data);
-      }      
+      }
       else {
         return;
       }
@@ -239,7 +239,7 @@ export default function EvaluationForm() {
         : new Date();
       setEvaluationDate(currentStartDateTime);
       setEvaluationEndTime(currentEndDateTime);
-      
+
       setCurrentEvaluator({ "evaluatorId": page_session_data.userId, "evaluatorName": page_session_data.evaluatorName });
       const candidateReceived = {
         candidateName: page_session_data.reviewedCandidateName,
@@ -266,24 +266,42 @@ export default function EvaluationForm() {
    * Prepares data to create a new evaluation.
    */
   const loadDataForNewEvaluation = () => {
+    const pageInitialData = {};
     setCurrentEvaluator({ "evaluatorId": getLoggedInUserRole(), "evaluatorName": getLoggedInUserName() });
+    pageInitialData.evaluatorName = getLoggedInUserName();
+    pageInitialData.userId = getLoggedInUserRole();
+    let candidateReceived = {};
     if (location?.state?.candidate) {
       sessionStorage.setItem("candidate", JSON.stringify(location.state.candidate));
       setSelectedCandidate(location.state.candidate);
+      candidateReceived = location.state.candidate;
     } else {
       setSelectedCandidate(JSON.parse(sessionStorage.getItem("candidate")));
+      candidateReceived = JSON.parse(sessionStorage.getItem("candidate"));
     }
+    pageInitialData.reviewedCandidateName = candidateReceived.candidateName;
+    pageInitialData.reviewedPersonId = candidateReceived.personId;
+    pageInitialData.reviewedPersonSourceSystemDescriptor = candidateReceived.sourceSystemDescriptor;
+    
     if (location?.state?.evaluation) {
       sessionStorage.setItem("evaluation", JSON.stringify(location.state.evaluation));
       setSelectedEvaluation(location.state.evaluation);
+      pageInitialData.evaluationId = location.state.evaluation.id;
+      pageInitialData.performanceEvaluationTitle = location.state.evaluation.performanceEvaluationTitle;
+
     } else {
-      setSelectedEvaluation(JSON.parse(sessionStorage.getItem("evaluation")));
+      const evaluation = JSON.parse(sessionStorage.getItem("evaluation"));
+      setSelectedEvaluation(evaluation);
+      pageInitialData.evaluationId = evaluation.id;
+      pageInitialData.performanceEvaluationTitle = evaluation.performanceEvaluationTitle;
     }
-    const pageInitialData = {};
     pageInitialData.startDateTime = evaluationDate;
     pageInitialData.endDateTime = evaluationEndTime;
     pageInitialData.objectiveResults = [];
-    savePageData(pageInitialData);
+    if (!isPageReload()) {
+      savePageData(pageInitialData);
+      setEvaluationDataLoaded(pageInitialData);
+    }
   };
 
   /**
@@ -301,11 +319,11 @@ export default function EvaluationForm() {
   }
 
 
-/**
- * Gets selected option rating to be used by the Select component
- * @param {any} name
- * @returns
- */
+  /**
+   * Gets selected option rating to be used by the Select component
+   * @param {any} name
+   * @returns
+   */
   const getSelectedOptionRatingLevel = (name) => {
     const elementRatingCopy = [...elementRatings,
     {
@@ -333,9 +351,9 @@ export default function EvaluationForm() {
   }
 
 
- /**
- * Retrieves evaluation objectives from API
- */
+  /**
+  * Retrieves evaluation objectives from API
+  */
   const fetchEvaluationObjectives = async () => {
     try {
       if (selectedEvaluation.id) {
@@ -538,23 +556,28 @@ export default function EvaluationForm() {
       setIsEvaluationLoaded(false);
       loadExistingEvaluation();
       setIsEvaluationLoaded(true);
-    }    
+    }
   }, []);
 
 
   useEffect(() => {
     setIsEvaluationLoaded(false);
-    setLoggedInUser({
-      "name": getLoggedInUserName(),
-      "role": getLoggedInUserRole()
-    });
-    
-    if (id) {
-      loadExistingEvaluation();
+    try {
+      setLoggedInUser({
+        "name": getLoggedInUserName(),
+        "role": getLoggedInUserRole()
+      });
+
+      if (id || isPageReload()) {
+        loadExistingEvaluation();
+      }
+      else {
+        setCurrentEvaluator({ "evaluatorId": getLoggedInUserId(), "evaluatorName": getLoggedInUserName() });
+        loadDataForNewEvaluation();
+      }
     }
-    else {
-      setCurrentEvaluator({ "evaluatorId": getLoggedInUserId(), "evaluatorName": getLoggedInUserName() });
-      loadDataForNewEvaluation();
+    catch (error) {
+      console.error("Error:", error);
     }
     setIsEvaluationLoaded(true);
   }, [id]);
@@ -568,10 +591,10 @@ export default function EvaluationForm() {
     }
   }, [selectedEvaluation]);
 
-  
+
   return (<Skeleton isLoaded={isEvaluationLoaded && componentsDataLoaded} count={3.5} >
     <Container maxW={"7xl"} mb='10'>
-        {(!userHasAccessToEvaluation || !evaluationLoaded) ? (<>
+      {(!userHasAccessToEvaluation || !evaluationLoaded) ? (<>
         <Stack textAlign={"center"}
           spacing={{ base: 4, sm: 6 }}
           direction={"column"}
@@ -580,7 +603,7 @@ export default function EvaluationForm() {
               borderColor={borderColor}
             />
           }
-        > 
+        >
           <Heading
             lineHeight={1.1}
             mt={5}
@@ -594,18 +617,18 @@ export default function EvaluationForm() {
           <AlertMessage status="warning" message={alertMessageText} />
         </Box>
         <Box textAlign="center">
-          
-            <ButtonGroup variant="outline" spacing="6">
-              <Button
-                onClick={() => {
-                  navigate("/main");
-                }}
-              >
-                Return
-              </Button>
-            </ButtonGroup>
-          </Box>
-        </>)
+
+          <ButtonGroup variant="outline" spacing="6">
+            <Button
+              onClick={() => {
+                navigate("/main");
+              }}
+            >
+              Return
+            </Button>
+          </ButtonGroup>
+        </Box>
+      </>)
         : (<><Stack
           spacing={{ base: 4, sm: 6 }}
           direction={"column"}
@@ -616,111 +639,111 @@ export default function EvaluationForm() {
           }
         >
           <VStack spacing={{ base: 4, sm: 2 }}>
-          <Heading
-            lineHeight={1.1}
-            mt={5}
-            mb={5}
-            fontSize={"3xl"}
-            fontWeight={"700"}
-          >
-            Evaluation Entry
-          </Heading>
-          <HStack spacing="0px" mb="5" className="responsiveHStack">
-            <Box className="TitleBox">Evaluation</Box>
-            <Box className="Box">{selectedEvaluation.performanceEvaluationTitle}</Box>
-            <Box className="TitleBox">Candidate</Box>
-            <Box className="Box">{selectedCandidate?.candidateName}</Box>
-          </HStack>
-          <HStack spacing="0px" mb="5" className="responsiveHStack">
-            <Box className="TitleBox">Date</Box>
-            <Box className="Box">{evaluationDate?.toLocaleDateString()}</Box>
-            <Box className="TitleBox">Evaluator</Box>
-            <Box className="Box">{currentEvaluator.evaluatorName}</Box>
-          </HStack>
-          <HStack display='flex' spacing="20px" mb="5">
-          </HStack>
-          <Text fontSize={"sm"}>
-            The following clinical teacher evaluation form is
-            divided into four domains as adopted by the State Board
-            of Education. The Dimensions within each domain ensure
-            clinical teachers have the knowledge and skills to teach
-            in Texas public schools. Please complete the form by
-            checking the appropriate box. Use Not Assessed (NA)
-            when the element is not observed or is irrelevant to the
-            particular setting/observation/evaluation.
-          </Text>
-          <Text fontSize={"sm"} as='b'>
-            SCALE: {ratingLevelOptions.map((item) => {
-              if (item.value) {
-                return `${item.value} - ${item.label} `
-              }
-              return `${item.label} `
-            })}
-          </Text>
-          <Text fontSize={"sm"}>
-            ** Requires written “COMMENTS” specifying observed, shared or recorded evidence if scoring 2=Needs Improvement
-          </Text>
-          <Text fontSize={"sm"}>
-            * Proficient is the goal N/A= Not Assessed (N/A)
-          </Text>
+            <Heading
+              lineHeight={1.1}
+              mt={5}
+              mb={5}
+              fontSize={"3xl"}
+              fontWeight={"700"}
+            >
+              Evaluation Entry
+            </Heading>
+            <HStack spacing="0px" mb="5" className="responsiveHStack">
+              <Box className="TitleBox">Evaluation</Box>
+              <Box className="Box">{selectedEvaluation.performanceEvaluationTitle}</Box>
+              <Box className="TitleBox">Candidate</Box>
+              <Box className="Box">{selectedCandidate?.candidateName}</Box>
+            </HStack>
+            <HStack spacing="0px" mb="5" className="responsiveHStack">
+              <Box className="TitleBox">Date</Box>
+              <Box className="Box">{evaluationDate?.toLocaleDateString()}</Box>
+              <Box className="TitleBox">Evaluator</Box>
+              <Box className="Box">{currentEvaluator.evaluatorName}</Box>
+            </HStack>
+            <HStack display='flex' spacing="20px" mb="5">
+            </HStack>
+            <Text fontSize={"sm"}>
+              The following clinical teacher evaluation form is
+              divided into four domains as adopted by the State Board
+              of Education. The Dimensions within each domain ensure
+              clinical teachers have the knowledge and skills to teach
+              in Texas public schools. Please complete the form by
+              checking the appropriate box. Use Not Assessed (NA)
+              when the element is not observed or is irrelevant to the
+              particular setting/observation/evaluation.
+            </Text>
+            <Text fontSize={"sm"} as='b'>
+              SCALE: {ratingLevelOptions.map((item) => {
+                if (item.value) {
+                  return `${item.value} - ${item.label} `
+                }
+                return `${item.label} `
+              })}
+            </Text>
+            <Text fontSize={"sm"}>
+              ** Requires written “COMMENTS” specifying observed, shared or recorded evidence if scoring 2=Needs Improvement
+            </Text>
+            <Text fontSize={"sm"}>
+              * Proficient is the goal N/A= Not Assessed (N/A)
+            </Text>
 
-          <HStack display='flex' spacing="20px" mb="5" mt="5">
-            <FormControl style={{ width: '300px' }}>
-              <FormLabel>Pre-Conference Start Time</FormLabel>
+            <HStack display='flex' spacing="20px" mb="5" mt="5">
+              <FormControl style={{ width: '300px' }}>
+                <FormLabel>Pre-Conference Start Time</FormLabel>
                 <DatePicker selected={evaluationDate} dateFormat="MM/dd/yy hh:mm" timeFormat="hh:mm" showTimeSelect={true} onChange={(date) => handleStartDateChanged(date)} />
-            </FormControl>
-            <FormControl style={{ width: '300px' }}>
-              <FormLabel>End Time</FormLabel>
+              </FormControl>
+              <FormControl style={{ width: '300px' }}>
+                <FormLabel>End Time</FormLabel>
                 <DatePicker selected={evaluationDate < evaluationEndTime ? evaluationEndTime : evaluationDate} dateFormat="hh:mm" timeFormat="hh:mm" showTimeSelect={true} showTimeSelectOnly={true} onChange={(date) => handleEndDateChanged(date)} />
-            </FormControl>
-          </HStack>
-        </VStack>
-        <Box>
+              </FormControl>
+            </HStack>
+          </VStack>
           <Box>
-            {evaluationMetadata?.evaluationObjectives?.map((objective) => (
-              <Box key={objective.evaluationObjectiveId} mt={4}>
-                <Heading fontSize="lg" fontWeight="bold">{objective.name}</Heading>
-                <Table cellSpacing="10" cellPadding="5">
-                  <Thead>
-                    <Tr>
-                      <Th minWidth="200px">Objective</Th>
-                      <Th minWidth="150px">Rating</Th>
-                      <Th>Comments</Th>
-                    </Tr>
-                  </Thead>
-                  <Tbody>
-                    {objective.evaluationElements.map((element, index) => (
-                      <Tr key={index}>
-                        <Td maxWidth="200px">{element.name}</Td>
-                        <Td maxWidth="150px">
-                          <Select name={element.evaluationElementId} id={element.evaluationElementId} options={ratingLevelOptions}
-                            onChange={(e, action) => {
-                              handleChangeRatingLevel(e, action)
-                            }}
-                            value={getSelectedOptionRatingLevel(element.evaluationElementId) }
-                          />
-                        </Td>
-                        {index === 0 && <Td rowSpan="4"><Textarea id={objective.evaluationObjectiveId} name={objective.name} onBlur={handleNotesUpdates} rows={(objective.evaluationElements.length * 3) - 1} resize="none" borderColor="gray.300" defaultValue={(performanceEvaluationData ? performanceEvaluationData?.objectiveResults?.find(item => item.id === objective?.evaluationObjectiveId)?.comment ?? "" : "" ) } /></Td>}
+            <Box>
+              {evaluationMetadata?.evaluationObjectives?.map((objective) => (
+                <Box key={objective.evaluationObjectiveId} mt={4}>
+                  <Heading fontSize="lg" fontWeight="bold">{objective.name}</Heading>
+                  <Table cellSpacing="10" cellPadding="5">
+                    <Thead>
+                      <Tr>
+                        <Th minWidth="200px">Objective</Th>
+                        <Th minWidth="150px">Rating</Th>
+                        <Th>Comments</Th>
                       </Tr>
-                    ))}
-                  </Tbody>
-                </Table>
-              </Box>
-            ))}
+                    </Thead>
+                    <Tbody>
+                      {objective.evaluationElements.map((element, index) => (
+                        <Tr key={index}>
+                          <Td maxWidth="200px">{element.name}</Td>
+                          <Td maxWidth="150px">
+                            <Select name={element.evaluationElementId} id={element.evaluationElementId} options={ratingLevelOptions}
+                              onChange={(e, action) => {
+                                handleChangeRatingLevel(e, action)
+                              }}
+                              value={getSelectedOptionRatingLevel(element.evaluationElementId)}
+                            />
+                          </Td>
+                          {index === 0 && <Td rowSpan="4"><Textarea id={objective.evaluationObjectiveId} name={objective.name} onBlur={handleNotesUpdates} rows={(objective.evaluationElements.length * 3) - 1} resize="none" borderColor="gray.300" defaultValue={(performanceEvaluationData ? performanceEvaluationData?.objectiveResults?.find(item => item.id === objective?.evaluationObjectiveId)?.comment ?? "" : "")} /></Td>}
+                        </Tr>
+                      ))}
+                    </Tbody>
+                  </Table>
+                </Box>
+              ))}
+            </Box>
           </Box>
-        </Box>
-        <Box mt="0" textAlign="center">
-        </Box>
-      </Stack>
-      <Box textAlign="center">
+          <Box mt="0" textAlign="center">
+          </Box>
+        </Stack>
+          <Box textAlign="center">
             <ButtonGroup variant="outline" spacing="6">
               <AlertMessageDialog showIcon="warning" alertTitle="Save Evaluation" buttonColorScheme="blue" buttonText="Save" message="Are you sure you want to save the evaluation?" onYes={() => { saveEvaluation() }}></AlertMessageDialog>
               <AlertMessageDialog showIcon="warning" alertTitle="Cancel process" buttonText="Cancel" message="Are you sure you want to cancel this process? All unsaved changes will be lost" onYes={() => { navigate("/main"); }}></AlertMessageDialog>
               {loggedInUser.role === 'Supervisor' &&
-                <AlertMessageDialog showIcon="warning" alertTitle="Approve Evaluation" buttonText="Approve" message="Are you sure you want to approve this evaluation?" onYes={ () => approveEvaluation() }></AlertMessageDialog>
-                }
-        </ButtonGroup>
-        </Box> </>)}
+                <AlertMessageDialog showIcon="warning" alertTitle="Approve Evaluation" buttonText="Approve" message="Are you sure you want to approve this evaluation?" onYes={() => approveEvaluation()}></AlertMessageDialog>
+              }
+            </ButtonGroup>
+          </Box> </>)}
     </Container>
   </Skeleton>
   );
