@@ -20,12 +20,13 @@ import {
 import { useState } from "react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { Formik, Form } from "formik";
-
+import { useNavigate } from "react-router-dom";
 import InputField from "../components/InputField";
 import { post } from "../components/FetchHelpers";
 import { defaultErrorMessage, AlertMessage } from "../components/AlertMessage";
 
 export default function SignupForm() {
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [error, setError] = useState(null);
@@ -33,7 +34,7 @@ export default function SignupForm() {
   const loadSignInPage = () => {
     // TODO: what if the site is running behind a proxy? Then / might be the wrong base
     // Address this in EPPETA-19
-    window.location.href = "/login";
+    navigate("/login");
   };
 
   const onSubmitSignup = async (values) => {

@@ -7,9 +7,7 @@ import { transform as _transform } from "lodash-es";
 import { getToken } from "../components/TokenHelpers";
 
 
-// TODO: replace hard-coded with some sort of runtime setting
-// Will be fixed in EPPETA-19.
-const BaseUrl = "https://localhost:7065";
+const BaseUrl = process.env.REACT_APP_EPPETA_API_BASE_PATH;
 
 const modify = async (verb, route, values) => {
   if (!route.startsWith("/")) {

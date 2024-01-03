@@ -2,6 +2,15 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Environment Variables
+
+The React app uses some environment variables to set configuration values.
+
+| Name                       | Required    | Explanation                                                                                                                            |
+| -------------------------- | ---------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| REACT_APP_EPPETA_API_BASE_PATH   | yes | The EPP API base path to be used by the app to get and post data.                                                                      |
+
+
 ## Available Scripts
 
 In the project directory, you can run:
