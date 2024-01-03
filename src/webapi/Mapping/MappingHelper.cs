@@ -27,7 +27,6 @@ namespace eppeta.webapi.Mapping
                 "EvaluationTitle",
                 "EvaluationPeriodDescriptor",
                 "EvaluationDate",
-                "EvaluationTypeDescriptor",
                 "PersonId",
                 "SourceSystemDescriptor",
                 "EvaluationObjectiveTitle",

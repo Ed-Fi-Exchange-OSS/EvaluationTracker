@@ -22,7 +22,9 @@ public interface IEvaluationRepository
     Task<List<PerformanceEvaluationRating>> GetPerformanceEvaluationRatingsByPK(object samePKObject);
     Task<List<PerformanceEvaluation>> GetAllPerformanceEvaluations();
     Task UpdatePerformanceEvaluations(List<PerformanceEvaluation> performanceEvaluations);
+    Task UpdateCandidates(List<Candidate> candidates);
     Task<List<EvaluationObjective>> GetAllEvaluationObjectives();
+    Task<List<Candidate>> GetAllCandidates();
     Task<EvaluationObjective> GetEvaluationObjectiveById(int id);
     Task<List<EvaluationObjective>> GetEvaluationObjectivesByPK(object samePKObject);
     Task<List<EvaluationObjectiveRating>> GetEvaluationObjectiveRatingsByPK(object samePKObject);

@@ -50,9 +50,6 @@ public partial class EvaluationObjective
     [StringLength(255)]
     public string EvaluationObjectiveDescription { get; set; }
 
-    [StringLength(306)]
-    public string EvaluationTypeDescriptor { get; set; }
-
     public int? SortOrder { get; set; }
 
     public DateTime CreateDate { get; set; }
@@ -73,7 +70,6 @@ public partial class EvaluationObjective
         {
             EvaluationObjectiveTitle = tpdmEvaluationObjective.EvaluationObjectiveTitle,
             EvaluationObjectiveDescription = tpdmEvaluationObjective.EvaluationObjectiveDescription,
-            EvaluationTypeDescriptor = tpdmEvaluationObjective.EvaluationTypeDescriptor,
             SortOrder = tpdmEvaluationObjective.SortOrder,
             EdFiId = tpdmEvaluationObjective.Id,
             EducationOrganizationId = tpdmEvaluationObjective.EvaluationReference.EducationOrganizationId,
@@ -98,7 +94,6 @@ public partial class EvaluationObjective
                 termDescriptor : evaluationObjective.TermDescriptor
             ),
             evaluationObjectiveDescription : evaluationObjective.EvaluationObjectiveDescription,
-            evaluationObjectiveTitle : evaluationObjective.EvaluationObjectiveTitle,
-            evaluationTypeDescriptor : evaluationObjective.EvaluationTypeDescriptor
+            evaluationObjectiveTitle : evaluationObjective.EvaluationObjectiveTitle
         );
 }
