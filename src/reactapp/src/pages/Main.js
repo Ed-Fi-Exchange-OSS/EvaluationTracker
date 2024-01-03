@@ -114,7 +114,7 @@ export default function EvaluationTable() {
       </HStack>
       <SortableTable data={EvaluationRatings} headers={headers} paginate={true} itemsPerPage={50} filter={filterExpression} noRowsMessage="No evaluations to display" />
       <Box textAlign="center" mt="5" mb="10">
-        <Button colorScheme="blue" onClick={() => (window.location.href = "/new")}>
+        <Button colorScheme="blue" onClick={() => (navigate("/new"))}>
           New Evaluation
         </Button>
       </Box>

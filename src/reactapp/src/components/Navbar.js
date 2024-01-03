@@ -29,9 +29,12 @@ import {
 import logo from '../assets/logo.jpg'
 import { Image } from "@chakra-ui/react"
 import { getLoggedInUserName, getLoggedInUserFirstName, clearToken } from "../components/TokenHelpers";
+import { useNavigate } from "react-router-dom";
+
 
 export default function WithSubnavigation() {
-    const { isOpen, onToggle } = useDisclosure();
+  const { isOpen, onToggle } = useDisclosure();
+  const navigate = useNavigate();
 
     return (
         <Box>
@@ -78,7 +81,7 @@ export default function WithSubnavigation() {
                     justify={'flex-end'}
                     direction={'row'}
                     spacing={6}>
-                    <Button onClick={() => { window.location.href = "/login" }}
+                    <Button onClick={() => { navigate("/login") }}
                         as={'a'}
                         fontSize={'sm'}
                         fontWeight={400}
@@ -86,7 +89,7 @@ export default function WithSubnavigation() {
                         href={'#'}>
                         Sign In
                     </Button>
-                    <Button onClick={() => { window.location.href = "/signup" }}
+                    <Button onClick={() => { navigate("/signup") }}
                         as={'a'}
                         display={{ base: 'none', md: 'inline-flex' }}
                         fontSize={'sm'}
@@ -113,7 +116,7 @@ export default function WithSubnavigation() {
             </Flex>
             <Button onClick={() => {
               clearToken('');
-              window.location.href = "/login"
+              navigate("/login")
               }}
               as={'a'}
               fontSize={'sm'}
