@@ -224,7 +224,7 @@ export default function EvaluationForm() {
     };
     completedEvaluation.evaluationId = selectedEvaluation.id;
     if (id) {
-      completedEvaluation.performanceEvaluationId = id;
+      completedEvaluation.EvaluationRatingId = id;
     }
     completedEvaluation.reviewedPersonId = selectedCandidate.personId;
     completedEvaluation.reviewedPersonSourceSystemDescriptor = selectedCandidate.sourceSystemDescriptor;

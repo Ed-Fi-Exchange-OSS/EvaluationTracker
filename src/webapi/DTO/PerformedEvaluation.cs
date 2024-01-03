@@ -11,6 +11,7 @@ namespace eppeta.webapi.DTO
     public class PerformedEvaluation
     {
         public string PerformanceEvaluationTitle { get; set; } = string.Empty;
+        public string EvaluationTitle { get; set; } = string.Empty;
         public DateTime ActualDate { get; set; }
         public string? EvaluatorName { get; set; } = string.Empty;
         public string EvaluationStatus { get; set; } = string.Empty;

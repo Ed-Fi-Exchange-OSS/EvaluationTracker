@@ -43,7 +43,14 @@ namespace eppeta.webapi.Evaluations.Data
         {
             return await Evaluations.Where(e => e.Id == id).FirstOrDefaultAsync();
         }
-        public async Task<List<PerformanceEvaluation>> GetEvaluationByPK(object samePKObject)
+        public async Task<List<Evaluation>> GetEvaluationsByPK(object samePKObject)
+        {
+            var es = FilterByRequiredFields(Evaluations.ToList(), samePKObject);
+            if (es.Any())
+                return es;
+            return null;
+        }
+        public async Task<List<PerformanceEvaluation>> GetPerformanceEvaluationByPK(object samePKObject)
         {
             var es = FilterByRequiredFields(PerformanceEvaluations.ToList(), samePKObject);
             if (es.Any())
@@ -113,10 +120,6 @@ namespace eppeta.webapi.Evaluations.Data
             requiredListProperties = requiredListProperties.Intersect(requiredReferenceProperties).ToList();
 
             var colFilter = new List<string>();
-
-            // ToDo. We'll need to think how we can remove these 2 lines.
-            if (referenceObject.GetType() == typeof(PerformanceEvaluationRating) && listToFilter.First().GetType() == typeof(EvaluationObjectiveRating))
-                colFilter.Add($"EvaluationDate == \"{((PerformanceEvaluationRating)referenceObject).StartTime.ToString("yyyy-MM-dd HH:mm:ss.FFF")}\"");
 
             foreach (var propertyName in requiredListProperties)
             {
@@ -437,6 +440,13 @@ namespace eppeta.webapi.Evaluations.Data
             var pes = FilterByRequiredFields(PerformanceEvaluations.ToList(), samePKObject);
             if (pes.Any())
                 return pes;
+            return null;
+        }
+        public async Task<List<PerformanceEvaluationRating>> GetPerformanceEvaluationRatingsByPK(object samePKObject)
+        {
+            var per = FilterByRequiredFields(PerformanceEvaluationRatings.Include(m => m.RecordStatus).ToList(), samePKObject);
+            if (per.Any())
+                return per;
             return null;
         }
 

@@ -39,11 +39,23 @@ namespace eppeta.webapi.Controllers
         [HttpGet()]
         public async Task<ActionResult<IEnumerable<PerformedEvaluation>>> GetPerformedEvaluations()
         {
-            var performanceEvaluationRatings = await _evaluationRepository.GetAllPerformanceEvaluationRatings();
-            if (performanceEvaluationRatings == null)
-                return NotFound();
+            var evaluationRatings = await _evaluationRepository.GetAllEvaluationRatings();
+            List<PerformedEvaluation> perEvalRatings = new List<PerformedEvaluation>();
 
-            return Ok(performanceEvaluationRatings.Select(per => (PerformedEvaluation)per).ToList());
+            foreach (var evalRating in evaluationRatings)
+            {
+                var perEvaluation = (PerformedEvaluation)evalRating;
+                var perEvalRatingDB = (await _evaluationRepository.GetPerformanceEvaluationRatingsByPK(evalRating)).FirstOrDefault();
+                if (perEvalRatingDB != null)
+                {
+                    perEvaluation.EvaluationStatus = perEvalRatingDB.RecordStatus != null ? perEvalRatingDB.RecordStatus.StatusText : "Not Uploaded";
+                    perEvaluation.EvaluatorName = perEvalRatingDB.EvaluatorName;
+                    perEvaluation.ReviewedCandidateName = perEvalRatingDB.ReviewedCandidateName;
+                }
+                perEvalRatings.Add(perEvaluation);
+            }
+
+            return Ok(perEvalRatings);
         }
 
         [HttpGet("{userId}")]
@@ -53,12 +65,23 @@ namespace eppeta.webapi.Controllers
         public async Task<ActionResult<IEnumerable<PerformedEvaluation>>> GetPerformedEvaluations([FromRoute] string userId)
         {
             if (userId is null || userId == string.Empty) { return NotFound(); }
-            var performanceEvaluationRatings = await _evaluationRepository.GetPerformanceEvaluationRatingsByUserId(userId);
+            var evaluationRatings = await _evaluationRepository.GetEvaluationRatingsByUserId(userId);
+            List<PerformedEvaluation> perEvalRatings = new List<PerformedEvaluation>();
 
-            if (performanceEvaluationRatings == null)
-                return NotFound();
+            foreach (var evalRating in evaluationRatings)
+            {
+                var perEvaluation = (PerformedEvaluation)evalRating;
+                var perEvalRatingDB = (await _evaluationRepository.GetPerformanceEvaluationRatingsByPK(evalRating)).FirstOrDefault();
+                if (perEvalRatingDB != null)
+                {
+                    perEvaluation.EvaluationStatus = perEvalRatingDB.RecordStatus != null ? perEvalRatingDB.RecordStatus.StatusText : "Not Uploaded";
+                    perEvaluation.EvaluatorName = perEvalRatingDB.EvaluatorName;
+                    perEvaluation.ReviewedCandidateName = perEvalRatingDB.ReviewedCandidateName;
+                }
+                perEvalRatings.Add(perEvaluation);
+            }
 
-            return Ok(performanceEvaluationRatings.Select(per => (PerformedEvaluation)per).ToList());
+            return Ok(perEvalRatings);
         }
 
         /// <summary>
@@ -70,7 +93,7 @@ namespace eppeta.webapi.Controllers
         /// <exception cref="ArgumentNullException"></exception>
         private async Task<Dictionary<string, List<int>>> SaveEvaluation(PerformedEvaluationResult evaluationResult, string userId)
         {
-            if (evaluationResult == null)
+            if (evaluationResult == null || evaluationResult.ObjectiveResults == null || evaluationResult.ObjectiveResults.Count < 1)
                 throw new ArgumentNullException(nameof(evaluationResult));
             // this dict stores the list of Ids created/updated for each object type while saving just in case we need them later
             var result = new Dictionary<string, List<int>>() {
@@ -79,94 +102,85 @@ namespace eppeta.webapi.Controllers
                 { typeof(EvaluationObjectiveRating).Name, new List<int>{ } },
                 { typeof(EvaluationElementRatingResult).Name, new List<int>{ } },
             };
-            var perEvalRating = new PerformanceEvaluationRating();
-            var user = await _userManager.FindByIdAsync(userId);
-            var isUpdate = false;
+            
+            PerformanceEvaluation? perEval = null;
+            DateTime evaluationDate = DateTime.UtcNow;
 
-            if (evaluationResult.PerformanceEvaluationId > 0)
+            if (evaluationResult.EvaluationRatingId > 0)
             {
-                isUpdate = true;
-                perEvalRating = await _evaluationRepository.GetPerformanceEvaluationRatingById(evaluationResult.PerformanceEvaluationId);
-                if (perEvalRating != null)
+                perEval = await _evaluationRepository.GetPerformanceEvaluationById(evaluationResult.EvaluationId);
+                var evalRating = await _evaluationRepository.GetEvaluationRatingById(evaluationResult.EvaluationRatingId);
+                if (evalRating != null)
                 {
-                    // Treat the request as an update
-                    perEvalRating.ReviewedCandidateName = evaluationResult.ReviewedCandidateName;
-                    perEvalRating.EvaluatorName = evaluationResult.EvaluatorName;
-                    perEvalRating.PersonId = evaluationResult.ReviewedPersonId;
-                    perEvalRating.SourceSystemDescriptor = evaluationResult.ReviewedPersonSourceSystemDescriptor;
-                    perEvalRating.EndTime = evaluationResult.EndDateTime ?? DateTime.Now;
-
-                    result[perEvalRating.GetType().Name].AddRange(
-                        await _evaluationRepository.UpdatePerformanceEvaluationRatings(new List<PerformanceEvaluationRating> { perEvalRating }));
-                }
-                else
-                {
-                    if (perEvalRating == null)
-                        throw new ArgumentException("PerformanceEvaluation not found");
+                    evaluationDate = evalRating.EvaluationDate;
+                    userId = evalRating.UserId;
                 }
             }
             else
             {
-                var perEval = await _evaluationRepository.GetPerformanceEvaluationById(evaluationResult.EvaluationId);
+                perEval = await _evaluationRepository.GetPerformanceEvaluationById(evaluationResult.EvaluationId);
                 if (perEval == null)
                     throw new ArgumentException("PerformanceEvaluation not found");
-                MappingHelper.CopyMatchingPKProperties(perEval, perEvalRating);
-
-                perEvalRating.ReviewedCandidateName = evaluationResult.ReviewedCandidateName;
-                perEvalRating.EvaluatorName = evaluationResult.EvaluatorName;
-                perEvalRating.StartTime = perEvalRating.CreateDate = evaluationResult.StartDateTime;
-                perEvalRating.PersonId = evaluationResult.ReviewedPersonId;
-                perEvalRating.SourceSystemDescriptor = evaluationResult.ReviewedPersonSourceSystemDescriptor;
-                perEvalRating.UserId = user.Id;
-                perEvalRating.StatusId = (int)((await _evaluationRepository.GetStatusByText("Not Uploaded"))?.Id ?? 1);
-                perEvalRating.EndTime = evaluationResult.EndDateTime ?? DateTime.Now;
-                result[perEvalRating.GetType().Name].AddRange(await _evaluationRepository.UpdatePerformanceEvaluationRatings(new List<PerformanceEvaluationRating> { perEvalRating }));
             }
+
+            // Create EvaluationRating
+            var evalObjective = await _evaluationRepository.GetEvaluationObjectiveById(evaluationResult.ObjectiveResults.First().Id);
+
+            var newEvalRating = new EvaluationRating();
+            MappingHelper.CopyMatchingPKProperties(perEval, newEvalRating);
+            newEvalRating.SourceSystemDescriptor = evaluationResult.ReviewedPersonSourceSystemDescriptor;
+            newEvalRating.EvaluationDate = evaluationDate;
+            newEvalRating.EvaluationTitle = evalObjective.EvaluationTitle;
+            newEvalRating.PersonId = evaluationResult.ReviewedPersonId;
+            newEvalRating.UserId = userId;
+
+            result[newEvalRating.GetType().Name].AddRange(await _evaluationRepository.UpdateEvaluationRatings(new List<EvaluationRating> { newEvalRating }));
+
+            // Create PerformanceEvaluationRating
+            var perEvalRating = new PerformanceEvaluationRating();
+            MappingHelper.CopyMatchingPKProperties(perEval, perEvalRating);
+
+            perEvalRating.ReviewedCandidateName = evaluationResult.ReviewedCandidateName;
+            perEvalRating.EvaluatorName = evaluationResult.EvaluatorName;
+            perEvalRating.PersonId = evaluationResult.ReviewedPersonId;
+            perEvalRating.SourceSystemDescriptor = evaluationResult.ReviewedPersonSourceSystemDescriptor;
+            perEvalRating.EndTime = evaluationResult.EndDateTime ?? evaluationDate;
+            perEvalRating.UserId = userId;
+            perEvalRating.StartTime = evaluationDate;
+
+            result[perEvalRating.GetType().Name].AddRange(
+                await _evaluationRepository.UpdatePerformanceEvaluationRatings(new List<PerformanceEvaluationRating> { perEvalRating }));
+
             foreach (var objRes in evaluationResult.ObjectiveResults)
             {
                 // Create or Update EvaluationObjectiveRating
-                var evalObjective = await _evaluationRepository.GetEvaluationObjectiveById(objRes.Id);
+                evalObjective = await _evaluationRepository.GetEvaluationObjectiveById(objRes.Id);
 
                 var objRating = new EvaluationObjectiveRating();
-                MappingHelper.CopyMatchingPKProperties(perEvalRating, objRating);
                 MappingHelper.CopyMatchingPKProperties(evalObjective, objRating);
-                if (isUpdate)
-                    objRating.EvaluationDate = perEvalRating.StartTime;
-                else
-                    objRating.EvaluationDate = evaluationResult.StartDateTime;
 
-                var evalObjectiveRatings = await _evaluationRepository.GetEvaluationObjectiveRatingsByPK(objRating);
-
-                if (isUpdate && evalObjectiveRatings != null)
-                {
-                    objRating = evalObjectiveRatings.First();
-                }
-                else
-                {
-                    objRating.UserId = user.Id;
-                }
+                objRating.SourceSystemDescriptor = evaluationResult.ReviewedPersonSourceSystemDescriptor;
+                objRating.EvaluationDate = evaluationDate;
                 objRating.Comments = objRes.Comment;
-                result[objRating.GetType().Name].AddRange(await _evaluationRepository.UpdateEvaluationObjectiveRatings(new List<EvaluationObjectiveRating> { objRating }));
+                objRating.PersonId = evaluationResult.ReviewedPersonId;
+                objRating.UserId = userId;
 
-                if (!isUpdate)
-                {
-                    // Create EvaluationRating
-                    var newEvalRating = new EvaluationRating();
-                    MappingHelper.CopyMatchingPKProperties(objRating, newEvalRating);
-                    newEvalRating.UserId = user.Id;
-                    result[newEvalRating.GetType().Name].AddRange(await _evaluationRepository.UpdateEvaluationRatings(new List<EvaluationRating> { newEvalRating }));
-                }
+                result[objRating.GetType().Name].AddRange(await _evaluationRepository.UpdateEvaluationObjectiveRatings(new List<EvaluationObjectiveRating> { objRating }));
 
                 foreach (var elRes in objRes.Elements)
                 {
                     var evalElement = await _evaluationRepository.GetEvaluationElementById(elRes.Id);
                     var elementRatingResult = new EvaluationElementRatingResult();
-                    MappingHelper.CopyMatchingPKProperties(objRating, elementRatingResult);
                     MappingHelper.CopyMatchingPKProperties(evalElement, elementRatingResult);
+
+                    elementRatingResult.SourceSystemDescriptor = evaluationResult.ReviewedPersonSourceSystemDescriptor;
+                    elementRatingResult.EvaluationDate = evaluationDate;
+                    elementRatingResult.PersonId = evaluationResult.ReviewedPersonId;
+                    elementRatingResult.ResultDatatypeTypeDescriptor = _resultDatatype; // TODO: harcoding this based on the type of elRes.Score
                     elementRatingResult.RatingResultTitle = evalElement.EvaluationElementTitle.Substring(0, Math.Min(50, evalElement.EvaluationElementTitle.Length)); // TODO: No result title is returned from frontend. Truncating element title
                     elementRatingResult.Rating = elRes.Score;
-                    elementRatingResult.UserId = user.Id;
-                    elementRatingResult.ResultDatatypeTypeDescriptor = _resultDatatype; // TODO: harcoding this based on the type of elRes.Score
+                    elementRatingResult.UserId = userId;
+
                     result[elementRatingResult.GetType().Name].AddRange(await _evaluationRepository.UpdateEvaluationElementRatingResults(new List<EvaluationElementRatingResult> { elementRatingResult }));
                 }
             }
@@ -235,7 +249,7 @@ namespace eppeta.webapi.Controllers
                 if (res.ErrorText != null)
                     throw new Exception(res.ErrorText);
                 performanceEvaluationRatingPost = await _evaluationRepository.GetPerformanceEvaluationRatingById(ids[typeof(PerformanceEvaluationRating).Name].First());
-            
+
                 // POST performanceEvaluationRating
                 res = await apis["PerformanceEvaluationRatingsApi"].PostPerformanceEvaluationRatingWithHttpInfoAsync((TpdmPerformanceEvaluationRating)performanceEvaluationRatingPost);
                 if (res.ErrorText != null)

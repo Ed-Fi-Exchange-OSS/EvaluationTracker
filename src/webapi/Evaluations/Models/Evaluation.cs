@@ -33,10 +33,9 @@ public partial class Evaluation
     public short SchoolYear { get; set; }
     [Required]
     public string TermDescriptor { get; set; }
-    [StringLength(306)]
-    public DateTime? CreateDate { get; set; }
+    public DateTime CreateDate { get; set; }
 
-    public DateTime? LastModifiedDate { get; set; }
+    public DateTime LastModifiedDate { get; set; }
     [Column("EdFi_Id")]
     [StringLength(50)]
     public string? EdFiId { get; set; }
@@ -70,5 +69,6 @@ public partial class Evaluation
             PerformanceEvaluationTypeDescriptor = tpdmEvaluation.PerformanceEvaluationReference.PerformanceEvaluationTypeDescriptor,
             SchoolYear = (short)tpdmEvaluation.PerformanceEvaluationReference.SchoolYear,
             TermDescriptor = tpdmEvaluation.PerformanceEvaluationReference.TermDescriptor,
+            EdFiId = tpdmEvaluation.Id
         };
 }
