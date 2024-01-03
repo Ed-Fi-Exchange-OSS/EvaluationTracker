@@ -45,7 +45,6 @@ public partial class EvaluationElementRatingResult
     public string TermDescriptor { get; set; }
     [Column(TypeName = "decimal(6, 3)")]
     public decimal Rating { get; set; }
-    //[Required]
     [StringLength(50)]
     public string RatingResultTitle { get; set; }
     public string ResultDatatypeTypeDescriptor { get; set; }
@@ -53,7 +52,6 @@ public partial class EvaluationElementRatingResult
     [Column("EdFi_Id")]
     [StringLength(50)]
     public string EdFiId { get; set; }
-    //[Required]
     [StringLength(225)]
     public string UserId { get; set; }
     [Key]

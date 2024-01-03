@@ -16,7 +16,6 @@ namespace eppeta.webapi.DTO
         public string ReviewedPersonId { get; set; } = string.Empty;
         public string ReviewedPersonSourceSystemDescriptor { get; set; } = string.Empty;
         public string ReviewedCandidateName { get; set; } = string.Empty;
-        //public int PerformanceEvaluationId { get; set; } //Todo, I will need to delete this field.
         public int EvaluationRatingId { get; set; }
         public int EvaluationId { get; set; }
         public string PerformanceEvaluationTitle { get; set; } = string.Empty;
