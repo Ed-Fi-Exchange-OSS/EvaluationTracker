@@ -41,8 +41,9 @@ internal class Program
             AppSettings.Initialize(builder.Configuration);
             // Use the TrustAllSSLCerts method in the AppSettings class to trust all SSL certificates.
             AppSettings.OptionallyTrustAllSSLCerts();
-            // get token timeout
+            // get token lifetime: minutes
             int authenticationTokenTimeout = int.Parse(builder.Configuration["AuthenticationTokenTimeout"] ?? "15");
+            // refresh token lifetime: days
             int authenticationRefreshTokenLifeTime = int.Parse(builder.Configuration["AuthenticationRefreshTokenLifeTime"] ?? "15");
 
             // Add services to the container.
