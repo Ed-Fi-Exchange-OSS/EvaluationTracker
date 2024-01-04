@@ -18,6 +18,7 @@ using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
 using Quartz;
 using Serilog;
+using System.ComponentModel.DataAnnotations;
 
 namespace eppeta.webapi;
 
@@ -42,6 +43,8 @@ internal class Program
             AppSettings.Initialize(builder.Configuration);
             // Use the TrustAllSSLCerts method in the AppSettings class to trust all SSL certificates.
             AppSettings.OptionallyTrustAllSSLCerts();
+            // get token timeout
+            int authenticationTokenTimeout = int.Parse(builder.Configuration["AuthenticationTokenTimeout"] ?? "15");
 
             // Add services to the container.
             builder.Services.AddControllers();
@@ -49,7 +52,7 @@ internal class Program
             ConfigureWebHost(builder);
             ConfigureCorsService(builder.Services);
             ConfigureDatabaseConnection(builder);
-            ConfigureLocalIdentityProvider(builder.Services);
+            ConfigureLocalIdentityProvider(builder.Services, authenticationTokenTimeout);
             ConfigureQuartz(builder.Services);
             ConfigureSwaggerUIServices(builder.Services);
             ConfigureAspNetAuth(builder.Services);
@@ -162,8 +165,9 @@ internal class Program
 
 
 
-        static void ConfigureLocalIdentityProvider(IServiceCollection services)
+        static void ConfigureLocalIdentityProvider(IServiceCollection services, int authenticationTokenTimeout)
         {
+            TimeSpan accessTokenLifetime = TimeSpan.FromMinutes(authenticationTokenTimeout);
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<IdentityDbContext>()
                 .AddDefaultTokenProviders();
@@ -178,7 +182,8 @@ internal class Program
                 .AddServer(options =>
                 {
                     options.SetTokenEndpointUris(TokenEndpoint);
-
+                    // Add Token timeout
+                    options.SetAccessTokenLifetime(accessTokenLifetime);
                     // These two go hand-in-hand: allowing anonymous client means you can
                     // send password request without _also_ providing a client_id.
                     options.AllowPasswordFlow();
