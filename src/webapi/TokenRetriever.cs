@@ -49,6 +49,9 @@ namespace eppeta.webapi
         [DataMember(Name = "access_token", EmitDefaultValue = false)]
         public string AccessToken { get; set; } = string.Empty;
 
+        [DataMember(Name = "refresh_token", EmitDefaultValue = false)]
+        public string RefreshToken { get; set; } = string.Empty;
+
         [DataMember(Name = "expires_in", EmitDefaultValue = false)]
         public string ExpiresIn { get; set; } = string.Empty;
 

@@ -6,8 +6,12 @@
 import jwt_decode from "jwt-decode"
 
 const setToken = (tokenResponse) => {
-  if (tokenResponse)
+  if (tokenResponse) {
     sessionStorage.setItem('token', tokenResponse.access_token);
+    if (tokenResponse.refresh_token) {
+      sessionStorage.setItem('refresh_token', tokenResponse.refresh_token);
+    }
+  }
 };
 
 const getToken = () => {
@@ -17,7 +21,7 @@ const getToken = () => {
     const expirationDate = new Date(payload.exp * 1000);
     if (expirationDate < new Date()) {
       sessionStorage.removeItem('token');
-      return null; 
+      return null;
     }
     else {
       return token
@@ -26,6 +30,11 @@ const getToken = () => {
   else {
     return null;
   }
+};
+
+
+const getRefreshToken = () => {
+  return sessionStorage.getItem('refresh-token');
 };
 
 const getLoggedInUserId = () => {
@@ -56,4 +65,4 @@ const clearToken = () => {
   sessionStorage.removeItem('token');
 }
 
-export { setToken, getToken, clearToken, getLoggedInUserId, getLoggedInUserName, getLoggedInUserFirstName, getLoggedInUserRole }
+export { setToken, getToken, getRefreshToken, clearToken, getLoggedInUserId, getLoggedInUserName, getLoggedInUserFirstName, getLoggedInUserRole }
