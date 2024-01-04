@@ -149,6 +149,7 @@ namespace eppeta.webapi.Controllers
 
             perEvalRating.ReviewedCandidateName = evaluationResult.ReviewedCandidateName;
             perEvalRating.EvaluatorName = evaluationResult.EvaluatorName;
+            perEvalRating.Comments = evaluationResult.Comments;
             perEvalRating.PersonId = evaluationResult.ReviewedPersonId;
             perEvalRating.SourceSystemDescriptor = evaluationResult.ReviewedPersonSourceSystemDescriptor;
             perEvalRating.EndTime = evaluationResult.EndDateTime ?? newEvaluationDate;
