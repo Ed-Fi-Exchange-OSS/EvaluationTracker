@@ -812,7 +812,7 @@ export default function EvaluationForm() {
                 <Table cellSpacing="10" cellPadding="5">
                   <Tbody>
                     <Tr key="globalComments">
-                      <Td rowSpan="4"><Textarea id="globalComments" name="globalComments" onBlur={handleEvaluationCommentsUpdates} rows="3" resize="none" borderColor="gray.300" defaultValue={(performanceEvaluationData ? performanceEvaluationData.comments : "")} /></Td>
+                      <Td rowSpan="4"><Textarea id="globalComments" name="globalComments" onChange={handleEvaluationCommentsUpdates} onBlur={handleEvaluationCommentsUpdates} rows="3" resize="none" borderColor="gray.300" defaultValue={(performanceEvaluationData ? performanceEvaluationData.comments : "")} /></Td>
                     </Tr>
                   </Tbody>
                 </Table>
