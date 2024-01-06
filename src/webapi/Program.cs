@@ -167,7 +167,8 @@ internal class Program
 
         static void ConfigureLocalIdentityProvider(IServiceCollection services, int authenticationTokenTimeout, int authenticationRefreshTokenLifeTime)
         {
-            var accessTokenLifetime = TimeSpan.FromMinutes(authenticationTokenTimeout);
+            TimeSpan accessTokenLifetime = TimeSpan.FromMinutes(authenticationTokenTimeout);
+            TimeSpan refreshTokenLifetime = TimeSpan.FromDays(authenticationRefreshTokenLifeTime);
             _ = services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<IdentityDbContext>()
                 .AddDefaultTokenProviders();
@@ -189,7 +190,7 @@ internal class Program
                     options.AllowPasswordFlow();
                     options.AllowRefreshTokenFlow();
                     options.AcceptAnonymousClients();
-                    options.SetRefreshTokenLifetime(TimeSpan.FromDays(authenticationRefreshTokenLifeTime));
+                    options.SetRefreshTokenLifetime(refreshTokenLifetime);
                     // Turned off token encryption, will discusss need for encrypted JWT later in project development
                     _ = options.DisableAccessTokenEncryption();
 

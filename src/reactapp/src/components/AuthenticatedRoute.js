@@ -8,39 +8,32 @@ import { useNavigate } from 'react-router-dom';
 import {
   useToast,
 } from '@chakra-ui/react';
-import { getToken, isTokenExpired, refreshAuthenticationToken } from "../components/TokenHelpers";
-import { defaultErrorMessage } from "../components/AlertMessage";
+import { validateAuthenticationToken } from "../components/TokenHelpers";
+
 
 const AuthenticatedRoute = ({ element: authenticatedComponent, ...rest }) => {
   let navigate = useNavigate();
   const toast = useToast();
 
-  const isTokenValid = async () => {
-    try {
-      if (!isTokenExpired()) {
-        return true;
-      }
-      else {
-        return await refreshAuthenticationToken();
-      }
-    } catch (exception) {
-      console.error(exception);
-      return false;
-    }
-  };
-
   useEffect(() => {
-    if (!isTokenValid()) {
-      toast({
-        title: "Session has expired.",
-        description: "Your session has expired.Please log in again to continue.",
-        status: "warning",
-        duration: 5000,
-        isClosable: true,
-      });
-      navigate("/login");
-      sessionStorage.clear();
+    // getToken returns n0ull if the current session doesn't have a valid token.
+    const validateToken = async () => {
+      return await validateAuthenticationToken();
+    };
+    validateToken().then(isTokenValid => {
+      if (!isTokenValid) {
+        toast({
+          title: "Session has expired.",
+          description: "Your session has expired.Please log in again to continue.",
+          status: "warning",
+          duration: 5000,
+          isClosable: true,
+        });
+        navigate("/login");
+        sessionStorage.clear();
+      }
     }
+    );
   });
 
   return <>{authenticatedComponent}</>;

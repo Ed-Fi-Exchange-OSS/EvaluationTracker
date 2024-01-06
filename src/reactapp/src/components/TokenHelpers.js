@@ -16,7 +16,7 @@ const setToken = (tokenResponse) => {
 };
 
 const isTokenExpired = () => {
-  const token = sessionStorage.getItem('token');
+  const token = getToken();
   if (token) {
     const payload = JSON.parse(atob(token.split('.')[1]));
     const expirationDate = new Date(payload.exp * 1000);
@@ -46,7 +46,7 @@ const getToken = () => {
 
 
 const getRefreshToken = () => {
-  return sessionStorage.getItem('refresh-token');
+  return sessionStorage.getItem('refresh_token');
 };
 
 const getUserIdFromToken = (jwt) => {
@@ -79,27 +79,31 @@ const getLoggedInUserRole = () => {
 };
 
 
-const refreshAuthenticationToken = async () => {
+const validateAuthenticationToken = async () => {
   try {
+    const current_token = sessionStorage.getItem('token');
+    const refresh_token = getRefreshToken();
+    if (!refresh_token || !current_token) {
+      return false;
+    }
     const tokenRequest = {
       grant_type: "refresh_token",
-      refresh_token: getRefreshToken(),
+      refresh_token: refresh_token,
     };
     if (!isTokenExpired()) {
       return true;
     }
     else {
       const response = await postForm("/connect/token", tokenRequest);
-      const message = await response.json();
-
       if (!response.ok) {
-        console.error(message);
+        console.error("Error when try to refresh the token");
         return false;
       }
-      // Token user and previous stored user must be the same.
-      if (getUserIdFromToken() === getLoggedInUserId()) {
-        setToken(message);
-        return true;
+      const data = await response.json();
+      if (getUserIdFromToken(data.access_token) === getUserIdFromToken(current_token)) {
+          clearToken();
+          setToken(data);
+          return true
       }
     }
   } catch (exception) {
@@ -108,9 +112,13 @@ const refreshAuthenticationToken = async () => {
   return false;
 };
 
+const getToken = () => {
+  return sessionStorage.getItem('token');
+};
 
 const clearToken = () => {
   sessionStorage.removeItem('token');
+  sessionStorage.removeItem('refresh_token');
 }
 
-export { refreshAuthenticationToken, setToken, getToken, getRefreshToken, clearToken, getLoggedInUserId, getLoggedInUserName, getLoggedInUserFirstName, getLoggedInUserRole }
+export { validateAuthenticationToken, setToken, getToken, getRefreshToken, clearToken, getLoggedInUserId, getLoggedInUserName, getLoggedInUserFirstName, getLoggedInUserRole }
