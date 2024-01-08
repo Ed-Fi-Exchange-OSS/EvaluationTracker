@@ -15,6 +15,8 @@ using System.Collections.Immutable;
 using System.Security.Claims;
 using static OpenIddict.Abstractions.OpenIddictConstants;
 using eppeta.webapi.DTO;
+using System.Runtime.InteropServices;
+using Microsoft.AspNetCore;
 
 namespace eppeta.webapi.Controllers;
 
@@ -40,18 +42,19 @@ public class AuthorizationController : Controller
     [HttpPost($"~{TokenPath}"), IgnoreAntiforgeryToken, Produces("application/json")]
     public async Task<IActionResult> Exchange([FromForm] PasswordTokenRequest tokenRequest)
     {
-        if (tokenRequest.GrantType != GrantTypes.Password && tokenRequest.GrantType != GrantTypes.RefreshToken)
+        var openIdRequest = HttpContext.GetOpenIddictServerRequest();
+        if (openIdRequest?.GrantType != GrantTypes.Password && openIdRequest?.GrantType != GrantTypes.RefreshToken)
         {
             return BadRequest(new { error = "The application only accepts the password grant type at this time." });
         }
 
         var user = await _userManager.FindByNameAsync(tokenRequest.Username);
-        if (tokenRequest.GrantType == GrantTypes.RefreshToken)
+        if (openIdRequest.GrantType == GrantTypes.RefreshToken)
         {
             user = null;
             // Get the claims principal associated with the refresh token.
             var info = await HttpContext.AuthenticateAsync(OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
-            var emailClaim = ((ClaimsIdentity)info.Principal.Identity).Claims.First(z => z.Type == "email");
+            var emailClaim = (info?.Principal?.Identity as ClaimsIdentity)?.Claims.First(z => z.Type == "email");
             if (emailClaim != null)
             {
                user = await _userManager.FindByNameAsync(emailClaim.Value);
@@ -83,7 +86,7 @@ public class AuthorizationController : Controller
             }
         }
 
-        else if (tokenRequest.GrantType == GrantTypes.Password)
+        else if (openIdRequest.GrantType == GrantTypes.Password)
         {
             if (user == null)
             {
