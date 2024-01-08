@@ -110,6 +110,7 @@ namespace eppeta.webapi.Controllers
             DateTime currentEvaluationDate = evaluationResult.StartDateTime ?? DateTime.UtcNow;
 
             PerformanceEvaluation? perEval;
+
             if (evaluationResult.EvaluationRatingId > 0)
             {
                 perEval = await _evaluationRepository.GetPerformanceEvaluationById(evaluationResult.EvaluationId);
