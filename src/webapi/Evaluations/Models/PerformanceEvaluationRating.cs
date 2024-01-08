@@ -86,7 +86,7 @@ namespace eppeta.webapi.Evaluations.Models
             => new PerformedEvaluation
             {
                 ActualDate = performanceEvaluationRating.StartTime,
-                EvaluationStatus = performanceEvaluationRating.RecordStatus != null ? performanceEvaluationRating.RecordStatus.StatusText : "Not Uploaded",
+                EvaluationStatus = performanceEvaluationRating.RecordStatus != null ? performanceEvaluationRating.RecordStatus.StatusText : "Ready for Review",
                 PerformanceEvaluationRatingId = performanceEvaluationRating.Id,
                 PerformanceEvaluationTitle = performanceEvaluationRating.PerformanceEvaluationTitle,
                 ReviewedPersonId = performanceEvaluationRating.PersonId,

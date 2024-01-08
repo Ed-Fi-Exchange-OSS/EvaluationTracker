@@ -48,7 +48,7 @@ namespace eppeta.webapi.Controllers
                 var perEvalRatingDB = (await _evaluationRepository.GetPerformanceEvaluationRatingsByPK(evalRating)).FirstOrDefault();
                 if (perEvalRatingDB != null)
                 {
-                    perEvaluation.EvaluationStatus = perEvalRatingDB.RecordStatus != null ? perEvalRatingDB.RecordStatus.StatusText : "Not Uploaded";
+                    perEvaluation.EvaluationStatus = perEvalRatingDB.RecordStatus != null ? perEvalRatingDB.RecordStatus.StatusText : "Ready for Review";
                     perEvaluation.EvaluatorName = perEvalRatingDB.EvaluatorName;
                     perEvaluation.ReviewedCandidateName = perEvalRatingDB.ReviewedCandidateName;
                 }
@@ -74,7 +74,7 @@ namespace eppeta.webapi.Controllers
                 var perEvalRatingDB = (await _evaluationRepository.GetPerformanceEvaluationRatingsByPK(evalRating)).FirstOrDefault();
                 if (perEvalRatingDB != null)
                 {
-                    perEvaluation.EvaluationStatus = perEvalRatingDB.RecordStatus != null ? perEvalRatingDB.RecordStatus.StatusText : "Not Uploaded";
+                    perEvaluation.EvaluationStatus = perEvalRatingDB.RecordStatus != null ? perEvalRatingDB.RecordStatus.StatusText : "Ready for Review";
                     perEvaluation.EvaluatorName = perEvalRatingDB.EvaluatorName;
                     perEvaluation.ReviewedCandidateName = perEvalRatingDB.ReviewedCandidateName;
                 }
@@ -299,7 +299,7 @@ namespace eppeta.webapi.Controllers
                     if (res.ErrorText != null)
                         throw new Exception(res.ErrorText);
                 }
-                performanceEvaluationRatingPost.StatusId = (await _evaluationRepository.GetStatusByText("uploaded")).Id;
+                performanceEvaluationRatingPost.StatusId = (await _evaluationRepository.GetStatusByText("Review Approved, transferred to ODS/API")).Id;
                 await _evaluationRepository.UpdatePerformanceEvaluationRatings(new List<PerformanceEvaluationRating> { performanceEvaluationRatingPost });
                 return Ok(ids);
             }
@@ -312,7 +312,7 @@ namespace eppeta.webapi.Controllers
             {
                 if (performanceEvaluationRatingPost != null)
                 {
-                    performanceEvaluationRatingPost.StatusId = (await _evaluationRepository.GetStatusByText("failed")).Id;
+                    performanceEvaluationRatingPost.StatusId = (await _evaluationRepository.GetStatusByText("Review Approved, transfer to ODS/API failed")).Id;
                     await _evaluationRepository.UpdatePerformanceEvaluationRatings(new List<PerformanceEvaluationRating> { performanceEvaluationRatingPost });
                 }
                 return Problem(ex.Message);
