@@ -105,10 +105,10 @@ namespace eppeta.webapi.Controllers
                 { typeof(EvaluationObjectiveRating).Name, new List<int>{ } },
                 { typeof(EvaluationElementRatingResult).Name, new List<int>{ } },
             };
-            var evaluationDate = DateTime.UtcNow;
+            
+            PerformanceEvaluation? perEval = null;
+            DateTime evaluationDate = evaluationResult.StartDateTime ?? DateTime.UtcNow;
 
-
-            PerformanceEvaluation? perEval;
             if (evaluationResult.EvaluationRatingId > 0)
             {
                 perEval = await _evaluationRepository.GetPerformanceEvaluationById(evaluationResult.EvaluationId);
@@ -309,7 +309,7 @@ namespace eppeta.webapi.Controllers
                     evaluationElementRatingPost.EvaluationObjectiveTitle = evaluationElementPost.EvaluationObjectiveTitle;
                     evaluationElementRatingPost.PersonId = evaluationResult.ReviewedPersonId;
                     evaluationElementRatingPost.SourceSystemDescriptor = evaluationResult.ReviewedPersonSourceSystemDescriptor;
-                    evaluationElementRatingPost.EvaluationDate = evaluationResult.StartDateTime;
+                    evaluationElementRatingPost.EvaluationDate = evaluationResult.StartDateTime ?? DateTime.UtcNow;
                     var tpdmEvaluationElementRatingPost = (TpdmEvaluationElementRating)evaluationElementRatingPost;
                     tpdmEvaluationElementRatingPost.Results = new List<TpdmEvaluationElementRatingResult>{
                         new                        (
