@@ -745,13 +745,10 @@ export default function EvaluationForm() {
                           <Td maxWidth="200px">{element.name}</Td>
                           <Td maxWidth="150px">
                             <Select name={element.evaluationElementId} styles={{
-                              control: (baseStyles, state) => {
-                                const fieldComplete = getSelectedOptionRatingLevel(element.evaluationElementId)[0].value === -1;
-                                return {
-                                ...baseStyles,
-                                  borderColor: fieldComplete ? 'red' : 'inherit'
-                              }
-                            },
+                              control: (baseStyles, state) => ({
+                                  ...baseStyles,
+                                  borderColor: getSelectedOptionRatingLevel(element.evaluationElementId)[0].value === -1 ? 'red' : 'inherit'
+                              }),
                             }} id={element.evaluationElementId} options={ratingLevelOptions}
                               onChange={(e, action) => {
                                 handleChangeRatingLevel(e, action)
@@ -769,12 +766,14 @@ export default function EvaluationForm() {
             </Box>
           </Box>
           <Box mt="0" textAlign="center">
-            { !areAllScoreSelected() && <AlertMessage message="Fields highlighted in red are required" /> }
+            {!areAllScoreSelected()
+              && (<AlertMessage message="Fields highlighted in red are required" />)
+            }
           </Box>
         </Stack>
           <Box textAlign="center">
             <ButtonGroup variant="outline" spacing="6">
-              { areAllScoreSelected() &&
+              { (areAllScoreSelected()) &&
                 <AlertMessageDialog showIcon="warning" alertTitle="Save Evaluation" buttonColorScheme="blue" buttonText="Save" message="Are you sure you want to save the evaluation?" onYes={() => { saveEvaluation() }}></AlertMessageDialog>
               }
               <AlertMessageDialog showIcon="warning" alertTitle="Cancel process" buttonText="Cancel" message="Are you sure you want to cancel this process? All unsaved changes will be lost" onYes={() => { navigate("/main"); }}></AlertMessageDialog>
