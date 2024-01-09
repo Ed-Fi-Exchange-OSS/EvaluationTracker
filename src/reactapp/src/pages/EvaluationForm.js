@@ -57,6 +57,7 @@ export default function EvaluationForm() {
   const [userHasAccessToEvaluation, setUserHasAccessToEvaluation] = useState(true);
   const [evaluationLoaded, setEvaluationLoaded] = useState(true);
   const [alertMessageText, setAlertMessageText] = useState(true);
+  const [editionMode, setEditionMode] = useState(false);
   const { id } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
@@ -193,6 +194,7 @@ export default function EvaluationForm() {
         page_session_data = dataFromSession;
       }
       else if (id) {
+        setEditionMode(true);
         const response = await get(`/api/PerformanceEvaluation/${id}`);
         // If the evaluation doesn't exist, show an error message
         if (response.status === 404) {
@@ -344,10 +346,14 @@ export default function EvaluationForm() {
       }];
       return selectedValue;
     }
-    return [{
-      "label": "N/A - Not Assessed",
-      "value": -1
-    }];
+    return editionMode
+      ? [
+          {
+          "label": "N/A - Not Assessed",
+          "value": -1
+        }
+      ]
+      : [];
   }
 
 
@@ -367,9 +373,14 @@ export default function EvaluationForm() {
     if (evaluationMetadataCopy) {
       hasPendingScores = evaluationMetadataCopy?.evaluationObjectives?.some((objective) => { 
         return objective.evaluationElements.some((element) => {
-        const locatedIndex = elementRatingCopy.findIndex((item) => item.name === element.evaluationElementId);
+          const selectedValue = getSelectedOptionRatingLevel(element.evaluationElementId)[0]?.value;
+          if (selectedValue === -1) {
+            //Not applicable
+            return false;
+          }
+          const locatedIndex = elementRatingCopy.findIndex((item) => item.name === element.evaluationElementId);
           if (locatedIndex >= 0) {
-            return !(elementRatingCopy[locatedIndex].value >= 0)
+            return !(elementRatingCopy[locatedIndex])
           }
           return true;
         })
@@ -595,7 +606,9 @@ export default function EvaluationForm() {
         "name": getLoggedInUserName(),
         "role": getLoggedInUserRole()
       });
-
+      if (id) {
+        setEditionMode(true);
+      }
       if (id || isPageReload()) {
         loadExistingEvaluation();
       }
@@ -747,7 +760,7 @@ export default function EvaluationForm() {
                             <Select name={element.evaluationElementId} styles={{
                               control: (baseStyles, state) => ({
                                   ...baseStyles,
-                                  borderColor: getSelectedOptionRatingLevel(element.evaluationElementId)[0].value === -1 ? 'red' : 'inherit'
+                                borderColor: getSelectedOptionRatingLevel(element.evaluationElementId)[0]?.value ? 'inherit' : 'red'
                               }),
                             }} id={element.evaluationElementId} options={ratingLevelOptions}
                               onChange={(e, action) => {
