@@ -447,6 +447,11 @@ export default function EvaluationForm() {
     updateEvaluationComment(noteObjectiveId, e.target.value, undefined, undefined);
   };
 
+  const commentLength = (objective) => {
+      const locatedIndex = objectiveNotes.findIndex((obj) => obj.name.name === objective.name && obj.objectiveId === objective.evaluationObjectiveId);
+      return locatedIndex >= 0 ? objectiveNotes[locatedIndex].value.length : "0";
+  }
+
   /**
    * Event that updates start date
    */
@@ -710,7 +715,7 @@ export default function EvaluationForm() {
                         <Th minWidth="150px">Rating</Th>
                         <Th minWidth="200px" maxWidth="200px">Comments <span
                             style={{ textTransform: 'lowercase' }}>
-                               ({(performanceEvaluationData ? performanceEvaluationData?.objectiveResults?.find(item => item.id === objective?.evaluationObjectiveId)?.comment.length ?? "1000" : "")}/1000 characters)
+                              ({commentLength(objective)}/1000 characters)
                           </span>
                         </Th>
                       </Tr>
