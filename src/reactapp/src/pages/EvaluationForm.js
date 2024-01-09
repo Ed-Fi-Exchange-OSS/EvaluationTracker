@@ -57,6 +57,7 @@ export default function EvaluationForm() {
   const [userHasAccessToEvaluation, setUserHasAccessToEvaluation] = useState(true);
   const [evaluationLoaded, setEvaluationLoaded] = useState(true);
   const [alertMessageText, setAlertMessageText] = useState(true);
+  const [editionMode, setEditionMode] = useState(false);
   const { id } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
@@ -177,7 +178,6 @@ export default function EvaluationForm() {
     }
     savePageData(evaluationDataLoadedCopy);
     setEvaluationDataLoaded(evaluationDataLoadedCopy);
-
   }
 
 
@@ -194,6 +194,7 @@ export default function EvaluationForm() {
         page_session_data = dataFromSession;
       }
       else if (id) {
+        setEditionMode(true);
         const response = await get(`/api/PerformanceEvaluation/${id}`);
         // If the evaluation doesn't exist, show an error message
         if (response.status === 404) {
@@ -304,6 +305,7 @@ export default function EvaluationForm() {
     }
   };
 
+
   /**
   * Adds rating level options
   * @param {any} ratingLevels
@@ -344,10 +346,47 @@ export default function EvaluationForm() {
       }];
       return selectedValue;
     }
-    return [{
-      "label": "N/A - Not Assessed",
-      "value": "-1"
-    }];
+    return editionMode
+      ? [
+          {
+          "label": "N/A - Not Assessed",
+          "value": -1
+        }
+      ]
+      : [];
+  }
+
+
+  /**
+   *
+   * Returns true if all the required scores are selected.
+   * @returns
+   */
+  const areAllScoreSelected = () => {
+    let hasPendingScores = false;
+    const elementRatingCopy = [...elementRatings,
+    {
+      "codeValue": "N/A - Not Assessed",
+      "ratingLevel": -1
+      }];
+    const evaluationMetadataCopy = { ...evaluationMetadata };
+    if (evaluationMetadataCopy) {
+      hasPendingScores = evaluationMetadataCopy?.evaluationObjectives?.some((objective) => { 
+        return objective.evaluationElements.some((element) => {
+          const selectedValue = getSelectedOptionRatingLevel(element.evaluationElementId)[0]?.value;
+          if (selectedValue === -1) {
+            //Not applicable
+            return false;
+          }
+          const locatedIndex = elementRatingCopy.findIndex((item) => item.name === element.evaluationElementId);
+          if (locatedIndex >= 0) {
+            return !(elementRatingCopy[locatedIndex])
+          }
+          return true;
+        })
+      });
+    }
+    return !hasPendingScores;
   }
 
 
@@ -567,7 +606,9 @@ export default function EvaluationForm() {
         "name": getLoggedInUserName(),
         "role": getLoggedInUserRole()
       });
-
+      if (id) {
+        setEditionMode(true);
+      }
       if (id || isPageReload()) {
         loadExistingEvaluation();
       }
@@ -716,7 +757,12 @@ export default function EvaluationForm() {
                         <Tr key={index}>
                           <Td maxWidth="200px">{element.name}</Td>
                           <Td maxWidth="150px">
-                            <Select name={element.evaluationElementId} id={element.evaluationElementId} options={ratingLevelOptions}
+                            <Select name={element.evaluationElementId} styles={{
+                              control: (baseStyles, state) => ({
+                                  ...baseStyles,
+                                borderColor: getSelectedOptionRatingLevel(element.evaluationElementId)[0]?.value ? 'inherit' : 'red'
+                              }),
+                            }} id={element.evaluationElementId} options={ratingLevelOptions}
                               onChange={(e, action) => {
                                 handleChangeRatingLevel(e, action)
                               }}
@@ -733,13 +779,18 @@ export default function EvaluationForm() {
             </Box>
           </Box>
           <Box mt="0" textAlign="center">
+            {!areAllScoreSelected()
+              && (<AlertMessage message="Fields highlighted in red are required" />)
+            }
           </Box>
         </Stack>
           <Box textAlign="center">
             <ButtonGroup variant="outline" spacing="6">
-              <AlertMessageDialog showIcon="warning" alertTitle="Save Evaluation" buttonColorScheme="blue" buttonText="Save" message="Are you sure you want to save the evaluation?" onYes={() => { saveEvaluation() }}></AlertMessageDialog>
+              { (areAllScoreSelected()) &&
+                <AlertMessageDialog showIcon="warning" alertTitle="Save Evaluation" buttonColorScheme="blue" buttonText="Save" message="Are you sure you want to save the evaluation?" onYes={() => { saveEvaluation() }}></AlertMessageDialog>
+              }
               <AlertMessageDialog showIcon="warning" alertTitle="Cancel process" buttonText="Cancel" message="Are you sure you want to cancel this process? All unsaved changes will be lost" onYes={() => { navigate("/main"); }}></AlertMessageDialog>
-              {loggedInUser.role === 'Supervisor' &&
+              {(areAllScoreSelected() && loggedInUser.role === 'Supervisor') &&
                 <AlertMessageDialog showIcon="warning" alertTitle="Approve Evaluation" buttonText="Approve" message="Are you sure you want to approve this evaluation?" onYes={() => approveEvaluation()}></AlertMessageDialog>
               }
             </ButtonGroup>
