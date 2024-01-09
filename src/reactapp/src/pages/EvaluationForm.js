@@ -486,6 +486,11 @@ export default function EvaluationForm() {
     updateEvaluationComment(noteObjectiveId, e.target.value, undefined, undefined);
   };
 
+  const commentLength = (objective) => {
+      const locatedIndex = objectiveNotes.findIndex((obj) => obj.name.name === objective.name && obj.objectiveId === objective.evaluationObjectiveId);
+      return locatedIndex >= 0 ? objectiveNotes[locatedIndex].value.length : "0";
+  }
+
   /**
    * Event that updates start date
    */
@@ -749,7 +754,11 @@ export default function EvaluationForm() {
                       <Tr>
                         <Th minWidth="200px">Objective</Th>
                         <Th minWidth="150px">Rating</Th>
-                        <Th>Comments</Th>
+                        <Th minWidth="200px" maxWidth="200px">Comments <span
+                            style={{ textTransform: 'lowercase' }}>
+                              ({commentLength(objective)}/1000 characters)
+                          </span>
+                        </Th>
                       </Tr>
                     </Thead>
                     <Tbody>
@@ -769,7 +778,7 @@ export default function EvaluationForm() {
                               value={getSelectedOptionRatingLevel(element.evaluationElementId)}
                             />
                           </Td>
-                          {index === 0 && <Td rowSpan="4"><Textarea id={objective.evaluationObjectiveId} name={objective.name} onBlur={handleNotesUpdates} rows={(objective.evaluationElements.length * 3) - 1} resize="none" borderColor="gray.300" defaultValue={(performanceEvaluationData ? performanceEvaluationData?.objectiveResults?.find(item => item.id === objective?.evaluationObjectiveId)?.comment ?? "" : "")} /></Td>}
+                          {index === 0 && <Td rowSpan="4"><Textarea maxLength="1000" id={objective.evaluationObjectiveId} name={objective.name} onChange={handleNotesUpdates} rows={(objective.evaluationElements.length * 3) - 1} resize="none" borderColor="gray.300" defaultValue={(performanceEvaluationData ? performanceEvaluationData?.objectiveResults?.find(item => item.id === objective?.evaluationObjectiveId)?.comment ?? "" : "")} /></Td>}
                         </Tr>
                       ))}
                     </Tbody>
