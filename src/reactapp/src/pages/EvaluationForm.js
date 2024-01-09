@@ -177,7 +177,6 @@ export default function EvaluationForm() {
     }
     savePageData(evaluationDataLoadedCopy);
     setEvaluationDataLoaded(evaluationDataLoadedCopy);
-
   }
 
 
@@ -304,6 +303,7 @@ export default function EvaluationForm() {
     }
   };
 
+
   /**
   * Adds rating level options
   * @param {any} ratingLevels
@@ -346,8 +346,36 @@ export default function EvaluationForm() {
     }
     return [{
       "label": "N/A - Not Assessed",
-      "value": "-1"
+      "value": -1
     }];
+  }
+
+
+  /**
+   *
+   * Returns true if all the required scores are selected.
+   * @returns
+   */
+  const areAllScoreSelected = () => {
+    let hasPendingScores = false;
+    const elementRatingCopy = [...elementRatings,
+    {
+      "codeValue": "N/A - Not Assessed",
+      "ratingLevel": -1
+      }];
+    const evaluationMetadataCopy = { ...evaluationMetadata };
+    if (evaluationMetadataCopy) {
+      hasPendingScores = evaluationMetadataCopy?.evaluationObjectives?.some((objective) => { 
+        return objective.evaluationElements.some((element) => {
+        const locatedIndex = elementRatingCopy.findIndex((item) => item.name === element.evaluationElementId);
+          if (locatedIndex >= 0) {
+            return !(elementRatingCopy[locatedIndex].value >= 0)
+          }
+          return true;
+        })
+      });
+    }
+    return !hasPendingScores;
   }
 
 
@@ -716,7 +744,15 @@ export default function EvaluationForm() {
                         <Tr key={index}>
                           <Td maxWidth="200px">{element.name}</Td>
                           <Td maxWidth="150px">
-                            <Select name={element.evaluationElementId} id={element.evaluationElementId} options={ratingLevelOptions}
+                            <Select name={element.evaluationElementId} styles={{
+                              control: (baseStyles, state) => {
+                                const fieldComplete = getSelectedOptionRatingLevel(element.evaluationElementId)[0].value === -1;
+                                return {
+                                ...baseStyles,
+                                  borderColor: fieldComplete ? 'red' : 'inherit'
+                              }
+                            },
+                            }} id={element.evaluationElementId} options={ratingLevelOptions}
                               onChange={(e, action) => {
                                 handleChangeRatingLevel(e, action)
                               }}
@@ -733,13 +769,16 @@ export default function EvaluationForm() {
             </Box>
           </Box>
           <Box mt="0" textAlign="center">
+            { !areAllScoreSelected() && <AlertMessage message="Fields highlighted in red are required" /> }
           </Box>
         </Stack>
           <Box textAlign="center">
             <ButtonGroup variant="outline" spacing="6">
-              <AlertMessageDialog showIcon="warning" alertTitle="Save Evaluation" buttonColorScheme="blue" buttonText="Save" message="Are you sure you want to save the evaluation?" onYes={() => { saveEvaluation() }}></AlertMessageDialog>
+              { areAllScoreSelected() &&
+                <AlertMessageDialog showIcon="warning" alertTitle="Save Evaluation" buttonColorScheme="blue" buttonText="Save" message="Are you sure you want to save the evaluation?" onYes={() => { saveEvaluation() }}></AlertMessageDialog>
+              }
               <AlertMessageDialog showIcon="warning" alertTitle="Cancel process" buttonText="Cancel" message="Are you sure you want to cancel this process? All unsaved changes will be lost" onYes={() => { navigate("/main"); }}></AlertMessageDialog>
-              {loggedInUser.role === 'Supervisor' &&
+              {(areAllScoreSelected() && loggedInUser.role === 'Supervisor') &&
                 <AlertMessageDialog showIcon="warning" alertTitle="Approve Evaluation" buttonText="Approve" message="Are you sure you want to approve this evaluation?" onYes={() => approveEvaluation()}></AlertMessageDialog>
               }
             </ButtonGroup>
