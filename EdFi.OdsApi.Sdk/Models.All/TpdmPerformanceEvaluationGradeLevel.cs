@@ -12,12 +12,12 @@
  */
 
 
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using System.Text;
-using Newtonsoft.Json;
-using System.ComponentModel.DataAnnotations;
 
 namespace EdFi.OdsApi.Sdk.Models.All
 {
@@ -36,14 +36,9 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// Initializes a new instance of the <see cref="TpdmPerformanceEvaluationGradeLevel" /> class.
         /// </summary>
         /// <param name="gradeLevelDescriptor">The grade levels involved with the performance evaluation. (required).</param>
-        public TpdmPerformanceEvaluationGradeLevel(string gradeLevelDescriptor = default(string))
+        public TpdmPerformanceEvaluationGradeLevel(string gradeLevelDescriptor = default)
         {
-            // to ensure "gradeLevelDescriptor" is required (not null)
-            if (gradeLevelDescriptor == null)
-            {
-                throw new ArgumentNullException("gradeLevelDescriptor is a required property for TpdmPerformanceEvaluationGradeLevel and cannot be null");
-            }
-            this.GradeLevelDescriptor = gradeLevelDescriptor;
+            GradeLevelDescriptor = gradeLevelDescriptor ?? throw new ArgumentNullException("gradeLevelDescriptor is a required property for TpdmPerformanceEvaluationGradeLevel and cannot be null");
         }
 
         /// <summary>
@@ -59,10 +54,10 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder();
-            sb.Append("class TpdmPerformanceEvaluationGradeLevel {\n");
-            sb.Append("  GradeLevelDescriptor: ").Append(GradeLevelDescriptor).Append("\n");
-            sb.Append("}\n");
+            var sb = new StringBuilder();
+            _ = sb.Append("class TpdmPerformanceEvaluationGradeLevel {\n");
+            _ = sb.Append("  GradeLevelDescriptor: ").Append(GradeLevelDescriptor).Append("\n");
+            _ = sb.Append("}\n");
             return sb.ToString();
         }
 
@@ -82,7 +77,7 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as TpdmPerformanceEvaluationGradeLevel);
+            return Equals(input as TpdmPerformanceEvaluationGradeLevel);
         }
 
         /// <summary>
@@ -92,16 +87,10 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public bool Equals(TpdmPerformanceEvaluationGradeLevel input)
         {
-            if (input == null)
-            {
-                return false;
-            }
-            return
-                (
-                    this.GradeLevelDescriptor == input.GradeLevelDescriptor ||
-                    (this.GradeLevelDescriptor != null &&
-                    this.GradeLevelDescriptor.Equals(input.GradeLevelDescriptor))
-                );
+            return input != null
+&& (GradeLevelDescriptor == input.GradeLevelDescriptor ||
+                    (GradeLevelDescriptor != null &&
+                    GradeLevelDescriptor.Equals(input.GradeLevelDescriptor)));
         }
 
         /// <summary>
@@ -112,10 +101,10 @@ namespace EdFi.OdsApi.Sdk.Models.All
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
-                if (this.GradeLevelDescriptor != null)
+                var hashCode = 41;
+                if (GradeLevelDescriptor != null)
                 {
-                    hashCode = (hashCode * 59) + this.GradeLevelDescriptor.GetHashCode();
+                    hashCode = (hashCode * 59) + GradeLevelDescriptor.GetHashCode();
                 }
                 return hashCode;
             }
@@ -129,7 +118,7 @@ namespace EdFi.OdsApi.Sdk.Models.All
         public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
         {
             // GradeLevelDescriptor (string) maxLength
-            if (this.GradeLevelDescriptor != null && this.GradeLevelDescriptor.Length > 306)
+            if (GradeLevelDescriptor != null && GradeLevelDescriptor.Length > 306)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for GradeLevelDescriptor, length must be less than 306.", new[] { "GradeLevelDescriptor" });
             }

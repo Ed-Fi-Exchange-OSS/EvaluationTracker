@@ -12,12 +12,12 @@
  */
 
 
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using System.Text;
-using Newtonsoft.Json;
-using System.ComponentModel.DataAnnotations;
 
 namespace EdFi.OdsApi.Sdk.Models.All
 {
@@ -47,60 +47,20 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <param name="sourceSystemDescriptor">This descriptor defines the originating record source system for the person. (required).</param>
         /// <param name="termDescriptor">The term for the session during the school year. (required).</param>
         /// <param name="link">link.</param>
-        public TpdmEvaluationObjectiveRatingReference(int educationOrganizationId = default(int), DateTime evaluationDate = default(DateTime), string evaluationObjectiveTitle = default(string), string evaluationPeriodDescriptor = default(string), string evaluationTitle = default(string), string performanceEvaluationTitle = default(string), string performanceEvaluationTypeDescriptor = default(string), string personId = default(string), int schoolYear = default(int), string sourceSystemDescriptor = default(string), string termDescriptor = default(string), Link link = default(Link))
+        public TpdmEvaluationObjectiveRatingReference(int educationOrganizationId = default, DateTime evaluationDate = default, string evaluationObjectiveTitle = default, string evaluationPeriodDescriptor = default, string evaluationTitle = default, string performanceEvaluationTitle = default, string performanceEvaluationTypeDescriptor = default, string personId = default, int schoolYear = default, string sourceSystemDescriptor = default, string termDescriptor = default, Link link = default)
         {
-            this.EducationOrganizationId = educationOrganizationId;
-            this.EvaluationDate = evaluationDate;
-            // to ensure "evaluationObjectiveTitle" is required (not null)
-            if (evaluationObjectiveTitle == null)
-            {
-                throw new ArgumentNullException("evaluationObjectiveTitle is a required property for TpdmEvaluationObjectiveRatingReference and cannot be null");
-            }
-            this.EvaluationObjectiveTitle = evaluationObjectiveTitle;
-            // to ensure "evaluationPeriodDescriptor" is required (not null)
-            if (evaluationPeriodDescriptor == null)
-            {
-                throw new ArgumentNullException("evaluationPeriodDescriptor is a required property for TpdmEvaluationObjectiveRatingReference and cannot be null");
-            }
-            this.EvaluationPeriodDescriptor = evaluationPeriodDescriptor;
-            // to ensure "evaluationTitle" is required (not null)
-            if (evaluationTitle == null)
-            {
-                throw new ArgumentNullException("evaluationTitle is a required property for TpdmEvaluationObjectiveRatingReference and cannot be null");
-            }
-            this.EvaluationTitle = evaluationTitle;
-            // to ensure "performanceEvaluationTitle" is required (not null)
-            if (performanceEvaluationTitle == null)
-            {
-                throw new ArgumentNullException("performanceEvaluationTitle is a required property for TpdmEvaluationObjectiveRatingReference and cannot be null");
-            }
-            this.PerformanceEvaluationTitle = performanceEvaluationTitle;
-            // to ensure "performanceEvaluationTypeDescriptor" is required (not null)
-            if (performanceEvaluationTypeDescriptor == null)
-            {
-                throw new ArgumentNullException("performanceEvaluationTypeDescriptor is a required property for TpdmEvaluationObjectiveRatingReference and cannot be null");
-            }
-            this.PerformanceEvaluationTypeDescriptor = performanceEvaluationTypeDescriptor;
-            // to ensure "personId" is required (not null)
-            if (personId == null)
-            {
-                throw new ArgumentNullException("personId is a required property for TpdmEvaluationObjectiveRatingReference and cannot be null");
-            }
-            this.PersonId = personId;
-            this.SchoolYear = schoolYear;
-            // to ensure "sourceSystemDescriptor" is required (not null)
-            if (sourceSystemDescriptor == null)
-            {
-                throw new ArgumentNullException("sourceSystemDescriptor is a required property for TpdmEvaluationObjectiveRatingReference and cannot be null");
-            }
-            this.SourceSystemDescriptor = sourceSystemDescriptor;
-            // to ensure "termDescriptor" is required (not null)
-            if (termDescriptor == null)
-            {
-                throw new ArgumentNullException("termDescriptor is a required property for TpdmEvaluationObjectiveRatingReference and cannot be null");
-            }
-            this.TermDescriptor = termDescriptor;
-            this.Link = link;
+            EducationOrganizationId = educationOrganizationId;
+            EvaluationDate = evaluationDate;
+            EvaluationObjectiveTitle = evaluationObjectiveTitle ?? throw new ArgumentNullException("evaluationObjectiveTitle is a required property for TpdmEvaluationObjectiveRatingReference and cannot be null");
+            EvaluationPeriodDescriptor = evaluationPeriodDescriptor ?? throw new ArgumentNullException("evaluationPeriodDescriptor is a required property for TpdmEvaluationObjectiveRatingReference and cannot be null");
+            EvaluationTitle = evaluationTitle ?? throw new ArgumentNullException("evaluationTitle is a required property for TpdmEvaluationObjectiveRatingReference and cannot be null");
+            PerformanceEvaluationTitle = performanceEvaluationTitle ?? throw new ArgumentNullException("performanceEvaluationTitle is a required property for TpdmEvaluationObjectiveRatingReference and cannot be null");
+            PerformanceEvaluationTypeDescriptor = performanceEvaluationTypeDescriptor ?? throw new ArgumentNullException("performanceEvaluationTypeDescriptor is a required property for TpdmEvaluationObjectiveRatingReference and cannot be null");
+            PersonId = personId ?? throw new ArgumentNullException("personId is a required property for TpdmEvaluationObjectiveRatingReference and cannot be null");
+            SchoolYear = schoolYear;
+            SourceSystemDescriptor = sourceSystemDescriptor ?? throw new ArgumentNullException("sourceSystemDescriptor is a required property for TpdmEvaluationObjectiveRatingReference and cannot be null");
+            TermDescriptor = termDescriptor ?? throw new ArgumentNullException("termDescriptor is a required property for TpdmEvaluationObjectiveRatingReference and cannot be null");
+            Link = link;
         }
 
         /// <summary>
@@ -192,21 +152,21 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder();
-            sb.Append("class TpdmEvaluationObjectiveRatingReference {\n");
-            sb.Append("  EducationOrganizationId: ").Append(EducationOrganizationId).Append("\n");
-            sb.Append("  EvaluationDate: ").Append(EvaluationDate).Append("\n");
-            sb.Append("  EvaluationObjectiveTitle: ").Append(EvaluationObjectiveTitle).Append("\n");
-            sb.Append("  EvaluationPeriodDescriptor: ").Append(EvaluationPeriodDescriptor).Append("\n");
-            sb.Append("  EvaluationTitle: ").Append(EvaluationTitle).Append("\n");
-            sb.Append("  PerformanceEvaluationTitle: ").Append(PerformanceEvaluationTitle).Append("\n");
-            sb.Append("  PerformanceEvaluationTypeDescriptor: ").Append(PerformanceEvaluationTypeDescriptor).Append("\n");
-            sb.Append("  PersonId: ").Append(PersonId).Append("\n");
-            sb.Append("  SchoolYear: ").Append(SchoolYear).Append("\n");
-            sb.Append("  SourceSystemDescriptor: ").Append(SourceSystemDescriptor).Append("\n");
-            sb.Append("  TermDescriptor: ").Append(TermDescriptor).Append("\n");
-            sb.Append("  Link: ").Append(Link).Append("\n");
-            sb.Append("}\n");
+            var sb = new StringBuilder();
+            _ = sb.Append("class TpdmEvaluationObjectiveRatingReference {\n");
+            _ = sb.Append("  EducationOrganizationId: ").Append(EducationOrganizationId).Append("\n");
+            _ = sb.Append("  EvaluationDate: ").Append(EvaluationDate).Append("\n");
+            _ = sb.Append("  EvaluationObjectiveTitle: ").Append(EvaluationObjectiveTitle).Append("\n");
+            _ = sb.Append("  EvaluationPeriodDescriptor: ").Append(EvaluationPeriodDescriptor).Append("\n");
+            _ = sb.Append("  EvaluationTitle: ").Append(EvaluationTitle).Append("\n");
+            _ = sb.Append("  PerformanceEvaluationTitle: ").Append(PerformanceEvaluationTitle).Append("\n");
+            _ = sb.Append("  PerformanceEvaluationTypeDescriptor: ").Append(PerformanceEvaluationTypeDescriptor).Append("\n");
+            _ = sb.Append("  PersonId: ").Append(PersonId).Append("\n");
+            _ = sb.Append("  SchoolYear: ").Append(SchoolYear).Append("\n");
+            _ = sb.Append("  SourceSystemDescriptor: ").Append(SourceSystemDescriptor).Append("\n");
+            _ = sb.Append("  TermDescriptor: ").Append(TermDescriptor).Append("\n");
+            _ = sb.Append("  Link: ").Append(Link).Append("\n");
+            _ = sb.Append("}\n");
             return sb.ToString();
         }
 
@@ -226,7 +186,7 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as TpdmEvaluationObjectiveRatingReference);
+            return Equals(input as TpdmEvaluationObjectiveRatingReference);
         }
 
         /// <summary>
@@ -236,67 +196,63 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public bool Equals(TpdmEvaluationObjectiveRatingReference input)
         {
-            if (input == null)
-            {
-                return false;
-            }
-            return
-                (
-                    this.EducationOrganizationId == input.EducationOrganizationId ||
-                    this.EducationOrganizationId.Equals(input.EducationOrganizationId)
+            return input != null
+&& (
+                    EducationOrganizationId == input.EducationOrganizationId ||
+                    EducationOrganizationId.Equals(input.EducationOrganizationId)
                 ) &&
                 (
-                    this.EvaluationDate == input.EvaluationDate ||
-                    this.EvaluationDate.Equals(input.EvaluationDate)
+                    EvaluationDate == input.EvaluationDate ||
+                    EvaluationDate.Equals(input.EvaluationDate)
                 ) &&
                 (
-                    this.EvaluationObjectiveTitle == input.EvaluationObjectiveTitle ||
-                    (this.EvaluationObjectiveTitle != null &&
-                    this.EvaluationObjectiveTitle.Equals(input.EvaluationObjectiveTitle))
+                    EvaluationObjectiveTitle == input.EvaluationObjectiveTitle ||
+                    (EvaluationObjectiveTitle != null &&
+                    EvaluationObjectiveTitle.Equals(input.EvaluationObjectiveTitle))
                 ) &&
                 (
-                    this.EvaluationPeriodDescriptor == input.EvaluationPeriodDescriptor ||
-                    (this.EvaluationPeriodDescriptor != null &&
-                    this.EvaluationPeriodDescriptor.Equals(input.EvaluationPeriodDescriptor))
+                    EvaluationPeriodDescriptor == input.EvaluationPeriodDescriptor ||
+                    (EvaluationPeriodDescriptor != null &&
+                    EvaluationPeriodDescriptor.Equals(input.EvaluationPeriodDescriptor))
                 ) &&
                 (
-                    this.EvaluationTitle == input.EvaluationTitle ||
-                    (this.EvaluationTitle != null &&
-                    this.EvaluationTitle.Equals(input.EvaluationTitle))
+                    EvaluationTitle == input.EvaluationTitle ||
+                    (EvaluationTitle != null &&
+                    EvaluationTitle.Equals(input.EvaluationTitle))
                 ) &&
                 (
-                    this.PerformanceEvaluationTitle == input.PerformanceEvaluationTitle ||
-                    (this.PerformanceEvaluationTitle != null &&
-                    this.PerformanceEvaluationTitle.Equals(input.PerformanceEvaluationTitle))
+                    PerformanceEvaluationTitle == input.PerformanceEvaluationTitle ||
+                    (PerformanceEvaluationTitle != null &&
+                    PerformanceEvaluationTitle.Equals(input.PerformanceEvaluationTitle))
                 ) &&
                 (
-                    this.PerformanceEvaluationTypeDescriptor == input.PerformanceEvaluationTypeDescriptor ||
-                    (this.PerformanceEvaluationTypeDescriptor != null &&
-                    this.PerformanceEvaluationTypeDescriptor.Equals(input.PerformanceEvaluationTypeDescriptor))
+                    PerformanceEvaluationTypeDescriptor == input.PerformanceEvaluationTypeDescriptor ||
+                    (PerformanceEvaluationTypeDescriptor != null &&
+                    PerformanceEvaluationTypeDescriptor.Equals(input.PerformanceEvaluationTypeDescriptor))
                 ) &&
                 (
-                    this.PersonId == input.PersonId ||
-                    (this.PersonId != null &&
-                    this.PersonId.Equals(input.PersonId))
+                    PersonId == input.PersonId ||
+                    (PersonId != null &&
+                    PersonId.Equals(input.PersonId))
                 ) &&
                 (
-                    this.SchoolYear == input.SchoolYear ||
-                    this.SchoolYear.Equals(input.SchoolYear)
+                    SchoolYear == input.SchoolYear ||
+                    SchoolYear.Equals(input.SchoolYear)
                 ) &&
                 (
-                    this.SourceSystemDescriptor == input.SourceSystemDescriptor ||
-                    (this.SourceSystemDescriptor != null &&
-                    this.SourceSystemDescriptor.Equals(input.SourceSystemDescriptor))
+                    SourceSystemDescriptor == input.SourceSystemDescriptor ||
+                    (SourceSystemDescriptor != null &&
+                    SourceSystemDescriptor.Equals(input.SourceSystemDescriptor))
                 ) &&
                 (
-                    this.TermDescriptor == input.TermDescriptor ||
-                    (this.TermDescriptor != null &&
-                    this.TermDescriptor.Equals(input.TermDescriptor))
+                    TermDescriptor == input.TermDescriptor ||
+                    (TermDescriptor != null &&
+                    TermDescriptor.Equals(input.TermDescriptor))
                 ) &&
                 (
-                    this.Link == input.Link ||
-                    (this.Link != null &&
-                    this.Link.Equals(input.Link))
+                    Link == input.Link ||
+                    (Link != null &&
+                    Link.Equals(input.Link))
                 );
         }
 
@@ -308,45 +264,45 @@ namespace EdFi.OdsApi.Sdk.Models.All
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
-                hashCode = (hashCode * 59) + this.EducationOrganizationId.GetHashCode();
-                hashCode = (hashCode * 59) + this.EvaluationDate.GetHashCode();
-                if (this.EvaluationObjectiveTitle != null)
+                var hashCode = 41;
+                hashCode = (hashCode * 59) + EducationOrganizationId.GetHashCode();
+                hashCode = (hashCode * 59) + EvaluationDate.GetHashCode();
+                if (EvaluationObjectiveTitle != null)
                 {
-                    hashCode = (hashCode * 59) + this.EvaluationObjectiveTitle.GetHashCode();
+                    hashCode = (hashCode * 59) + EvaluationObjectiveTitle.GetHashCode();
                 }
-                if (this.EvaluationPeriodDescriptor != null)
+                if (EvaluationPeriodDescriptor != null)
                 {
-                    hashCode = (hashCode * 59) + this.EvaluationPeriodDescriptor.GetHashCode();
+                    hashCode = (hashCode * 59) + EvaluationPeriodDescriptor.GetHashCode();
                 }
-                if (this.EvaluationTitle != null)
+                if (EvaluationTitle != null)
                 {
-                    hashCode = (hashCode * 59) + this.EvaluationTitle.GetHashCode();
+                    hashCode = (hashCode * 59) + EvaluationTitle.GetHashCode();
                 }
-                if (this.PerformanceEvaluationTitle != null)
+                if (PerformanceEvaluationTitle != null)
                 {
-                    hashCode = (hashCode * 59) + this.PerformanceEvaluationTitle.GetHashCode();
+                    hashCode = (hashCode * 59) + PerformanceEvaluationTitle.GetHashCode();
                 }
-                if (this.PerformanceEvaluationTypeDescriptor != null)
+                if (PerformanceEvaluationTypeDescriptor != null)
                 {
-                    hashCode = (hashCode * 59) + this.PerformanceEvaluationTypeDescriptor.GetHashCode();
+                    hashCode = (hashCode * 59) + PerformanceEvaluationTypeDescriptor.GetHashCode();
                 }
-                if (this.PersonId != null)
+                if (PersonId != null)
                 {
-                    hashCode = (hashCode * 59) + this.PersonId.GetHashCode();
+                    hashCode = (hashCode * 59) + PersonId.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + this.SchoolYear.GetHashCode();
-                if (this.SourceSystemDescriptor != null)
+                hashCode = (hashCode * 59) + SchoolYear.GetHashCode();
+                if (SourceSystemDescriptor != null)
                 {
-                    hashCode = (hashCode * 59) + this.SourceSystemDescriptor.GetHashCode();
+                    hashCode = (hashCode * 59) + SourceSystemDescriptor.GetHashCode();
                 }
-                if (this.TermDescriptor != null)
+                if (TermDescriptor != null)
                 {
-                    hashCode = (hashCode * 59) + this.TermDescriptor.GetHashCode();
+                    hashCode = (hashCode * 59) + TermDescriptor.GetHashCode();
                 }
-                if (this.Link != null)
+                if (Link != null)
                 {
-                    hashCode = (hashCode * 59) + this.Link.GetHashCode();
+                    hashCode = (hashCode * 59) + Link.GetHashCode();
                 }
                 return hashCode;
             }
@@ -360,49 +316,49 @@ namespace EdFi.OdsApi.Sdk.Models.All
         public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
         {
             // EvaluationObjectiveTitle (string) maxLength
-            if (this.EvaluationObjectiveTitle != null && this.EvaluationObjectiveTitle.Length > 50)
+            if (EvaluationObjectiveTitle != null && EvaluationObjectiveTitle.Length > 50)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for EvaluationObjectiveTitle, length must be less than 50.", new[] { "EvaluationObjectiveTitle" });
             }
 
             // EvaluationPeriodDescriptor (string) maxLength
-            if (this.EvaluationPeriodDescriptor != null && this.EvaluationPeriodDescriptor.Length > 306)
+            if (EvaluationPeriodDescriptor != null && EvaluationPeriodDescriptor.Length > 306)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for EvaluationPeriodDescriptor, length must be less than 306.", new[] { "EvaluationPeriodDescriptor" });
             }
 
             // EvaluationTitle (string) maxLength
-            if (this.EvaluationTitle != null && this.EvaluationTitle.Length > 50)
+            if (EvaluationTitle != null && EvaluationTitle.Length > 50)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for EvaluationTitle, length must be less than 50.", new[] { "EvaluationTitle" });
             }
 
             // PerformanceEvaluationTitle (string) maxLength
-            if (this.PerformanceEvaluationTitle != null && this.PerformanceEvaluationTitle.Length > 50)
+            if (PerformanceEvaluationTitle != null && PerformanceEvaluationTitle.Length > 50)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for PerformanceEvaluationTitle, length must be less than 50.", new[] { "PerformanceEvaluationTitle" });
             }
 
             // PerformanceEvaluationTypeDescriptor (string) maxLength
-            if (this.PerformanceEvaluationTypeDescriptor != null && this.PerformanceEvaluationTypeDescriptor.Length > 306)
+            if (PerformanceEvaluationTypeDescriptor != null && PerformanceEvaluationTypeDescriptor.Length > 306)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for PerformanceEvaluationTypeDescriptor, length must be less than 306.", new[] { "PerformanceEvaluationTypeDescriptor" });
             }
 
             // PersonId (string) maxLength
-            if (this.PersonId != null && this.PersonId.Length > 32)
+            if (PersonId != null && PersonId.Length > 32)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for PersonId, length must be less than 32.", new[] { "PersonId" });
             }
 
             // SourceSystemDescriptor (string) maxLength
-            if (this.SourceSystemDescriptor != null && this.SourceSystemDescriptor.Length > 306)
+            if (SourceSystemDescriptor != null && SourceSystemDescriptor.Length > 306)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for SourceSystemDescriptor, length must be less than 306.", new[] { "SourceSystemDescriptor" });
             }
 
             // TermDescriptor (string) maxLength
-            if (this.TermDescriptor != null && this.TermDescriptor.Length > 306)
+            if (TermDescriptor != null && TermDescriptor.Length > 306)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for TermDescriptor, length must be less than 306.", new[] { "TermDescriptor" });
             }

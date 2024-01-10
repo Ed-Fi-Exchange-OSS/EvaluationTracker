@@ -14,9 +14,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using System.Text;
-using System.ComponentModel.DataAnnotations;
 
 namespace EdFi.OdsApi.Sdk.Models.All
 {
@@ -30,9 +30,9 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// Initializes a new instance of the <see cref="SurveyResponseExtensions" /> class.
         /// </summary>
         /// <param name="tPDM">tPDM.</param>
-        public SurveyResponseExtensions(TpdmSurveyResponseExtension tPDM = default(TpdmSurveyResponseExtension))
+        public SurveyResponseExtensions(TpdmSurveyResponseExtension tPDM = default)
         {
-            this.TPDM = tPDM;
+            TPDM = tPDM;
         }
 
         /// <summary>
@@ -47,10 +47,10 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder();
-            sb.Append("class SurveyResponseExtensions {\n");
-            sb.Append("  TPDM: ").Append(TPDM).Append("\n");
-            sb.Append("}\n");
+            var sb = new StringBuilder();
+            _ = sb.Append("class SurveyResponseExtensions {\n");
+            _ = sb.Append("  TPDM: ").Append(TPDM).Append("\n");
+            _ = sb.Append("}\n");
             return sb.ToString();
         }
 
@@ -70,7 +70,7 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as SurveyResponseExtensions);
+            return Equals(input as SurveyResponseExtensions);
         }
 
         /// <summary>
@@ -80,16 +80,10 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public bool Equals(SurveyResponseExtensions input)
         {
-            if (input == null)
-            {
-                return false;
-            }
-            return
-                (
-                    this.TPDM == input.TPDM ||
-                    (this.TPDM != null &&
-                    this.TPDM.Equals(input.TPDM))
-                );
+            return input != null
+&& (TPDM == input.TPDM ||
+                    (TPDM != null &&
+                    TPDM.Equals(input.TPDM)));
         }
 
         /// <summary>
@@ -100,10 +94,10 @@ namespace EdFi.OdsApi.Sdk.Models.All
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
-                if (this.TPDM != null)
+                var hashCode = 41;
+                if (TPDM != null)
                 {
-                    hashCode = (hashCode * 59) + this.TPDM.GetHashCode();
+                    hashCode = (hashCode * 59) + TPDM.GetHashCode();
                 }
                 return hashCode;
             }

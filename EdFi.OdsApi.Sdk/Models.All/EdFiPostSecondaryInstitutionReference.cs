@@ -12,12 +12,12 @@
  */
 
 
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using System.Text;
-using Newtonsoft.Json;
-using System.ComponentModel.DataAnnotations;
 
 namespace EdFi.OdsApi.Sdk.Models.All
 {
@@ -37,10 +37,10 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// </summary>
         /// <param name="postSecondaryInstitutionId">The ID of the post secondary institution. (required).</param>
         /// <param name="link">link.</param>
-        public EdFiPostSecondaryInstitutionReference(int postSecondaryInstitutionId = default(int), Link link = default(Link))
+        public EdFiPostSecondaryInstitutionReference(int postSecondaryInstitutionId = default, Link link = default)
         {
-            this.PostSecondaryInstitutionId = postSecondaryInstitutionId;
-            this.Link = link;
+            PostSecondaryInstitutionId = postSecondaryInstitutionId;
+            Link = link;
         }
 
         /// <summary>
@@ -62,11 +62,11 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder();
-            sb.Append("class EdFiPostSecondaryInstitutionReference {\n");
-            sb.Append("  PostSecondaryInstitutionId: ").Append(PostSecondaryInstitutionId).Append("\n");
-            sb.Append("  Link: ").Append(Link).Append("\n");
-            sb.Append("}\n");
+            var sb = new StringBuilder();
+            _ = sb.Append("class EdFiPostSecondaryInstitutionReference {\n");
+            _ = sb.Append("  PostSecondaryInstitutionId: ").Append(PostSecondaryInstitutionId).Append("\n");
+            _ = sb.Append("  Link: ").Append(Link).Append("\n");
+            _ = sb.Append("}\n");
             return sb.ToString();
         }
 
@@ -86,7 +86,7 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as EdFiPostSecondaryInstitutionReference);
+            return Equals(input as EdFiPostSecondaryInstitutionReference);
         }
 
         /// <summary>
@@ -96,19 +96,15 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public bool Equals(EdFiPostSecondaryInstitutionReference input)
         {
-            if (input == null)
-            {
-                return false;
-            }
-            return
-                (
-                    this.PostSecondaryInstitutionId == input.PostSecondaryInstitutionId ||
-                    this.PostSecondaryInstitutionId.Equals(input.PostSecondaryInstitutionId)
+            return input != null
+&& (
+                    PostSecondaryInstitutionId == input.PostSecondaryInstitutionId ||
+                    PostSecondaryInstitutionId.Equals(input.PostSecondaryInstitutionId)
                 ) &&
                 (
-                    this.Link == input.Link ||
-                    (this.Link != null &&
-                    this.Link.Equals(input.Link))
+                    Link == input.Link ||
+                    (Link != null &&
+                    Link.Equals(input.Link))
                 );
         }
 
@@ -120,11 +116,11 @@ namespace EdFi.OdsApi.Sdk.Models.All
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
-                hashCode = (hashCode * 59) + this.PostSecondaryInstitutionId.GetHashCode();
-                if (this.Link != null)
+                var hashCode = 41;
+                hashCode = (hashCode * 59) + PostSecondaryInstitutionId.GetHashCode();
+                if (Link != null)
                 {
-                    hashCode = (hashCode * 59) + this.Link.GetHashCode();
+                    hashCode = (hashCode * 59) + Link.GetHashCode();
                 }
                 return hashCode;
             }

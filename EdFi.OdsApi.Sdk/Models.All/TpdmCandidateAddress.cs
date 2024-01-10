@@ -12,13 +12,13 @@
  */
 
 
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
-using Newtonsoft.Json;
-using System.ComponentModel.DataAnnotations;
 
 namespace EdFi.OdsApi.Sdk.Models.All
 {
@@ -51,48 +51,23 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <param name="longitude">The geographic longitude of the physical address..</param>
         /// <param name="nameOfCounty">The name of the county, parish, borough, or comparable unit (within a state) in                       &#39;which an address is located..</param>
         /// <param name="periods">An unordered collection of candidateAddressPeriods. The time periods for which the address is valid. For physical addresses, the periods in which the person lived at that address..</param>
-        public TpdmCandidateAddress(string addressTypeDescriptor = default(string), string stateAbbreviationDescriptor = default(string), string city = default(string), string postalCode = default(string), string streetNumberName = default(string), string localeDescriptor = default(string), string apartmentRoomSuiteNumber = default(string), string buildingSiteNumber = default(string), string congressionalDistrict = default(string), string countyFIPSCode = default(string), bool? doNotPublishIndicator = default(bool?), string latitude = default(string), string longitude = default(string), string nameOfCounty = default(string), List<TpdmCandidateAddressPeriod> periods = default(List<TpdmCandidateAddressPeriod>))
+        public TpdmCandidateAddress(string addressTypeDescriptor = default, string stateAbbreviationDescriptor = default, string city = default, string postalCode = default, string streetNumberName = default, string localeDescriptor = default, string apartmentRoomSuiteNumber = default, string buildingSiteNumber = default, string congressionalDistrict = default, string countyFIPSCode = default, bool? doNotPublishIndicator = default, string latitude = default, string longitude = default, string nameOfCounty = default, List<TpdmCandidateAddressPeriod> periods = default)
         {
-            // to ensure "addressTypeDescriptor" is required (not null)
-            if (addressTypeDescriptor == null)
-            {
-                throw new ArgumentNullException("addressTypeDescriptor is a required property for TpdmCandidateAddress and cannot be null");
-            }
-            this.AddressTypeDescriptor = addressTypeDescriptor;
-            // to ensure "stateAbbreviationDescriptor" is required (not null)
-            if (stateAbbreviationDescriptor == null)
-            {
-                throw new ArgumentNullException("stateAbbreviationDescriptor is a required property for TpdmCandidateAddress and cannot be null");
-            }
-            this.StateAbbreviationDescriptor = stateAbbreviationDescriptor;
-            // to ensure "city" is required (not null)
-            if (city == null)
-            {
-                throw new ArgumentNullException("city is a required property for TpdmCandidateAddress and cannot be null");
-            }
-            this.City = city;
-            // to ensure "postalCode" is required (not null)
-            if (postalCode == null)
-            {
-                throw new ArgumentNullException("postalCode is a required property for TpdmCandidateAddress and cannot be null");
-            }
-            this.PostalCode = postalCode;
-            // to ensure "streetNumberName" is required (not null)
-            if (streetNumberName == null)
-            {
-                throw new ArgumentNullException("streetNumberName is a required property for TpdmCandidateAddress and cannot be null");
-            }
-            this.StreetNumberName = streetNumberName;
-            this.LocaleDescriptor = localeDescriptor;
-            this.ApartmentRoomSuiteNumber = apartmentRoomSuiteNumber;
-            this.BuildingSiteNumber = buildingSiteNumber;
-            this.CongressionalDistrict = congressionalDistrict;
-            this.CountyFIPSCode = countyFIPSCode;
-            this.DoNotPublishIndicator = doNotPublishIndicator;
-            this.Latitude = latitude;
-            this.Longitude = longitude;
-            this.NameOfCounty = nameOfCounty;
-            this.Periods = periods;
+            AddressTypeDescriptor = addressTypeDescriptor ?? throw new ArgumentNullException("addressTypeDescriptor is a required property for TpdmCandidateAddress and cannot be null");
+            StateAbbreviationDescriptor = stateAbbreviationDescriptor ?? throw new ArgumentNullException("stateAbbreviationDescriptor is a required property for TpdmCandidateAddress and cannot be null");
+            City = city ?? throw new ArgumentNullException("city is a required property for TpdmCandidateAddress and cannot be null");
+            PostalCode = postalCode ?? throw new ArgumentNullException("postalCode is a required property for TpdmCandidateAddress and cannot be null");
+            StreetNumberName = streetNumberName ?? throw new ArgumentNullException("streetNumberName is a required property for TpdmCandidateAddress and cannot be null");
+            LocaleDescriptor = localeDescriptor;
+            ApartmentRoomSuiteNumber = apartmentRoomSuiteNumber;
+            BuildingSiteNumber = buildingSiteNumber;
+            CongressionalDistrict = congressionalDistrict;
+            CountyFIPSCode = countyFIPSCode;
+            DoNotPublishIndicator = doNotPublishIndicator;
+            Latitude = latitude;
+            Longitude = longitude;
+            NameOfCounty = nameOfCounty;
+            Periods = periods;
         }
 
         /// <summary>
@@ -206,24 +181,24 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder();
-            sb.Append("class TpdmCandidateAddress {\n");
-            sb.Append("  AddressTypeDescriptor: ").Append(AddressTypeDescriptor).Append("\n");
-            sb.Append("  StateAbbreviationDescriptor: ").Append(StateAbbreviationDescriptor).Append("\n");
-            sb.Append("  City: ").Append(City).Append("\n");
-            sb.Append("  PostalCode: ").Append(PostalCode).Append("\n");
-            sb.Append("  StreetNumberName: ").Append(StreetNumberName).Append("\n");
-            sb.Append("  LocaleDescriptor: ").Append(LocaleDescriptor).Append("\n");
-            sb.Append("  ApartmentRoomSuiteNumber: ").Append(ApartmentRoomSuiteNumber).Append("\n");
-            sb.Append("  BuildingSiteNumber: ").Append(BuildingSiteNumber).Append("\n");
-            sb.Append("  CongressionalDistrict: ").Append(CongressionalDistrict).Append("\n");
-            sb.Append("  CountyFIPSCode: ").Append(CountyFIPSCode).Append("\n");
-            sb.Append("  DoNotPublishIndicator: ").Append(DoNotPublishIndicator).Append("\n");
-            sb.Append("  Latitude: ").Append(Latitude).Append("\n");
-            sb.Append("  Longitude: ").Append(Longitude).Append("\n");
-            sb.Append("  NameOfCounty: ").Append(NameOfCounty).Append("\n");
-            sb.Append("  Periods: ").Append(Periods).Append("\n");
-            sb.Append("}\n");
+            var sb = new StringBuilder();
+            _ = sb.Append("class TpdmCandidateAddress {\n");
+            _ = sb.Append("  AddressTypeDescriptor: ").Append(AddressTypeDescriptor).Append("\n");
+            _ = sb.Append("  StateAbbreviationDescriptor: ").Append(StateAbbreviationDescriptor).Append("\n");
+            _ = sb.Append("  City: ").Append(City).Append("\n");
+            _ = sb.Append("  PostalCode: ").Append(PostalCode).Append("\n");
+            _ = sb.Append("  StreetNumberName: ").Append(StreetNumberName).Append("\n");
+            _ = sb.Append("  LocaleDescriptor: ").Append(LocaleDescriptor).Append("\n");
+            _ = sb.Append("  ApartmentRoomSuiteNumber: ").Append(ApartmentRoomSuiteNumber).Append("\n");
+            _ = sb.Append("  BuildingSiteNumber: ").Append(BuildingSiteNumber).Append("\n");
+            _ = sb.Append("  CongressionalDistrict: ").Append(CongressionalDistrict).Append("\n");
+            _ = sb.Append("  CountyFIPSCode: ").Append(CountyFIPSCode).Append("\n");
+            _ = sb.Append("  DoNotPublishIndicator: ").Append(DoNotPublishIndicator).Append("\n");
+            _ = sb.Append("  Latitude: ").Append(Latitude).Append("\n");
+            _ = sb.Append("  Longitude: ").Append(Longitude).Append("\n");
+            _ = sb.Append("  NameOfCounty: ").Append(NameOfCounty).Append("\n");
+            _ = sb.Append("  Periods: ").Append(Periods).Append("\n");
+            _ = sb.Append("}\n");
             return sb.ToString();
         }
 
@@ -243,7 +218,7 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as TpdmCandidateAddress);
+            return Equals(input as TpdmCandidateAddress);
         }
 
         /// <summary>
@@ -253,86 +228,82 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public bool Equals(TpdmCandidateAddress input)
         {
-            if (input == null)
-            {
-                return false;
-            }
-            return
-                (
-                    this.AddressTypeDescriptor == input.AddressTypeDescriptor ||
-                    (this.AddressTypeDescriptor != null &&
-                    this.AddressTypeDescriptor.Equals(input.AddressTypeDescriptor))
+            return input != null
+&& (
+                    AddressTypeDescriptor == input.AddressTypeDescriptor ||
+                    (AddressTypeDescriptor != null &&
+                    AddressTypeDescriptor.Equals(input.AddressTypeDescriptor))
                 ) &&
                 (
-                    this.StateAbbreviationDescriptor == input.StateAbbreviationDescriptor ||
-                    (this.StateAbbreviationDescriptor != null &&
-                    this.StateAbbreviationDescriptor.Equals(input.StateAbbreviationDescriptor))
+                    StateAbbreviationDescriptor == input.StateAbbreviationDescriptor ||
+                    (StateAbbreviationDescriptor != null &&
+                    StateAbbreviationDescriptor.Equals(input.StateAbbreviationDescriptor))
                 ) &&
                 (
-                    this.City == input.City ||
-                    (this.City != null &&
-                    this.City.Equals(input.City))
+                    City == input.City ||
+                    (City != null &&
+                    City.Equals(input.City))
                 ) &&
                 (
-                    this.PostalCode == input.PostalCode ||
-                    (this.PostalCode != null &&
-                    this.PostalCode.Equals(input.PostalCode))
+                    PostalCode == input.PostalCode ||
+                    (PostalCode != null &&
+                    PostalCode.Equals(input.PostalCode))
                 ) &&
                 (
-                    this.StreetNumberName == input.StreetNumberName ||
-                    (this.StreetNumberName != null &&
-                    this.StreetNumberName.Equals(input.StreetNumberName))
+                    StreetNumberName == input.StreetNumberName ||
+                    (StreetNumberName != null &&
+                    StreetNumberName.Equals(input.StreetNumberName))
                 ) &&
                 (
-                    this.LocaleDescriptor == input.LocaleDescriptor ||
-                    (this.LocaleDescriptor != null &&
-                    this.LocaleDescriptor.Equals(input.LocaleDescriptor))
+                    LocaleDescriptor == input.LocaleDescriptor ||
+                    (LocaleDescriptor != null &&
+                    LocaleDescriptor.Equals(input.LocaleDescriptor))
                 ) &&
                 (
-                    this.ApartmentRoomSuiteNumber == input.ApartmentRoomSuiteNumber ||
-                    (this.ApartmentRoomSuiteNumber != null &&
-                    this.ApartmentRoomSuiteNumber.Equals(input.ApartmentRoomSuiteNumber))
+                    ApartmentRoomSuiteNumber == input.ApartmentRoomSuiteNumber ||
+                    (ApartmentRoomSuiteNumber != null &&
+                    ApartmentRoomSuiteNumber.Equals(input.ApartmentRoomSuiteNumber))
                 ) &&
                 (
-                    this.BuildingSiteNumber == input.BuildingSiteNumber ||
-                    (this.BuildingSiteNumber != null &&
-                    this.BuildingSiteNumber.Equals(input.BuildingSiteNumber))
+                    BuildingSiteNumber == input.BuildingSiteNumber ||
+                    (BuildingSiteNumber != null &&
+                    BuildingSiteNumber.Equals(input.BuildingSiteNumber))
                 ) &&
                 (
-                    this.CongressionalDistrict == input.CongressionalDistrict ||
-                    (this.CongressionalDistrict != null &&
-                    this.CongressionalDistrict.Equals(input.CongressionalDistrict))
+                    CongressionalDistrict == input.CongressionalDistrict ||
+                    (CongressionalDistrict != null &&
+                    CongressionalDistrict.Equals(input.CongressionalDistrict))
                 ) &&
                 (
-                    this.CountyFIPSCode == input.CountyFIPSCode ||
-                    (this.CountyFIPSCode != null &&
-                    this.CountyFIPSCode.Equals(input.CountyFIPSCode))
+                    CountyFIPSCode == input.CountyFIPSCode ||
+                    (CountyFIPSCode != null &&
+                    CountyFIPSCode.Equals(input.CountyFIPSCode))
                 ) &&
                 (
-                    this.DoNotPublishIndicator == input.DoNotPublishIndicator ||
-                    (this.DoNotPublishIndicator != null &&
-                    this.DoNotPublishIndicator.Equals(input.DoNotPublishIndicator))
+                    DoNotPublishIndicator == input.DoNotPublishIndicator ||
+                    (DoNotPublishIndicator != null &&
+                    DoNotPublishIndicator.Equals(input.DoNotPublishIndicator))
                 ) &&
                 (
-                    this.Latitude == input.Latitude ||
-                    (this.Latitude != null &&
-                    this.Latitude.Equals(input.Latitude))
+                    Latitude == input.Latitude ||
+                    (Latitude != null &&
+                    Latitude.Equals(input.Latitude))
                 ) &&
                 (
-                    this.Longitude == input.Longitude ||
-                    (this.Longitude != null &&
-                    this.Longitude.Equals(input.Longitude))
+                    Longitude == input.Longitude ||
+                    (Longitude != null &&
+                    Longitude.Equals(input.Longitude))
                 ) &&
                 (
-                    this.NameOfCounty == input.NameOfCounty ||
-                    (this.NameOfCounty != null &&
-                    this.NameOfCounty.Equals(input.NameOfCounty))
+                    NameOfCounty == input.NameOfCounty ||
+                    (NameOfCounty != null &&
+                    NameOfCounty.Equals(input.NameOfCounty))
                 ) &&
                 (
-                    this.Periods == input.Periods ||
-                    this.Periods != null &&
+                    Periods == input.Periods ||
+                    Periods != null &&
                     input.Periods != null &&
-                    this.Periods.SequenceEqual(input.Periods)
+                    Periods.SequenceEqual(input.Periods)
                 );
         }
 
@@ -344,66 +315,66 @@ namespace EdFi.OdsApi.Sdk.Models.All
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
-                if (this.AddressTypeDescriptor != null)
+                var hashCode = 41;
+                if (AddressTypeDescriptor != null)
                 {
-                    hashCode = (hashCode * 59) + this.AddressTypeDescriptor.GetHashCode();
+                    hashCode = (hashCode * 59) + AddressTypeDescriptor.GetHashCode();
                 }
-                if (this.StateAbbreviationDescriptor != null)
+                if (StateAbbreviationDescriptor != null)
                 {
-                    hashCode = (hashCode * 59) + this.StateAbbreviationDescriptor.GetHashCode();
+                    hashCode = (hashCode * 59) + StateAbbreviationDescriptor.GetHashCode();
                 }
-                if (this.City != null)
+                if (City != null)
                 {
-                    hashCode = (hashCode * 59) + this.City.GetHashCode();
+                    hashCode = (hashCode * 59) + City.GetHashCode();
                 }
-                if (this.PostalCode != null)
+                if (PostalCode != null)
                 {
-                    hashCode = (hashCode * 59) + this.PostalCode.GetHashCode();
+                    hashCode = (hashCode * 59) + PostalCode.GetHashCode();
                 }
-                if (this.StreetNumberName != null)
+                if (StreetNumberName != null)
                 {
-                    hashCode = (hashCode * 59) + this.StreetNumberName.GetHashCode();
+                    hashCode = (hashCode * 59) + StreetNumberName.GetHashCode();
                 }
-                if (this.LocaleDescriptor != null)
+                if (LocaleDescriptor != null)
                 {
-                    hashCode = (hashCode * 59) + this.LocaleDescriptor.GetHashCode();
+                    hashCode = (hashCode * 59) + LocaleDescriptor.GetHashCode();
                 }
-                if (this.ApartmentRoomSuiteNumber != null)
+                if (ApartmentRoomSuiteNumber != null)
                 {
-                    hashCode = (hashCode * 59) + this.ApartmentRoomSuiteNumber.GetHashCode();
+                    hashCode = (hashCode * 59) + ApartmentRoomSuiteNumber.GetHashCode();
                 }
-                if (this.BuildingSiteNumber != null)
+                if (BuildingSiteNumber != null)
                 {
-                    hashCode = (hashCode * 59) + this.BuildingSiteNumber.GetHashCode();
+                    hashCode = (hashCode * 59) + BuildingSiteNumber.GetHashCode();
                 }
-                if (this.CongressionalDistrict != null)
+                if (CongressionalDistrict != null)
                 {
-                    hashCode = (hashCode * 59) + this.CongressionalDistrict.GetHashCode();
+                    hashCode = (hashCode * 59) + CongressionalDistrict.GetHashCode();
                 }
-                if (this.CountyFIPSCode != null)
+                if (CountyFIPSCode != null)
                 {
-                    hashCode = (hashCode * 59) + this.CountyFIPSCode.GetHashCode();
+                    hashCode = (hashCode * 59) + CountyFIPSCode.GetHashCode();
                 }
-                if (this.DoNotPublishIndicator != null)
+                if (DoNotPublishIndicator != null)
                 {
-                    hashCode = (hashCode * 59) + this.DoNotPublishIndicator.GetHashCode();
+                    hashCode = (hashCode * 59) + DoNotPublishIndicator.GetHashCode();
                 }
-                if (this.Latitude != null)
+                if (Latitude != null)
                 {
-                    hashCode = (hashCode * 59) + this.Latitude.GetHashCode();
+                    hashCode = (hashCode * 59) + Latitude.GetHashCode();
                 }
-                if (this.Longitude != null)
+                if (Longitude != null)
                 {
-                    hashCode = (hashCode * 59) + this.Longitude.GetHashCode();
+                    hashCode = (hashCode * 59) + Longitude.GetHashCode();
                 }
-                if (this.NameOfCounty != null)
+                if (NameOfCounty != null)
                 {
-                    hashCode = (hashCode * 59) + this.NameOfCounty.GetHashCode();
+                    hashCode = (hashCode * 59) + NameOfCounty.GetHashCode();
                 }
-                if (this.Periods != null)
+                if (Periods != null)
                 {
-                    hashCode = (hashCode * 59) + this.Periods.GetHashCode();
+                    hashCode = (hashCode * 59) + Periods.GetHashCode();
                 }
                 return hashCode;
             }
@@ -417,79 +388,79 @@ namespace EdFi.OdsApi.Sdk.Models.All
         public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
         {
             // AddressTypeDescriptor (string) maxLength
-            if (this.AddressTypeDescriptor != null && this.AddressTypeDescriptor.Length > 306)
+            if (AddressTypeDescriptor != null && AddressTypeDescriptor.Length > 306)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for AddressTypeDescriptor, length must be less than 306.", new[] { "AddressTypeDescriptor" });
             }
 
             // StateAbbreviationDescriptor (string) maxLength
-            if (this.StateAbbreviationDescriptor != null && this.StateAbbreviationDescriptor.Length > 306)
+            if (StateAbbreviationDescriptor != null && StateAbbreviationDescriptor.Length > 306)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for StateAbbreviationDescriptor, length must be less than 306.", new[] { "StateAbbreviationDescriptor" });
             }
 
             // City (string) maxLength
-            if (this.City != null && this.City.Length > 30)
+            if (City != null && City.Length > 30)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for City, length must be less than 30.", new[] { "City" });
             }
 
             // PostalCode (string) maxLength
-            if (this.PostalCode != null && this.PostalCode.Length > 17)
+            if (PostalCode != null && PostalCode.Length > 17)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for PostalCode, length must be less than 17.", new[] { "PostalCode" });
             }
 
             // StreetNumberName (string) maxLength
-            if (this.StreetNumberName != null && this.StreetNumberName.Length > 150)
+            if (StreetNumberName != null && StreetNumberName.Length > 150)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for StreetNumberName, length must be less than 150.", new[] { "StreetNumberName" });
             }
 
             // LocaleDescriptor (string) maxLength
-            if (this.LocaleDescriptor != null && this.LocaleDescriptor.Length > 306)
+            if (LocaleDescriptor != null && LocaleDescriptor.Length > 306)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for LocaleDescriptor, length must be less than 306.", new[] { "LocaleDescriptor" });
             }
 
             // ApartmentRoomSuiteNumber (string) maxLength
-            if (this.ApartmentRoomSuiteNumber != null && this.ApartmentRoomSuiteNumber.Length > 50)
+            if (ApartmentRoomSuiteNumber != null && ApartmentRoomSuiteNumber.Length > 50)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for ApartmentRoomSuiteNumber, length must be less than 50.", new[] { "ApartmentRoomSuiteNumber" });
             }
 
             // BuildingSiteNumber (string) maxLength
-            if (this.BuildingSiteNumber != null && this.BuildingSiteNumber.Length > 20)
+            if (BuildingSiteNumber != null && BuildingSiteNumber.Length > 20)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for BuildingSiteNumber, length must be less than 20.", new[] { "BuildingSiteNumber" });
             }
 
             // CongressionalDistrict (string) maxLength
-            if (this.CongressionalDistrict != null && this.CongressionalDistrict.Length > 30)
+            if (CongressionalDistrict != null && CongressionalDistrict.Length > 30)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for CongressionalDistrict, length must be less than 30.", new[] { "CongressionalDistrict" });
             }
 
             // CountyFIPSCode (string) maxLength
-            if (this.CountyFIPSCode != null && this.CountyFIPSCode.Length > 5)
+            if (CountyFIPSCode != null && CountyFIPSCode.Length > 5)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for CountyFIPSCode, length must be less than 5.", new[] { "CountyFIPSCode" });
             }
 
             // Latitude (string) maxLength
-            if (this.Latitude != null && this.Latitude.Length > 20)
+            if (Latitude != null && Latitude.Length > 20)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Latitude, length must be less than 20.", new[] { "Latitude" });
             }
 
             // Longitude (string) maxLength
-            if (this.Longitude != null && this.Longitude.Length > 20)
+            if (Longitude != null && Longitude.Length > 20)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Longitude, length must be less than 20.", new[] { "Longitude" });
             }
 
             // NameOfCounty (string) maxLength
-            if (this.NameOfCounty != null && this.NameOfCounty.Length > 30)
+            if (NameOfCounty != null && NameOfCounty.Length > 30)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for NameOfCounty, length must be less than 30.", new[] { "NameOfCounty" });
             }

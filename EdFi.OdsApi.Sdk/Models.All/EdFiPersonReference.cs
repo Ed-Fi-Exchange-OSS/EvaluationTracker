@@ -12,12 +12,12 @@
  */
 
 
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using System.Text;
-using Newtonsoft.Json;
-using System.ComponentModel.DataAnnotations;
 
 namespace EdFi.OdsApi.Sdk.Models.All
 {
@@ -38,21 +38,11 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <param name="personId">A unique alphanumeric code assigned to a person. (required).</param>
         /// <param name="sourceSystemDescriptor">This descriptor defines the originating record source system for the person. (required).</param>
         /// <param name="link">link.</param>
-        public EdFiPersonReference(string personId = default(string), string sourceSystemDescriptor = default(string), Link link = default(Link))
+        public EdFiPersonReference(string personId = default, string sourceSystemDescriptor = default, Link link = default)
         {
-            // to ensure "personId" is required (not null)
-            if (personId == null)
-            {
-                throw new ArgumentNullException("personId is a required property for EdFiPersonReference and cannot be null");
-            }
-            this.PersonId = personId;
-            // to ensure "sourceSystemDescriptor" is required (not null)
-            if (sourceSystemDescriptor == null)
-            {
-                throw new ArgumentNullException("sourceSystemDescriptor is a required property for EdFiPersonReference and cannot be null");
-            }
-            this.SourceSystemDescriptor = sourceSystemDescriptor;
-            this.Link = link;
+            PersonId = personId ?? throw new ArgumentNullException("personId is a required property for EdFiPersonReference and cannot be null");
+            SourceSystemDescriptor = sourceSystemDescriptor ?? throw new ArgumentNullException("sourceSystemDescriptor is a required property for EdFiPersonReference and cannot be null");
+            Link = link;
         }
 
         /// <summary>
@@ -81,12 +71,12 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder();
-            sb.Append("class EdFiPersonReference {\n");
-            sb.Append("  PersonId: ").Append(PersonId).Append("\n");
-            sb.Append("  SourceSystemDescriptor: ").Append(SourceSystemDescriptor).Append("\n");
-            sb.Append("  Link: ").Append(Link).Append("\n");
-            sb.Append("}\n");
+            var sb = new StringBuilder();
+            _ = sb.Append("class EdFiPersonReference {\n");
+            _ = sb.Append("  PersonId: ").Append(PersonId).Append("\n");
+            _ = sb.Append("  SourceSystemDescriptor: ").Append(SourceSystemDescriptor).Append("\n");
+            _ = sb.Append("  Link: ").Append(Link).Append("\n");
+            _ = sb.Append("}\n");
             return sb.ToString();
         }
 
@@ -106,7 +96,7 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as EdFiPersonReference);
+            return Equals(input as EdFiPersonReference);
         }
 
         /// <summary>
@@ -116,25 +106,21 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public bool Equals(EdFiPersonReference input)
         {
-            if (input == null)
-            {
-                return false;
-            }
-            return
-                (
-                    this.PersonId == input.PersonId ||
-                    (this.PersonId != null &&
-                    this.PersonId.Equals(input.PersonId))
+            return input != null
+&& (
+                    PersonId == input.PersonId ||
+                    (PersonId != null &&
+                    PersonId.Equals(input.PersonId))
                 ) &&
                 (
-                    this.SourceSystemDescriptor == input.SourceSystemDescriptor ||
-                    (this.SourceSystemDescriptor != null &&
-                    this.SourceSystemDescriptor.Equals(input.SourceSystemDescriptor))
+                    SourceSystemDescriptor == input.SourceSystemDescriptor ||
+                    (SourceSystemDescriptor != null &&
+                    SourceSystemDescriptor.Equals(input.SourceSystemDescriptor))
                 ) &&
                 (
-                    this.Link == input.Link ||
-                    (this.Link != null &&
-                    this.Link.Equals(input.Link))
+                    Link == input.Link ||
+                    (Link != null &&
+                    Link.Equals(input.Link))
                 );
         }
 
@@ -146,18 +132,18 @@ namespace EdFi.OdsApi.Sdk.Models.All
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
-                if (this.PersonId != null)
+                var hashCode = 41;
+                if (PersonId != null)
                 {
-                    hashCode = (hashCode * 59) + this.PersonId.GetHashCode();
+                    hashCode = (hashCode * 59) + PersonId.GetHashCode();
                 }
-                if (this.SourceSystemDescriptor != null)
+                if (SourceSystemDescriptor != null)
                 {
-                    hashCode = (hashCode * 59) + this.SourceSystemDescriptor.GetHashCode();
+                    hashCode = (hashCode * 59) + SourceSystemDescriptor.GetHashCode();
                 }
-                if (this.Link != null)
+                if (Link != null)
                 {
-                    hashCode = (hashCode * 59) + this.Link.GetHashCode();
+                    hashCode = (hashCode * 59) + Link.GetHashCode();
                 }
                 return hashCode;
             }
@@ -171,13 +157,13 @@ namespace EdFi.OdsApi.Sdk.Models.All
         public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
         {
             // PersonId (string) maxLength
-            if (this.PersonId != null && this.PersonId.Length > 32)
+            if (PersonId != null && PersonId.Length > 32)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for PersonId, length must be less than 32.", new[] { "PersonId" });
             }
 
             // SourceSystemDescriptor (string) maxLength
-            if (this.SourceSystemDescriptor != null && this.SourceSystemDescriptor.Length > 306)
+            if (SourceSystemDescriptor != null && SourceSystemDescriptor.Length > 306)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for SourceSystemDescriptor, length must be less than 306.", new[] { "SourceSystemDescriptor" });
             }

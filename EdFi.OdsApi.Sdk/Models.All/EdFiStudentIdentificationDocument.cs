@@ -12,12 +12,12 @@
  */
 
 
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using System.Text;
-using Newtonsoft.Json;
-using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = EdFi.OdsApi.Sdk.Client.OpenAPIDateConverter;
 
 namespace EdFi.OdsApi.Sdk.Models.All
@@ -43,25 +43,15 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <param name="documentTitle">The title of the document given by the issuer..</param>
         /// <param name="issuerDocumentIdentificationCode">The unique identifier on the issuer&#39;s identification system..</param>
         /// <param name="issuerName">Name of the entity or institution that issued the document..</param>
-        public EdFiStudentIdentificationDocument(string identificationDocumentUseDescriptor = default(string), string personalInformationVerificationDescriptor = default(string), string issuerCountryDescriptor = default(string), DateTime? documentExpirationDate = default(DateTime?), string documentTitle = default(string), string issuerDocumentIdentificationCode = default(string), string issuerName = default(string))
+        public EdFiStudentIdentificationDocument(string identificationDocumentUseDescriptor = default, string personalInformationVerificationDescriptor = default, string issuerCountryDescriptor = default, DateTime? documentExpirationDate = default, string documentTitle = default, string issuerDocumentIdentificationCode = default, string issuerName = default)
         {
-            // to ensure "identificationDocumentUseDescriptor" is required (not null)
-            if (identificationDocumentUseDescriptor == null)
-            {
-                throw new ArgumentNullException("identificationDocumentUseDescriptor is a required property for EdFiStudentIdentificationDocument and cannot be null");
-            }
-            this.IdentificationDocumentUseDescriptor = identificationDocumentUseDescriptor;
-            // to ensure "personalInformationVerificationDescriptor" is required (not null)
-            if (personalInformationVerificationDescriptor == null)
-            {
-                throw new ArgumentNullException("personalInformationVerificationDescriptor is a required property for EdFiStudentIdentificationDocument and cannot be null");
-            }
-            this.PersonalInformationVerificationDescriptor = personalInformationVerificationDescriptor;
-            this.IssuerCountryDescriptor = issuerCountryDescriptor;
-            this.DocumentExpirationDate = documentExpirationDate;
-            this.DocumentTitle = documentTitle;
-            this.IssuerDocumentIdentificationCode = issuerDocumentIdentificationCode;
-            this.IssuerName = issuerName;
+            IdentificationDocumentUseDescriptor = identificationDocumentUseDescriptor ?? throw new ArgumentNullException("identificationDocumentUseDescriptor is a required property for EdFiStudentIdentificationDocument and cannot be null");
+            PersonalInformationVerificationDescriptor = personalInformationVerificationDescriptor ?? throw new ArgumentNullException("personalInformationVerificationDescriptor is a required property for EdFiStudentIdentificationDocument and cannot be null");
+            IssuerCountryDescriptor = issuerCountryDescriptor;
+            DocumentExpirationDate = documentExpirationDate;
+            DocumentTitle = documentTitle;
+            IssuerDocumentIdentificationCode = issuerDocumentIdentificationCode;
+            IssuerName = issuerName;
         }
 
         /// <summary>
@@ -120,16 +110,16 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder();
-            sb.Append("class EdFiStudentIdentificationDocument {\n");
-            sb.Append("  IdentificationDocumentUseDescriptor: ").Append(IdentificationDocumentUseDescriptor).Append("\n");
-            sb.Append("  PersonalInformationVerificationDescriptor: ").Append(PersonalInformationVerificationDescriptor).Append("\n");
-            sb.Append("  IssuerCountryDescriptor: ").Append(IssuerCountryDescriptor).Append("\n");
-            sb.Append("  DocumentExpirationDate: ").Append(DocumentExpirationDate).Append("\n");
-            sb.Append("  DocumentTitle: ").Append(DocumentTitle).Append("\n");
-            sb.Append("  IssuerDocumentIdentificationCode: ").Append(IssuerDocumentIdentificationCode).Append("\n");
-            sb.Append("  IssuerName: ").Append(IssuerName).Append("\n");
-            sb.Append("}\n");
+            var sb = new StringBuilder();
+            _ = sb.Append("class EdFiStudentIdentificationDocument {\n");
+            _ = sb.Append("  IdentificationDocumentUseDescriptor: ").Append(IdentificationDocumentUseDescriptor).Append("\n");
+            _ = sb.Append("  PersonalInformationVerificationDescriptor: ").Append(PersonalInformationVerificationDescriptor).Append("\n");
+            _ = sb.Append("  IssuerCountryDescriptor: ").Append(IssuerCountryDescriptor).Append("\n");
+            _ = sb.Append("  DocumentExpirationDate: ").Append(DocumentExpirationDate).Append("\n");
+            _ = sb.Append("  DocumentTitle: ").Append(DocumentTitle).Append("\n");
+            _ = sb.Append("  IssuerDocumentIdentificationCode: ").Append(IssuerDocumentIdentificationCode).Append("\n");
+            _ = sb.Append("  IssuerName: ").Append(IssuerName).Append("\n");
+            _ = sb.Append("}\n");
             return sb.ToString();
         }
 
@@ -149,7 +139,7 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as EdFiStudentIdentificationDocument);
+            return Equals(input as EdFiStudentIdentificationDocument);
         }
 
         /// <summary>
@@ -159,45 +149,41 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public bool Equals(EdFiStudentIdentificationDocument input)
         {
-            if (input == null)
-            {
-                return false;
-            }
-            return
-                (
-                    this.IdentificationDocumentUseDescriptor == input.IdentificationDocumentUseDescriptor ||
-                    (this.IdentificationDocumentUseDescriptor != null &&
-                    this.IdentificationDocumentUseDescriptor.Equals(input.IdentificationDocumentUseDescriptor))
+            return input != null
+&& (
+                    IdentificationDocumentUseDescriptor == input.IdentificationDocumentUseDescriptor ||
+                    (IdentificationDocumentUseDescriptor != null &&
+                    IdentificationDocumentUseDescriptor.Equals(input.IdentificationDocumentUseDescriptor))
                 ) &&
                 (
-                    this.PersonalInformationVerificationDescriptor == input.PersonalInformationVerificationDescriptor ||
-                    (this.PersonalInformationVerificationDescriptor != null &&
-                    this.PersonalInformationVerificationDescriptor.Equals(input.PersonalInformationVerificationDescriptor))
+                    PersonalInformationVerificationDescriptor == input.PersonalInformationVerificationDescriptor ||
+                    (PersonalInformationVerificationDescriptor != null &&
+                    PersonalInformationVerificationDescriptor.Equals(input.PersonalInformationVerificationDescriptor))
                 ) &&
                 (
-                    this.IssuerCountryDescriptor == input.IssuerCountryDescriptor ||
-                    (this.IssuerCountryDescriptor != null &&
-                    this.IssuerCountryDescriptor.Equals(input.IssuerCountryDescriptor))
+                    IssuerCountryDescriptor == input.IssuerCountryDescriptor ||
+                    (IssuerCountryDescriptor != null &&
+                    IssuerCountryDescriptor.Equals(input.IssuerCountryDescriptor))
                 ) &&
                 (
-                    this.DocumentExpirationDate == input.DocumentExpirationDate ||
-                    (this.DocumentExpirationDate != null &&
-                    this.DocumentExpirationDate.Equals(input.DocumentExpirationDate))
+                    DocumentExpirationDate == input.DocumentExpirationDate ||
+                    (DocumentExpirationDate != null &&
+                    DocumentExpirationDate.Equals(input.DocumentExpirationDate))
                 ) &&
                 (
-                    this.DocumentTitle == input.DocumentTitle ||
-                    (this.DocumentTitle != null &&
-                    this.DocumentTitle.Equals(input.DocumentTitle))
+                    DocumentTitle == input.DocumentTitle ||
+                    (DocumentTitle != null &&
+                    DocumentTitle.Equals(input.DocumentTitle))
                 ) &&
                 (
-                    this.IssuerDocumentIdentificationCode == input.IssuerDocumentIdentificationCode ||
-                    (this.IssuerDocumentIdentificationCode != null &&
-                    this.IssuerDocumentIdentificationCode.Equals(input.IssuerDocumentIdentificationCode))
+                    IssuerDocumentIdentificationCode == input.IssuerDocumentIdentificationCode ||
+                    (IssuerDocumentIdentificationCode != null &&
+                    IssuerDocumentIdentificationCode.Equals(input.IssuerDocumentIdentificationCode))
                 ) &&
                 (
-                    this.IssuerName == input.IssuerName ||
-                    (this.IssuerName != null &&
-                    this.IssuerName.Equals(input.IssuerName))
+                    IssuerName == input.IssuerName ||
+                    (IssuerName != null &&
+                    IssuerName.Equals(input.IssuerName))
                 );
         }
 
@@ -209,34 +195,34 @@ namespace EdFi.OdsApi.Sdk.Models.All
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
-                if (this.IdentificationDocumentUseDescriptor != null)
+                var hashCode = 41;
+                if (IdentificationDocumentUseDescriptor != null)
                 {
-                    hashCode = (hashCode * 59) + this.IdentificationDocumentUseDescriptor.GetHashCode();
+                    hashCode = (hashCode * 59) + IdentificationDocumentUseDescriptor.GetHashCode();
                 }
-                if (this.PersonalInformationVerificationDescriptor != null)
+                if (PersonalInformationVerificationDescriptor != null)
                 {
-                    hashCode = (hashCode * 59) + this.PersonalInformationVerificationDescriptor.GetHashCode();
+                    hashCode = (hashCode * 59) + PersonalInformationVerificationDescriptor.GetHashCode();
                 }
-                if (this.IssuerCountryDescriptor != null)
+                if (IssuerCountryDescriptor != null)
                 {
-                    hashCode = (hashCode * 59) + this.IssuerCountryDescriptor.GetHashCode();
+                    hashCode = (hashCode * 59) + IssuerCountryDescriptor.GetHashCode();
                 }
-                if (this.DocumentExpirationDate != null)
+                if (DocumentExpirationDate != null)
                 {
-                    hashCode = (hashCode * 59) + this.DocumentExpirationDate.GetHashCode();
+                    hashCode = (hashCode * 59) + DocumentExpirationDate.GetHashCode();
                 }
-                if (this.DocumentTitle != null)
+                if (DocumentTitle != null)
                 {
-                    hashCode = (hashCode * 59) + this.DocumentTitle.GetHashCode();
+                    hashCode = (hashCode * 59) + DocumentTitle.GetHashCode();
                 }
-                if (this.IssuerDocumentIdentificationCode != null)
+                if (IssuerDocumentIdentificationCode != null)
                 {
-                    hashCode = (hashCode * 59) + this.IssuerDocumentIdentificationCode.GetHashCode();
+                    hashCode = (hashCode * 59) + IssuerDocumentIdentificationCode.GetHashCode();
                 }
-                if (this.IssuerName != null)
+                if (IssuerName != null)
                 {
-                    hashCode = (hashCode * 59) + this.IssuerName.GetHashCode();
+                    hashCode = (hashCode * 59) + IssuerName.GetHashCode();
                 }
                 return hashCode;
             }
@@ -250,37 +236,37 @@ namespace EdFi.OdsApi.Sdk.Models.All
         public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
         {
             // IdentificationDocumentUseDescriptor (string) maxLength
-            if (this.IdentificationDocumentUseDescriptor != null && this.IdentificationDocumentUseDescriptor.Length > 306)
+            if (IdentificationDocumentUseDescriptor != null && IdentificationDocumentUseDescriptor.Length > 306)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for IdentificationDocumentUseDescriptor, length must be less than 306.", new[] { "IdentificationDocumentUseDescriptor" });
             }
 
             // PersonalInformationVerificationDescriptor (string) maxLength
-            if (this.PersonalInformationVerificationDescriptor != null && this.PersonalInformationVerificationDescriptor.Length > 306)
+            if (PersonalInformationVerificationDescriptor != null && PersonalInformationVerificationDescriptor.Length > 306)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for PersonalInformationVerificationDescriptor, length must be less than 306.", new[] { "PersonalInformationVerificationDescriptor" });
             }
 
             // IssuerCountryDescriptor (string) maxLength
-            if (this.IssuerCountryDescriptor != null && this.IssuerCountryDescriptor.Length > 306)
+            if (IssuerCountryDescriptor != null && IssuerCountryDescriptor.Length > 306)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for IssuerCountryDescriptor, length must be less than 306.", new[] { "IssuerCountryDescriptor" });
             }
 
             // DocumentTitle (string) maxLength
-            if (this.DocumentTitle != null && this.DocumentTitle.Length > 60)
+            if (DocumentTitle != null && DocumentTitle.Length > 60)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for DocumentTitle, length must be less than 60.", new[] { "DocumentTitle" });
             }
 
             // IssuerDocumentIdentificationCode (string) maxLength
-            if (this.IssuerDocumentIdentificationCode != null && this.IssuerDocumentIdentificationCode.Length > 60)
+            if (IssuerDocumentIdentificationCode != null && IssuerDocumentIdentificationCode.Length > 60)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for IssuerDocumentIdentificationCode, length must be less than 60.", new[] { "IssuerDocumentIdentificationCode" });
             }
 
             // IssuerName (string) maxLength
-            if (this.IssuerName != null && this.IssuerName.Length > 150)
+            if (IssuerName != null && IssuerName.Length > 150)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for IssuerName, length must be less than 150.", new[] { "IssuerName" });
             }

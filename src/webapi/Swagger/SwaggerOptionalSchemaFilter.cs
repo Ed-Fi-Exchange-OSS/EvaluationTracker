@@ -3,9 +3,9 @@
 // The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
 // See the LICENSE and NOTICES files in the project root for more information.
 
-using System.Reflection;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using System.Reflection;
 
 namespace eppeta.webapi.Swagger;
 
@@ -28,7 +28,7 @@ public class SwaggerOptionalSchemaFilter : ISchemaFilter
 
             if (attribute != null)
             {
-                schema.Required?.Remove(propertyNameInCamelCasing);
+                _ = (schema.Required?.Remove(propertyNameInCamelCasing));
             }
             else
             {
@@ -38,7 +38,7 @@ public class SwaggerOptionalSchemaFilter : ISchemaFilter
                 }
                 else
                 {
-                    schema.Required.Add(propertyNameInCamelCasing);
+                    _ = schema.Required.Add(propertyNameInCamelCasing);
                 }
             }
         }

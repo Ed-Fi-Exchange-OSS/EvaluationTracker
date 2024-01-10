@@ -12,12 +12,12 @@
  */
 
 
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using System.Text;
-using Newtonsoft.Json;
-using System.ComponentModel.DataAnnotations;
 
 namespace EdFi.OdsApi.Sdk.Models.All
 {
@@ -39,22 +39,12 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <param name="programName">The name of the Educator Preparation Program. (required).</param>
         /// <param name="programTypeDescriptor">The type of program. (required).</param>
         /// <param name="link">link.</param>
-        public TpdmEducatorPreparationProgramReference(int educationOrganizationId = default(int), string programName = default(string), string programTypeDescriptor = default(string), Link link = default(Link))
+        public TpdmEducatorPreparationProgramReference(int educationOrganizationId = default, string programName = default, string programTypeDescriptor = default, Link link = default)
         {
-            this.EducationOrganizationId = educationOrganizationId;
-            // to ensure "programName" is required (not null)
-            if (programName == null)
-            {
-                throw new ArgumentNullException("programName is a required property for TpdmEducatorPreparationProgramReference and cannot be null");
-            }
-            this.ProgramName = programName;
-            // to ensure "programTypeDescriptor" is required (not null)
-            if (programTypeDescriptor == null)
-            {
-                throw new ArgumentNullException("programTypeDescriptor is a required property for TpdmEducatorPreparationProgramReference and cannot be null");
-            }
-            this.ProgramTypeDescriptor = programTypeDescriptor;
-            this.Link = link;
+            EducationOrganizationId = educationOrganizationId;
+            ProgramName = programName ?? throw new ArgumentNullException("programName is a required property for TpdmEducatorPreparationProgramReference and cannot be null");
+            ProgramTypeDescriptor = programTypeDescriptor ?? throw new ArgumentNullException("programTypeDescriptor is a required property for TpdmEducatorPreparationProgramReference and cannot be null");
+            Link = link;
         }
 
         /// <summary>
@@ -90,13 +80,13 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder();
-            sb.Append("class TpdmEducatorPreparationProgramReference {\n");
-            sb.Append("  EducationOrganizationId: ").Append(EducationOrganizationId).Append("\n");
-            sb.Append("  ProgramName: ").Append(ProgramName).Append("\n");
-            sb.Append("  ProgramTypeDescriptor: ").Append(ProgramTypeDescriptor).Append("\n");
-            sb.Append("  Link: ").Append(Link).Append("\n");
-            sb.Append("}\n");
+            var sb = new StringBuilder();
+            _ = sb.Append("class TpdmEducatorPreparationProgramReference {\n");
+            _ = sb.Append("  EducationOrganizationId: ").Append(EducationOrganizationId).Append("\n");
+            _ = sb.Append("  ProgramName: ").Append(ProgramName).Append("\n");
+            _ = sb.Append("  ProgramTypeDescriptor: ").Append(ProgramTypeDescriptor).Append("\n");
+            _ = sb.Append("  Link: ").Append(Link).Append("\n");
+            _ = sb.Append("}\n");
             return sb.ToString();
         }
 
@@ -116,7 +106,7 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as TpdmEducatorPreparationProgramReference);
+            return Equals(input as TpdmEducatorPreparationProgramReference);
         }
 
         /// <summary>
@@ -126,29 +116,25 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public bool Equals(TpdmEducatorPreparationProgramReference input)
         {
-            if (input == null)
-            {
-                return false;
-            }
-            return
-                (
-                    this.EducationOrganizationId == input.EducationOrganizationId ||
-                    this.EducationOrganizationId.Equals(input.EducationOrganizationId)
+            return input != null
+&& (
+                    EducationOrganizationId == input.EducationOrganizationId ||
+                    EducationOrganizationId.Equals(input.EducationOrganizationId)
                 ) &&
                 (
-                    this.ProgramName == input.ProgramName ||
-                    (this.ProgramName != null &&
-                    this.ProgramName.Equals(input.ProgramName))
+                    ProgramName == input.ProgramName ||
+                    (ProgramName != null &&
+                    ProgramName.Equals(input.ProgramName))
                 ) &&
                 (
-                    this.ProgramTypeDescriptor == input.ProgramTypeDescriptor ||
-                    (this.ProgramTypeDescriptor != null &&
-                    this.ProgramTypeDescriptor.Equals(input.ProgramTypeDescriptor))
+                    ProgramTypeDescriptor == input.ProgramTypeDescriptor ||
+                    (ProgramTypeDescriptor != null &&
+                    ProgramTypeDescriptor.Equals(input.ProgramTypeDescriptor))
                 ) &&
                 (
-                    this.Link == input.Link ||
-                    (this.Link != null &&
-                    this.Link.Equals(input.Link))
+                    Link == input.Link ||
+                    (Link != null &&
+                    Link.Equals(input.Link))
                 );
         }
 
@@ -160,19 +146,19 @@ namespace EdFi.OdsApi.Sdk.Models.All
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
-                hashCode = (hashCode * 59) + this.EducationOrganizationId.GetHashCode();
-                if (this.ProgramName != null)
+                var hashCode = 41;
+                hashCode = (hashCode * 59) + EducationOrganizationId.GetHashCode();
+                if (ProgramName != null)
                 {
-                    hashCode = (hashCode * 59) + this.ProgramName.GetHashCode();
+                    hashCode = (hashCode * 59) + ProgramName.GetHashCode();
                 }
-                if (this.ProgramTypeDescriptor != null)
+                if (ProgramTypeDescriptor != null)
                 {
-                    hashCode = (hashCode * 59) + this.ProgramTypeDescriptor.GetHashCode();
+                    hashCode = (hashCode * 59) + ProgramTypeDescriptor.GetHashCode();
                 }
-                if (this.Link != null)
+                if (Link != null)
                 {
-                    hashCode = (hashCode * 59) + this.Link.GetHashCode();
+                    hashCode = (hashCode * 59) + Link.GetHashCode();
                 }
                 return hashCode;
             }
@@ -186,13 +172,13 @@ namespace EdFi.OdsApi.Sdk.Models.All
         public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
         {
             // ProgramName (string) maxLength
-            if (this.ProgramName != null && this.ProgramName.Length > 255)
+            if (ProgramName != null && ProgramName.Length > 255)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for ProgramName, length must be less than 255.", new[] { "ProgramName" });
             }
 
             // ProgramTypeDescriptor (string) maxLength
-            if (this.ProgramTypeDescriptor != null && this.ProgramTypeDescriptor.Length > 306)
+            if (ProgramTypeDescriptor != null && ProgramTypeDescriptor.Length > 306)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for ProgramTypeDescriptor, length must be less than 306.", new[] { "ProgramTypeDescriptor" });
             }

@@ -3,10 +3,10 @@
 // The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
 // See the LICENSE and NOTICES files in the project root for more information.
 
-using System.Globalization;
-using System.Text.RegularExpressions;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using System.Globalization;
+using System.Text.RegularExpressions;
 
 namespace eppeta.webapi.Swagger;
 
@@ -17,13 +17,17 @@ public class TagByResourceUrlFilter : IOperationFilter
         var urlParts = context.ApiDescription.RelativePath?.Split("/") ?? Array.Empty<string>();
 
         if (urlParts.Length == 0)
+        {
             return;
+        }
 
         var isVersionPart = new Regex("(v)\\d+");
         var resourceName = isVersionPart.IsMatch(urlParts[0])
             ? urlParts[1] : urlParts[0];
 
         if (!string.IsNullOrWhiteSpace(resourceName))
+        {
             operation.Tags = new List<OpenApiTag> { new() { Name = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(resourceName.Trim('/')) } };
+        }
     }
 }

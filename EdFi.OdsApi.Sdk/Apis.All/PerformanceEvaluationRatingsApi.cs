@@ -8,14 +8,10 @@
  */
 
 
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Net;
-using System.Net.Mime;
 using EdFi.OdsApi.Sdk.Client;
 using EdFi.OdsApi.Sdk.Models.All;
+using System;
+using System.Collections.Generic;
 
 namespace EdFi.OdsApi.Sdk.Apis.All
 {
@@ -37,7 +33,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="ifMatch">The ETag header value used to prevent the DELETE from removing a resource modified by another consumer. (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns></returns>
-        void DeletePerformanceEvaluationRatingById(string id, string? ifMatch = default(string?), int operationIndex = 0);
+        void DeletePerformanceEvaluationRatingById(string id, string? ifMatch = default, int operationIndex = 0);
 
         /// <summary>
         /// Deletes an existing resource using the resource identifier.
@@ -50,7 +46,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="ifMatch">The ETag header value used to prevent the DELETE from removing a resource modified by another consumer. (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> DeletePerformanceEvaluationRatingByIdWithHttpInfo(string id, string? ifMatch = default(string?), int operationIndex = 0);
+        ApiResponse<object> DeletePerformanceEvaluationRatingByIdWithHttpInfo(string id, string? ifMatch = default, int operationIndex = 0);
 
         /// <summary>
         /// Retrieves specific resources using the resource&#39;s property values (using the \&quot;Get\&quot; pattern).
@@ -84,7 +80,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="useSnapshot">Indicates if the configured Snapshot should be used. (optional, default to false)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>List&lt;TpdmPerformanceEvaluationRating&gt;</returns>
-        List<TpdmPerformanceEvaluationRating> GetPerformanceEvaluationRatings(int? offset = default(int?), int? limit = default(int?), long? minChangeVersion = default(long?), long? maxChangeVersion = default(long?), bool? totalCount = default(bool?), long? educationOrganizationId = default(long?), string? evaluationPeriodDescriptor = default(string?), string? performanceEvaluationTitle = default(string?), string? performanceEvaluationTypeDescriptor = default(string?), int? schoolYear = default(int?), string? termDescriptor = default(string?), string? personId = default(string?), string? sourceSystemDescriptor = default(string?), string? coteachingStyleObservedDescriptor = default(string?), string? performanceEvaluationRatingLevelDescriptor = default(string?), DateTime? actualDate = default(DateTime?), int? actualDuration = default(int?), string? actualTime = default(string?), bool? announced = default(bool?), string? comments = default(string?), string? id = default(string?), DateTime? scheduleDate = default(DateTime?), bool? useSnapshot = default(bool?), int operationIndex = 0);
+        List<TpdmPerformanceEvaluationRating> GetPerformanceEvaluationRatings(int? offset = default, int? limit = default, long? minChangeVersion = default, long? maxChangeVersion = default, bool? totalCount = default, long? educationOrganizationId = default, string? evaluationPeriodDescriptor = default, string? performanceEvaluationTitle = default, string? performanceEvaluationTypeDescriptor = default, int? schoolYear = default, string? termDescriptor = default, string? personId = default, string? sourceSystemDescriptor = default, string? coteachingStyleObservedDescriptor = default, string? performanceEvaluationRatingLevelDescriptor = default, DateTime? actualDate = default, int? actualDuration = default, string? actualTime = default, bool? announced = default, string? comments = default, string? id = default, DateTime? scheduleDate = default, bool? useSnapshot = default, int operationIndex = 0);
 
         /// <summary>
         /// Retrieves specific resources using the resource&#39;s property values (using the \&quot;Get\&quot; pattern).
@@ -118,7 +114,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="useSnapshot">Indicates if the configured Snapshot should be used. (optional, default to false)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of List&lt;TpdmPerformanceEvaluationRating&gt;</returns>
-        ApiResponse<List<TpdmPerformanceEvaluationRating>> GetPerformanceEvaluationRatingsWithHttpInfo(int? offset = default(int?), int? limit = default(int?), long? minChangeVersion = default(long?), long? maxChangeVersion = default(long?), bool? totalCount = default(bool?), long? educationOrganizationId = default(long?), string? evaluationPeriodDescriptor = default(string?), string? performanceEvaluationTitle = default(string?), string? performanceEvaluationTypeDescriptor = default(string?), int? schoolYear = default(int?), string? termDescriptor = default(string?), string? personId = default(string?), string? sourceSystemDescriptor = default(string?), string? coteachingStyleObservedDescriptor = default(string?), string? performanceEvaluationRatingLevelDescriptor = default(string?), DateTime? actualDate = default(DateTime?), int? actualDuration = default(int?), string? actualTime = default(string?), bool? announced = default(bool?), string? comments = default(string?), string? id = default(string?), DateTime? scheduleDate = default(DateTime?), bool? useSnapshot = default(bool?), int operationIndex = 0);
+        ApiResponse<List<TpdmPerformanceEvaluationRating>> GetPerformanceEvaluationRatingsWithHttpInfo(int? offset = default, int? limit = default, long? minChangeVersion = default, long? maxChangeVersion = default, bool? totalCount = default, long? educationOrganizationId = default, string? evaluationPeriodDescriptor = default, string? performanceEvaluationTitle = default, string? performanceEvaluationTypeDescriptor = default, int? schoolYear = default, string? termDescriptor = default, string? personId = default, string? sourceSystemDescriptor = default, string? coteachingStyleObservedDescriptor = default, string? performanceEvaluationRatingLevelDescriptor = default, DateTime? actualDate = default, int? actualDuration = default, string? actualTime = default, bool? announced = default, string? comments = default, string? id = default, DateTime? scheduleDate = default, bool? useSnapshot = default, int operationIndex = 0);
         /// <summary>
         /// Retrieves a specific resource using the resource&#39;s identifier (using the \&quot;Get By Id\&quot; pattern).
         /// </summary>
@@ -131,7 +127,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="useSnapshot">Indicates if the configured Snapshot should be used. (optional, default to false)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>TpdmPerformanceEvaluationRating</returns>
-        TpdmPerformanceEvaluationRating GetPerformanceEvaluationRatingsById(string id, string? ifNoneMatch = default(string?), bool? useSnapshot = default(bool?), int operationIndex = 0);
+        TpdmPerformanceEvaluationRating GetPerformanceEvaluationRatingsById(string id, string? ifNoneMatch = default, bool? useSnapshot = default, int operationIndex = 0);
 
         /// <summary>
         /// Retrieves a specific resource using the resource&#39;s identifier (using the \&quot;Get By Id\&quot; pattern).
@@ -145,7 +141,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="useSnapshot">Indicates if the configured Snapshot should be used. (optional, default to false)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of TpdmPerformanceEvaluationRating</returns>
-        ApiResponse<TpdmPerformanceEvaluationRating> GetPerformanceEvaluationRatingsByIdWithHttpInfo(string id, string? ifNoneMatch = default(string?), bool? useSnapshot = default(bool?), int operationIndex = 0);
+        ApiResponse<TpdmPerformanceEvaluationRating> GetPerformanceEvaluationRatingsByIdWithHttpInfo(string id, string? ifNoneMatch = default, bool? useSnapshot = default, int operationIndex = 0);
 
         /// <summary>
         /// Creates or updates resources based on the natural key values of the supplied resource.
@@ -169,7 +165,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="performanceEvaluationRating">The JSON representation of the \&quot;performanceEvaluationRating\&quot; resource to be created or updated.</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> PostPerformanceEvaluationRatingWithHttpInfo(TpdmPerformanceEvaluationRating performanceEvaluationRating, int operationIndex = 0);
+        ApiResponse<object> PostPerformanceEvaluationRatingWithHttpInfo(TpdmPerformanceEvaluationRating performanceEvaluationRating, int operationIndex = 0);
         /// <summary>
         /// Updates a resource based on the resource identifier.
         /// </summary>
@@ -182,7 +178,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="ifMatch">The ETag header value used to prevent the PUT from updating a resource modified by another consumer. (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns></returns>
-        void PutPerformanceEvaluationRating(string id, TpdmPerformanceEvaluationRating performanceEvaluationRating, string? ifMatch = default(string?), int operationIndex = 0);
+        void PutPerformanceEvaluationRating(string id, TpdmPerformanceEvaluationRating performanceEvaluationRating, string? ifMatch = default, int operationIndex = 0);
 
         /// <summary>
         /// Updates a resource based on the resource identifier.
@@ -196,7 +192,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="ifMatch">The ETag header value used to prevent the PUT from updating a resource modified by another consumer. (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> PutPerformanceEvaluationRatingWithHttpInfo(string id, TpdmPerformanceEvaluationRating performanceEvaluationRating, string? ifMatch = default(string?), int operationIndex = 0);
+        ApiResponse<object> PutPerformanceEvaluationRatingWithHttpInfo(string id, TpdmPerformanceEvaluationRating performanceEvaluationRating, string? ifMatch = default, int operationIndex = 0);
         #endregion Synchronous Operations
     }
 
@@ -218,7 +214,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task DeletePerformanceEvaluationRatingByIdAsync(string id, string? ifMatch = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task DeletePerformanceEvaluationRatingByIdAsync(string id, string? ifMatch = default, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Deletes an existing resource using the resource identifier.
@@ -232,7 +228,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> DeletePerformanceEvaluationRatingByIdWithHttpInfoAsync(string id, string? ifMatch = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<object>> DeletePerformanceEvaluationRatingByIdWithHttpInfoAsync(string id, string? ifMatch = default, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default);
         /// <summary>
         /// Retrieves specific resources using the resource&#39;s property values (using the \&quot;Get\&quot; pattern).
         /// </summary>
@@ -266,7 +262,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of List&lt;TpdmPerformanceEvaluationRating&gt;</returns>
-        System.Threading.Tasks.Task<List<TpdmPerformanceEvaluationRating>> GetPerformanceEvaluationRatingsAsync(int? offset = default(int?), int? limit = default(int?), long? minChangeVersion = default(long?), long? maxChangeVersion = default(long?), bool? totalCount = default(bool?), long? educationOrganizationId = default(long?), string? evaluationPeriodDescriptor = default(string?), string? performanceEvaluationTitle = default(string?), string? performanceEvaluationTypeDescriptor = default(string?), int? schoolYear = default(int?), string? termDescriptor = default(string?), string? personId = default(string?), string? sourceSystemDescriptor = default(string?), string? coteachingStyleObservedDescriptor = default(string?), string? performanceEvaluationRatingLevelDescriptor = default(string?), DateTime? actualDate = default(DateTime?), int? actualDuration = default(int?), string? actualTime = default(string?), bool? announced = default(bool?), string? comments = default(string?), string? id = default(string?), DateTime? scheduleDate = default(DateTime?), bool? useSnapshot = default(bool?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<List<TpdmPerformanceEvaluationRating>> GetPerformanceEvaluationRatingsAsync(int? offset = default, int? limit = default, long? minChangeVersion = default, long? maxChangeVersion = default, bool? totalCount = default, long? educationOrganizationId = default, string? evaluationPeriodDescriptor = default, string? performanceEvaluationTitle = default, string? performanceEvaluationTypeDescriptor = default, int? schoolYear = default, string? termDescriptor = default, string? personId = default, string? sourceSystemDescriptor = default, string? coteachingStyleObservedDescriptor = default, string? performanceEvaluationRatingLevelDescriptor = default, DateTime? actualDate = default, int? actualDuration = default, string? actualTime = default, bool? announced = default, string? comments = default, string? id = default, DateTime? scheduleDate = default, bool? useSnapshot = default, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Retrieves specific resources using the resource&#39;s property values (using the \&quot;Get\&quot; pattern).
@@ -301,7 +297,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (List&lt;TpdmPerformanceEvaluationRating&gt;)</returns>
-        System.Threading.Tasks.Task<ApiResponse<List<TpdmPerformanceEvaluationRating>>> GetPerformanceEvaluationRatingsWithHttpInfoAsync(int? offset = default(int?), int? limit = default(int?), long? minChangeVersion = default(long?), long? maxChangeVersion = default(long?), bool? totalCount = default(bool?), long? educationOrganizationId = default(long?), string? evaluationPeriodDescriptor = default(string?), string? performanceEvaluationTitle = default(string?), string? performanceEvaluationTypeDescriptor = default(string?), int? schoolYear = default(int?), string? termDescriptor = default(string?), string? personId = default(string?), string? sourceSystemDescriptor = default(string?), string? coteachingStyleObservedDescriptor = default(string?), string? performanceEvaluationRatingLevelDescriptor = default(string?), DateTime? actualDate = default(DateTime?), int? actualDuration = default(int?), string? actualTime = default(string?), bool? announced = default(bool?), string? comments = default(string?), string? id = default(string?), DateTime? scheduleDate = default(DateTime?), bool? useSnapshot = default(bool?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<List<TpdmPerformanceEvaluationRating>>> GetPerformanceEvaluationRatingsWithHttpInfoAsync(int? offset = default, int? limit = default, long? minChangeVersion = default, long? maxChangeVersion = default, bool? totalCount = default, long? educationOrganizationId = default, string? evaluationPeriodDescriptor = default, string? performanceEvaluationTitle = default, string? performanceEvaluationTypeDescriptor = default, int? schoolYear = default, string? termDescriptor = default, string? personId = default, string? sourceSystemDescriptor = default, string? coteachingStyleObservedDescriptor = default, string? performanceEvaluationRatingLevelDescriptor = default, DateTime? actualDate = default, int? actualDuration = default, string? actualTime = default, bool? announced = default, string? comments = default, string? id = default, DateTime? scheduleDate = default, bool? useSnapshot = default, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default);
         /// <summary>
         /// Retrieves a specific resource using the resource&#39;s identifier (using the \&quot;Get By Id\&quot; pattern).
         /// </summary>
@@ -315,7 +311,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of TpdmPerformanceEvaluationRating</returns>
-        System.Threading.Tasks.Task<TpdmPerformanceEvaluationRating> GetPerformanceEvaluationRatingsByIdAsync(string id, string? ifNoneMatch = default(string?), bool? useSnapshot = default(bool?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<TpdmPerformanceEvaluationRating> GetPerformanceEvaluationRatingsByIdAsync(string id, string? ifNoneMatch = default, bool? useSnapshot = default, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Retrieves a specific resource using the resource&#39;s identifier (using the \&quot;Get By Id\&quot; pattern).
@@ -330,7 +326,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (TpdmPerformanceEvaluationRating)</returns>
-        System.Threading.Tasks.Task<ApiResponse<TpdmPerformanceEvaluationRating>> GetPerformanceEvaluationRatingsByIdWithHttpInfoAsync(string id, string? ifNoneMatch = default(string?), bool? useSnapshot = default(bool?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<TpdmPerformanceEvaluationRating>> GetPerformanceEvaluationRatingsByIdWithHttpInfoAsync(string id, string? ifNoneMatch = default, bool? useSnapshot = default, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default);
         /// <summary>
         /// Creates or updates resources based on the natural key values of the supplied resource.
         /// </summary>
@@ -342,7 +338,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task PostPerformanceEvaluationRatingAsync(TpdmPerformanceEvaluationRating performanceEvaluationRating, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task PostPerformanceEvaluationRatingAsync(TpdmPerformanceEvaluationRating performanceEvaluationRating, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Creates or updates resources based on the natural key values of the supplied resource.
@@ -355,7 +351,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> PostPerformanceEvaluationRatingWithHttpInfoAsync(TpdmPerformanceEvaluationRating performanceEvaluationRating, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<object>> PostPerformanceEvaluationRatingWithHttpInfoAsync(TpdmPerformanceEvaluationRating performanceEvaluationRating, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default);
         /// <summary>
         /// Updates a resource based on the resource identifier.
         /// </summary>
@@ -369,7 +365,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task PutPerformanceEvaluationRatingAsync(string id, TpdmPerformanceEvaluationRating performanceEvaluationRating, string? ifMatch = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task PutPerformanceEvaluationRatingAsync(string id, TpdmPerformanceEvaluationRating performanceEvaluationRating, string? ifMatch = default, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Updates a resource based on the resource identifier.
@@ -384,7 +380,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> PutPerformanceEvaluationRatingWithHttpInfoAsync(string id, TpdmPerformanceEvaluationRating performanceEvaluationRating, string? ifMatch = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<object>> PutPerformanceEvaluationRatingWithHttpInfoAsync(string id, TpdmPerformanceEvaluationRating performanceEvaluationRating, string? ifMatch = default, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default);
         #endregion Asynchronous Operations
     }
 
@@ -417,13 +413,13 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <returns></returns>
         public PerformanceEvaluationRatingsApi(string basePath)
         {
-            this.Configuration = EdFi.OdsApi.Sdk.Client.Configuration.MergeConfigurations(
+            Configuration = EdFi.OdsApi.Sdk.Client.Configuration.MergeConfigurations(
                 EdFi.OdsApi.Sdk.Client.GlobalConfiguration.Instance,
                 new EdFi.OdsApi.Sdk.Client.Configuration { BasePath = basePath }
             );
-            this.Client = new EdFi.OdsApi.Sdk.Client.ApiClient(this.Configuration.BasePath);
-            this.AsynchronousClient = new EdFi.OdsApi.Sdk.Client.ApiClient(this.Configuration.BasePath);
-            this.ExceptionFactory = EdFi.OdsApi.Sdk.Client.Configuration.DefaultExceptionFactory;
+            Client = new EdFi.OdsApi.Sdk.Client.ApiClient(Configuration.BasePath);
+            AsynchronousClient = new EdFi.OdsApi.Sdk.Client.ApiClient(Configuration.BasePath);
+            ExceptionFactory = EdFi.OdsApi.Sdk.Client.Configuration.DefaultExceptionFactory;
         }
 
         /// <summary>
@@ -434,14 +430,17 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <returns></returns>
         public PerformanceEvaluationRatingsApi(EdFi.OdsApi.Sdk.Client.Configuration configuration)
         {
-            if (configuration == null) throw new ArgumentNullException("configuration");
+            if (configuration == null)
+            {
+                throw new ArgumentNullException("configuration");
+            }
 
-            this.Configuration = EdFi.OdsApi.Sdk.Client.Configuration.MergeConfigurations(
+            Configuration = EdFi.OdsApi.Sdk.Client.Configuration.MergeConfigurations(
                 EdFi.OdsApi.Sdk.Client.GlobalConfiguration.Instance,
                 configuration
             );
-            this.Client = new EdFi.OdsApi.Sdk.Client.ApiClient(this.Configuration.BasePath);
-            this.AsynchronousClient = new EdFi.OdsApi.Sdk.Client.ApiClient(this.Configuration.BasePath);
+            Client = new EdFi.OdsApi.Sdk.Client.ApiClient(Configuration.BasePath);
+            AsynchronousClient = new EdFi.OdsApi.Sdk.Client.ApiClient(Configuration.BasePath);
             ExceptionFactory = EdFi.OdsApi.Sdk.Client.Configuration.DefaultExceptionFactory;
         }
 
@@ -454,14 +453,10 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="configuration">The configuration object.</param>
         public PerformanceEvaluationRatingsApi(EdFi.OdsApi.Sdk.Client.ISynchronousClient client, EdFi.OdsApi.Sdk.Client.IAsynchronousClient asyncClient, EdFi.OdsApi.Sdk.Client.IReadableConfiguration configuration)
         {
-            if (client == null) throw new ArgumentNullException("client");
-            if (asyncClient == null) throw new ArgumentNullException("asyncClient");
-            if (configuration == null) throw new ArgumentNullException("configuration");
-
-            this.Client = client;
-            this.AsynchronousClient = asyncClient;
-            this.Configuration = configuration;
-            this.ExceptionFactory = EdFi.OdsApi.Sdk.Client.Configuration.DefaultExceptionFactory;
+            Client = client ?? throw new ArgumentNullException("client");
+            AsynchronousClient = asyncClient ?? throw new ArgumentNullException("asyncClient");
+            Configuration = configuration ?? throw new ArgumentNullException("configuration");
+            ExceptionFactory = EdFi.OdsApi.Sdk.Client.Configuration.DefaultExceptionFactory;
         }
 
         /// <summary>
@@ -480,7 +475,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <value>The base path</value>
         public string GetBasePath()
         {
-            return this.Configuration.BasePath;
+            return Configuration.BasePath;
         }
 
         /// <summary>
@@ -494,15 +489,10 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// </summary>
         public EdFi.OdsApi.Sdk.Client.ExceptionFactory ExceptionFactory
         {
-            get
-            {
-                if (_exceptionFactory != null && _exceptionFactory.GetInvocationList().Length > 1)
-                {
-                    throw new InvalidOperationException("Multicast delegate for ExceptionFactory is unsupported.");
-                }
-                return _exceptionFactory;
-            }
-            set { _exceptionFactory = value; }
+            get => _exceptionFactory != null && _exceptionFactory.GetInvocationList().Length > 1
+                    ? throw new InvalidOperationException("Multicast delegate for ExceptionFactory is unsupported.")
+                    : _exceptionFactory;
+            set => _exceptionFactory = value;
         }
 
         /// <summary>
@@ -513,9 +503,9 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="ifMatch">The ETag header value used to prevent the DELETE from removing a resource modified by another consumer. (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns></returns>
-        public void DeletePerformanceEvaluationRatingById(string id, string? ifMatch = default(string?), int operationIndex = 0)
+        public void DeletePerformanceEvaluationRatingById(string id, string? ifMatch = default, int operationIndex = 0)
         {
-            DeletePerformanceEvaluationRatingByIdWithHttpInfo(id, ifMatch);
+            _ = DeletePerformanceEvaluationRatingByIdWithHttpInfo(id, ifMatch);
         }
 
         /// <summary>
@@ -526,7 +516,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="ifMatch">The ETag header value used to prevent the DELETE from removing a resource modified by another consumer. (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public EdFi.OdsApi.Sdk.Client.ApiResponse<Object> DeletePerformanceEvaluationRatingByIdWithHttpInfo(string id, string? ifMatch = default(string?), int operationIndex = 0)
+        public EdFi.OdsApi.Sdk.Client.ApiResponse<Object> DeletePerformanceEvaluationRatingByIdWithHttpInfo(string id, string? ifMatch = default, int operationIndex = 0)
         {
             // verify the required parameter 'id' is set
             if (id == null)
@@ -534,13 +524,13 @@ namespace EdFi.OdsApi.Sdk.Apis.All
                 throw new EdFi.OdsApi.Sdk.Client.ApiException(400, "Missing required parameter 'id' when calling PerformanceEvaluationRatingsApi->DeletePerformanceEvaluationRatingById");
             }
 
-            EdFi.OdsApi.Sdk.Client.RequestOptions localVarRequestOptions = new EdFi.OdsApi.Sdk.Client.RequestOptions();
+            var localVarRequestOptions = new EdFi.OdsApi.Sdk.Client.RequestOptions();
 
-            string[] _contentTypes = new string[] {
+            var _contentTypes = new string[] {
             };
 
             // to determine the Accept header
-            string[] _accepts = new string[] {
+            var _accepts = new string[] {
             };
 
             var localVarContentType = EdFi.OdsApi.Sdk.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
@@ -568,18 +558,18 @@ namespace EdFi.OdsApi.Sdk.Apis.All
             // oauth required
             if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
-                if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
+                if (!string.IsNullOrEmpty(Configuration.AccessToken))
                 {
-                    localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                    localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + Configuration.AccessToken);
                 }
 
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Delete<Object>("/tpdm/performanceEvaluationRatings/{id}", localVarRequestOptions, this.Configuration);
-            if (this.ExceptionFactory != null)
+            var localVarResponse = Client.Delete<object>("/tpdm/performanceEvaluationRatings/{id}", localVarRequestOptions, Configuration);
+            if (ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("DeletePerformanceEvaluationRatingById", localVarResponse);
+                var _exception = ExceptionFactory("DeletePerformanceEvaluationRatingById", localVarResponse);
                 if (_exception != null)
                 {
                     throw _exception;
@@ -598,9 +588,9 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task DeletePerformanceEvaluationRatingByIdAsync(string id, string? ifMatch = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task DeletePerformanceEvaluationRatingByIdAsync(string id, string? ifMatch = default, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default)
         {
-            await DeletePerformanceEvaluationRatingByIdWithHttpInfoAsync(id, ifMatch, operationIndex, cancellationToken).ConfigureAwait(false);
+            _ = await DeletePerformanceEvaluationRatingByIdWithHttpInfoAsync(id, ifMatch, operationIndex, cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -612,7 +602,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<EdFi.OdsApi.Sdk.Client.ApiResponse<Object>> DeletePerformanceEvaluationRatingByIdWithHttpInfoAsync(string id, string? ifMatch = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<EdFi.OdsApi.Sdk.Client.ApiResponse<Object>> DeletePerformanceEvaluationRatingByIdWithHttpInfoAsync(string id, string? ifMatch = default, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default)
         {
             // verify the required parameter 'id' is set
             if (id == null)
@@ -621,13 +611,13 @@ namespace EdFi.OdsApi.Sdk.Apis.All
             }
 
 
-            EdFi.OdsApi.Sdk.Client.RequestOptions localVarRequestOptions = new EdFi.OdsApi.Sdk.Client.RequestOptions();
+            var localVarRequestOptions = new EdFi.OdsApi.Sdk.Client.RequestOptions();
 
-            string[] _contentTypes = new string[] {
+            var _contentTypes = new string[] {
             };
 
             // to determine the Accept header
-            string[] _accepts = new string[] {
+            var _accepts = new string[] {
             };
 
             var localVarContentType = EdFi.OdsApi.Sdk.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
@@ -655,19 +645,19 @@ namespace EdFi.OdsApi.Sdk.Apis.All
             // oauth required
             if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
-                if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
+                if (!string.IsNullOrEmpty(Configuration.AccessToken))
                 {
-                    localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                    localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + Configuration.AccessToken);
                 }
 
             }
 
             // make the HTTP request
-            var localVarResponse = await this.AsynchronousClient.DeleteAsync<Object>("/tpdm/performanceEvaluationRatings/{id}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await AsynchronousClient.DeleteAsync<object>("/tpdm/performanceEvaluationRatings/{id}", localVarRequestOptions, Configuration, cancellationToken).ConfigureAwait(false);
 
-            if (this.ExceptionFactory != null)
+            if (ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("DeletePerformanceEvaluationRatingById", localVarResponse);
+                var _exception = ExceptionFactory("DeletePerformanceEvaluationRatingById", localVarResponse);
                 if (_exception != null)
                 {
                     throw _exception;
@@ -706,9 +696,9 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="useSnapshot">Indicates if the configured Snapshot should be used. (optional, default to false)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>List&lt;TpdmPerformanceEvaluationRating&gt;</returns>
-        public List<TpdmPerformanceEvaluationRating> GetPerformanceEvaluationRatings(int? offset = default(int?), int? limit = default(int?), long? minChangeVersion = default(long?), long? maxChangeVersion = default(long?), bool? totalCount = default(bool?), long? educationOrganizationId = default(long?), string? evaluationPeriodDescriptor = default(string?), string? performanceEvaluationTitle = default(string?), string? performanceEvaluationTypeDescriptor = default(string?), int? schoolYear = default(int?), string? termDescriptor = default(string?), string? personId = default(string?), string? sourceSystemDescriptor = default(string?), string? coteachingStyleObservedDescriptor = default(string?), string? performanceEvaluationRatingLevelDescriptor = default(string?), DateTime? actualDate = default(DateTime?), int? actualDuration = default(int?), string? actualTime = default(string?), bool? announced = default(bool?), string? comments = default(string?), string? id = default(string?), DateTime? scheduleDate = default(DateTime?), bool? useSnapshot = default(bool?), int operationIndex = 0)
+        public List<TpdmPerformanceEvaluationRating> GetPerformanceEvaluationRatings(int? offset = default, int? limit = default, long? minChangeVersion = default, long? maxChangeVersion = default, bool? totalCount = default, long? educationOrganizationId = default, string? evaluationPeriodDescriptor = default, string? performanceEvaluationTitle = default, string? performanceEvaluationTypeDescriptor = default, int? schoolYear = default, string? termDescriptor = default, string? personId = default, string? sourceSystemDescriptor = default, string? coteachingStyleObservedDescriptor = default, string? performanceEvaluationRatingLevelDescriptor = default, DateTime? actualDate = default, int? actualDuration = default, string? actualTime = default, bool? announced = default, string? comments = default, string? id = default, DateTime? scheduleDate = default, bool? useSnapshot = default, int operationIndex = 0)
         {
-            EdFi.OdsApi.Sdk.Client.ApiResponse<List<TpdmPerformanceEvaluationRating>> localVarResponse = GetPerformanceEvaluationRatingsWithHttpInfo(offset, limit, minChangeVersion, maxChangeVersion, totalCount, educationOrganizationId, evaluationPeriodDescriptor, performanceEvaluationTitle, performanceEvaluationTypeDescriptor, schoolYear, termDescriptor, personId, sourceSystemDescriptor, coteachingStyleObservedDescriptor, performanceEvaluationRatingLevelDescriptor, actualDate, actualDuration, actualTime, announced, comments, id, scheduleDate, useSnapshot);
+            var localVarResponse = GetPerformanceEvaluationRatingsWithHttpInfo(offset, limit, minChangeVersion, maxChangeVersion, totalCount, educationOrganizationId, evaluationPeriodDescriptor, performanceEvaluationTitle, performanceEvaluationTypeDescriptor, schoolYear, termDescriptor, personId, sourceSystemDescriptor, coteachingStyleObservedDescriptor, performanceEvaluationRatingLevelDescriptor, actualDate, actualDuration, actualTime, announced, comments, id, scheduleDate, useSnapshot);
             return localVarResponse.Data;
         }
 
@@ -741,15 +731,15 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="useSnapshot">Indicates if the configured Snapshot should be used. (optional, default to false)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of List&lt;TpdmPerformanceEvaluationRating&gt;</returns>
-        public EdFi.OdsApi.Sdk.Client.ApiResponse<List<TpdmPerformanceEvaluationRating>> GetPerformanceEvaluationRatingsWithHttpInfo(int? offset = default(int?), int? limit = default(int?), long? minChangeVersion = default(long?), long? maxChangeVersion = default(long?), bool? totalCount = default(bool?), long? educationOrganizationId = default(long?), string? evaluationPeriodDescriptor = default(string?), string? performanceEvaluationTitle = default(string?), string? performanceEvaluationTypeDescriptor = default(string?), int? schoolYear = default(int?), string? termDescriptor = default(string?), string? personId = default(string?), string? sourceSystemDescriptor = default(string?), string? coteachingStyleObservedDescriptor = default(string?), string? performanceEvaluationRatingLevelDescriptor = default(string?), DateTime? actualDate = default(DateTime?), int? actualDuration = default(int?), string? actualTime = default(string?), bool? announced = default(bool?), string? comments = default(string?), string? id = default(string?), DateTime? scheduleDate = default(DateTime?), bool? useSnapshot = default(bool?), int operationIndex = 0)
+        public EdFi.OdsApi.Sdk.Client.ApiResponse<List<TpdmPerformanceEvaluationRating>> GetPerformanceEvaluationRatingsWithHttpInfo(int? offset = default, int? limit = default, long? minChangeVersion = default, long? maxChangeVersion = default, bool? totalCount = default, long? educationOrganizationId = default, string? evaluationPeriodDescriptor = default, string? performanceEvaluationTitle = default, string? performanceEvaluationTypeDescriptor = default, int? schoolYear = default, string? termDescriptor = default, string? personId = default, string? sourceSystemDescriptor = default, string? coteachingStyleObservedDescriptor = default, string? performanceEvaluationRatingLevelDescriptor = default, DateTime? actualDate = default, int? actualDuration = default, string? actualTime = default, bool? announced = default, string? comments = default, string? id = default, DateTime? scheduleDate = default, bool? useSnapshot = default, int operationIndex = 0)
         {
-            EdFi.OdsApi.Sdk.Client.RequestOptions localVarRequestOptions = new EdFi.OdsApi.Sdk.Client.RequestOptions();
+            var localVarRequestOptions = new EdFi.OdsApi.Sdk.Client.RequestOptions();
 
-            string[] _contentTypes = new string[] {
+            var _contentTypes = new string[] {
             };
 
             // to determine the Accept header
-            string[] _accepts = new string[] {
+            var _accepts = new string[] {
                 "application/json"
             };
 
@@ -865,18 +855,18 @@ namespace EdFi.OdsApi.Sdk.Apis.All
             // oauth required
             if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
-                if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
+                if (!string.IsNullOrEmpty(Configuration.AccessToken))
                 {
-                    localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                    localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + Configuration.AccessToken);
                 }
 
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Get<List<TpdmPerformanceEvaluationRating>>("/tpdm/performanceEvaluationRatings", localVarRequestOptions, this.Configuration);
-            if (this.ExceptionFactory != null)
+            var localVarResponse = Client.Get<List<TpdmPerformanceEvaluationRating>>("/tpdm/performanceEvaluationRatings", localVarRequestOptions, Configuration);
+            if (ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("GetPerformanceEvaluationRatings", localVarResponse);
+                var _exception = ExceptionFactory("GetPerformanceEvaluationRatings", localVarResponse);
                 if (_exception != null)
                 {
                     throw _exception;
@@ -916,9 +906,9 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of List&lt;TpdmPerformanceEvaluationRating&gt;</returns>
-        public async System.Threading.Tasks.Task<List<TpdmPerformanceEvaluationRating>> GetPerformanceEvaluationRatingsAsync(int? offset = default(int?), int? limit = default(int?), long? minChangeVersion = default(long?), long? maxChangeVersion = default(long?), bool? totalCount = default(bool?), long? educationOrganizationId = default(long?), string? evaluationPeriodDescriptor = default(string?), string? performanceEvaluationTitle = default(string?), string? performanceEvaluationTypeDescriptor = default(string?), int? schoolYear = default(int?), string? termDescriptor = default(string?), string? personId = default(string?), string? sourceSystemDescriptor = default(string?), string? coteachingStyleObservedDescriptor = default(string?), string? performanceEvaluationRatingLevelDescriptor = default(string?), DateTime? actualDate = default(DateTime?), int? actualDuration = default(int?), string? actualTime = default(string?), bool? announced = default(bool?), string? comments = default(string?), string? id = default(string?), DateTime? scheduleDate = default(DateTime?), bool? useSnapshot = default(bool?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<List<TpdmPerformanceEvaluationRating>> GetPerformanceEvaluationRatingsAsync(int? offset = default, int? limit = default, long? minChangeVersion = default, long? maxChangeVersion = default, bool? totalCount = default, long? educationOrganizationId = default, string? evaluationPeriodDescriptor = default, string? performanceEvaluationTitle = default, string? performanceEvaluationTypeDescriptor = default, int? schoolYear = default, string? termDescriptor = default, string? personId = default, string? sourceSystemDescriptor = default, string? coteachingStyleObservedDescriptor = default, string? performanceEvaluationRatingLevelDescriptor = default, DateTime? actualDate = default, int? actualDuration = default, string? actualTime = default, bool? announced = default, string? comments = default, string? id = default, DateTime? scheduleDate = default, bool? useSnapshot = default, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default)
         {
-            EdFi.OdsApi.Sdk.Client.ApiResponse<List<TpdmPerformanceEvaluationRating>> localVarResponse = await GetPerformanceEvaluationRatingsWithHttpInfoAsync(offset, limit, minChangeVersion, maxChangeVersion, totalCount, educationOrganizationId, evaluationPeriodDescriptor, performanceEvaluationTitle, performanceEvaluationTypeDescriptor, schoolYear, termDescriptor, personId, sourceSystemDescriptor, coteachingStyleObservedDescriptor, performanceEvaluationRatingLevelDescriptor, actualDate, actualDuration, actualTime, announced, comments, id, scheduleDate, useSnapshot, operationIndex, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await GetPerformanceEvaluationRatingsWithHttpInfoAsync(offset, limit, minChangeVersion, maxChangeVersion, totalCount, educationOrganizationId, evaluationPeriodDescriptor, performanceEvaluationTitle, performanceEvaluationTypeDescriptor, schoolYear, termDescriptor, personId, sourceSystemDescriptor, coteachingStyleObservedDescriptor, performanceEvaluationRatingLevelDescriptor, actualDate, actualDuration, actualTime, announced, comments, id, scheduleDate, useSnapshot, operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -952,16 +942,16 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (List&lt;TpdmPerformanceEvaluationRating&gt;)</returns>
-        public async System.Threading.Tasks.Task<EdFi.OdsApi.Sdk.Client.ApiResponse<List<TpdmPerformanceEvaluationRating>>> GetPerformanceEvaluationRatingsWithHttpInfoAsync(int? offset = default(int?), int? limit = default(int?), long? minChangeVersion = default(long?), long? maxChangeVersion = default(long?), bool? totalCount = default(bool?), long? educationOrganizationId = default(long?), string? evaluationPeriodDescriptor = default(string?), string? performanceEvaluationTitle = default(string?), string? performanceEvaluationTypeDescriptor = default(string?), int? schoolYear = default(int?), string? termDescriptor = default(string?), string? personId = default(string?), string? sourceSystemDescriptor = default(string?), string? coteachingStyleObservedDescriptor = default(string?), string? performanceEvaluationRatingLevelDescriptor = default(string?), DateTime? actualDate = default(DateTime?), int? actualDuration = default(int?), string? actualTime = default(string?), bool? announced = default(bool?), string? comments = default(string?), string? id = default(string?), DateTime? scheduleDate = default(DateTime?), bool? useSnapshot = default(bool?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<EdFi.OdsApi.Sdk.Client.ApiResponse<List<TpdmPerformanceEvaluationRating>>> GetPerformanceEvaluationRatingsWithHttpInfoAsync(int? offset = default, int? limit = default, long? minChangeVersion = default, long? maxChangeVersion = default, bool? totalCount = default, long? educationOrganizationId = default, string? evaluationPeriodDescriptor = default, string? performanceEvaluationTitle = default, string? performanceEvaluationTypeDescriptor = default, int? schoolYear = default, string? termDescriptor = default, string? personId = default, string? sourceSystemDescriptor = default, string? coteachingStyleObservedDescriptor = default, string? performanceEvaluationRatingLevelDescriptor = default, DateTime? actualDate = default, int? actualDuration = default, string? actualTime = default, bool? announced = default, string? comments = default, string? id = default, DateTime? scheduleDate = default, bool? useSnapshot = default, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default)
         {
 
-            EdFi.OdsApi.Sdk.Client.RequestOptions localVarRequestOptions = new EdFi.OdsApi.Sdk.Client.RequestOptions();
+            var localVarRequestOptions = new EdFi.OdsApi.Sdk.Client.RequestOptions();
 
-            string[] _contentTypes = new string[] {
+            var _contentTypes = new string[] {
             };
 
             // to determine the Accept header
-            string[] _accepts = new string[] {
+            var _accepts = new string[] {
                 "application/json"
             };
 
@@ -1077,19 +1067,19 @@ namespace EdFi.OdsApi.Sdk.Apis.All
             // oauth required
             if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
-                if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
+                if (!string.IsNullOrEmpty(Configuration.AccessToken))
                 {
-                    localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                    localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + Configuration.AccessToken);
                 }
 
             }
 
             // make the HTTP request
-            var localVarResponse = await this.AsynchronousClient.GetAsync<List<TpdmPerformanceEvaluationRating>>("/tpdm/performanceEvaluationRatings", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await AsynchronousClient.GetAsync<List<TpdmPerformanceEvaluationRating>>("/tpdm/performanceEvaluationRatings", localVarRequestOptions, Configuration, cancellationToken).ConfigureAwait(false);
 
-            if (this.ExceptionFactory != null)
+            if (ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("GetPerformanceEvaluationRatings", localVarResponse);
+                var _exception = ExceptionFactory("GetPerformanceEvaluationRatings", localVarResponse);
                 if (_exception != null)
                 {
                     throw _exception;
@@ -1108,9 +1098,9 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="useSnapshot">Indicates if the configured Snapshot should be used. (optional, default to false)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>TpdmPerformanceEvaluationRating</returns>
-        public TpdmPerformanceEvaluationRating GetPerformanceEvaluationRatingsById(string id, string? ifNoneMatch = default(string?), bool? useSnapshot = default(bool?), int operationIndex = 0)
+        public TpdmPerformanceEvaluationRating GetPerformanceEvaluationRatingsById(string id, string? ifNoneMatch = default, bool? useSnapshot = default, int operationIndex = 0)
         {
-            EdFi.OdsApi.Sdk.Client.ApiResponse<TpdmPerformanceEvaluationRating> localVarResponse = GetPerformanceEvaluationRatingsByIdWithHttpInfo(id, ifNoneMatch, useSnapshot);
+            var localVarResponse = GetPerformanceEvaluationRatingsByIdWithHttpInfo(id, ifNoneMatch, useSnapshot);
             return localVarResponse.Data;
         }
 
@@ -1123,7 +1113,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="useSnapshot">Indicates if the configured Snapshot should be used. (optional, default to false)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of TpdmPerformanceEvaluationRating</returns>
-        public EdFi.OdsApi.Sdk.Client.ApiResponse<TpdmPerformanceEvaluationRating> GetPerformanceEvaluationRatingsByIdWithHttpInfo(string id, string? ifNoneMatch = default(string?), bool? useSnapshot = default(bool?), int operationIndex = 0)
+        public EdFi.OdsApi.Sdk.Client.ApiResponse<TpdmPerformanceEvaluationRating> GetPerformanceEvaluationRatingsByIdWithHttpInfo(string id, string? ifNoneMatch = default, bool? useSnapshot = default, int operationIndex = 0)
         {
             // verify the required parameter 'id' is set
             if (id == null)
@@ -1131,13 +1121,13 @@ namespace EdFi.OdsApi.Sdk.Apis.All
                 throw new EdFi.OdsApi.Sdk.Client.ApiException(400, "Missing required parameter 'id' when calling PerformanceEvaluationRatingsApi->GetPerformanceEvaluationRatingsById");
             }
 
-            EdFi.OdsApi.Sdk.Client.RequestOptions localVarRequestOptions = new EdFi.OdsApi.Sdk.Client.RequestOptions();
+            var localVarRequestOptions = new EdFi.OdsApi.Sdk.Client.RequestOptions();
 
-            string[] _contentTypes = new string[] {
+            var _contentTypes = new string[] {
             };
 
             // to determine the Accept header
-            string[] _accepts = new string[] {
+            var _accepts = new string[] {
                 "application/json"
             };
 
@@ -1170,18 +1160,18 @@ namespace EdFi.OdsApi.Sdk.Apis.All
             // oauth required
             if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
-                if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
+                if (!string.IsNullOrEmpty(Configuration.AccessToken))
                 {
-                    localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                    localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + Configuration.AccessToken);
                 }
 
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Get<TpdmPerformanceEvaluationRating>("/tpdm/performanceEvaluationRatings/{id}", localVarRequestOptions, this.Configuration);
-            if (this.ExceptionFactory != null)
+            var localVarResponse = Client.Get<TpdmPerformanceEvaluationRating>("/tpdm/performanceEvaluationRatings/{id}", localVarRequestOptions, Configuration);
+            if (ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("GetPerformanceEvaluationRatingsById", localVarResponse);
+                var _exception = ExceptionFactory("GetPerformanceEvaluationRatingsById", localVarResponse);
                 if (_exception != null)
                 {
                     throw _exception;
@@ -1201,9 +1191,9 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of TpdmPerformanceEvaluationRating</returns>
-        public async System.Threading.Tasks.Task<TpdmPerformanceEvaluationRating> GetPerformanceEvaluationRatingsByIdAsync(string id, string? ifNoneMatch = default(string?), bool? useSnapshot = default(bool?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<TpdmPerformanceEvaluationRating> GetPerformanceEvaluationRatingsByIdAsync(string id, string? ifNoneMatch = default, bool? useSnapshot = default, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default)
         {
-            EdFi.OdsApi.Sdk.Client.ApiResponse<TpdmPerformanceEvaluationRating> localVarResponse = await GetPerformanceEvaluationRatingsByIdWithHttpInfoAsync(id, ifNoneMatch, useSnapshot, operationIndex, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await GetPerformanceEvaluationRatingsByIdWithHttpInfoAsync(id, ifNoneMatch, useSnapshot, operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -1217,7 +1207,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (TpdmPerformanceEvaluationRating)</returns>
-        public async System.Threading.Tasks.Task<EdFi.OdsApi.Sdk.Client.ApiResponse<TpdmPerformanceEvaluationRating>> GetPerformanceEvaluationRatingsByIdWithHttpInfoAsync(string id, string? ifNoneMatch = default(string?), bool? useSnapshot = default(bool?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<EdFi.OdsApi.Sdk.Client.ApiResponse<TpdmPerformanceEvaluationRating>> GetPerformanceEvaluationRatingsByIdWithHttpInfoAsync(string id, string? ifNoneMatch = default, bool? useSnapshot = default, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default)
         {
             // verify the required parameter 'id' is set
             if (id == null)
@@ -1226,13 +1216,13 @@ namespace EdFi.OdsApi.Sdk.Apis.All
             }
 
 
-            EdFi.OdsApi.Sdk.Client.RequestOptions localVarRequestOptions = new EdFi.OdsApi.Sdk.Client.RequestOptions();
+            var localVarRequestOptions = new EdFi.OdsApi.Sdk.Client.RequestOptions();
 
-            string[] _contentTypes = new string[] {
+            var _contentTypes = new string[] {
             };
 
             // to determine the Accept header
-            string[] _accepts = new string[] {
+            var _accepts = new string[] {
                 "application/json"
             };
 
@@ -1265,19 +1255,19 @@ namespace EdFi.OdsApi.Sdk.Apis.All
             // oauth required
             if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
-                if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
+                if (!string.IsNullOrEmpty(Configuration.AccessToken))
                 {
-                    localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                    localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + Configuration.AccessToken);
                 }
 
             }
 
             // make the HTTP request
-            var localVarResponse = await this.AsynchronousClient.GetAsync<TpdmPerformanceEvaluationRating>("/tpdm/performanceEvaluationRatings/{id}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await AsynchronousClient.GetAsync<TpdmPerformanceEvaluationRating>("/tpdm/performanceEvaluationRatings/{id}", localVarRequestOptions, Configuration, cancellationToken).ConfigureAwait(false);
 
-            if (this.ExceptionFactory != null)
+            if (ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("GetPerformanceEvaluationRatingsById", localVarResponse);
+                var _exception = ExceptionFactory("GetPerformanceEvaluationRatingsById", localVarResponse);
                 if (_exception != null)
                 {
                     throw _exception;
@@ -1296,7 +1286,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <returns></returns>
         public void PostPerformanceEvaluationRating(TpdmPerformanceEvaluationRating performanceEvaluationRating, int operationIndex = 0)
         {
-            PostPerformanceEvaluationRatingWithHttpInfo(performanceEvaluationRating);
+            _ = PostPerformanceEvaluationRatingWithHttpInfo(performanceEvaluationRating);
         }
 
         /// <summary>
@@ -1308,20 +1298,14 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <returns>ApiResponse of Object(void)</returns>
         public EdFi.OdsApi.Sdk.Client.ApiResponse<Object> PostPerformanceEvaluationRatingWithHttpInfo(TpdmPerformanceEvaluationRating performanceEvaluationRating, int operationIndex = 0)
         {
-            // verify the required parameter 'performanceEvaluationRating' is set
-            if (performanceEvaluationRating == null)
-            {
-                throw new EdFi.OdsApi.Sdk.Client.ApiException(400, "Missing required parameter 'performanceEvaluationRating' when calling PerformanceEvaluationRatingsApi->PostPerformanceEvaluationRating");
-            }
+            var localVarRequestOptions = new EdFi.OdsApi.Sdk.Client.RequestOptions();
 
-            EdFi.OdsApi.Sdk.Client.RequestOptions localVarRequestOptions = new EdFi.OdsApi.Sdk.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
+            var _contentTypes = new string[] {
                 "application/json"
             };
 
             // to determine the Accept header
-            string[] _accepts = new string[] {
+            var _accepts = new string[] {
             };
 
             var localVarContentType = EdFi.OdsApi.Sdk.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
@@ -1336,7 +1320,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            localVarRequestOptions.Data = performanceEvaluationRating;
+            localVarRequestOptions.Data = performanceEvaluationRating ?? throw new EdFi.OdsApi.Sdk.Client.ApiException(400, "Missing required parameter 'performanceEvaluationRating' when calling PerformanceEvaluationRatingsApi->PostPerformanceEvaluationRating");
 
             localVarRequestOptions.Operation = "PerformanceEvaluationRatingsApi.PostPerformanceEvaluationRating";
             localVarRequestOptions.OperationIndex = operationIndex;
@@ -1345,18 +1329,18 @@ namespace EdFi.OdsApi.Sdk.Apis.All
             // oauth required
             if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
-                if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
+                if (!string.IsNullOrEmpty(Configuration.AccessToken))
                 {
-                    localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                    localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + Configuration.AccessToken);
                 }
 
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Post<Object>("/tpdm/performanceEvaluationRatings", localVarRequestOptions, this.Configuration);
-            if (this.ExceptionFactory != null)
+            var localVarResponse = Client.Post<object>("/tpdm/performanceEvaluationRatings", localVarRequestOptions, Configuration);
+            if (ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("PostPerformanceEvaluationRating", localVarResponse);
+                var _exception = ExceptionFactory("PostPerformanceEvaluationRating", localVarResponse);
                 if (_exception != null)
                 {
                     throw _exception;
@@ -1374,9 +1358,9 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task PostPerformanceEvaluationRatingAsync(TpdmPerformanceEvaluationRating performanceEvaluationRating, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task PostPerformanceEvaluationRatingAsync(TpdmPerformanceEvaluationRating performanceEvaluationRating, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default)
         {
-            await PostPerformanceEvaluationRatingWithHttpInfoAsync(performanceEvaluationRating, operationIndex, cancellationToken).ConfigureAwait(false);
+            _ = await PostPerformanceEvaluationRatingWithHttpInfoAsync(performanceEvaluationRating, operationIndex, cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -1387,23 +1371,16 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<EdFi.OdsApi.Sdk.Client.ApiResponse<Object>> PostPerformanceEvaluationRatingWithHttpInfoAsync(TpdmPerformanceEvaluationRating performanceEvaluationRating, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<EdFi.OdsApi.Sdk.Client.ApiResponse<Object>> PostPerformanceEvaluationRatingWithHttpInfoAsync(TpdmPerformanceEvaluationRating performanceEvaluationRating, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default)
         {
-            // verify the required parameter 'performanceEvaluationRating' is set
-            if (performanceEvaluationRating == null)
-            {
-                throw new EdFi.OdsApi.Sdk.Client.ApiException(400, "Missing required parameter 'performanceEvaluationRating' when calling PerformanceEvaluationRatingsApi->PostPerformanceEvaluationRating");
-            }
+            var localVarRequestOptions = new EdFi.OdsApi.Sdk.Client.RequestOptions();
 
-
-            EdFi.OdsApi.Sdk.Client.RequestOptions localVarRequestOptions = new EdFi.OdsApi.Sdk.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
+            var _contentTypes = new string[] {
                 "application/json"
             };
 
             // to determine the Accept header
-            string[] _accepts = new string[] {
+            var _accepts = new string[] {
             };
 
             var localVarContentType = EdFi.OdsApi.Sdk.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
@@ -1418,7 +1395,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            localVarRequestOptions.Data = performanceEvaluationRating;
+            localVarRequestOptions.Data = performanceEvaluationRating ?? throw new EdFi.OdsApi.Sdk.Client.ApiException(400, "Missing required parameter 'performanceEvaluationRating' when calling PerformanceEvaluationRatingsApi->PostPerformanceEvaluationRating");
 
             localVarRequestOptions.Operation = "PerformanceEvaluationRatingsApi.PostPerformanceEvaluationRating";
             localVarRequestOptions.OperationIndex = operationIndex;
@@ -1427,19 +1404,19 @@ namespace EdFi.OdsApi.Sdk.Apis.All
             // oauth required
             if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
-                if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
+                if (!string.IsNullOrEmpty(Configuration.AccessToken))
                 {
-                    localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                    localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + Configuration.AccessToken);
                 }
 
             }
 
             // make the HTTP request
-            var localVarResponse = await this.AsynchronousClient.PostAsync<Object>("/tpdm/performanceEvaluationRatings", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await AsynchronousClient.PostAsync<object>("/tpdm/performanceEvaluationRatings", localVarRequestOptions, Configuration, cancellationToken).ConfigureAwait(false);
 
-            if (this.ExceptionFactory != null)
+            if (ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("PostPerformanceEvaluationRating", localVarResponse);
+                var _exception = ExceptionFactory("PostPerformanceEvaluationRating", localVarResponse);
                 if (_exception != null)
                 {
                     throw _exception;
@@ -1458,9 +1435,9 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="ifMatch">The ETag header value used to prevent the PUT from updating a resource modified by another consumer. (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns></returns>
-        public void PutPerformanceEvaluationRating(string id, TpdmPerformanceEvaluationRating performanceEvaluationRating, string? ifMatch = default(string?), int operationIndex = 0)
+        public void PutPerformanceEvaluationRating(string id, TpdmPerformanceEvaluationRating performanceEvaluationRating, string? ifMatch = default, int operationIndex = 0)
         {
-            PutPerformanceEvaluationRatingWithHttpInfo(id, performanceEvaluationRating, ifMatch);
+            _ = PutPerformanceEvaluationRatingWithHttpInfo(id, performanceEvaluationRating, ifMatch);
         }
 
         /// <summary>
@@ -1472,7 +1449,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="ifMatch">The ETag header value used to prevent the PUT from updating a resource modified by another consumer. (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public EdFi.OdsApi.Sdk.Client.ApiResponse<Object> PutPerformanceEvaluationRatingWithHttpInfo(string id, TpdmPerformanceEvaluationRating performanceEvaluationRating, string? ifMatch = default(string?), int operationIndex = 0)
+        public EdFi.OdsApi.Sdk.Client.ApiResponse<Object> PutPerformanceEvaluationRatingWithHttpInfo(string id, TpdmPerformanceEvaluationRating performanceEvaluationRating, string? ifMatch = default, int operationIndex = 0)
         {
             // verify the required parameter 'id' is set
             if (id == null)
@@ -1480,20 +1457,14 @@ namespace EdFi.OdsApi.Sdk.Apis.All
                 throw new EdFi.OdsApi.Sdk.Client.ApiException(400, "Missing required parameter 'id' when calling PerformanceEvaluationRatingsApi->PutPerformanceEvaluationRating");
             }
 
-            // verify the required parameter 'performanceEvaluationRating' is set
-            if (performanceEvaluationRating == null)
-            {
-                throw new EdFi.OdsApi.Sdk.Client.ApiException(400, "Missing required parameter 'performanceEvaluationRating' when calling PerformanceEvaluationRatingsApi->PutPerformanceEvaluationRating");
-            }
+            var localVarRequestOptions = new EdFi.OdsApi.Sdk.Client.RequestOptions();
 
-            EdFi.OdsApi.Sdk.Client.RequestOptions localVarRequestOptions = new EdFi.OdsApi.Sdk.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
+            var _contentTypes = new string[] {
                 "application/json"
             };
 
             // to determine the Accept header
-            string[] _accepts = new string[] {
+            var _accepts = new string[] {
             };
 
             var localVarContentType = EdFi.OdsApi.Sdk.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
@@ -1513,7 +1484,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
             {
                 localVarRequestOptions.HeaderParameters.Add("If-Match", EdFi.OdsApi.Sdk.Client.ClientUtils.ParameterToString(ifMatch)); // header parameter
             }
-            localVarRequestOptions.Data = performanceEvaluationRating;
+            localVarRequestOptions.Data = performanceEvaluationRating ?? throw new EdFi.OdsApi.Sdk.Client.ApiException(400, "Missing required parameter 'performanceEvaluationRating' when calling PerformanceEvaluationRatingsApi->PutPerformanceEvaluationRating");
 
             localVarRequestOptions.Operation = "PerformanceEvaluationRatingsApi.PutPerformanceEvaluationRating";
             localVarRequestOptions.OperationIndex = operationIndex;
@@ -1522,18 +1493,18 @@ namespace EdFi.OdsApi.Sdk.Apis.All
             // oauth required
             if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
-                if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
+                if (!string.IsNullOrEmpty(Configuration.AccessToken))
                 {
-                    localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                    localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + Configuration.AccessToken);
                 }
 
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Put<Object>("/tpdm/performanceEvaluationRatings/{id}", localVarRequestOptions, this.Configuration);
-            if (this.ExceptionFactory != null)
+            var localVarResponse = Client.Put<object>("/tpdm/performanceEvaluationRatings/{id}", localVarRequestOptions, Configuration);
+            if (ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("PutPerformanceEvaluationRating", localVarResponse);
+                var _exception = ExceptionFactory("PutPerformanceEvaluationRating", localVarResponse);
                 if (_exception != null)
                 {
                     throw _exception;
@@ -1553,9 +1524,9 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task PutPerformanceEvaluationRatingAsync(string id, TpdmPerformanceEvaluationRating performanceEvaluationRating, string? ifMatch = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task PutPerformanceEvaluationRatingAsync(string id, TpdmPerformanceEvaluationRating performanceEvaluationRating, string? ifMatch = default, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default)
         {
-            await PutPerformanceEvaluationRatingWithHttpInfoAsync(id, performanceEvaluationRating, ifMatch, operationIndex, cancellationToken).ConfigureAwait(false);
+            _ = await PutPerformanceEvaluationRatingWithHttpInfoAsync(id, performanceEvaluationRating, ifMatch, operationIndex, cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -1568,7 +1539,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<EdFi.OdsApi.Sdk.Client.ApiResponse<Object>> PutPerformanceEvaluationRatingWithHttpInfoAsync(string id, TpdmPerformanceEvaluationRating performanceEvaluationRating, string? ifMatch = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<EdFi.OdsApi.Sdk.Client.ApiResponse<Object>> PutPerformanceEvaluationRatingWithHttpInfoAsync(string id, TpdmPerformanceEvaluationRating performanceEvaluationRating, string? ifMatch = default, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default)
         {
             // verify the required parameter 'id' is set
             if (id == null)
@@ -1576,21 +1547,14 @@ namespace EdFi.OdsApi.Sdk.Apis.All
                 throw new EdFi.OdsApi.Sdk.Client.ApiException(400, "Missing required parameter 'id' when calling PerformanceEvaluationRatingsApi->PutPerformanceEvaluationRating");
             }
 
-            // verify the required parameter 'performanceEvaluationRating' is set
-            if (performanceEvaluationRating == null)
-            {
-                throw new EdFi.OdsApi.Sdk.Client.ApiException(400, "Missing required parameter 'performanceEvaluationRating' when calling PerformanceEvaluationRatingsApi->PutPerformanceEvaluationRating");
-            }
+            var localVarRequestOptions = new EdFi.OdsApi.Sdk.Client.RequestOptions();
 
-
-            EdFi.OdsApi.Sdk.Client.RequestOptions localVarRequestOptions = new EdFi.OdsApi.Sdk.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
+            var _contentTypes = new string[] {
                 "application/json"
             };
 
             // to determine the Accept header
-            string[] _accepts = new string[] {
+            var _accepts = new string[] {
             };
 
             var localVarContentType = EdFi.OdsApi.Sdk.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
@@ -1610,7 +1574,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
             {
                 localVarRequestOptions.HeaderParameters.Add("If-Match", EdFi.OdsApi.Sdk.Client.ClientUtils.ParameterToString(ifMatch)); // header parameter
             }
-            localVarRequestOptions.Data = performanceEvaluationRating;
+            localVarRequestOptions.Data = performanceEvaluationRating ?? throw new EdFi.OdsApi.Sdk.Client.ApiException(400, "Missing required parameter 'performanceEvaluationRating' when calling PerformanceEvaluationRatingsApi->PutPerformanceEvaluationRating");
 
             localVarRequestOptions.Operation = "PerformanceEvaluationRatingsApi.PutPerformanceEvaluationRating";
             localVarRequestOptions.OperationIndex = operationIndex;
@@ -1619,19 +1583,19 @@ namespace EdFi.OdsApi.Sdk.Apis.All
             // oauth required
             if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
-                if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
+                if (!string.IsNullOrEmpty(Configuration.AccessToken))
                 {
-                    localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                    localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + Configuration.AccessToken);
                 }
 
             }
 
             // make the HTTP request
-            var localVarResponse = await this.AsynchronousClient.PutAsync<Object>("/tpdm/performanceEvaluationRatings/{id}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await AsynchronousClient.PutAsync<object>("/tpdm/performanceEvaluationRatings/{id}", localVarRequestOptions, Configuration, cancellationToken).ConfigureAwait(false);
 
-            if (this.ExceptionFactory != null)
+            if (ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("PutPerformanceEvaluationRating", localVarResponse);
+                var _exception = ExceptionFactory("PutPerformanceEvaluationRating", localVarResponse);
                 if (_exception != null)
                 {
                     throw _exception;

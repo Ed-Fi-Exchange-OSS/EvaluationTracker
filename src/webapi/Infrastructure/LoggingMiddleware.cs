@@ -10,7 +10,7 @@ namespace eppeta.webapi.Infrastructure;
 
 public class LoggingMiddleware
 {
-    static readonly Serilog.ILogger Log = Serilog.Log.ForContext<LoggingMiddleware>();
+    private static readonly Serilog.ILogger Log = Serilog.Log.ForContext<LoggingMiddleware>();
     private readonly RequestDelegate _next;
 
     public LoggingMiddleware(RequestDelegate next)

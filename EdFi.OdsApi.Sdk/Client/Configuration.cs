@@ -52,18 +52,14 @@ namespace EdFi.OdsApi.Sdk.Client
         public static readonly ExceptionFactory DefaultExceptionFactory = (methodName, response) =>
         {
             var status = (int)response.StatusCode;
-            if (status >= 400)
-            {
-                return new ApiException(status,
+            return status >= 400
+                ? new ApiException(status,
                     string.Format("Error calling {0}: {1}", methodName, response.RawContent),
-                    response.RawContent, response.Headers);
-            }
-            if (status == 0)
-            {
-                return new ApiException(status,
-                    string.Format("Error calling {0}: {1}", methodName, response.ErrorText), response.ErrorText);
-            }
-            return null;
+                    response.RawContent, response.Headers)
+                : status == 0
+                ? new ApiException(status,
+                    string.Format("Error calling {0}: {1}", methodName, response.ErrorText), response.ErrorText)
+                : (Exception)null;
         };
 
         #endregion Static Members
@@ -111,7 +107,6 @@ namespace EdFi.OdsApi.Sdk.Client
         /// <summary>
         /// Initializes a new instance of the <see cref="Configuration" /> class
         /// </summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("ReSharper", "VirtualMemberCallInConstructor")]
         public Configuration()
         {
             Proxy = null;
@@ -140,7 +135,6 @@ namespace EdFi.OdsApi.Sdk.Client
         /// <summary>
         /// Initializes a new instance of the <see cref="Configuration" /> class
         /// </summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("ReSharper", "VirtualMemberCallInConstructor")]
         public Configuration(
             IDictionary<string, string> defaultHeaders,
             IDictionary<string, string> apiKey,
@@ -148,13 +142,24 @@ namespace EdFi.OdsApi.Sdk.Client
             string basePath = "https://api.ed-fi.org:443/v6.1/api/data/v3") : this()
         {
             if (string.IsNullOrWhiteSpace(basePath))
+            {
                 throw new ArgumentException("The provided basePath is invalid.", "basePath");
+            }
+
             if (defaultHeaders == null)
+            {
                 throw new ArgumentNullException("defaultHeaders");
+            }
+
             if (apiKey == null)
+            {
                 throw new ArgumentNullException("apiKey");
+            }
+
             if (apiKeyPrefix == null)
+            {
                 throw new ArgumentNullException("apiKeyPrefix");
+            }
 
             BasePath = basePath;
 
@@ -183,8 +188,8 @@ namespace EdFi.OdsApi.Sdk.Client
         /// </summary>
         public virtual string BasePath
         {
-            get { return _basePath; }
-            set { _basePath = value; }
+            get => _basePath;
+            set => _basePath = value;
         }
 
         /// <summary>
@@ -193,14 +198,8 @@ namespace EdFi.OdsApi.Sdk.Client
         [Obsolete("Use DefaultHeaders instead.")]
         public virtual IDictionary<string, string> DefaultHeader
         {
-            get
-            {
-                return DefaultHeaders;
-            }
-            set
-            {
-                DefaultHeaders = value;
-            }
+            get => DefaultHeaders;
+            set => DefaultHeaders = value;
         }
 
         /// <summary>
@@ -244,15 +243,8 @@ namespace EdFi.OdsApi.Sdk.Client
         /// <returns>API key with prefix.</returns>
         public string GetApiKeyWithPrefix(string apiKeyIdentifier)
         {
-            string apiKeyValue;
-            ApiKey.TryGetValue(apiKeyIdentifier, out apiKeyValue);
-            string apiKeyPrefix;
-            if (ApiKeyPrefix.TryGetValue(apiKeyIdentifier, out apiKeyPrefix))
-            {
-                return apiKeyPrefix + " " + apiKeyValue;
-            }
-
-            return apiKeyValue;
+            _ = ApiKey.TryGetValue(apiKeyIdentifier, out var apiKeyValue);
+            return ApiKeyPrefix.TryGetValue(apiKeyIdentifier, out var apiKeyPrefix) ? apiKeyPrefix + " " + apiKeyValue : apiKeyValue;
         }
 
         /// <summary>
@@ -275,7 +267,7 @@ namespace EdFi.OdsApi.Sdk.Client
         /// <value>Folder path.</value>
         public virtual string TempFolderPath
         {
-            get { return _tempFolderPath; }
+            get => _tempFolderPath;
 
             set
             {
@@ -288,18 +280,11 @@ namespace EdFi.OdsApi.Sdk.Client
                 // create the directory if it does not exist
                 if (!Directory.Exists(value))
                 {
-                    Directory.CreateDirectory(value);
+                    _ = Directory.CreateDirectory(value);
                 }
 
                 // check if the path contains directory separator at the end
-                if (value[value.Length - 1] == Path.DirectorySeparatorChar)
-                {
-                    _tempFolderPath = value;
-                }
-                else
-                {
-                    _tempFolderPath = value + Path.DirectorySeparatorChar;
-                }
+                _tempFolderPath = value[^1] == Path.DirectorySeparatorChar ? value : value + Path.DirectorySeparatorChar;
             }
         }
 
@@ -313,7 +298,7 @@ namespace EdFi.OdsApi.Sdk.Client
         /// <value>The DateTimeFormat string</value>
         public virtual string DateTimeFormat
         {
-            get { return _dateTimeFormat; }
+            get => _dateTimeFormat;
             set
             {
                 if (string.IsNullOrEmpty(value))
@@ -347,15 +332,8 @@ namespace EdFi.OdsApi.Sdk.Client
         /// <value>The prefix of the API key.</value>
         public virtual IDictionary<string, string> ApiKeyPrefix
         {
-            get { return _apiKeyPrefix; }
-            set
-            {
-                if (value == null)
-                {
-                    throw new InvalidOperationException("ApiKeyPrefix collection may not be null.");
-                }
-                _apiKeyPrefix = value;
-            }
+            get => _apiKeyPrefix;
+            set => _apiKeyPrefix = value ?? throw new InvalidOperationException("ApiKeyPrefix collection may not be null.");
         }
 
         /// <summary>
@@ -364,15 +342,8 @@ namespace EdFi.OdsApi.Sdk.Client
         /// <value>The API key.</value>
         public virtual IDictionary<string, string> ApiKey
         {
-            get { return _apiKey; }
-            set
-            {
-                if (value == null)
-                {
-                    throw new InvalidOperationException("ApiKey collection may not be null.");
-                }
-                _apiKey = value;
-            }
+            get => _apiKey;
+            set => _apiKey = value ?? throw new InvalidOperationException("ApiKey collection may not be null.");
         }
 
         /// <summary>
@@ -381,15 +352,8 @@ namespace EdFi.OdsApi.Sdk.Client
         /// <value>The servers.</value>
         public virtual IList<IReadOnlyDictionary<string, object>> Servers
         {
-            get { return _servers; }
-            set
-            {
-                if (value == null)
-                {
-                    throw new InvalidOperationException("Servers may not be null.");
-                }
-                _servers = value;
-            }
+            get => _servers;
+            set => _servers = value ?? throw new InvalidOperationException("Servers may not be null.");
         }
 
         /// <summary>
@@ -398,15 +362,8 @@ namespace EdFi.OdsApi.Sdk.Client
         /// <value>The operation servers.</value>
         public virtual IReadOnlyDictionary<string, List<IReadOnlyDictionary<string, object>>> OperationServers
         {
-            get { return _operationServers; }
-            set
-            {
-                if (value == null)
-                {
-                    throw new InvalidOperationException("Operation servers may not be null.");
-                }
-                _operationServers = value;
-            }
+            get => _operationServers;
+            set => _operationServers = value ?? throw new InvalidOperationException("Operation servers may not be null.");
         }
 
         /// <summary>
@@ -451,12 +408,7 @@ namespace EdFi.OdsApi.Sdk.Client
         /// <return>The operation server URL.</return>
         public string GetOperationServerUrl(string operation, int index, Dictionary<string, string> inputVariables)
         {
-            if (OperationServers.TryGetValue(operation, out var operationServer))
-            {
-                return GetServerUrl(operationServer, index, inputVariables);
-            }
-
-            return null;
+            return OperationServers.TryGetValue(operation, out var operationServer) ? GetServerUrl(operationServer, index, inputVariables) : null;
         }
 
         /// <summary>
@@ -473,32 +425,24 @@ namespace EdFi.OdsApi.Sdk.Client
                 throw new InvalidOperationException($"Invalid index {index} when selecting the server. Must be less than {servers.Count}.");
             }
 
-            if (inputVariables == null)
-            {
-                inputVariables = new Dictionary<string, string>();
-            }
+            inputVariables ??= new Dictionary<string, string>();
 
-            IReadOnlyDictionary<string, object> server = servers[index];
-            string url = (string)server["url"];
+            var server = servers[index];
+            var url = (string)server["url"];
 
             if (server.ContainsKey("variables"))
             {
                 // go through each variable and assign a value
-                foreach (KeyValuePair<string, object> variable in (IReadOnlyDictionary<string, object>)server["variables"])
+                foreach (var variable in (IReadOnlyDictionary<string, object>)server["variables"])
                 {
 
-                    IReadOnlyDictionary<string, object> serverVariables = (IReadOnlyDictionary<string, object>)(variable.Value);
+                    var serverVariables = (IReadOnlyDictionary<string, object>)variable.Value;
 
                     if (inputVariables.ContainsKey(variable.Key))
                     {
-                        if (((List<string>)serverVariables["enum_values"]).Contains(inputVariables[variable.Key]))
-                        {
-                            url = url.Replace("{" + variable.Key + "}", inputVariables[variable.Key]);
-                        }
-                        else
-                        {
-                            throw new InvalidOperationException($"The variable `{variable.Key}` in the server URL has invalid value #{inputVariables[variable.Key]}. Must be {(List<string>)serverVariables["enum_values"]}");
-                        }
+                        url = ((List<string>)serverVariables["enum_values"]).Contains(inputVariables[variable.Key])
+                            ? url.Replace("{" + variable.Key + "}", inputVariables[variable.Key])
+                            : throw new InvalidOperationException($"The variable `{variable.Key}` in the server URL has invalid value #{inputVariables[variable.Key]}. Must be {(List<string>)serverVariables["enum_values"]}");
                     }
                     else
                     {
@@ -520,7 +464,7 @@ namespace EdFi.OdsApi.Sdk.Client
         /// </summary>
         public static string ToDebugReport()
         {
-            string report = "C# SDK (EdFi.OdsApi.Sdk) Debug Report:\n";
+            var report = "C# SDK (EdFi.OdsApi.Sdk) Debug Report:\n";
             report += "    OS: " + System.Environment.OSVersion + "\n";
             report += "    .NET Framework Version: " + System.Environment.Version + "\n";
             report += "    Version of the API: 3\n";
@@ -561,15 +505,29 @@ namespace EdFi.OdsApi.Sdk.Client
         /// <return>Merged configuration.</return>
         public static IReadableConfiguration MergeConfigurations(IReadableConfiguration first, IReadableConfiguration second)
         {
-            if (second == null) return first ?? GlobalConfiguration.Instance;
+            if (second == null)
+            {
+                return first ?? GlobalConfiguration.Instance;
+            }
 
-            Dictionary<string, string> apiKey = first.ApiKey.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
-            Dictionary<string, string> apiKeyPrefix = first.ApiKeyPrefix.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
-            Dictionary<string, string> defaultHeaders = first.DefaultHeaders.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+            var apiKey = first.ApiKey.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+            var apiKeyPrefix = first.ApiKeyPrefix.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+            var defaultHeaders = first.DefaultHeaders.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
 
-            foreach (var kvp in second.ApiKey) apiKey[kvp.Key] = kvp.Value;
-            foreach (var kvp in second.ApiKeyPrefix) apiKeyPrefix[kvp.Key] = kvp.Value;
-            foreach (var kvp in second.DefaultHeaders) defaultHeaders[kvp.Key] = kvp.Value;
+            foreach (var kvp in second.ApiKey)
+            {
+                apiKey[kvp.Key] = kvp.Value;
+            }
+
+            foreach (var kvp in second.ApiKeyPrefix)
+            {
+                apiKeyPrefix[kvp.Key] = kvp.Value;
+            }
+
+            foreach (var kvp in second.DefaultHeaders)
+            {
+                defaultHeaders[kvp.Key] = kvp.Value;
+            }
 
             var config = new Configuration
             {

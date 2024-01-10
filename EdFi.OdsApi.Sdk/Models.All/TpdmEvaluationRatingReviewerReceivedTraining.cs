@@ -12,12 +12,12 @@
  */
 
 
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using System.Text;
-using Newtonsoft.Json;
-using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = EdFi.OdsApi.Sdk.Client.OpenAPIDateConverter;
 
 namespace EdFi.OdsApi.Sdk.Models.All
@@ -33,10 +33,10 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// </summary>
         /// <param name="interRaterReliabilityScore">A score indicating how much homogeneity, or consensus, there is in the ratings given by judges. Most commonly a percentage scale (1-100).</param>
         /// <param name="receivedTrainingDate">The date on which the person administering the performance meausre received training on how to conduct performance measures..</param>
-        public TpdmEvaluationRatingReviewerReceivedTraining(int? interRaterReliabilityScore = default(int?), DateTime? receivedTrainingDate = default(DateTime?))
+        public TpdmEvaluationRatingReviewerReceivedTraining(int? interRaterReliabilityScore = default, DateTime? receivedTrainingDate = default)
         {
-            this.InterRaterReliabilityScore = interRaterReliabilityScore;
-            this.ReceivedTrainingDate = receivedTrainingDate;
+            InterRaterReliabilityScore = interRaterReliabilityScore;
+            ReceivedTrainingDate = receivedTrainingDate;
         }
 
         /// <summary>
@@ -60,11 +60,11 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder();
-            sb.Append("class TpdmEvaluationRatingReviewerReceivedTraining {\n");
-            sb.Append("  InterRaterReliabilityScore: ").Append(InterRaterReliabilityScore).Append("\n");
-            sb.Append("  ReceivedTrainingDate: ").Append(ReceivedTrainingDate).Append("\n");
-            sb.Append("}\n");
+            var sb = new StringBuilder();
+            _ = sb.Append("class TpdmEvaluationRatingReviewerReceivedTraining {\n");
+            _ = sb.Append("  InterRaterReliabilityScore: ").Append(InterRaterReliabilityScore).Append("\n");
+            _ = sb.Append("  ReceivedTrainingDate: ").Append(ReceivedTrainingDate).Append("\n");
+            _ = sb.Append("}\n");
             return sb.ToString();
         }
 
@@ -84,7 +84,7 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as TpdmEvaluationRatingReviewerReceivedTraining);
+            return Equals(input as TpdmEvaluationRatingReviewerReceivedTraining);
         }
 
         /// <summary>
@@ -94,20 +94,16 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public bool Equals(TpdmEvaluationRatingReviewerReceivedTraining input)
         {
-            if (input == null)
-            {
-                return false;
-            }
-            return
-                (
-                    this.InterRaterReliabilityScore == input.InterRaterReliabilityScore ||
-                    (this.InterRaterReliabilityScore != null &&
-                    this.InterRaterReliabilityScore.Equals(input.InterRaterReliabilityScore))
+            return input != null
+&& (
+                    InterRaterReliabilityScore == input.InterRaterReliabilityScore ||
+                    (InterRaterReliabilityScore != null &&
+                    InterRaterReliabilityScore.Equals(input.InterRaterReliabilityScore))
                 ) &&
                 (
-                    this.ReceivedTrainingDate == input.ReceivedTrainingDate ||
-                    (this.ReceivedTrainingDate != null &&
-                    this.ReceivedTrainingDate.Equals(input.ReceivedTrainingDate))
+                    ReceivedTrainingDate == input.ReceivedTrainingDate ||
+                    (ReceivedTrainingDate != null &&
+                    ReceivedTrainingDate.Equals(input.ReceivedTrainingDate))
                 );
         }
 
@@ -119,14 +115,14 @@ namespace EdFi.OdsApi.Sdk.Models.All
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
-                if (this.InterRaterReliabilityScore != null)
+                var hashCode = 41;
+                if (InterRaterReliabilityScore != null)
                 {
-                    hashCode = (hashCode * 59) + this.InterRaterReliabilityScore.GetHashCode();
+                    hashCode = (hashCode * 59) + InterRaterReliabilityScore.GetHashCode();
                 }
-                if (this.ReceivedTrainingDate != null)
+                if (ReceivedTrainingDate != null)
                 {
-                    hashCode = (hashCode * 59) + this.ReceivedTrainingDate.GetHashCode();
+                    hashCode = (hashCode * 59) + ReceivedTrainingDate.GetHashCode();
                 }
                 return hashCode;
             }

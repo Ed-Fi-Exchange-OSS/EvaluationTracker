@@ -12,12 +12,12 @@
  */
 
 
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using System.Text;
-using Newtonsoft.Json;
-using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = EdFi.OdsApi.Sdk.Client.OpenAPIDateConverter;
 
 namespace EdFi.OdsApi.Sdk.Models.All
@@ -46,33 +46,18 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <param name="priorDescriptorId">A unique identifier used as Primary Key, not derived from business logic, when acting as Foreign Key, references the parent table..</param>
         /// <param name="shortDescription">A shortened description for the descriptor. (required).</param>
         /// <param name="etag">A unique system-generated value that identifies the version of the resource..</param>
-        public TpdmPerformanceEvaluationRatingLevelDescriptor(string id = default(string), int performanceEvaluationRatingLevelDescriptorId = default(int), string codeValue = default(string), string description = default(string), DateTime? effectiveBeginDate = default(DateTime?), DateTime? effectiveEndDate = default(DateTime?), string _namespace = default(string), int? priorDescriptorId = default(int?), string shortDescription = default(string), string etag = default(string))
+        public TpdmPerformanceEvaluationRatingLevelDescriptor(string id = default, int performanceEvaluationRatingLevelDescriptorId = default, string codeValue = default, string description = default, DateTime? effectiveBeginDate = default, DateTime? effectiveEndDate = default, string _namespace = default, int? priorDescriptorId = default, string shortDescription = default, string etag = default)
         {
-            // to ensure "codeValue" is required (not null)
-            if (codeValue == null)
-            {
-                throw new ArgumentNullException("codeValue is a required property for TpdmPerformanceEvaluationRatingLevelDescriptor and cannot be null");
-            }
-            this.CodeValue = codeValue;
-            // to ensure "_namespace" is required (not null)
-            if (_namespace == null)
-            {
-                throw new ArgumentNullException("_namespace is a required property for TpdmPerformanceEvaluationRatingLevelDescriptor and cannot be null");
-            }
-            this.Namespace = _namespace;
-            // to ensure "shortDescription" is required (not null)
-            if (shortDescription == null)
-            {
-                throw new ArgumentNullException("shortDescription is a required property for TpdmPerformanceEvaluationRatingLevelDescriptor and cannot be null");
-            }
-            this.ShortDescription = shortDescription;
-            this.Id = id;
-            this.PerformanceEvaluationRatingLevelDescriptorId = performanceEvaluationRatingLevelDescriptorId;
-            this.Description = description;
-            this.EffectiveBeginDate = effectiveBeginDate;
-            this.EffectiveEndDate = effectiveEndDate;
-            this.PriorDescriptorId = priorDescriptorId;
-            this.Etag = etag;
+            CodeValue = codeValue ?? throw new ArgumentNullException("codeValue is a required property for TpdmPerformanceEvaluationRatingLevelDescriptor and cannot be null");
+            Namespace = _namespace ?? throw new ArgumentNullException("_namespace is a required property for TpdmPerformanceEvaluationRatingLevelDescriptor and cannot be null");
+            ShortDescription = shortDescription ?? throw new ArgumentNullException("shortDescription is a required property for TpdmPerformanceEvaluationRatingLevelDescriptor and cannot be null");
+            Id = id;
+            PerformanceEvaluationRatingLevelDescriptorId = performanceEvaluationRatingLevelDescriptorId;
+            Description = description;
+            EffectiveBeginDate = effectiveBeginDate;
+            EffectiveEndDate = effectiveEndDate;
+            PriorDescriptorId = priorDescriptorId;
+            Etag = etag;
         }
 
         /// <summary>
@@ -152,19 +137,19 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder();
-            sb.Append("class TpdmPerformanceEvaluationRatingLevelDescriptor {\n");
-            sb.Append("  Id: ").Append(Id).Append("\n");
-            sb.Append("  PerformanceEvaluationRatingLevelDescriptorId: ").Append(PerformanceEvaluationRatingLevelDescriptorId).Append("\n");
-            sb.Append("  CodeValue: ").Append(CodeValue).Append("\n");
-            sb.Append("  Description: ").Append(Description).Append("\n");
-            sb.Append("  EffectiveBeginDate: ").Append(EffectiveBeginDate).Append("\n");
-            sb.Append("  EffectiveEndDate: ").Append(EffectiveEndDate).Append("\n");
-            sb.Append("  Namespace: ").Append(Namespace).Append("\n");
-            sb.Append("  PriorDescriptorId: ").Append(PriorDescriptorId).Append("\n");
-            sb.Append("  ShortDescription: ").Append(ShortDescription).Append("\n");
-            sb.Append("  Etag: ").Append(Etag).Append("\n");
-            sb.Append("}\n");
+            var sb = new StringBuilder();
+            _ = sb.Append("class TpdmPerformanceEvaluationRatingLevelDescriptor {\n");
+            _ = sb.Append("  Id: ").Append(Id).Append("\n");
+            _ = sb.Append("  PerformanceEvaluationRatingLevelDescriptorId: ").Append(PerformanceEvaluationRatingLevelDescriptorId).Append("\n");
+            _ = sb.Append("  CodeValue: ").Append(CodeValue).Append("\n");
+            _ = sb.Append("  Description: ").Append(Description).Append("\n");
+            _ = sb.Append("  EffectiveBeginDate: ").Append(EffectiveBeginDate).Append("\n");
+            _ = sb.Append("  EffectiveEndDate: ").Append(EffectiveEndDate).Append("\n");
+            _ = sb.Append("  Namespace: ").Append(Namespace).Append("\n");
+            _ = sb.Append("  PriorDescriptorId: ").Append(PriorDescriptorId).Append("\n");
+            _ = sb.Append("  ShortDescription: ").Append(ShortDescription).Append("\n");
+            _ = sb.Append("  Etag: ").Append(Etag).Append("\n");
+            _ = sb.Append("}\n");
             return sb.ToString();
         }
 
@@ -184,7 +169,7 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as TpdmPerformanceEvaluationRatingLevelDescriptor);
+            return Equals(input as TpdmPerformanceEvaluationRatingLevelDescriptor);
         }
 
         /// <summary>
@@ -194,59 +179,55 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public bool Equals(TpdmPerformanceEvaluationRatingLevelDescriptor input)
         {
-            if (input == null)
-            {
-                return false;
-            }
-            return
-                (
-                    this.Id == input.Id ||
-                    (this.Id != null &&
-                    this.Id.Equals(input.Id))
+            return input != null
+&& (
+                    Id == input.Id ||
+                    (Id != null &&
+                    Id.Equals(input.Id))
                 ) &&
                 (
-                    this.PerformanceEvaluationRatingLevelDescriptorId == input.PerformanceEvaluationRatingLevelDescriptorId ||
-                    this.PerformanceEvaluationRatingLevelDescriptorId.Equals(input.PerformanceEvaluationRatingLevelDescriptorId)
+                    PerformanceEvaluationRatingLevelDescriptorId == input.PerformanceEvaluationRatingLevelDescriptorId ||
+                    PerformanceEvaluationRatingLevelDescriptorId.Equals(input.PerformanceEvaluationRatingLevelDescriptorId)
                 ) &&
                 (
-                    this.CodeValue == input.CodeValue ||
-                    (this.CodeValue != null &&
-                    this.CodeValue.Equals(input.CodeValue))
+                    CodeValue == input.CodeValue ||
+                    (CodeValue != null &&
+                    CodeValue.Equals(input.CodeValue))
                 ) &&
                 (
-                    this.Description == input.Description ||
-                    (this.Description != null &&
-                    this.Description.Equals(input.Description))
+                    Description == input.Description ||
+                    (Description != null &&
+                    Description.Equals(input.Description))
                 ) &&
                 (
-                    this.EffectiveBeginDate == input.EffectiveBeginDate ||
-                    (this.EffectiveBeginDate != null &&
-                    this.EffectiveBeginDate.Equals(input.EffectiveBeginDate))
+                    EffectiveBeginDate == input.EffectiveBeginDate ||
+                    (EffectiveBeginDate != null &&
+                    EffectiveBeginDate.Equals(input.EffectiveBeginDate))
                 ) &&
                 (
-                    this.EffectiveEndDate == input.EffectiveEndDate ||
-                    (this.EffectiveEndDate != null &&
-                    this.EffectiveEndDate.Equals(input.EffectiveEndDate))
+                    EffectiveEndDate == input.EffectiveEndDate ||
+                    (EffectiveEndDate != null &&
+                    EffectiveEndDate.Equals(input.EffectiveEndDate))
                 ) &&
                 (
-                    this.Namespace == input.Namespace ||
-                    (this.Namespace != null &&
-                    this.Namespace.Equals(input.Namespace))
+                    Namespace == input.Namespace ||
+                    (Namespace != null &&
+                    Namespace.Equals(input.Namespace))
                 ) &&
                 (
-                    this.PriorDescriptorId == input.PriorDescriptorId ||
-                    (this.PriorDescriptorId != null &&
-                    this.PriorDescriptorId.Equals(input.PriorDescriptorId))
+                    PriorDescriptorId == input.PriorDescriptorId ||
+                    (PriorDescriptorId != null &&
+                    PriorDescriptorId.Equals(input.PriorDescriptorId))
                 ) &&
                 (
-                    this.ShortDescription == input.ShortDescription ||
-                    (this.ShortDescription != null &&
-                    this.ShortDescription.Equals(input.ShortDescription))
+                    ShortDescription == input.ShortDescription ||
+                    (ShortDescription != null &&
+                    ShortDescription.Equals(input.ShortDescription))
                 ) &&
                 (
-                    this.Etag == input.Etag ||
-                    (this.Etag != null &&
-                    this.Etag.Equals(input.Etag))
+                    Etag == input.Etag ||
+                    (Etag != null &&
+                    Etag.Equals(input.Etag))
                 );
         }
 
@@ -258,43 +239,43 @@ namespace EdFi.OdsApi.Sdk.Models.All
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
-                if (this.Id != null)
+                var hashCode = 41;
+                if (Id != null)
                 {
-                    hashCode = (hashCode * 59) + this.Id.GetHashCode();
+                    hashCode = (hashCode * 59) + Id.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + this.PerformanceEvaluationRatingLevelDescriptorId.GetHashCode();
-                if (this.CodeValue != null)
+                hashCode = (hashCode * 59) + PerformanceEvaluationRatingLevelDescriptorId.GetHashCode();
+                if (CodeValue != null)
                 {
-                    hashCode = (hashCode * 59) + this.CodeValue.GetHashCode();
+                    hashCode = (hashCode * 59) + CodeValue.GetHashCode();
                 }
-                if (this.Description != null)
+                if (Description != null)
                 {
-                    hashCode = (hashCode * 59) + this.Description.GetHashCode();
+                    hashCode = (hashCode * 59) + Description.GetHashCode();
                 }
-                if (this.EffectiveBeginDate != null)
+                if (EffectiveBeginDate != null)
                 {
-                    hashCode = (hashCode * 59) + this.EffectiveBeginDate.GetHashCode();
+                    hashCode = (hashCode * 59) + EffectiveBeginDate.GetHashCode();
                 }
-                if (this.EffectiveEndDate != null)
+                if (EffectiveEndDate != null)
                 {
-                    hashCode = (hashCode * 59) + this.EffectiveEndDate.GetHashCode();
+                    hashCode = (hashCode * 59) + EffectiveEndDate.GetHashCode();
                 }
-                if (this.Namespace != null)
+                if (Namespace != null)
                 {
-                    hashCode = (hashCode * 59) + this.Namespace.GetHashCode();
+                    hashCode = (hashCode * 59) + Namespace.GetHashCode();
                 }
-                if (this.PriorDescriptorId != null)
+                if (PriorDescriptorId != null)
                 {
-                    hashCode = (hashCode * 59) + this.PriorDescriptorId.GetHashCode();
+                    hashCode = (hashCode * 59) + PriorDescriptorId.GetHashCode();
                 }
-                if (this.ShortDescription != null)
+                if (ShortDescription != null)
                 {
-                    hashCode = (hashCode * 59) + this.ShortDescription.GetHashCode();
+                    hashCode = (hashCode * 59) + ShortDescription.GetHashCode();
                 }
-                if (this.Etag != null)
+                if (Etag != null)
                 {
-                    hashCode = (hashCode * 59) + this.Etag.GetHashCode();
+                    hashCode = (hashCode * 59) + Etag.GetHashCode();
                 }
                 return hashCode;
             }
@@ -308,25 +289,25 @@ namespace EdFi.OdsApi.Sdk.Models.All
         public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
         {
             // CodeValue (string) maxLength
-            if (this.CodeValue != null && this.CodeValue.Length > 50)
+            if (CodeValue != null && CodeValue.Length > 50)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for CodeValue, length must be less than 50.", new[] { "CodeValue" });
             }
 
             // Description (string) maxLength
-            if (this.Description != null && this.Description.Length > 1024)
+            if (Description != null && Description.Length > 1024)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Description, length must be less than 1024.", new[] { "Description" });
             }
 
             // Namespace (string) maxLength
-            if (this.Namespace != null && this.Namespace.Length > 255)
+            if (Namespace != null && Namespace.Length > 255)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Namespace, length must be less than 255.", new[] { "Namespace" });
             }
 
             // ShortDescription (string) maxLength
-            if (this.ShortDescription != null && this.ShortDescription.Length > 75)
+            if (ShortDescription != null && ShortDescription.Length > 75)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for ShortDescription, length must be less than 75.", new[] { "ShortDescription" });
             }

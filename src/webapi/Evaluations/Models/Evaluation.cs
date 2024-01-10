@@ -34,10 +34,11 @@ public partial class Evaluation
     [Required]
     public string TermDescriptor { get; set; }
     public DateTime CreateDate { get; set; }
-
+    
     public DateTime LastModifiedDate { get; set; }
     [Column("EdFi_Id")]
     [StringLength(50)]
+    #nullable enable
     public string? EdFiId { get; set; }
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

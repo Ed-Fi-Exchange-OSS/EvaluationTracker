@@ -1,6 +1,6 @@
 namespace eppeta.webapi.Service
 {
-    class PeriodicHostedSyncOdsAssetsService : BackgroundService
+    internal class PeriodicHostedSyncOdsAssetsService : BackgroundService
     {
         private readonly TimeSpan _period = TimeSpan.FromHours(AppSettings.SyncOdsAssetsSettings.PeriodInHours);
         private readonly ILogger<PeriodicHostedSyncOdsAssetsService> _logger;
@@ -19,7 +19,7 @@ namespace eppeta.webapi.Service
             // ExecuteAsync is executed once and we have to take care of a mechanism ourselves that is kept during operation.
             // To do this, we can use a Periodic Timer, which, unlike other timers, does not block resources.
             // But instead, WaitForNextTickAsync provides a mechanism that blocks a task and can thus be used in a While loop.
-            using PeriodicTimer timer = new PeriodicTimer(_period);
+            using var timer = new PeriodicTimer(_period);
 
             // One initial syncronization before the while loop
             await ExecuteAsync();
@@ -44,10 +44,10 @@ namespace eppeta.webapi.Service
                 // To prevent open resources and instances, only create the services and other references on a run
 
                 // Create scope, so we get request services
-                await using AsyncServiceScope asyncScope = _factory.CreateAsyncScope();
+                await using var asyncScope = _factory.CreateAsyncScope();
 
                 // Get service from scope
-                SyncOdsAssets syncOdsAssets = asyncScope.ServiceProvider.GetRequiredService<SyncOdsAssets>();
+                var syncOdsAssets = asyncScope.ServiceProvider.GetRequiredService<SyncOdsAssets>();
                 await syncOdsAssets.SyncAsync();
 
                 // Sample count increment

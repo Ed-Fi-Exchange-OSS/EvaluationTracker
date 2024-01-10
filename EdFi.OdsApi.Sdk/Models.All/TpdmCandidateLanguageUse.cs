@@ -12,12 +12,12 @@
  */
 
 
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using System.Text;
-using Newtonsoft.Json;
-using System.ComponentModel.DataAnnotations;
 
 namespace EdFi.OdsApi.Sdk.Models.All
 {
@@ -36,14 +36,9 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// Initializes a new instance of the <see cref="TpdmCandidateLanguageUse" /> class.
         /// </summary>
         /// <param name="languageUseDescriptor">A description of how the language is used (e.g. Home Language, Native Language, Spoken Language). (required).</param>
-        public TpdmCandidateLanguageUse(string languageUseDescriptor = default(string))
+        public TpdmCandidateLanguageUse(string languageUseDescriptor = default)
         {
-            // to ensure "languageUseDescriptor" is required (not null)
-            if (languageUseDescriptor == null)
-            {
-                throw new ArgumentNullException("languageUseDescriptor is a required property for TpdmCandidateLanguageUse and cannot be null");
-            }
-            this.LanguageUseDescriptor = languageUseDescriptor;
+            LanguageUseDescriptor = languageUseDescriptor ?? throw new ArgumentNullException("languageUseDescriptor is a required property for TpdmCandidateLanguageUse and cannot be null");
         }
 
         /// <summary>
@@ -59,10 +54,10 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder();
-            sb.Append("class TpdmCandidateLanguageUse {\n");
-            sb.Append("  LanguageUseDescriptor: ").Append(LanguageUseDescriptor).Append("\n");
-            sb.Append("}\n");
+            var sb = new StringBuilder();
+            _ = sb.Append("class TpdmCandidateLanguageUse {\n");
+            _ = sb.Append("  LanguageUseDescriptor: ").Append(LanguageUseDescriptor).Append("\n");
+            _ = sb.Append("}\n");
             return sb.ToString();
         }
 
@@ -82,7 +77,7 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as TpdmCandidateLanguageUse);
+            return Equals(input as TpdmCandidateLanguageUse);
         }
 
         /// <summary>
@@ -92,16 +87,10 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public bool Equals(TpdmCandidateLanguageUse input)
         {
-            if (input == null)
-            {
-                return false;
-            }
-            return
-                (
-                    this.LanguageUseDescriptor == input.LanguageUseDescriptor ||
-                    (this.LanguageUseDescriptor != null &&
-                    this.LanguageUseDescriptor.Equals(input.LanguageUseDescriptor))
-                );
+            return input != null
+&& (LanguageUseDescriptor == input.LanguageUseDescriptor ||
+                    (LanguageUseDescriptor != null &&
+                    LanguageUseDescriptor.Equals(input.LanguageUseDescriptor)));
         }
 
         /// <summary>
@@ -112,10 +101,10 @@ namespace EdFi.OdsApi.Sdk.Models.All
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
-                if (this.LanguageUseDescriptor != null)
+                var hashCode = 41;
+                if (LanguageUseDescriptor != null)
                 {
-                    hashCode = (hashCode * 59) + this.LanguageUseDescriptor.GetHashCode();
+                    hashCode = (hashCode * 59) + LanguageUseDescriptor.GetHashCode();
                 }
                 return hashCode;
             }
@@ -129,7 +118,7 @@ namespace EdFi.OdsApi.Sdk.Models.All
         public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
         {
             // LanguageUseDescriptor (string) maxLength
-            if (this.LanguageUseDescriptor != null && this.LanguageUseDescriptor.Length > 306)
+            if (LanguageUseDescriptor != null && LanguageUseDescriptor.Length > 306)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for LanguageUseDescriptor, length must be less than 306.", new[] { "LanguageUseDescriptor" });
             }

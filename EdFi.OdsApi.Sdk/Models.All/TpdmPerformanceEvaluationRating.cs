@@ -12,13 +12,13 @@
  */
 
 
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
-using Newtonsoft.Json;
-using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = EdFi.OdsApi.Sdk.Client.OpenAPIDateConverter;
 
 namespace EdFi.OdsApi.Sdk.Models.All
@@ -51,32 +51,22 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <param name="reviewers">An unordered collection of performanceEvaluationRatingReviewers. The person(s) that conducted the performance evaluation..</param>
         /// <param name="scheduleDate">The month, day, and year on which the performance evaluation was scheduled..</param>
         /// <param name="etag">A unique system-generated value that identifies the version of the resource..</param>
-        public TpdmPerformanceEvaluationRating(string id = default(string), TpdmPerformanceEvaluationReference performanceEvaluationReference = default(TpdmPerformanceEvaluationReference), EdFiPersonReference personReference = default(EdFiPersonReference), DateTime actualDate = default(DateTime), int? actualDuration = default(int?), string actualTime = default(string), bool? announced = default(bool?), string comments = default(string), string coteachingStyleObservedDescriptor = default(string), string performanceEvaluationRatingLevelDescriptor = default(string), List<TpdmPerformanceEvaluationRatingResult> results = default(List<TpdmPerformanceEvaluationRatingResult>), List<TpdmPerformanceEvaluationRatingReviewer> reviewers = default(List<TpdmPerformanceEvaluationRatingReviewer>), DateTime? scheduleDate = default(DateTime?), string etag = default(string))
+        public TpdmPerformanceEvaluationRating(string id = default, TpdmPerformanceEvaluationReference performanceEvaluationReference = default, EdFiPersonReference personReference = default, DateTime actualDate = default, int? actualDuration = default, string actualTime = default, bool? announced = default, string comments = default, string coteachingStyleObservedDescriptor = default, string performanceEvaluationRatingLevelDescriptor = default, List<TpdmPerformanceEvaluationRatingResult> results = default, List<TpdmPerformanceEvaluationRatingReviewer> reviewers = default, DateTime? scheduleDate = default, string etag = default)
         {
-            // to ensure "performanceEvaluationReference" is required (not null)
-            if (performanceEvaluationReference == null)
-            {
-                throw new ArgumentNullException("performanceEvaluationReference is a required property for TpdmPerformanceEvaluationRating and cannot be null");
-            }
-            this.PerformanceEvaluationReference = performanceEvaluationReference;
-            // to ensure "personReference" is required (not null)
-            if (personReference == null)
-            {
-                throw new ArgumentNullException("personReference is a required property for TpdmPerformanceEvaluationRating and cannot be null");
-            }
-            this.PersonReference = personReference;
-            this.ActualDate = actualDate;
-            this.Id = id;
-            this.ActualDuration = actualDuration;
-            this.ActualTime = actualTime;
-            this.Announced = announced;
-            this.Comments = comments;
-            this.CoteachingStyleObservedDescriptor = coteachingStyleObservedDescriptor;
-            this.PerformanceEvaluationRatingLevelDescriptor = performanceEvaluationRatingLevelDescriptor;
-            this.Results = results;
-            this.Reviewers = reviewers;
-            this.ScheduleDate = scheduleDate;
-            this.Etag = etag;
+            PerformanceEvaluationReference = performanceEvaluationReference ?? throw new ArgumentNullException("performanceEvaluationReference is a required property for TpdmPerformanceEvaluationRating and cannot be null");
+            PersonReference = personReference ?? throw new ArgumentNullException("personReference is a required property for TpdmPerformanceEvaluationRating and cannot be null");
+            ActualDate = actualDate;
+            Id = id;
+            ActualDuration = actualDuration;
+            ActualTime = actualTime;
+            Announced = announced;
+            Comments = comments;
+            CoteachingStyleObservedDescriptor = coteachingStyleObservedDescriptor;
+            PerformanceEvaluationRatingLevelDescriptor = performanceEvaluationRatingLevelDescriptor;
+            Results = results;
+            Reviewers = reviewers;
+            ScheduleDate = scheduleDate;
+            Etag = etag;
         }
 
         /// <summary>
@@ -182,23 +172,23 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder();
-            sb.Append("class TpdmPerformanceEvaluationRating {\n");
-            sb.Append("  Id: ").Append(Id).Append("\n");
-            sb.Append("  PerformanceEvaluationReference: ").Append(PerformanceEvaluationReference).Append("\n");
-            sb.Append("  PersonReference: ").Append(PersonReference).Append("\n");
-            sb.Append("  ActualDate: ").Append(ActualDate).Append("\n");
-            sb.Append("  ActualDuration: ").Append(ActualDuration).Append("\n");
-            sb.Append("  ActualTime: ").Append(ActualTime).Append("\n");
-            sb.Append("  Announced: ").Append(Announced).Append("\n");
-            sb.Append("  Comments: ").Append(Comments).Append("\n");
-            sb.Append("  CoteachingStyleObservedDescriptor: ").Append(CoteachingStyleObservedDescriptor).Append("\n");
-            sb.Append("  PerformanceEvaluationRatingLevelDescriptor: ").Append(PerformanceEvaluationRatingLevelDescriptor).Append("\n");
-            sb.Append("  Results: ").Append(Results).Append("\n");
-            sb.Append("  Reviewers: ").Append(Reviewers).Append("\n");
-            sb.Append("  ScheduleDate: ").Append(ScheduleDate).Append("\n");
-            sb.Append("  Etag: ").Append(Etag).Append("\n");
-            sb.Append("}\n");
+            var sb = new StringBuilder();
+            _ = sb.Append("class TpdmPerformanceEvaluationRating {\n");
+            _ = sb.Append("  Id: ").Append(Id).Append("\n");
+            _ = sb.Append("  PerformanceEvaluationReference: ").Append(PerformanceEvaluationReference).Append("\n");
+            _ = sb.Append("  PersonReference: ").Append(PersonReference).Append("\n");
+            _ = sb.Append("  ActualDate: ").Append(ActualDate).Append("\n");
+            _ = sb.Append("  ActualDuration: ").Append(ActualDuration).Append("\n");
+            _ = sb.Append("  ActualTime: ").Append(ActualTime).Append("\n");
+            _ = sb.Append("  Announced: ").Append(Announced).Append("\n");
+            _ = sb.Append("  Comments: ").Append(Comments).Append("\n");
+            _ = sb.Append("  CoteachingStyleObservedDescriptor: ").Append(CoteachingStyleObservedDescriptor).Append("\n");
+            _ = sb.Append("  PerformanceEvaluationRatingLevelDescriptor: ").Append(PerformanceEvaluationRatingLevelDescriptor).Append("\n");
+            _ = sb.Append("  Results: ").Append(Results).Append("\n");
+            _ = sb.Append("  Reviewers: ").Append(Reviewers).Append("\n");
+            _ = sb.Append("  ScheduleDate: ").Append(ScheduleDate).Append("\n");
+            _ = sb.Append("  Etag: ").Append(Etag).Append("\n");
+            _ = sb.Append("}\n");
             return sb.ToString();
         }
 
@@ -218,7 +208,7 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as TpdmPerformanceEvaluationRating);
+            return Equals(input as TpdmPerformanceEvaluationRating);
         }
 
         /// <summary>
@@ -228,81 +218,77 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public bool Equals(TpdmPerformanceEvaluationRating input)
         {
-            if (input == null)
-            {
-                return false;
-            }
-            return
-                (
-                    this.Id == input.Id ||
-                    (this.Id != null &&
-                    this.Id.Equals(input.Id))
+            return input != null
+&& (
+                    Id == input.Id ||
+                    (Id != null &&
+                    Id.Equals(input.Id))
                 ) &&
                 (
-                    this.PerformanceEvaluationReference == input.PerformanceEvaluationReference ||
-                    (this.PerformanceEvaluationReference != null &&
-                    this.PerformanceEvaluationReference.Equals(input.PerformanceEvaluationReference))
+                    PerformanceEvaluationReference == input.PerformanceEvaluationReference ||
+                    (PerformanceEvaluationReference != null &&
+                    PerformanceEvaluationReference.Equals(input.PerformanceEvaluationReference))
                 ) &&
                 (
-                    this.PersonReference == input.PersonReference ||
-                    (this.PersonReference != null &&
-                    this.PersonReference.Equals(input.PersonReference))
+                    PersonReference == input.PersonReference ||
+                    (PersonReference != null &&
+                    PersonReference.Equals(input.PersonReference))
                 ) &&
                 (
-                    this.ActualDate == input.ActualDate ||
-                    this.ActualDate.Equals(input.ActualDate)
+                    ActualDate == input.ActualDate ||
+                    ActualDate.Equals(input.ActualDate)
                 ) &&
                 (
-                    this.ActualDuration == input.ActualDuration ||
-                    (this.ActualDuration != null &&
-                    this.ActualDuration.Equals(input.ActualDuration))
+                    ActualDuration == input.ActualDuration ||
+                    (ActualDuration != null &&
+                    ActualDuration.Equals(input.ActualDuration))
                 ) &&
                 (
-                    this.ActualTime == input.ActualTime ||
-                    (this.ActualTime != null &&
-                    this.ActualTime.Equals(input.ActualTime))
+                    ActualTime == input.ActualTime ||
+                    (ActualTime != null &&
+                    ActualTime.Equals(input.ActualTime))
                 ) &&
                 (
-                    this.Announced == input.Announced ||
-                    (this.Announced != null &&
-                    this.Announced.Equals(input.Announced))
+                    Announced == input.Announced ||
+                    (Announced != null &&
+                    Announced.Equals(input.Announced))
                 ) &&
                 (
-                    this.Comments == input.Comments ||
-                    (this.Comments != null &&
-                    this.Comments.Equals(input.Comments))
+                    Comments == input.Comments ||
+                    (Comments != null &&
+                    Comments.Equals(input.Comments))
                 ) &&
                 (
-                    this.CoteachingStyleObservedDescriptor == input.CoteachingStyleObservedDescriptor ||
-                    (this.CoteachingStyleObservedDescriptor != null &&
-                    this.CoteachingStyleObservedDescriptor.Equals(input.CoteachingStyleObservedDescriptor))
+                    CoteachingStyleObservedDescriptor == input.CoteachingStyleObservedDescriptor ||
+                    (CoteachingStyleObservedDescriptor != null &&
+                    CoteachingStyleObservedDescriptor.Equals(input.CoteachingStyleObservedDescriptor))
                 ) &&
                 (
-                    this.PerformanceEvaluationRatingLevelDescriptor == input.PerformanceEvaluationRatingLevelDescriptor ||
-                    (this.PerformanceEvaluationRatingLevelDescriptor != null &&
-                    this.PerformanceEvaluationRatingLevelDescriptor.Equals(input.PerformanceEvaluationRatingLevelDescriptor))
+                    PerformanceEvaluationRatingLevelDescriptor == input.PerformanceEvaluationRatingLevelDescriptor ||
+                    (PerformanceEvaluationRatingLevelDescriptor != null &&
+                    PerformanceEvaluationRatingLevelDescriptor.Equals(input.PerformanceEvaluationRatingLevelDescriptor))
                 ) &&
                 (
-                    this.Results == input.Results ||
-                    this.Results != null &&
+                    Results == input.Results ||
+                    Results != null &&
                     input.Results != null &&
-                    this.Results.SequenceEqual(input.Results)
+                    Results.SequenceEqual(input.Results)
                 ) &&
                 (
-                    this.Reviewers == input.Reviewers ||
-                    this.Reviewers != null &&
+                    Reviewers == input.Reviewers ||
+                    Reviewers != null &&
                     input.Reviewers != null &&
-                    this.Reviewers.SequenceEqual(input.Reviewers)
+                    Reviewers.SequenceEqual(input.Reviewers)
                 ) &&
                 (
-                    this.ScheduleDate == input.ScheduleDate ||
-                    (this.ScheduleDate != null &&
-                    this.ScheduleDate.Equals(input.ScheduleDate))
+                    ScheduleDate == input.ScheduleDate ||
+                    (ScheduleDate != null &&
+                    ScheduleDate.Equals(input.ScheduleDate))
                 ) &&
                 (
-                    this.Etag == input.Etag ||
-                    (this.Etag != null &&
-                    this.Etag.Equals(input.Etag))
+                    Etag == input.Etag ||
+                    (Etag != null &&
+                    Etag.Equals(input.Etag))
                 );
         }
 
@@ -314,59 +300,59 @@ namespace EdFi.OdsApi.Sdk.Models.All
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
-                if (this.Id != null)
+                var hashCode = 41;
+                if (Id != null)
                 {
-                    hashCode = (hashCode * 59) + this.Id.GetHashCode();
+                    hashCode = (hashCode * 59) + Id.GetHashCode();
                 }
-                if (this.PerformanceEvaluationReference != null)
+                if (PerformanceEvaluationReference != null)
                 {
-                    hashCode = (hashCode * 59) + this.PerformanceEvaluationReference.GetHashCode();
+                    hashCode = (hashCode * 59) + PerformanceEvaluationReference.GetHashCode();
                 }
-                if (this.PersonReference != null)
+                if (PersonReference != null)
                 {
-                    hashCode = (hashCode * 59) + this.PersonReference.GetHashCode();
+                    hashCode = (hashCode * 59) + PersonReference.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + this.ActualDate.GetHashCode();
-                if (this.ActualDuration != null)
+                hashCode = (hashCode * 59) + ActualDate.GetHashCode();
+                if (ActualDuration != null)
                 {
-                    hashCode = (hashCode * 59) + this.ActualDuration.GetHashCode();
+                    hashCode = (hashCode * 59) + ActualDuration.GetHashCode();
                 }
-                if (this.ActualTime != null)
+                if (ActualTime != null)
                 {
-                    hashCode = (hashCode * 59) + this.ActualTime.GetHashCode();
+                    hashCode = (hashCode * 59) + ActualTime.GetHashCode();
                 }
-                if (this.Announced != null)
+                if (Announced != null)
                 {
-                    hashCode = (hashCode * 59) + this.Announced.GetHashCode();
+                    hashCode = (hashCode * 59) + Announced.GetHashCode();
                 }
-                if (this.Comments != null)
+                if (Comments != null)
                 {
-                    hashCode = (hashCode * 59) + this.Comments.GetHashCode();
+                    hashCode = (hashCode * 59) + Comments.GetHashCode();
                 }
-                if (this.CoteachingStyleObservedDescriptor != null)
+                if (CoteachingStyleObservedDescriptor != null)
                 {
-                    hashCode = (hashCode * 59) + this.CoteachingStyleObservedDescriptor.GetHashCode();
+                    hashCode = (hashCode * 59) + CoteachingStyleObservedDescriptor.GetHashCode();
                 }
-                if (this.PerformanceEvaluationRatingLevelDescriptor != null)
+                if (PerformanceEvaluationRatingLevelDescriptor != null)
                 {
-                    hashCode = (hashCode * 59) + this.PerformanceEvaluationRatingLevelDescriptor.GetHashCode();
+                    hashCode = (hashCode * 59) + PerformanceEvaluationRatingLevelDescriptor.GetHashCode();
                 }
-                if (this.Results != null)
+                if (Results != null)
                 {
-                    hashCode = (hashCode * 59) + this.Results.GetHashCode();
+                    hashCode = (hashCode * 59) + Results.GetHashCode();
                 }
-                if (this.Reviewers != null)
+                if (Reviewers != null)
                 {
-                    hashCode = (hashCode * 59) + this.Reviewers.GetHashCode();
+                    hashCode = (hashCode * 59) + Reviewers.GetHashCode();
                 }
-                if (this.ScheduleDate != null)
+                if (ScheduleDate != null)
                 {
-                    hashCode = (hashCode * 59) + this.ScheduleDate.GetHashCode();
+                    hashCode = (hashCode * 59) + ScheduleDate.GetHashCode();
                 }
-                if (this.Etag != null)
+                if (Etag != null)
                 {
-                    hashCode = (hashCode * 59) + this.Etag.GetHashCode();
+                    hashCode = (hashCode * 59) + Etag.GetHashCode();
                 }
                 return hashCode;
             }
@@ -380,19 +366,19 @@ namespace EdFi.OdsApi.Sdk.Models.All
         public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
         {
             // Comments (string) maxLength
-            if (this.Comments != null && this.Comments.Length > 1024)
+            if (Comments != null && Comments.Length > 1024)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Comments, length must be less than 1024.", new[] { "Comments" });
             }
 
             // CoteachingStyleObservedDescriptor (string) maxLength
-            if (this.CoteachingStyleObservedDescriptor != null && this.CoteachingStyleObservedDescriptor.Length > 306)
+            if (CoteachingStyleObservedDescriptor != null && CoteachingStyleObservedDescriptor.Length > 306)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for CoteachingStyleObservedDescriptor, length must be less than 306.", new[] { "CoteachingStyleObservedDescriptor" });
             }
 
             // PerformanceEvaluationRatingLevelDescriptor (string) maxLength
-            if (this.PerformanceEvaluationRatingLevelDescriptor != null && this.PerformanceEvaluationRatingLevelDescriptor.Length > 306)
+            if (PerformanceEvaluationRatingLevelDescriptor != null && PerformanceEvaluationRatingLevelDescriptor.Length > 306)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for PerformanceEvaluationRatingLevelDescriptor, length must be less than 306.", new[] { "PerformanceEvaluationRatingLevelDescriptor" });
             }

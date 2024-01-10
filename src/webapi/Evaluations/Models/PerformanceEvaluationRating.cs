@@ -59,31 +59,34 @@ namespace eppeta.webapi.Evaluations.Models
         public Status? RecordStatus { get; set; }
 
         public static explicit operator TpdmPerformanceEvaluationRating(PerformanceEvaluationRating performanceEvaluationRating)
-        => new TpdmPerformanceEvaluationRating
-                (
-                    performanceEvaluationReference: new TpdmPerformanceEvaluationReference
-                    (
-                        educationOrganizationId: (int)performanceEvaluationRating.EducationOrganizationId,
-                        evaluationPeriodDescriptor: performanceEvaluationRating.EvaluationPeriodDescriptor,
-                        performanceEvaluationTitle: performanceEvaluationRating.PerformanceEvaluationTitle,
-                        performanceEvaluationTypeDescriptor: performanceEvaluationRating.PerformanceEvaluationTypeDescriptor,
-                        schoolYear: performanceEvaluationRating.SchoolYear,
-                        termDescriptor: performanceEvaluationRating.TermDescriptor
-                    ),
-                    personReference: new EdFiPersonReference
-                    (
-                        personId: performanceEvaluationRating.PersonId,
-                        sourceSystemDescriptor: performanceEvaluationRating.SourceSystemDescriptor
-                    ),
-                    actualDate: performanceEvaluationRating.StartTime,
-                    actualDuration: (int)((performanceEvaluationRating.EndTime ?? DateTime.Now) - performanceEvaluationRating.StartTime).TotalMinutes,
-                    // The API doesn't like a value here
-                    //actualTime: TimeOnly.FromDateTime(performanceEvaluationRating.StartTime).ToShortTimeString(),
-                    performanceEvaluationRatingLevelDescriptor: performanceEvaluationRating?.PerformanceEvaluationRatingLevelDescriptor ?? string.Empty
-                );
+        {
+            return new TpdmPerformanceEvaluationRating
+                        (
+                            performanceEvaluationReference: new TpdmPerformanceEvaluationReference
+                            (
+                                educationOrganizationId: (int)performanceEvaluationRating.EducationOrganizationId,
+                                evaluationPeriodDescriptor: performanceEvaluationRating.EvaluationPeriodDescriptor,
+                                performanceEvaluationTitle: performanceEvaluationRating.PerformanceEvaluationTitle,
+                                performanceEvaluationTypeDescriptor: performanceEvaluationRating.PerformanceEvaluationTypeDescriptor,
+                                schoolYear: performanceEvaluationRating.SchoolYear,
+                                termDescriptor: performanceEvaluationRating.TermDescriptor
+                            ),
+                            personReference: new EdFiPersonReference
+                            (
+                                personId: performanceEvaluationRating.PersonId,
+                                sourceSystemDescriptor: performanceEvaluationRating.SourceSystemDescriptor
+                            ),
+                            actualDate: performanceEvaluationRating.StartTime,
+                            actualDuration: (int)((performanceEvaluationRating.EndTime ?? DateTime.Now) - performanceEvaluationRating.StartTime).TotalMinutes,
+                            // The API doesn't like a value here
+                            //actualTime: TimeOnly.FromDateTime(performanceEvaluationRating.StartTime).ToShortTimeString(),
+                            performanceEvaluationRatingLevelDescriptor: performanceEvaluationRating?.PerformanceEvaluationRatingLevelDescriptor ?? string.Empty
+                        );
+        }
 
         public static explicit operator PerformedEvaluation(PerformanceEvaluationRating performanceEvaluationRating)
-            => new PerformedEvaluation
+        {
+            return new PerformedEvaluation
             {
                 ActualDate = performanceEvaluationRating.StartTime,
                 EvaluationStatus = performanceEvaluationRating.RecordStatus != null ? performanceEvaluationRating.RecordStatus.StatusText : "Ready for Review",
@@ -94,6 +97,7 @@ namespace eppeta.webapi.Evaluations.Models
                 EvaluatorName = performanceEvaluationRating.EvaluatorName,
                 ReviewedCandidateName = performanceEvaluationRating.ReviewedCandidateName
             };
+        }
     }
 }
 

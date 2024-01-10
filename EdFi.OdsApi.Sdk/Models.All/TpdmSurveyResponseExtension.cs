@@ -14,9 +14,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using System.Text;
-using System.ComponentModel.DataAnnotations;
 
 namespace EdFi.OdsApi.Sdk.Models.All
 {
@@ -30,9 +30,9 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// Initializes a new instance of the <see cref="TpdmSurveyResponseExtension" /> class.
         /// </summary>
         /// <param name="personReference">personReference.</param>
-        public TpdmSurveyResponseExtension(EdFiPersonReference personReference = default(EdFiPersonReference))
+        public TpdmSurveyResponseExtension(EdFiPersonReference personReference = default)
         {
-            this.PersonReference = personReference;
+            PersonReference = personReference;
         }
 
         /// <summary>
@@ -47,10 +47,10 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder();
-            sb.Append("class TpdmSurveyResponseExtension {\n");
-            sb.Append("  PersonReference: ").Append(PersonReference).Append("\n");
-            sb.Append("}\n");
+            var sb = new StringBuilder();
+            _ = sb.Append("class TpdmSurveyResponseExtension {\n");
+            _ = sb.Append("  PersonReference: ").Append(PersonReference).Append("\n");
+            _ = sb.Append("}\n");
             return sb.ToString();
         }
 
@@ -70,7 +70,7 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as TpdmSurveyResponseExtension);
+            return Equals(input as TpdmSurveyResponseExtension);
         }
 
         /// <summary>
@@ -80,16 +80,10 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public bool Equals(TpdmSurveyResponseExtension input)
         {
-            if (input == null)
-            {
-                return false;
-            }
-            return
-                (
-                    this.PersonReference == input.PersonReference ||
-                    (this.PersonReference != null &&
-                    this.PersonReference.Equals(input.PersonReference))
-                );
+            return input != null
+&& (PersonReference == input.PersonReference ||
+                    (PersonReference != null &&
+                    PersonReference.Equals(input.PersonReference)));
         }
 
         /// <summary>
@@ -100,10 +94,10 @@ namespace EdFi.OdsApi.Sdk.Models.All
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
-                if (this.PersonReference != null)
+                var hashCode = 41;
+                if (PersonReference != null)
                 {
-                    hashCode = (hashCode * 59) + this.PersonReference.GetHashCode();
+                    hashCode = (hashCode * 59) + PersonReference.GetHashCode();
                 }
                 return hashCode;
             }

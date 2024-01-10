@@ -12,12 +12,12 @@
  */
 
 
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using System.Text;
-using Newtonsoft.Json;
-using System.ComponentModel.DataAnnotations;
 
 namespace EdFi.OdsApi.Sdk.Models.All
 {
@@ -42,25 +42,15 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <param name="dimensionOrder">The order for the rubric dimension..</param>
         /// <param name="rubricRatingLevelDescriptor">The rating level achieved for the rubric dimension..</param>
         /// <param name="etag">A unique system-generated value that identifies the version of the resource..</param>
-        public TpdmRubricDimension(string id = default(string), int rubricRating = default(int), TpdmEvaluationElementReference evaluationElementReference = default(TpdmEvaluationElementReference), string criterionDescription = default(string), int? dimensionOrder = default(int?), string rubricRatingLevelDescriptor = default(string), string etag = default(string))
+        public TpdmRubricDimension(string id = default, int rubricRating = default, TpdmEvaluationElementReference evaluationElementReference = default, string criterionDescription = default, int? dimensionOrder = default, string rubricRatingLevelDescriptor = default, string etag = default)
         {
-            this.RubricRating = rubricRating;
-            // to ensure "evaluationElementReference" is required (not null)
-            if (evaluationElementReference == null)
-            {
-                throw new ArgumentNullException("evaluationElementReference is a required property for TpdmRubricDimension and cannot be null");
-            }
-            this.EvaluationElementReference = evaluationElementReference;
-            // to ensure "criterionDescription" is required (not null)
-            if (criterionDescription == null)
-            {
-                throw new ArgumentNullException("criterionDescription is a required property for TpdmRubricDimension and cannot be null");
-            }
-            this.CriterionDescription = criterionDescription;
-            this.Id = id;
-            this.DimensionOrder = dimensionOrder;
-            this.RubricRatingLevelDescriptor = rubricRatingLevelDescriptor;
-            this.Etag = etag;
+            RubricRating = rubricRating;
+            EvaluationElementReference = evaluationElementReference ?? throw new ArgumentNullException("evaluationElementReference is a required property for TpdmRubricDimension and cannot be null");
+            CriterionDescription = criterionDescription ?? throw new ArgumentNullException("criterionDescription is a required property for TpdmRubricDimension and cannot be null");
+            Id = id;
+            DimensionOrder = dimensionOrder;
+            RubricRatingLevelDescriptor = rubricRatingLevelDescriptor;
+            Etag = etag;
         }
 
         /// <summary>
@@ -116,16 +106,16 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder();
-            sb.Append("class TpdmRubricDimension {\n");
-            sb.Append("  Id: ").Append(Id).Append("\n");
-            sb.Append("  RubricRating: ").Append(RubricRating).Append("\n");
-            sb.Append("  EvaluationElementReference: ").Append(EvaluationElementReference).Append("\n");
-            sb.Append("  CriterionDescription: ").Append(CriterionDescription).Append("\n");
-            sb.Append("  DimensionOrder: ").Append(DimensionOrder).Append("\n");
-            sb.Append("  RubricRatingLevelDescriptor: ").Append(RubricRatingLevelDescriptor).Append("\n");
-            sb.Append("  Etag: ").Append(Etag).Append("\n");
-            sb.Append("}\n");
+            var sb = new StringBuilder();
+            _ = sb.Append("class TpdmRubricDimension {\n");
+            _ = sb.Append("  Id: ").Append(Id).Append("\n");
+            _ = sb.Append("  RubricRating: ").Append(RubricRating).Append("\n");
+            _ = sb.Append("  EvaluationElementReference: ").Append(EvaluationElementReference).Append("\n");
+            _ = sb.Append("  CriterionDescription: ").Append(CriterionDescription).Append("\n");
+            _ = sb.Append("  DimensionOrder: ").Append(DimensionOrder).Append("\n");
+            _ = sb.Append("  RubricRatingLevelDescriptor: ").Append(RubricRatingLevelDescriptor).Append("\n");
+            _ = sb.Append("  Etag: ").Append(Etag).Append("\n");
+            _ = sb.Append("}\n");
             return sb.ToString();
         }
 
@@ -145,7 +135,7 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as TpdmRubricDimension);
+            return Equals(input as TpdmRubricDimension);
         }
 
         /// <summary>
@@ -155,44 +145,40 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public bool Equals(TpdmRubricDimension input)
         {
-            if (input == null)
-            {
-                return false;
-            }
-            return
-                (
-                    this.Id == input.Id ||
-                    (this.Id != null &&
-                    this.Id.Equals(input.Id))
+            return input != null
+&& (
+                    Id == input.Id ||
+                    (Id != null &&
+                    Id.Equals(input.Id))
                 ) &&
                 (
-                    this.RubricRating == input.RubricRating ||
-                    this.RubricRating.Equals(input.RubricRating)
+                    RubricRating == input.RubricRating ||
+                    RubricRating.Equals(input.RubricRating)
                 ) &&
                 (
-                    this.EvaluationElementReference == input.EvaluationElementReference ||
-                    (this.EvaluationElementReference != null &&
-                    this.EvaluationElementReference.Equals(input.EvaluationElementReference))
+                    EvaluationElementReference == input.EvaluationElementReference ||
+                    (EvaluationElementReference != null &&
+                    EvaluationElementReference.Equals(input.EvaluationElementReference))
                 ) &&
                 (
-                    this.CriterionDescription == input.CriterionDescription ||
-                    (this.CriterionDescription != null &&
-                    this.CriterionDescription.Equals(input.CriterionDescription))
+                    CriterionDescription == input.CriterionDescription ||
+                    (CriterionDescription != null &&
+                    CriterionDescription.Equals(input.CriterionDescription))
                 ) &&
                 (
-                    this.DimensionOrder == input.DimensionOrder ||
-                    (this.DimensionOrder != null &&
-                    this.DimensionOrder.Equals(input.DimensionOrder))
+                    DimensionOrder == input.DimensionOrder ||
+                    (DimensionOrder != null &&
+                    DimensionOrder.Equals(input.DimensionOrder))
                 ) &&
                 (
-                    this.RubricRatingLevelDescriptor == input.RubricRatingLevelDescriptor ||
-                    (this.RubricRatingLevelDescriptor != null &&
-                    this.RubricRatingLevelDescriptor.Equals(input.RubricRatingLevelDescriptor))
+                    RubricRatingLevelDescriptor == input.RubricRatingLevelDescriptor ||
+                    (RubricRatingLevelDescriptor != null &&
+                    RubricRatingLevelDescriptor.Equals(input.RubricRatingLevelDescriptor))
                 ) &&
                 (
-                    this.Etag == input.Etag ||
-                    (this.Etag != null &&
-                    this.Etag.Equals(input.Etag))
+                    Etag == input.Etag ||
+                    (Etag != null &&
+                    Etag.Equals(input.Etag))
                 );
         }
 
@@ -204,31 +190,31 @@ namespace EdFi.OdsApi.Sdk.Models.All
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
-                if (this.Id != null)
+                var hashCode = 41;
+                if (Id != null)
                 {
-                    hashCode = (hashCode * 59) + this.Id.GetHashCode();
+                    hashCode = (hashCode * 59) + Id.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + this.RubricRating.GetHashCode();
-                if (this.EvaluationElementReference != null)
+                hashCode = (hashCode * 59) + RubricRating.GetHashCode();
+                if (EvaluationElementReference != null)
                 {
-                    hashCode = (hashCode * 59) + this.EvaluationElementReference.GetHashCode();
+                    hashCode = (hashCode * 59) + EvaluationElementReference.GetHashCode();
                 }
-                if (this.CriterionDescription != null)
+                if (CriterionDescription != null)
                 {
-                    hashCode = (hashCode * 59) + this.CriterionDescription.GetHashCode();
+                    hashCode = (hashCode * 59) + CriterionDescription.GetHashCode();
                 }
-                if (this.DimensionOrder != null)
+                if (DimensionOrder != null)
                 {
-                    hashCode = (hashCode * 59) + this.DimensionOrder.GetHashCode();
+                    hashCode = (hashCode * 59) + DimensionOrder.GetHashCode();
                 }
-                if (this.RubricRatingLevelDescriptor != null)
+                if (RubricRatingLevelDescriptor != null)
                 {
-                    hashCode = (hashCode * 59) + this.RubricRatingLevelDescriptor.GetHashCode();
+                    hashCode = (hashCode * 59) + RubricRatingLevelDescriptor.GetHashCode();
                 }
-                if (this.Etag != null)
+                if (Etag != null)
                 {
-                    hashCode = (hashCode * 59) + this.Etag.GetHashCode();
+                    hashCode = (hashCode * 59) + Etag.GetHashCode();
                 }
                 return hashCode;
             }
@@ -242,13 +228,13 @@ namespace EdFi.OdsApi.Sdk.Models.All
         public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
         {
             // CriterionDescription (string) maxLength
-            if (this.CriterionDescription != null && this.CriterionDescription.Length > 1024)
+            if (CriterionDescription != null && CriterionDescription.Length > 1024)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for CriterionDescription, length must be less than 1024.", new[] { "CriterionDescription" });
             }
 
             // RubricRatingLevelDescriptor (string) maxLength
-            if (this.RubricRatingLevelDescriptor != null && this.RubricRatingLevelDescriptor.Length > 306)
+            if (RubricRatingLevelDescriptor != null && RubricRatingLevelDescriptor.Length > 306)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for RubricRatingLevelDescriptor, length must be less than 306.", new[] { "RubricRatingLevelDescriptor" });
             }

@@ -12,12 +12,12 @@
  */
 
 
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using System.Text;
-using Newtonsoft.Json;
-using System.ComponentModel.DataAnnotations;
 
 namespace EdFi.OdsApi.Sdk.Models.All
 {
@@ -36,14 +36,9 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// Initializes a new instance of the <see cref="TpdmCandidateRace" /> class.
         /// </summary>
         /// <param name="raceDescriptor">The general racial category which most clearly reflects the individual&#39;s recognition of his or her community or with which the individual most identifies. The data model allows for multiple entries so that each individual can specify all appropriate races. (required).</param>
-        public TpdmCandidateRace(string raceDescriptor = default(string))
+        public TpdmCandidateRace(string raceDescriptor = default)
         {
-            // to ensure "raceDescriptor" is required (not null)
-            if (raceDescriptor == null)
-            {
-                throw new ArgumentNullException("raceDescriptor is a required property for TpdmCandidateRace and cannot be null");
-            }
-            this.RaceDescriptor = raceDescriptor;
+            RaceDescriptor = raceDescriptor ?? throw new ArgumentNullException("raceDescriptor is a required property for TpdmCandidateRace and cannot be null");
         }
 
         /// <summary>
@@ -59,10 +54,10 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder();
-            sb.Append("class TpdmCandidateRace {\n");
-            sb.Append("  RaceDescriptor: ").Append(RaceDescriptor).Append("\n");
-            sb.Append("}\n");
+            var sb = new StringBuilder();
+            _ = sb.Append("class TpdmCandidateRace {\n");
+            _ = sb.Append("  RaceDescriptor: ").Append(RaceDescriptor).Append("\n");
+            _ = sb.Append("}\n");
             return sb.ToString();
         }
 
@@ -82,7 +77,7 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as TpdmCandidateRace);
+            return Equals(input as TpdmCandidateRace);
         }
 
         /// <summary>
@@ -92,16 +87,10 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public bool Equals(TpdmCandidateRace input)
         {
-            if (input == null)
-            {
-                return false;
-            }
-            return
-                (
-                    this.RaceDescriptor == input.RaceDescriptor ||
-                    (this.RaceDescriptor != null &&
-                    this.RaceDescriptor.Equals(input.RaceDescriptor))
-                );
+            return input != null
+&& (RaceDescriptor == input.RaceDescriptor ||
+                    (RaceDescriptor != null &&
+                    RaceDescriptor.Equals(input.RaceDescriptor)));
         }
 
         /// <summary>
@@ -112,10 +101,10 @@ namespace EdFi.OdsApi.Sdk.Models.All
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
-                if (this.RaceDescriptor != null)
+                var hashCode = 41;
+                if (RaceDescriptor != null)
                 {
-                    hashCode = (hashCode * 59) + this.RaceDescriptor.GetHashCode();
+                    hashCode = (hashCode * 59) + RaceDescriptor.GetHashCode();
                 }
                 return hashCode;
             }
@@ -129,7 +118,7 @@ namespace EdFi.OdsApi.Sdk.Models.All
         public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
         {
             // RaceDescriptor (string) maxLength
-            if (this.RaceDescriptor != null && this.RaceDescriptor.Length > 306)
+            if (RaceDescriptor != null && RaceDescriptor.Length > 306)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for RaceDescriptor, length must be less than 306.", new[] { "RaceDescriptor" });
             }

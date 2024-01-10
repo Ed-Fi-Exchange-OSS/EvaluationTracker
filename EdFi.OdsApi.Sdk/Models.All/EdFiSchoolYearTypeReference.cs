@@ -12,12 +12,12 @@
  */
 
 
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using System.Text;
-using Newtonsoft.Json;
-using System.ComponentModel.DataAnnotations;
 
 namespace EdFi.OdsApi.Sdk.Models.All
 {
@@ -37,10 +37,10 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// </summary>
         /// <param name="schoolYear">Key for School Year (required).</param>
         /// <param name="link">link.</param>
-        public EdFiSchoolYearTypeReference(int schoolYear = default(int), Link link = default(Link))
+        public EdFiSchoolYearTypeReference(int schoolYear = default, Link link = default)
         {
-            this.SchoolYear = schoolYear;
-            this.Link = link;
+            SchoolYear = schoolYear;
+            Link = link;
         }
 
         /// <summary>
@@ -62,11 +62,11 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder();
-            sb.Append("class EdFiSchoolYearTypeReference {\n");
-            sb.Append("  SchoolYear: ").Append(SchoolYear).Append("\n");
-            sb.Append("  Link: ").Append(Link).Append("\n");
-            sb.Append("}\n");
+            var sb = new StringBuilder();
+            _ = sb.Append("class EdFiSchoolYearTypeReference {\n");
+            _ = sb.Append("  SchoolYear: ").Append(SchoolYear).Append("\n");
+            _ = sb.Append("  Link: ").Append(Link).Append("\n");
+            _ = sb.Append("}\n");
             return sb.ToString();
         }
 
@@ -86,7 +86,7 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as EdFiSchoolYearTypeReference);
+            return Equals(input as EdFiSchoolYearTypeReference);
         }
 
         /// <summary>
@@ -96,19 +96,15 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public bool Equals(EdFiSchoolYearTypeReference input)
         {
-            if (input == null)
-            {
-                return false;
-            }
-            return
-                (
-                    this.SchoolYear == input.SchoolYear ||
-                    this.SchoolYear.Equals(input.SchoolYear)
+            return input != null
+&& (
+                    SchoolYear == input.SchoolYear ||
+                    SchoolYear.Equals(input.SchoolYear)
                 ) &&
                 (
-                    this.Link == input.Link ||
-                    (this.Link != null &&
-                    this.Link.Equals(input.Link))
+                    Link == input.Link ||
+                    (Link != null &&
+                    Link.Equals(input.Link))
                 );
         }
 
@@ -120,11 +116,11 @@ namespace EdFi.OdsApi.Sdk.Models.All
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
-                hashCode = (hashCode * 59) + this.SchoolYear.GetHashCode();
-                if (this.Link != null)
+                var hashCode = 41;
+                hashCode = (hashCode * 59) + SchoolYear.GetHashCode();
+                if (Link != null)
                 {
-                    hashCode = (hashCode * 59) + this.Link.GetHashCode();
+                    hashCode = (hashCode * 59) + Link.GetHashCode();
                 }
                 return hashCode;
             }

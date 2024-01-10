@@ -4,7 +4,6 @@
 // See the LICENSE and NOTICES files in the project root for more information.
 
 using EdFi.OdsApi.Sdk.Models.All;
-using eppeta.webapi.Identity.Models;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -23,11 +22,13 @@ namespace eppeta.webapi.Evaluations.Models
         [ForeignKey("PerformanceEvaluationId")]
         public PerformanceEvaluation? PerformanceEvaluation { get; set; } = null!;
         public static explicit operator PerformanceEvaluationRatingLevel(TpdmPerformanceEvaluationRatingLevel tpdmPerformanceEvaluationRatingLevel)
-            => new PerformanceEvaluationRatingLevel
+        {
+            return new PerformanceEvaluationRatingLevel
             {
                 EvaluationRatingLevelDescriptor = tpdmPerformanceEvaluationRatingLevel.EvaluationRatingLevelDescriptor,
                 MaxRating = (decimal?)tpdmPerformanceEvaluationRatingLevel.MaxRating
             };
+        }
     }
 }
 

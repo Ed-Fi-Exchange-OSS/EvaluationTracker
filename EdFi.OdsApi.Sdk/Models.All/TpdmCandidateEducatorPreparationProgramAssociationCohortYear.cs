@@ -12,12 +12,12 @@
  */
 
 
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using System.Text;
-using Newtonsoft.Json;
-using System.ComponentModel.DataAnnotations;
 
 namespace EdFi.OdsApi.Sdk.Models.All
 {
@@ -38,21 +38,11 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <param name="cohortYearTypeDescriptor">The type of cohort year (9th grade, graduation). (required).</param>
         /// <param name="termDescriptor">The term associated with the cohort year; for example, the intended term of graduation..</param>
         /// <param name="schoolYearTypeReference">schoolYearTypeReference (required).</param>
-        public TpdmCandidateEducatorPreparationProgramAssociationCohortYear(string cohortYearTypeDescriptor = default(string), string termDescriptor = default(string), EdFiSchoolYearTypeReference schoolYearTypeReference = default(EdFiSchoolYearTypeReference))
+        public TpdmCandidateEducatorPreparationProgramAssociationCohortYear(string cohortYearTypeDescriptor = default, string termDescriptor = default, EdFiSchoolYearTypeReference schoolYearTypeReference = default)
         {
-            // to ensure "cohortYearTypeDescriptor" is required (not null)
-            if (cohortYearTypeDescriptor == null)
-            {
-                throw new ArgumentNullException("cohortYearTypeDescriptor is a required property for TpdmCandidateEducatorPreparationProgramAssociationCohortYear and cannot be null");
-            }
-            this.CohortYearTypeDescriptor = cohortYearTypeDescriptor;
-            // to ensure "schoolYearTypeReference" is required (not null)
-            if (schoolYearTypeReference == null)
-            {
-                throw new ArgumentNullException("schoolYearTypeReference is a required property for TpdmCandidateEducatorPreparationProgramAssociationCohortYear and cannot be null");
-            }
-            this.SchoolYearTypeReference = schoolYearTypeReference;
-            this.TermDescriptor = termDescriptor;
+            CohortYearTypeDescriptor = cohortYearTypeDescriptor ?? throw new ArgumentNullException("cohortYearTypeDescriptor is a required property for TpdmCandidateEducatorPreparationProgramAssociationCohortYear and cannot be null");
+            SchoolYearTypeReference = schoolYearTypeReference ?? throw new ArgumentNullException("schoolYearTypeReference is a required property for TpdmCandidateEducatorPreparationProgramAssociationCohortYear and cannot be null");
+            TermDescriptor = termDescriptor;
         }
 
         /// <summary>
@@ -81,12 +71,12 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder();
-            sb.Append("class TpdmCandidateEducatorPreparationProgramAssociationCohortYear {\n");
-            sb.Append("  CohortYearTypeDescriptor: ").Append(CohortYearTypeDescriptor).Append("\n");
-            sb.Append("  TermDescriptor: ").Append(TermDescriptor).Append("\n");
-            sb.Append("  SchoolYearTypeReference: ").Append(SchoolYearTypeReference).Append("\n");
-            sb.Append("}\n");
+            var sb = new StringBuilder();
+            _ = sb.Append("class TpdmCandidateEducatorPreparationProgramAssociationCohortYear {\n");
+            _ = sb.Append("  CohortYearTypeDescriptor: ").Append(CohortYearTypeDescriptor).Append("\n");
+            _ = sb.Append("  TermDescriptor: ").Append(TermDescriptor).Append("\n");
+            _ = sb.Append("  SchoolYearTypeReference: ").Append(SchoolYearTypeReference).Append("\n");
+            _ = sb.Append("}\n");
             return sb.ToString();
         }
 
@@ -106,7 +96,7 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as TpdmCandidateEducatorPreparationProgramAssociationCohortYear);
+            return Equals(input as TpdmCandidateEducatorPreparationProgramAssociationCohortYear);
         }
 
         /// <summary>
@@ -116,25 +106,21 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public bool Equals(TpdmCandidateEducatorPreparationProgramAssociationCohortYear input)
         {
-            if (input == null)
-            {
-                return false;
-            }
-            return
-                (
-                    this.CohortYearTypeDescriptor == input.CohortYearTypeDescriptor ||
-                    (this.CohortYearTypeDescriptor != null &&
-                    this.CohortYearTypeDescriptor.Equals(input.CohortYearTypeDescriptor))
+            return input != null
+&& (
+                    CohortYearTypeDescriptor == input.CohortYearTypeDescriptor ||
+                    (CohortYearTypeDescriptor != null &&
+                    CohortYearTypeDescriptor.Equals(input.CohortYearTypeDescriptor))
                 ) &&
                 (
-                    this.TermDescriptor == input.TermDescriptor ||
-                    (this.TermDescriptor != null &&
-                    this.TermDescriptor.Equals(input.TermDescriptor))
+                    TermDescriptor == input.TermDescriptor ||
+                    (TermDescriptor != null &&
+                    TermDescriptor.Equals(input.TermDescriptor))
                 ) &&
                 (
-                    this.SchoolYearTypeReference == input.SchoolYearTypeReference ||
-                    (this.SchoolYearTypeReference != null &&
-                    this.SchoolYearTypeReference.Equals(input.SchoolYearTypeReference))
+                    SchoolYearTypeReference == input.SchoolYearTypeReference ||
+                    (SchoolYearTypeReference != null &&
+                    SchoolYearTypeReference.Equals(input.SchoolYearTypeReference))
                 );
         }
 
@@ -146,18 +132,18 @@ namespace EdFi.OdsApi.Sdk.Models.All
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
-                if (this.CohortYearTypeDescriptor != null)
+                var hashCode = 41;
+                if (CohortYearTypeDescriptor != null)
                 {
-                    hashCode = (hashCode * 59) + this.CohortYearTypeDescriptor.GetHashCode();
+                    hashCode = (hashCode * 59) + CohortYearTypeDescriptor.GetHashCode();
                 }
-                if (this.TermDescriptor != null)
+                if (TermDescriptor != null)
                 {
-                    hashCode = (hashCode * 59) + this.TermDescriptor.GetHashCode();
+                    hashCode = (hashCode * 59) + TermDescriptor.GetHashCode();
                 }
-                if (this.SchoolYearTypeReference != null)
+                if (SchoolYearTypeReference != null)
                 {
-                    hashCode = (hashCode * 59) + this.SchoolYearTypeReference.GetHashCode();
+                    hashCode = (hashCode * 59) + SchoolYearTypeReference.GetHashCode();
                 }
                 return hashCode;
             }
@@ -171,13 +157,13 @@ namespace EdFi.OdsApi.Sdk.Models.All
         public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
         {
             // CohortYearTypeDescriptor (string) maxLength
-            if (this.CohortYearTypeDescriptor != null && this.CohortYearTypeDescriptor.Length > 306)
+            if (CohortYearTypeDescriptor != null && CohortYearTypeDescriptor.Length > 306)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for CohortYearTypeDescriptor, length must be less than 306.", new[] { "CohortYearTypeDescriptor" });
             }
 
             // TermDescriptor (string) maxLength
-            if (this.TermDescriptor != null && this.TermDescriptor.Length > 306)
+            if (TermDescriptor != null && TermDescriptor.Length > 306)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for TermDescriptor, length must be less than 306.", new[] { "TermDescriptor" });
             }

@@ -14,9 +14,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using System.Text;
-using System.ComponentModel.DataAnnotations;
 
 namespace EdFi.OdsApi.Sdk.Models.All
 {
@@ -31,10 +31,10 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// </summary>
         /// <param name="rel">Describes the nature of the relationship to the referenced resource..</param>
         /// <param name="href">The URL to the related resource..</param>
-        public Link(string rel = default(string), string href = default(string))
+        public Link(string rel = default, string href = default)
         {
-            this.Rel = rel;
-            this.Href = href;
+            Rel = rel;
+            Href = href;
         }
 
         /// <summary>
@@ -57,11 +57,11 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder();
-            sb.Append("class Link {\n");
-            sb.Append("  Rel: ").Append(Rel).Append("\n");
-            sb.Append("  Href: ").Append(Href).Append("\n");
-            sb.Append("}\n");
+            var sb = new StringBuilder();
+            _ = sb.Append("class Link {\n");
+            _ = sb.Append("  Rel: ").Append(Rel).Append("\n");
+            _ = sb.Append("  Href: ").Append(Href).Append("\n");
+            _ = sb.Append("}\n");
             return sb.ToString();
         }
 
@@ -81,7 +81,7 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as Link);
+            return Equals(input as Link);
         }
 
         /// <summary>
@@ -91,20 +91,16 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public bool Equals(Link input)
         {
-            if (input == null)
-            {
-                return false;
-            }
-            return
-                (
-                    this.Rel == input.Rel ||
-                    (this.Rel != null &&
-                    this.Rel.Equals(input.Rel))
+            return input != null
+&& (
+                    Rel == input.Rel ||
+                    (Rel != null &&
+                    Rel.Equals(input.Rel))
                 ) &&
                 (
-                    this.Href == input.Href ||
-                    (this.Href != null &&
-                    this.Href.Equals(input.Href))
+                    Href == input.Href ||
+                    (Href != null &&
+                    Href.Equals(input.Href))
                 );
         }
 
@@ -116,14 +112,14 @@ namespace EdFi.OdsApi.Sdk.Models.All
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
-                if (this.Rel != null)
+                var hashCode = 41;
+                if (Rel != null)
                 {
-                    hashCode = (hashCode * 59) + this.Rel.GetHashCode();
+                    hashCode = (hashCode * 59) + Rel.GetHashCode();
                 }
-                if (this.Href != null)
+                if (Href != null)
                 {
-                    hashCode = (hashCode * 59) + this.Href.GetHashCode();
+                    hashCode = (hashCode * 59) + Href.GetHashCode();
                 }
                 return hashCode;
             }

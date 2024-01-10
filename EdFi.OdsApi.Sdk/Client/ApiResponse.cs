@@ -31,7 +31,7 @@ namespace EdFi.OdsApi.Sdk.Client
         /// <summary>
         /// The content of this response
         /// </summary>
-        Object Content { get; }
+        object Content { get; }
 
         /// <summary>
         /// Gets or sets the status code (HTTP status code)
@@ -99,18 +99,12 @@ namespace EdFi.OdsApi.Sdk.Client
         /// <summary>
         /// The content of this response
         /// </summary>
-        public Type ResponseType
-        {
-            get { return typeof(T); }
-        }
+        public Type ResponseType => typeof(T);
 
         /// <summary>
         /// The data type of <see cref="Content"/>
         /// </summary>
-        public object Content
-        {
-            get { return Data; }
-        }
+        public object Content => Data;
 
         /// <summary>
         /// The raw content

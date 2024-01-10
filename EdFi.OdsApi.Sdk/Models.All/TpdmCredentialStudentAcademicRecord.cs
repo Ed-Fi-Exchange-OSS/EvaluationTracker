@@ -12,12 +12,12 @@
  */
 
 
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using System.Text;
-using Newtonsoft.Json;
-using System.ComponentModel.DataAnnotations;
 
 namespace EdFi.OdsApi.Sdk.Models.All
 {
@@ -36,14 +36,9 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// Initializes a new instance of the <see cref="TpdmCredentialStudentAcademicRecord" /> class.
         /// </summary>
         /// <param name="studentAcademicRecordReference">studentAcademicRecordReference (required).</param>
-        public TpdmCredentialStudentAcademicRecord(EdFiStudentAcademicRecordReference studentAcademicRecordReference = default(EdFiStudentAcademicRecordReference))
+        public TpdmCredentialStudentAcademicRecord(EdFiStudentAcademicRecordReference studentAcademicRecordReference = default)
         {
-            // to ensure "studentAcademicRecordReference" is required (not null)
-            if (studentAcademicRecordReference == null)
-            {
-                throw new ArgumentNullException("studentAcademicRecordReference is a required property for TpdmCredentialStudentAcademicRecord and cannot be null");
-            }
-            this.StudentAcademicRecordReference = studentAcademicRecordReference;
+            StudentAcademicRecordReference = studentAcademicRecordReference ?? throw new ArgumentNullException("studentAcademicRecordReference is a required property for TpdmCredentialStudentAcademicRecord and cannot be null");
         }
 
         /// <summary>
@@ -58,10 +53,10 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder();
-            sb.Append("class TpdmCredentialStudentAcademicRecord {\n");
-            sb.Append("  StudentAcademicRecordReference: ").Append(StudentAcademicRecordReference).Append("\n");
-            sb.Append("}\n");
+            var sb = new StringBuilder();
+            _ = sb.Append("class TpdmCredentialStudentAcademicRecord {\n");
+            _ = sb.Append("  StudentAcademicRecordReference: ").Append(StudentAcademicRecordReference).Append("\n");
+            _ = sb.Append("}\n");
             return sb.ToString();
         }
 
@@ -81,7 +76,7 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as TpdmCredentialStudentAcademicRecord);
+            return Equals(input as TpdmCredentialStudentAcademicRecord);
         }
 
         /// <summary>
@@ -91,16 +86,10 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public bool Equals(TpdmCredentialStudentAcademicRecord input)
         {
-            if (input == null)
-            {
-                return false;
-            }
-            return
-                (
-                    this.StudentAcademicRecordReference == input.StudentAcademicRecordReference ||
-                    (this.StudentAcademicRecordReference != null &&
-                    this.StudentAcademicRecordReference.Equals(input.StudentAcademicRecordReference))
-                );
+            return input != null
+&& (StudentAcademicRecordReference == input.StudentAcademicRecordReference ||
+                    (StudentAcademicRecordReference != null &&
+                    StudentAcademicRecordReference.Equals(input.StudentAcademicRecordReference)));
         }
 
         /// <summary>
@@ -111,10 +100,10 @@ namespace EdFi.OdsApi.Sdk.Models.All
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
-                if (this.StudentAcademicRecordReference != null)
+                var hashCode = 41;
+                if (StudentAcademicRecordReference != null)
                 {
-                    hashCode = (hashCode * 59) + this.StudentAcademicRecordReference.GetHashCode();
+                    hashCode = (hashCode * 59) + StudentAcademicRecordReference.GetHashCode();
                 }
                 return hashCode;
             }

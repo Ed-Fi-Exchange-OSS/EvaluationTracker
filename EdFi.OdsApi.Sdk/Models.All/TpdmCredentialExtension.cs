@@ -12,13 +12,13 @@
  */
 
 
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
-using Newtonsoft.Json;
-using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = EdFi.OdsApi.Sdk.Client.OpenAPIDateConverter;
 
 namespace EdFi.OdsApi.Sdk.Models.All
@@ -40,16 +40,16 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <param name="credentialStatusDate">The month, day, and year on which the credential status was effective..</param>
         /// <param name="personReference">personReference.</param>
         /// <param name="studentAcademicRecords">An unordered collection of credentialStudentAcademicRecords. Reference to the person&#39;s Student Academic Records for the school(s) with which the Credential is associated..</param>
-        public TpdmCredentialExtension(string certificationRouteDescriptor = default(string), string credentialStatusDescriptor = default(string), string educatorRoleDescriptor = default(string), bool? boardCertificationIndicator = default(bool?), string certificationTitle = default(string), DateTime? credentialStatusDate = default(DateTime?), EdFiPersonReference personReference = default(EdFiPersonReference), List<TpdmCredentialStudentAcademicRecord> studentAcademicRecords = default(List<TpdmCredentialStudentAcademicRecord>))
+        public TpdmCredentialExtension(string certificationRouteDescriptor = default, string credentialStatusDescriptor = default, string educatorRoleDescriptor = default, bool? boardCertificationIndicator = default, string certificationTitle = default, DateTime? credentialStatusDate = default, EdFiPersonReference personReference = default, List<TpdmCredentialStudentAcademicRecord> studentAcademicRecords = default)
         {
-            this.CertificationRouteDescriptor = certificationRouteDescriptor;
-            this.CredentialStatusDescriptor = credentialStatusDescriptor;
-            this.EducatorRoleDescriptor = educatorRoleDescriptor;
-            this.BoardCertificationIndicator = boardCertificationIndicator;
-            this.CertificationTitle = certificationTitle;
-            this.CredentialStatusDate = credentialStatusDate;
-            this.PersonReference = personReference;
-            this.StudentAcademicRecords = studentAcademicRecords;
+            CertificationRouteDescriptor = certificationRouteDescriptor;
+            CredentialStatusDescriptor = credentialStatusDescriptor;
+            EducatorRoleDescriptor = educatorRoleDescriptor;
+            BoardCertificationIndicator = boardCertificationIndicator;
+            CertificationTitle = certificationTitle;
+            CredentialStatusDate = credentialStatusDate;
+            PersonReference = personReference;
+            StudentAcademicRecords = studentAcademicRecords;
         }
 
         /// <summary>
@@ -114,17 +114,17 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder();
-            sb.Append("class TpdmCredentialExtension {\n");
-            sb.Append("  CertificationRouteDescriptor: ").Append(CertificationRouteDescriptor).Append("\n");
-            sb.Append("  CredentialStatusDescriptor: ").Append(CredentialStatusDescriptor).Append("\n");
-            sb.Append("  EducatorRoleDescriptor: ").Append(EducatorRoleDescriptor).Append("\n");
-            sb.Append("  BoardCertificationIndicator: ").Append(BoardCertificationIndicator).Append("\n");
-            sb.Append("  CertificationTitle: ").Append(CertificationTitle).Append("\n");
-            sb.Append("  CredentialStatusDate: ").Append(CredentialStatusDate).Append("\n");
-            sb.Append("  PersonReference: ").Append(PersonReference).Append("\n");
-            sb.Append("  StudentAcademicRecords: ").Append(StudentAcademicRecords).Append("\n");
-            sb.Append("}\n");
+            var sb = new StringBuilder();
+            _ = sb.Append("class TpdmCredentialExtension {\n");
+            _ = sb.Append("  CertificationRouteDescriptor: ").Append(CertificationRouteDescriptor).Append("\n");
+            _ = sb.Append("  CredentialStatusDescriptor: ").Append(CredentialStatusDescriptor).Append("\n");
+            _ = sb.Append("  EducatorRoleDescriptor: ").Append(EducatorRoleDescriptor).Append("\n");
+            _ = sb.Append("  BoardCertificationIndicator: ").Append(BoardCertificationIndicator).Append("\n");
+            _ = sb.Append("  CertificationTitle: ").Append(CertificationTitle).Append("\n");
+            _ = sb.Append("  CredentialStatusDate: ").Append(CredentialStatusDate).Append("\n");
+            _ = sb.Append("  PersonReference: ").Append(PersonReference).Append("\n");
+            _ = sb.Append("  StudentAcademicRecords: ").Append(StudentAcademicRecords).Append("\n");
+            _ = sb.Append("}\n");
             return sb.ToString();
         }
 
@@ -144,7 +144,7 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as TpdmCredentialExtension);
+            return Equals(input as TpdmCredentialExtension);
         }
 
         /// <summary>
@@ -154,51 +154,47 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public bool Equals(TpdmCredentialExtension input)
         {
-            if (input == null)
-            {
-                return false;
-            }
-            return
-                (
-                    this.CertificationRouteDescriptor == input.CertificationRouteDescriptor ||
-                    (this.CertificationRouteDescriptor != null &&
-                    this.CertificationRouteDescriptor.Equals(input.CertificationRouteDescriptor))
+            return input != null
+&& (
+                    CertificationRouteDescriptor == input.CertificationRouteDescriptor ||
+                    (CertificationRouteDescriptor != null &&
+                    CertificationRouteDescriptor.Equals(input.CertificationRouteDescriptor))
                 ) &&
                 (
-                    this.CredentialStatusDescriptor == input.CredentialStatusDescriptor ||
-                    (this.CredentialStatusDescriptor != null &&
-                    this.CredentialStatusDescriptor.Equals(input.CredentialStatusDescriptor))
+                    CredentialStatusDescriptor == input.CredentialStatusDescriptor ||
+                    (CredentialStatusDescriptor != null &&
+                    CredentialStatusDescriptor.Equals(input.CredentialStatusDescriptor))
                 ) &&
                 (
-                    this.EducatorRoleDescriptor == input.EducatorRoleDescriptor ||
-                    (this.EducatorRoleDescriptor != null &&
-                    this.EducatorRoleDescriptor.Equals(input.EducatorRoleDescriptor))
+                    EducatorRoleDescriptor == input.EducatorRoleDescriptor ||
+                    (EducatorRoleDescriptor != null &&
+                    EducatorRoleDescriptor.Equals(input.EducatorRoleDescriptor))
                 ) &&
                 (
-                    this.BoardCertificationIndicator == input.BoardCertificationIndicator ||
-                    (this.BoardCertificationIndicator != null &&
-                    this.BoardCertificationIndicator.Equals(input.BoardCertificationIndicator))
+                    BoardCertificationIndicator == input.BoardCertificationIndicator ||
+                    (BoardCertificationIndicator != null &&
+                    BoardCertificationIndicator.Equals(input.BoardCertificationIndicator))
                 ) &&
                 (
-                    this.CertificationTitle == input.CertificationTitle ||
-                    (this.CertificationTitle != null &&
-                    this.CertificationTitle.Equals(input.CertificationTitle))
+                    CertificationTitle == input.CertificationTitle ||
+                    (CertificationTitle != null &&
+                    CertificationTitle.Equals(input.CertificationTitle))
                 ) &&
                 (
-                    this.CredentialStatusDate == input.CredentialStatusDate ||
-                    (this.CredentialStatusDate != null &&
-                    this.CredentialStatusDate.Equals(input.CredentialStatusDate))
+                    CredentialStatusDate == input.CredentialStatusDate ||
+                    (CredentialStatusDate != null &&
+                    CredentialStatusDate.Equals(input.CredentialStatusDate))
                 ) &&
                 (
-                    this.PersonReference == input.PersonReference ||
-                    (this.PersonReference != null &&
-                    this.PersonReference.Equals(input.PersonReference))
+                    PersonReference == input.PersonReference ||
+                    (PersonReference != null &&
+                    PersonReference.Equals(input.PersonReference))
                 ) &&
                 (
-                    this.StudentAcademicRecords == input.StudentAcademicRecords ||
-                    this.StudentAcademicRecords != null &&
+                    StudentAcademicRecords == input.StudentAcademicRecords ||
+                    StudentAcademicRecords != null &&
                     input.StudentAcademicRecords != null &&
-                    this.StudentAcademicRecords.SequenceEqual(input.StudentAcademicRecords)
+                    StudentAcademicRecords.SequenceEqual(input.StudentAcademicRecords)
                 );
         }
 
@@ -210,38 +206,38 @@ namespace EdFi.OdsApi.Sdk.Models.All
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
-                if (this.CertificationRouteDescriptor != null)
+                var hashCode = 41;
+                if (CertificationRouteDescriptor != null)
                 {
-                    hashCode = (hashCode * 59) + this.CertificationRouteDescriptor.GetHashCode();
+                    hashCode = (hashCode * 59) + CertificationRouteDescriptor.GetHashCode();
                 }
-                if (this.CredentialStatusDescriptor != null)
+                if (CredentialStatusDescriptor != null)
                 {
-                    hashCode = (hashCode * 59) + this.CredentialStatusDescriptor.GetHashCode();
+                    hashCode = (hashCode * 59) + CredentialStatusDescriptor.GetHashCode();
                 }
-                if (this.EducatorRoleDescriptor != null)
+                if (EducatorRoleDescriptor != null)
                 {
-                    hashCode = (hashCode * 59) + this.EducatorRoleDescriptor.GetHashCode();
+                    hashCode = (hashCode * 59) + EducatorRoleDescriptor.GetHashCode();
                 }
-                if (this.BoardCertificationIndicator != null)
+                if (BoardCertificationIndicator != null)
                 {
-                    hashCode = (hashCode * 59) + this.BoardCertificationIndicator.GetHashCode();
+                    hashCode = (hashCode * 59) + BoardCertificationIndicator.GetHashCode();
                 }
-                if (this.CertificationTitle != null)
+                if (CertificationTitle != null)
                 {
-                    hashCode = (hashCode * 59) + this.CertificationTitle.GetHashCode();
+                    hashCode = (hashCode * 59) + CertificationTitle.GetHashCode();
                 }
-                if (this.CredentialStatusDate != null)
+                if (CredentialStatusDate != null)
                 {
-                    hashCode = (hashCode * 59) + this.CredentialStatusDate.GetHashCode();
+                    hashCode = (hashCode * 59) + CredentialStatusDate.GetHashCode();
                 }
-                if (this.PersonReference != null)
+                if (PersonReference != null)
                 {
-                    hashCode = (hashCode * 59) + this.PersonReference.GetHashCode();
+                    hashCode = (hashCode * 59) + PersonReference.GetHashCode();
                 }
-                if (this.StudentAcademicRecords != null)
+                if (StudentAcademicRecords != null)
                 {
-                    hashCode = (hashCode * 59) + this.StudentAcademicRecords.GetHashCode();
+                    hashCode = (hashCode * 59) + StudentAcademicRecords.GetHashCode();
                 }
                 return hashCode;
             }
@@ -255,25 +251,25 @@ namespace EdFi.OdsApi.Sdk.Models.All
         public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
         {
             // CertificationRouteDescriptor (string) maxLength
-            if (this.CertificationRouteDescriptor != null && this.CertificationRouteDescriptor.Length > 306)
+            if (CertificationRouteDescriptor != null && CertificationRouteDescriptor.Length > 306)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for CertificationRouteDescriptor, length must be less than 306.", new[] { "CertificationRouteDescriptor" });
             }
 
             // CredentialStatusDescriptor (string) maxLength
-            if (this.CredentialStatusDescriptor != null && this.CredentialStatusDescriptor.Length > 306)
+            if (CredentialStatusDescriptor != null && CredentialStatusDescriptor.Length > 306)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for CredentialStatusDescriptor, length must be less than 306.", new[] { "CredentialStatusDescriptor" });
             }
 
             // EducatorRoleDescriptor (string) maxLength
-            if (this.EducatorRoleDescriptor != null && this.EducatorRoleDescriptor.Length > 306)
+            if (EducatorRoleDescriptor != null && EducatorRoleDescriptor.Length > 306)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for EducatorRoleDescriptor, length must be less than 306.", new[] { "EducatorRoleDescriptor" });
             }
 
             // CertificationTitle (string) maxLength
-            if (this.CertificationTitle != null && this.CertificationTitle.Length > 64)
+            if (CertificationTitle != null && CertificationTitle.Length > 64)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for CertificationTitle, length must be less than 64.", new[] { "CertificationTitle" });
             }

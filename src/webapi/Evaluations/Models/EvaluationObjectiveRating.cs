@@ -81,8 +81,8 @@ namespace eppeta.webapi.Evaluations.Models
                     personId: evaluationObjectiveRating.PersonId,
                     sourceSystemDescriptor: evaluationObjectiveRating.SourceSystemDescriptor
                 ),
-                objectiveRatingLevelDescriptor: evaluationObjectiveRating.ObjectiveRatingLevelDescriptor ?? String.Empty,
-                comments: evaluationObjectiveRating.Comments ?? String.Empty
+                objectiveRatingLevelDescriptor: evaluationObjectiveRating.ObjectiveRatingLevelDescriptor ?? string.Empty,
+                comments: evaluationObjectiveRating.Comments ?? string.Empty
             );
         }
 

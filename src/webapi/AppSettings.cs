@@ -49,37 +49,13 @@ public class AppSettings
         _instance = new AppSettings(configuration);
     }
 
-    public static Authentication Authentication
-    {
-        get
-        {
-            return GetInstance()._authentication.Value;
-        }
-    }
+    public static Authentication Authentication => GetInstance()._authentication.Value;
 
-    public static SyncOdsAssetsSettings SyncOdsAssetsSettings
-    {
-        get
-        {
-            return GetInstance()._syncOdsAssetsSettings.Value;
-        }
-    }
+    public static SyncOdsAssetsSettings SyncOdsAssetsSettings => GetInstance()._syncOdsAssetsSettings.Value;
 
-    public static string[] AllowedOrigins
-    {
-        get
-        {
-            return GetInstance().GetValue<string>("CorsAllowedOrigins").Split(",");
-        }
-    }
+    public static string[] AllowedOrigins => GetInstance().GetValue<string>("CorsAllowedOrigins").Split(",");
 
-    public static string OdsApiBasePath
-    {
-        get
-        {
-            return GetInstance().GetValue<string>("OdsApiBasePath");
-        }
-    }
+    public static string OdsApiBasePath => GetInstance().GetValue<string>("OdsApiBasePath");
 
     // Add a method to accept all SSL certs if the TrustAllSSLCerts is true in the appsettings.json file.
     public static void OptionallyTrustAllSSLCerts()
@@ -88,7 +64,7 @@ public class AppSettings
         {
             // Trust all SSL certs -- needed unless signed SSL certificates are configured.
             System.Net.ServicePointManager.ServerCertificateValidationCallback =
-                ((sender, certificate, chain, sslPolicyErrors) => true);
+                (sender, certificate, chain, sslPolicyErrors) => true;
 
             // Due to our reliance on some older libraries, the.NET framework won't necessarily default
             // to the latest unless we explicitly request it. Some hosting environments will not allow older versions

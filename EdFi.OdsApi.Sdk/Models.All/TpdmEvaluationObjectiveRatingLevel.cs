@@ -12,12 +12,12 @@
  */
 
 
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using System.Text;
-using Newtonsoft.Json;
-using System.ComponentModel.DataAnnotations;
 
 namespace EdFi.OdsApi.Sdk.Models.All
 {
@@ -38,16 +38,11 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <param name="evaluationRatingLevelDescriptor">The title for a level of rating or evaluation band (e.g., Excellent, Acceptable, Needs Improvement, Unacceptable). (required).</param>
         /// <param name="maxRating">The maximum numerical rating or score to achieve the evaluation rating level..</param>
         /// <param name="minRating">The minimum numerical rating or score to achieve the evaluation rating level..</param>
-        public TpdmEvaluationObjectiveRatingLevel(string evaluationRatingLevelDescriptor = default(string), double? maxRating = default(double?), double? minRating = default(double?))
+        public TpdmEvaluationObjectiveRatingLevel(string evaluationRatingLevelDescriptor = default, double? maxRating = default, double? minRating = default)
         {
-            // to ensure "evaluationRatingLevelDescriptor" is required (not null)
-            if (evaluationRatingLevelDescriptor == null)
-            {
-                throw new ArgumentNullException("evaluationRatingLevelDescriptor is a required property for TpdmEvaluationObjectiveRatingLevel and cannot be null");
-            }
-            this.EvaluationRatingLevelDescriptor = evaluationRatingLevelDescriptor;
-            this.MaxRating = maxRating;
-            this.MinRating = minRating;
+            EvaluationRatingLevelDescriptor = evaluationRatingLevelDescriptor ?? throw new ArgumentNullException("evaluationRatingLevelDescriptor is a required property for TpdmEvaluationObjectiveRatingLevel and cannot be null");
+            MaxRating = maxRating;
+            MinRating = minRating;
         }
 
         /// <summary>
@@ -77,12 +72,12 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder();
-            sb.Append("class TpdmEvaluationObjectiveRatingLevel {\n");
-            sb.Append("  EvaluationRatingLevelDescriptor: ").Append(EvaluationRatingLevelDescriptor).Append("\n");
-            sb.Append("  MaxRating: ").Append(MaxRating).Append("\n");
-            sb.Append("  MinRating: ").Append(MinRating).Append("\n");
-            sb.Append("}\n");
+            var sb = new StringBuilder();
+            _ = sb.Append("class TpdmEvaluationObjectiveRatingLevel {\n");
+            _ = sb.Append("  EvaluationRatingLevelDescriptor: ").Append(EvaluationRatingLevelDescriptor).Append("\n");
+            _ = sb.Append("  MaxRating: ").Append(MaxRating).Append("\n");
+            _ = sb.Append("  MinRating: ").Append(MinRating).Append("\n");
+            _ = sb.Append("}\n");
             return sb.ToString();
         }
 
@@ -102,7 +97,7 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as TpdmEvaluationObjectiveRatingLevel);
+            return Equals(input as TpdmEvaluationObjectiveRatingLevel);
         }
 
         /// <summary>
@@ -112,25 +107,21 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public bool Equals(TpdmEvaluationObjectiveRatingLevel input)
         {
-            if (input == null)
-            {
-                return false;
-            }
-            return
-                (
-                    this.EvaluationRatingLevelDescriptor == input.EvaluationRatingLevelDescriptor ||
-                    (this.EvaluationRatingLevelDescriptor != null &&
-                    this.EvaluationRatingLevelDescriptor.Equals(input.EvaluationRatingLevelDescriptor))
+            return input != null
+&& (
+                    EvaluationRatingLevelDescriptor == input.EvaluationRatingLevelDescriptor ||
+                    (EvaluationRatingLevelDescriptor != null &&
+                    EvaluationRatingLevelDescriptor.Equals(input.EvaluationRatingLevelDescriptor))
                 ) &&
                 (
-                    this.MaxRating == input.MaxRating ||
-                    (this.MaxRating != null &&
-                    this.MaxRating.Equals(input.MaxRating))
+                    MaxRating == input.MaxRating ||
+                    (MaxRating != null &&
+                    MaxRating.Equals(input.MaxRating))
                 ) &&
                 (
-                    this.MinRating == input.MinRating ||
-                    (this.MinRating != null &&
-                    this.MinRating.Equals(input.MinRating))
+                    MinRating == input.MinRating ||
+                    (MinRating != null &&
+                    MinRating.Equals(input.MinRating))
                 );
         }
 
@@ -142,18 +133,18 @@ namespace EdFi.OdsApi.Sdk.Models.All
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
-                if (this.EvaluationRatingLevelDescriptor != null)
+                var hashCode = 41;
+                if (EvaluationRatingLevelDescriptor != null)
                 {
-                    hashCode = (hashCode * 59) + this.EvaluationRatingLevelDescriptor.GetHashCode();
+                    hashCode = (hashCode * 59) + EvaluationRatingLevelDescriptor.GetHashCode();
                 }
-                if (this.MaxRating != null)
+                if (MaxRating != null)
                 {
-                    hashCode = (hashCode * 59) + this.MaxRating.GetHashCode();
+                    hashCode = (hashCode * 59) + MaxRating.GetHashCode();
                 }
-                if (this.MinRating != null)
+                if (MinRating != null)
                 {
-                    hashCode = (hashCode * 59) + this.MinRating.GetHashCode();
+                    hashCode = (hashCode * 59) + MinRating.GetHashCode();
                 }
                 return hashCode;
             }
@@ -167,7 +158,7 @@ namespace EdFi.OdsApi.Sdk.Models.All
         public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
         {
             // EvaluationRatingLevelDescriptor (string) maxLength
-            if (this.EvaluationRatingLevelDescriptor != null && this.EvaluationRatingLevelDescriptor.Length > 306)
+            if (EvaluationRatingLevelDescriptor != null && EvaluationRatingLevelDescriptor.Length > 306)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for EvaluationRatingLevelDescriptor, length must be less than 306.", new[] { "EvaluationRatingLevelDescriptor" });
             }

@@ -1,4 +1,4 @@
 namespace eppeta.webapi.Service
 {
-    record PeriodicHostedSyncOdsAssetsServiceState(bool IsEnabled);
+    internal record PeriodicHostedSyncOdsAssetsServiceState(bool IsEnabled);
 }

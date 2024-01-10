@@ -3,15 +3,15 @@
 // The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
 // See the LICENSE and NOTICES files in the project root for more information.
 
+using EdFi.OdsApi.Sdk.Models.All;
+using eppeta.webapi.DTO;
 using eppeta.webapi.Evaluations.Data;
 using eppeta.webapi.Evaluations.Models;
-using eppeta.webapi.DTO;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using eppeta.webapi.Identity.Models;
 using eppeta.webapi.Mapping;
 using eppeta.webapi.Service;
-using EdFi.OdsApi.Sdk.Models.All;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using OpenIddict.Abstractions;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -41,7 +41,7 @@ namespace eppeta.webapi.Controllers
         public async Task<ActionResult<IEnumerable<PerformedEvaluation>>> GetPerformedEvaluations()
         {
             var evaluationRatings = await _evaluationRepository.GetAllEvaluationRatings();
-            List<PerformedEvaluation> perEvalRatings = new List<PerformedEvaluation>();
+            var perEvalRatings = new List<PerformedEvaluation>();
 
             foreach (var evalRating in evaluationRatings)
             {
@@ -67,7 +67,7 @@ namespace eppeta.webapi.Controllers
         {
             if (userId is null || userId == string.Empty) { return NotFound(); }
             var evaluationRatings = await _evaluationRepository.GetEvaluationRatingsByUserId(userId);
-            List<PerformedEvaluation> perEvalRatings = new List<PerformedEvaluation>();
+            var perEvalRatings = new List<PerformedEvaluation>();
 
             foreach (var evalRating in evaluationRatings)
             {
@@ -95,7 +95,9 @@ namespace eppeta.webapi.Controllers
         private async Task<Dictionary<string, List<int>>> SaveEvaluation(PerformedEvaluationResult evaluationResult, string userId)
         {
             if (evaluationResult == null || evaluationResult.ObjectiveResults == null || evaluationResult.ObjectiveResults.Count < 1)
+            {
                 throw new ArgumentNullException(nameof(evaluationResult));
+            }
             // this dict stores the list of Ids created/updated for each object type while saving just in case we need them later
             var result = new Dictionary<string, List<int>>() {
                 { typeof(PerformanceEvaluationRating).Name, new List<int>{ } },
@@ -103,10 +105,10 @@ namespace eppeta.webapi.Controllers
                 { typeof(EvaluationObjectiveRating).Name, new List<int>{ } },
                 { typeof(EvaluationElementRatingResult).Name, new List<int>{ } },
             };
-            
-            PerformanceEvaluation? perEval = null;
-            DateTime evaluationDate = DateTime.UtcNow;
+            var evaluationDate = DateTime.UtcNow;
 
+
+            PerformanceEvaluation? perEval;
             if (evaluationResult.EvaluationRatingId > 0)
             {
                 perEval = await _evaluationRepository.GetPerformanceEvaluationById(evaluationResult.EvaluationId);
@@ -121,7 +123,9 @@ namespace eppeta.webapi.Controllers
             {
                 perEval = await _evaluationRepository.GetPerformanceEvaluationById(evaluationResult.EvaluationId);
                 if (perEval == null)
+                {
                     throw new ArgumentException("PerformanceEvaluation not found");
+                }
             }
 
             // Create EvaluationRating
@@ -178,7 +182,7 @@ namespace eppeta.webapi.Controllers
                     elementRatingResult.EvaluationDate = evaluationDate;
                     elementRatingResult.PersonId = evaluationResult.ReviewedPersonId;
                     elementRatingResult.ResultDatatypeTypeDescriptor = _resultDatatype; // TODO: harcoding this based on the type of elRes.Score
-                    elementRatingResult.RatingResultTitle = evalElement.EvaluationElementTitle.Substring(0, Math.Min(50, evalElement.EvaluationElementTitle.Length)); // TODO: No result title is returned from frontend. Truncating element title
+                    elementRatingResult.RatingResultTitle = evalElement.EvaluationElementTitle[..Math.Min(50, evalElement.EvaluationElementTitle.Length)]; // TODO: No result title is returned from frontend. Truncating element title
                     elementRatingResult.Rating = elRes.Score;
                     elementRatingResult.UserId = userId;
 
@@ -199,7 +203,7 @@ namespace eppeta.webapi.Controllers
                 var ids = await SaveEvaluation(evaluationResult, userId);
                 return Ok(ids);
             }
-            catch(ArgumentException e)
+            catch (ArgumentException e)
             {
                 return NotFound(e.Message);
             }
@@ -207,7 +211,7 @@ namespace eppeta.webapi.Controllers
             {
                 return BadRequest(e.Message);
             }
-            
+
         }
 
         [HttpPost]
@@ -234,7 +238,9 @@ namespace eppeta.webapi.Controllers
             {
                 var apiClassType = Type.GetType($"EdFi.OdsApi.Sdk.Apis.All.{api},EdFi.OdsApi.Sdk");
                 if (apiClassType == null)
+                {
                     throw new Exception($"Missing API class for {api}");
+                }
 #pragma warning disable CS8601 // Possible null reference assignment.
                 apis[api] = Activator.CreateInstance(apiClassType, new object[] { authenticatedConfiguration });
 #pragma warning restore CS8601 // Possible null reference assignment.
@@ -250,28 +256,40 @@ namespace eppeta.webapi.Controllers
                 // POST performanceEvaluation
                 var res = await apis["PerformanceEvaluationsApi"].PostPerformanceEvaluationWithHttpInfoAsync((TpdmPerformanceEvaluation)performanceEvaluationPost);
                 if (res.ErrorText != null)
+                {
                     throw new Exception(res.ErrorText);
+                }
+
                 performanceEvaluationRatingPost = await _evaluationRepository.GetPerformanceEvaluationRatingById(ids[typeof(PerformanceEvaluationRating).Name].First());
 
                 // POST performanceEvaluationRating
                 res = await apis["PerformanceEvaluationRatingsApi"].PostPerformanceEvaluationRatingWithHttpInfoAsync((TpdmPerformanceEvaluationRating)performanceEvaluationRatingPost);
                 if (res.ErrorText != null)
+                {
                     throw new Exception(res.ErrorText);
+                }
+
                 foreach (var evaluationObjectiveRatingId in ids[typeof(EvaluationObjectiveRating).Name])
                 {
                     var evaluationObjectiveRatingPost = await _evaluationRepository.GetEvaluationObjectiveRatingById(evaluationObjectiveRatingId);
                     // POST Evaluation
                     res = await apis["EvaluationsApi"].PostEvaluationWithHttpInfoAsync((TpdmEvaluation)evaluationObjectiveRatingPost);
                     if (res.ErrorText != null)
+                    {
                         throw new Exception(res.ErrorText);
+                    }
                     // POST EvaluationRating
                     res = await apis["EvaluationRatingsApi"].PostEvaluationRatingWithHttpInfoAsync((TpdmEvaluationRating)evaluationObjectiveRatingPost);
                     if (res.ErrorText != null)
+                    {
                         throw new Exception(res.ErrorText);
+                    }
                     // POST evaluationObjectiveRating
                     res = await apis["EvaluationObjectiveRatingsApi"].PostEvaluationObjectiveRatingWithHttpInfoAsync((TpdmEvaluationObjectiveRating)evaluationObjectiveRatingPost);
                     if (res.ErrorText != null)
+                    {
                         throw new Exception(res.ErrorText);
+                    }
                 }
                 foreach (var evaluationElementRatingResultId in ids[typeof(EvaluationElementRatingResult).Name])
                 {
@@ -281,7 +299,9 @@ namespace eppeta.webapi.Controllers
                     MappingHelper.CopyMatchingPKProperties(evaluationElementRatingResultPost, evaluationElementPost);
                     res = await apis["EvaluationElementsApi"].PostEvaluationElementWithHttpInfoAsync((TpdmEvaluationElement)evaluationElementPost);
                     if (res.ErrorText != null)
+                    {
                         throw new Exception(res.ErrorText);
+                    }
                     // POST evaluationElementRating
                     var evaluationElementRatingPost = new EvaluationElementRating();
                     MappingHelper.CopyMatchingPKProperties(evaluationElementRatingResultPost, evaluationElementRatingPost);
@@ -292,18 +312,19 @@ namespace eppeta.webapi.Controllers
                     evaluationElementRatingPost.EvaluationDate = evaluationResult.StartDateTime;
                     var tpdmEvaluationElementRatingPost = (TpdmEvaluationElementRating)evaluationElementRatingPost;
                     tpdmEvaluationElementRatingPost.Results = new List<TpdmEvaluationElementRatingResult>{
-                        new TpdmEvaluationElementRatingResult
-                        (
+                        new                        (
                             rating: (double)evaluationElementRatingResultPost.Rating,
-                            ratingResultTitle: evaluationElementPost.EvaluationElementTitle.Length > 50? evaluationElementPost.EvaluationElementTitle.Substring(0,50): evaluationElementPost.EvaluationElementTitle,
+                            ratingResultTitle: evaluationElementPost.EvaluationElementTitle.Length > 50? evaluationElementPost.EvaluationElementTitle[..50]: evaluationElementPost.EvaluationElementTitle,
                             resultDatatypeTypeDescriptor: _resultDatatype
                         )};
                     res = await apis["EvaluationElementRatingsApi"].PostEvaluationElementRatingWithHttpInfoAsync(tpdmEvaluationElementRatingPost);
                     if (res.ErrorText != null)
+                    {
                         throw new Exception(res.ErrorText);
+                    }
                 }
-                performanceEvaluationRatingPost.StatusId = (await _evaluationRepository.GetStatusByText("Review Approved, transferred to ODS/API")).Id;
-                await _evaluationRepository.UpdatePerformanceEvaluationRatings(new List<PerformanceEvaluationRating> { performanceEvaluationRatingPost });
+                performanceEvaluationRatingPost.StatusId = (await _evaluationRepository.GetStatusByText("uploaded")).Id;
+                _ = await _evaluationRepository.UpdatePerformanceEvaluationRatings(new List<PerformanceEvaluationRating> { performanceEvaluationRatingPost });
                 return Ok(ids);
             }
 
@@ -315,8 +336,8 @@ namespace eppeta.webapi.Controllers
             {
                 if (performanceEvaluationRatingPost != null)
                 {
-                    performanceEvaluationRatingPost.StatusId = (await _evaluationRepository.GetStatusByText("Review Approved, transfer to ODS/API failed")).Id;
-                    await _evaluationRepository.UpdatePerformanceEvaluationRatings(new List<PerformanceEvaluationRating> { performanceEvaluationRatingPost });
+                    performanceEvaluationRatingPost.StatusId = (await _evaluationRepository.GetStatusByText("failed")).Id;
+                    _ = await _evaluationRepository.UpdatePerformanceEvaluationRatings(new List<PerformanceEvaluationRating> { performanceEvaluationRatingPost });
                 }
                 return Problem(ex.Message);
             }

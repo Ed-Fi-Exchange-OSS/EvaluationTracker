@@ -4,7 +4,6 @@
 // See the LICENSE and NOTICES files in the project root for more information.
 
 using EdFi.OdsApi.Sdk.Client;
-using EdFi.OdsApi.SdkClient;
 
 namespace eppeta.webapi.Service
 {

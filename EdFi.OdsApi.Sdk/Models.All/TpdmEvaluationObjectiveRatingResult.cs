@@ -12,12 +12,12 @@
  */
 
 
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using System.Text;
-using Newtonsoft.Json;
-using System.ComponentModel.DataAnnotations;
 
 namespace EdFi.OdsApi.Sdk.Models.All
 {
@@ -38,21 +38,11 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <param name="rating">The numerical summary rating or score for the evaluation. (required).</param>
         /// <param name="ratingResultTitle">The title of Rating Result. (required).</param>
         /// <param name="resultDatatypeTypeDescriptor">The datatype of the result. (required).</param>
-        public TpdmEvaluationObjectiveRatingResult(double rating = default(double), string ratingResultTitle = default(string), string resultDatatypeTypeDescriptor = default(string))
+        public TpdmEvaluationObjectiveRatingResult(double rating = default, string ratingResultTitle = default, string resultDatatypeTypeDescriptor = default)
         {
-            this.Rating = rating;
-            // to ensure "ratingResultTitle" is required (not null)
-            if (ratingResultTitle == null)
-            {
-                throw new ArgumentNullException("ratingResultTitle is a required property for TpdmEvaluationObjectiveRatingResult and cannot be null");
-            }
-            this.RatingResultTitle = ratingResultTitle;
-            // to ensure "resultDatatypeTypeDescriptor" is required (not null)
-            if (resultDatatypeTypeDescriptor == null)
-            {
-                throw new ArgumentNullException("resultDatatypeTypeDescriptor is a required property for TpdmEvaluationObjectiveRatingResult and cannot be null");
-            }
-            this.ResultDatatypeTypeDescriptor = resultDatatypeTypeDescriptor;
+            Rating = rating;
+            RatingResultTitle = ratingResultTitle ?? throw new ArgumentNullException("ratingResultTitle is a required property for TpdmEvaluationObjectiveRatingResult and cannot be null");
+            ResultDatatypeTypeDescriptor = resultDatatypeTypeDescriptor ?? throw new ArgumentNullException("resultDatatypeTypeDescriptor is a required property for TpdmEvaluationObjectiveRatingResult and cannot be null");
         }
 
         /// <summary>
@@ -82,12 +72,12 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder();
-            sb.Append("class TpdmEvaluationObjectiveRatingResult {\n");
-            sb.Append("  Rating: ").Append(Rating).Append("\n");
-            sb.Append("  RatingResultTitle: ").Append(RatingResultTitle).Append("\n");
-            sb.Append("  ResultDatatypeTypeDescriptor: ").Append(ResultDatatypeTypeDescriptor).Append("\n");
-            sb.Append("}\n");
+            var sb = new StringBuilder();
+            _ = sb.Append("class TpdmEvaluationObjectiveRatingResult {\n");
+            _ = sb.Append("  Rating: ").Append(Rating).Append("\n");
+            _ = sb.Append("  RatingResultTitle: ").Append(RatingResultTitle).Append("\n");
+            _ = sb.Append("  ResultDatatypeTypeDescriptor: ").Append(ResultDatatypeTypeDescriptor).Append("\n");
+            _ = sb.Append("}\n");
             return sb.ToString();
         }
 
@@ -107,7 +97,7 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as TpdmEvaluationObjectiveRatingResult);
+            return Equals(input as TpdmEvaluationObjectiveRatingResult);
         }
 
         /// <summary>
@@ -117,24 +107,20 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public bool Equals(TpdmEvaluationObjectiveRatingResult input)
         {
-            if (input == null)
-            {
-                return false;
-            }
-            return
-                (
-                    this.Rating == input.Rating ||
-                    this.Rating.Equals(input.Rating)
+            return input != null
+&& (
+                    Rating == input.Rating ||
+                    Rating.Equals(input.Rating)
                 ) &&
                 (
-                    this.RatingResultTitle == input.RatingResultTitle ||
-                    (this.RatingResultTitle != null &&
-                    this.RatingResultTitle.Equals(input.RatingResultTitle))
+                    RatingResultTitle == input.RatingResultTitle ||
+                    (RatingResultTitle != null &&
+                    RatingResultTitle.Equals(input.RatingResultTitle))
                 ) &&
                 (
-                    this.ResultDatatypeTypeDescriptor == input.ResultDatatypeTypeDescriptor ||
-                    (this.ResultDatatypeTypeDescriptor != null &&
-                    this.ResultDatatypeTypeDescriptor.Equals(input.ResultDatatypeTypeDescriptor))
+                    ResultDatatypeTypeDescriptor == input.ResultDatatypeTypeDescriptor ||
+                    (ResultDatatypeTypeDescriptor != null &&
+                    ResultDatatypeTypeDescriptor.Equals(input.ResultDatatypeTypeDescriptor))
                 );
         }
 
@@ -146,15 +132,15 @@ namespace EdFi.OdsApi.Sdk.Models.All
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
-                hashCode = (hashCode * 59) + this.Rating.GetHashCode();
-                if (this.RatingResultTitle != null)
+                var hashCode = 41;
+                hashCode = (hashCode * 59) + Rating.GetHashCode();
+                if (RatingResultTitle != null)
                 {
-                    hashCode = (hashCode * 59) + this.RatingResultTitle.GetHashCode();
+                    hashCode = (hashCode * 59) + RatingResultTitle.GetHashCode();
                 }
-                if (this.ResultDatatypeTypeDescriptor != null)
+                if (ResultDatatypeTypeDescriptor != null)
                 {
-                    hashCode = (hashCode * 59) + this.ResultDatatypeTypeDescriptor.GetHashCode();
+                    hashCode = (hashCode * 59) + ResultDatatypeTypeDescriptor.GetHashCode();
                 }
                 return hashCode;
             }
@@ -168,13 +154,13 @@ namespace EdFi.OdsApi.Sdk.Models.All
         public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
         {
             // RatingResultTitle (string) maxLength
-            if (this.RatingResultTitle != null && this.RatingResultTitle.Length > 50)
+            if (RatingResultTitle != null && RatingResultTitle.Length > 50)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for RatingResultTitle, length must be less than 50.", new[] { "RatingResultTitle" });
             }
 
             // ResultDatatypeTypeDescriptor (string) maxLength
-            if (this.ResultDatatypeTypeDescriptor != null && this.ResultDatatypeTypeDescriptor.Length > 306)
+            if (ResultDatatypeTypeDescriptor != null && ResultDatatypeTypeDescriptor.Length > 306)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for ResultDatatypeTypeDescriptor, length must be less than 306.", new[] { "ResultDatatypeTypeDescriptor" });
             }

@@ -12,12 +12,12 @@
  */
 
 
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using System.Text;
-using Newtonsoft.Json;
-using System.ComponentModel.DataAnnotations;
 
 namespace EdFi.OdsApi.Sdk.Models.All
 {
@@ -37,15 +37,10 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// </summary>
         /// <param name="studentUniqueId">A unique alphanumeric code assigned to a student. (required).</param>
         /// <param name="link">link.</param>
-        public EdFiStudentReference(string studentUniqueId = default(string), Link link = default(Link))
+        public EdFiStudentReference(string studentUniqueId = default, Link link = default)
         {
-            // to ensure "studentUniqueId" is required (not null)
-            if (studentUniqueId == null)
-            {
-                throw new ArgumentNullException("studentUniqueId is a required property for EdFiStudentReference and cannot be null");
-            }
-            this.StudentUniqueId = studentUniqueId;
-            this.Link = link;
+            StudentUniqueId = studentUniqueId ?? throw new ArgumentNullException("studentUniqueId is a required property for EdFiStudentReference and cannot be null");
+            Link = link;
         }
 
         /// <summary>
@@ -67,11 +62,11 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder();
-            sb.Append("class EdFiStudentReference {\n");
-            sb.Append("  StudentUniqueId: ").Append(StudentUniqueId).Append("\n");
-            sb.Append("  Link: ").Append(Link).Append("\n");
-            sb.Append("}\n");
+            var sb = new StringBuilder();
+            _ = sb.Append("class EdFiStudentReference {\n");
+            _ = sb.Append("  StudentUniqueId: ").Append(StudentUniqueId).Append("\n");
+            _ = sb.Append("  Link: ").Append(Link).Append("\n");
+            _ = sb.Append("}\n");
             return sb.ToString();
         }
 
@@ -91,7 +86,7 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as EdFiStudentReference);
+            return Equals(input as EdFiStudentReference);
         }
 
         /// <summary>
@@ -101,20 +96,16 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public bool Equals(EdFiStudentReference input)
         {
-            if (input == null)
-            {
-                return false;
-            }
-            return
-                (
-                    this.StudentUniqueId == input.StudentUniqueId ||
-                    (this.StudentUniqueId != null &&
-                    this.StudentUniqueId.Equals(input.StudentUniqueId))
+            return input != null
+&& (
+                    StudentUniqueId == input.StudentUniqueId ||
+                    (StudentUniqueId != null &&
+                    StudentUniqueId.Equals(input.StudentUniqueId))
                 ) &&
                 (
-                    this.Link == input.Link ||
-                    (this.Link != null &&
-                    this.Link.Equals(input.Link))
+                    Link == input.Link ||
+                    (Link != null &&
+                    Link.Equals(input.Link))
                 );
         }
 
@@ -126,14 +117,14 @@ namespace EdFi.OdsApi.Sdk.Models.All
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
-                if (this.StudentUniqueId != null)
+                var hashCode = 41;
+                if (StudentUniqueId != null)
                 {
-                    hashCode = (hashCode * 59) + this.StudentUniqueId.GetHashCode();
+                    hashCode = (hashCode * 59) + StudentUniqueId.GetHashCode();
                 }
-                if (this.Link != null)
+                if (Link != null)
                 {
-                    hashCode = (hashCode * 59) + this.Link.GetHashCode();
+                    hashCode = (hashCode * 59) + Link.GetHashCode();
                 }
                 return hashCode;
             }
@@ -147,7 +138,7 @@ namespace EdFi.OdsApi.Sdk.Models.All
         public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
         {
             // StudentUniqueId (string) maxLength
-            if (this.StudentUniqueId != null && this.StudentUniqueId.Length > 32)
+            if (StudentUniqueId != null && StudentUniqueId.Length > 32)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for StudentUniqueId, length must be less than 32.", new[] { "StudentUniqueId" });
             }
