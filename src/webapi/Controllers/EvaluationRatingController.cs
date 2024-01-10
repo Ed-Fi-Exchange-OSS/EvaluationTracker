@@ -34,6 +34,7 @@ namespace eppeta.webapi.Controllers
             _service = service;
             _userManager = userManager;
             _evaluationRepository = evaluationRepository;
+            _tokenManager = tokenManager;
         }
 
         [HttpGet()]
@@ -234,7 +235,9 @@ namespace eppeta.webapi.Controllers
                 var apiClassType = Type.GetType($"EdFi.OdsApi.Sdk.Apis.All.{api},EdFi.OdsApi.Sdk");
                 if (apiClassType == null)
                     throw new Exception($"Missing API class for {api}");
+#pragma warning disable CS8601 // Possible null reference assignment.
                 apis[api] = Activator.CreateInstance(apiClassType, new object[] { authenticatedConfiguration });
+#pragma warning restore CS8601 // Possible null reference assignment.
                 apis[api].Configuration.DefaultHeaders.Add("Content-Type", "application/json");
             }
             PerformanceEvaluationRating? performanceEvaluationRatingPost = null;

@@ -59,8 +59,8 @@ public class PerformanceEvaluationController : ControllerBase
             ReviewedPersonSourceSystemDescriptor = evaluationRating.SourceSystemDescriptor,
             StartDateTime = perEvalRatingDB.StartTime,
             EndDateTime = perEvalRatingDB.EndTime,
-            EvaluatorName = perEvalRatingDB.EvaluatorName,
-            StatusId = perEvalRatingDB.StatusId,
+            EvaluatorName = perEvalRatingDB?.EvaluatorName ?? String.Empty,
+            StatusId = perEvalRatingDB?.StatusId ?? default(int),
             PerformanceEvaluationTitle = evaluationRating.PerformanceEvaluationTitle,
             UserId = evaluationRating.UserId,
             ObjectiveResults = new List<PerformedEvaluationResult.PerformedEvaluationResultObjective>()
@@ -78,12 +78,13 @@ public class PerformanceEvaluationController : ControllerBase
                 var evaluationObjective = _evaluationRepository.GetEvaluationObjectivesByPK(evaluationObjectiveRating).Result.FirstOrDefault();
                 var objectiveResult = new PerformedEvaluationResult.PerformedEvaluationResultObjective
                 {
-                    Id = evaluationObjective.Id,
-                    Comment = evaluationObjectiveRating.Comments,
+                    Id = evaluationObjective?.Id ?? default(int),
+                    Comment = evaluationObjectiveRating?.Comments ?? String.Empty,
                     Elements = new List<PerformedEvaluationResult.PerformedEvaluationResultElement>()
                 };
-                var evaluationElementRatings = await _evaluationRepository.GetEvaluationElementRatingResultsByPK(evaluationObjectiveRating);
-                if (evaluationElementRatings != null)
+                if(evaluationObjectiveRating != null) { 
+                    var evaluationElementRatings = await _evaluationRepository.GetEvaluationElementRatingResultsByPK(evaluationObjectiveRating);
+                    if (evaluationElementRatings != null)
                 {
                     foreach (var evaluationElementRating in evaluationElementRatings)
                     {
@@ -91,9 +92,10 @@ public class PerformanceEvaluationController : ControllerBase
                         objectiveResult.Elements.Add(new PerformedEvaluationResult.PerformedEvaluationResultElement
                         {
                             Score = (int)evaluationElementRating.Rating,
-                            Id = evaluationElement.FirstOrDefault().Id,
+                            Id = evaluationElement?.FirstOrDefault()?.Id ?? default(int),
                         });
                     }
+                }
                 }
                 performedEvaluation.ObjectiveResults.Add(objectiveResult);
             }

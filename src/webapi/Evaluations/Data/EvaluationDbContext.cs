@@ -43,18 +43,18 @@ namespace eppeta.webapi.Evaluations.Data
         {
             return await Evaluations.Where(e => e.Id == id).FirstOrDefaultAsync();
         }
-        public async Task<List<Evaluation>> GetEvaluationsByPK(object samePKObject)
+        public Task<List<Evaluation>> GetEvaluationsByPK(object samePKObject)
         {
             var es = FilterByRequiredFields(Evaluations.ToList(), samePKObject);
             if (es.Any())
-                return es;
+                return Task.FromResult(es);
             return null;
         }
-        public async Task<List<PerformanceEvaluation>> GetPerformanceEvaluationByPK(object samePKObject)
+        public Task<List<PerformanceEvaluation>> GetPerformanceEvaluationByPK(object samePKObject)
         {
             var es = FilterByRequiredFields(PerformanceEvaluations.ToList(), samePKObject);
             if (es.Any())
-                return es;
+                return Task.FromResult(es);
             return null;
         }
         public async Task UpdateEvaluations(List<Evaluation> evaluations)
@@ -113,32 +113,33 @@ namespace eppeta.webapi.Evaluations.Data
             var requiredReferenceProperties = referenceObject.GetType().GetProperties()
                 .Where(p => p.IsDefined(typeof(System.ComponentModel.DataAnnotations.RequiredAttribute), true)
                     && p.Name != "EdFiId").Select(p => p.Name).ToList();
-            var requiredListProperties = listToFilter.First().GetType().GetProperties()
+            var requiredListProperties = listToFilter?.First()?.GetType().GetProperties()
                 .Where(p => p.IsDefined(typeof(System.ComponentModel.DataAnnotations.RequiredAttribute), true)
                     && p.Name != "EdFiId").Select(p => p.Name).ToList();
 
-            requiredListProperties = requiredListProperties.Intersect(requiredReferenceProperties).ToList();
+            requiredListProperties = requiredListProperties?.Intersect(requiredReferenceProperties).ToList();
 
             var colFilter = new List<string>();
-
-            foreach (var propertyName in requiredListProperties)
+            if (requiredListProperties != null) { 
+                foreach (var propertyName in requiredListProperties)
             {
-                var property = listToFilter.First().GetType().GetProperty(propertyName);
+                var property = listToFilter?.First()?.GetType().GetProperty(propertyName);
                 var refProperty = referenceObject.GetType().GetProperty(propertyName);
-                if (property.PropertyType == typeof(DateTime))
+                if (property?.PropertyType == typeof(DateTime))
                 {
                     // SQL needs exact datetime format
                     // Disabled: `propertyName` cannot be null, due to filter in the foreach
 #pragma warning disable CS8605 // Unboxing a possibly null value.
-                    var dateTimeVal = ((DateTime)refProperty.GetValue(referenceObject)).ToString("yyyy-MM-dd HH:mm:ss.FFF");
+                    var dateTimeVal = ((DateTime)refProperty?.GetValue(referenceObject)).ToString("yyyy-MM-dd HH:mm:ss.FFF");
 #pragma warning restore CS8605 // Unboxing a possibly null value.
                     colFilter.Add($"{propertyName} == \"{dateTimeVal}\"");
                 }
                 else
-                    colFilter.Add($"{propertyName} == \"{refProperty.GetValue(referenceObject)}\"");
+                    colFilter.Add($"{propertyName} == \"{refProperty?.GetValue(referenceObject)}\"");
+            }
             }
             var whereClause = string.Join(" and ", colFilter);
-            return listToFilter.AsQueryable().Where(whereClause).ToList();
+            return listToFilter?.AsQueryable().Where(whereClause).ToList();
         }
 
         public async Task UpdateEvaluationObjectives(List<EvaluationObjective> evaluationObjectives)
@@ -379,11 +380,11 @@ namespace eppeta.webapi.Evaluations.Data
         }
         public Task<EvaluationElement> GetEvaluationElementById(int id)
         {
-            return EvaluationElements.Where(ee => ee.Id == id).FirstOrDefaultAsync();
+            return EvaluationElements.Where(ee => ee.Id == id).FirstOrDefaultAsync()!;
         }
         public Task<EvaluationElementRatingResult> GetEvaluationElementRatingResultById(int id)
         {
-            return EvaluationElementRatingResults.Where(ee => ee.Id == id).FirstOrDefaultAsync();
+            return EvaluationElementRatingResults.Where(ee => ee.Id == id).FirstOrDefaultAsync()!;
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -435,59 +436,59 @@ namespace eppeta.webapi.Evaluations.Data
                 .Property(e => e.Rating)
                 .HasColumnType("decimal(6, 3)");
         }
-        public async Task<List<PerformanceEvaluation>> GetPerformanceEvaluationsByPK(object samePKObject)
+        public Task<List<PerformanceEvaluation>> GetPerformanceEvaluationsByPK(object samePKObject)
         {
             var pes = FilterByRequiredFields(PerformanceEvaluations.ToList(), samePKObject);
             if (pes.Any())
-                return pes;
-            return null;
+                return Task.FromResult(pes);
+            return Task.FromResult<List<PerformanceEvaluation>>(null!);
         }
-        public async Task<List<PerformanceEvaluationRating>> GetPerformanceEvaluationRatingsByPK(object samePKObject)
+        public Task<List<PerformanceEvaluationRating>> GetPerformanceEvaluationRatingsByPK(object samePKObject)
         {
             var per = FilterByRequiredFields(PerformanceEvaluationRatings.Include(m => m.RecordStatus).ToList(), samePKObject);
             if (per.Any())
-                return per;
-            return null;
+                return Task.FromResult(per);
+            return Task.FromResult<List<PerformanceEvaluationRating>>(null!);
         }
 
-        public async Task<List<EvaluationObjectiveRating>> GetEvaluationObjectiveRatingsByPK(object samePKObject)
+        public Task<List<EvaluationObjectiveRating>> GetEvaluationObjectiveRatingsByPK(object samePKObject)
         {
             var eos = FilterByRequiredFields(EvaluationObjectiveRatings.ToList(), samePKObject);
             if (eos.Any())
-                return eos;
-            return null;
+                return Task.FromResult(eos);
+            return Task.FromResult<List<EvaluationObjectiveRating>>(null!);
         }
 
-        public async Task<List<EvaluationElementRatingResult>> GetEvaluationElementRatingResultsByPK(object samePKObject)
+        public Task<List<EvaluationElementRatingResult>> GetEvaluationElementRatingResultsByPK(object samePKObject)
         {
             var es = FilterByRequiredFields(EvaluationElementRatingResults.ToList(), samePKObject);
             if (es.Any())
-                return es;
-            return null;
+                return Task.FromResult(es);
+            return Task.FromResult<List<EvaluationElementRatingResult>>(null!);
         }
 
-        public async Task<List<EvaluationObjective>> GetEvaluationObjectivesByPK(object samePKObject)
+        public Task<List<EvaluationObjective>> GetEvaluationObjectivesByPK(object samePKObject)
         {
             var eos = FilterByRequiredFields(EvaluationObjectives.ToList(), samePKObject);
             if (eos.Any())
-                return eos;
-            return null;
+                return Task.FromResult(eos);
+            return Task.FromResult<List<EvaluationObjective>>(null!);
         }
 
-        public async Task<List<EvaluationElement>> GetEvaluationElementsByPK(object samePKObject)
+        public Task<List<EvaluationElement>> GetEvaluationElementsByPK(object samePKObject)
         {
             var es = FilterByRequiredFields(EvaluationElements.ToList(), samePKObject);
             if (es.Any())
-                return es;
-            return null;
+                return Task.FromResult(es);
+            return Task.FromResult<List<EvaluationElement>>(null!);
         }
 
-        public async Task<List<EvaluationRating>> GetEvaluationRatingsByPK(object samePKObject)
+        public Task<List<EvaluationRating>> GetEvaluationRatingsByPK(object samePKObject)
         {
             var er = FilterByRequiredFields(EvaluationRatings.ToList(), samePKObject);
             if (er.Any())
-                return er;
-            return null;
+                return Task.FromResult(er);
+            return Task.FromResult<List<EvaluationRating>>(null!);
         }
     }
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.

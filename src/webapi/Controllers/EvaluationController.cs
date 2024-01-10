@@ -100,8 +100,8 @@ public class EvaluationController : ControllerBase
                 .PerformanceEvaluationRatingLevels.Select(l => new AvailablePerformanceEvaluation.AvailableRatingLevel
                 {
                     Name = l.EvaluationRatingLevelDescriptor.Split('#').Last(),
-                    RatingLevel = (int)l.MaxRating,
-                    RatingLevelId = l.Id
+                    RatingLevel = (int)(l?.MaxRating ?? default(int)),
+                    RatingLevelId = l?.Id ?? default(int)
                 }
             ));
         return Ok(availablePerformanceEvaluation);
