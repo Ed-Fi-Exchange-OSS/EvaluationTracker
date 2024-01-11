@@ -45,9 +45,8 @@ export default function EvaluationTable() {
     fetchEvaluationStatuses();
     fetchEvaluationRatings(userId);
     setComponentsDataLoaded(true);
-  }, []);
+  }, [navigate]);
 
-  // const response = await get("/connect/token", tokenRequest);
   const fetchEvaluationStatuses = async () => {
     try {
       const response = await get('/api/Evaluation/EvaluationStatuses');

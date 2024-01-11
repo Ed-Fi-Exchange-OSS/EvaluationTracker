@@ -189,7 +189,7 @@ const DesktopNav = () => {
     );
 };
 
-const DesktopSubNav = ({ label, href, subLabel }: NavItem) => {
+const DesktopSubNav = ({ label, href, subLabel }) => { // Remove type annotation ({ label, href, subLabel }: NavItem)
     return (
         <Link
             href={href}
@@ -236,7 +236,7 @@ const MobileNav = () => {
     );
 };
 
-const MobileNavItem = ({ label, children, href }: NavItem) => {
+const MobileNavItem = ({ label, children, href }) => { // Remove type annotation ({ label, children, href }: NavItem) 
     const { isOpen, onToggle } = useDisclosure();
 
     return (
@@ -286,14 +286,16 @@ const MobileNavItem = ({ label, children, href }: NavItem) => {
     );
 };
 
+/*
+// Disable interface, interface are available for Typescript
 interface NavItem {
     label: string;
     subLabel?: string;
     children?: Array<NavItem>;
     href?: string;
-}
+}*/
 
-const NAV_ITEMS: Array<NavItem> = [
+const NAV_ITEMS = [ // Remove type annotation  NAV_ITEMS: Array<NavItem>
     //{
     //    label: 'Inspiration',
     //    children: [

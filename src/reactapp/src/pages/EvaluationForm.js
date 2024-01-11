@@ -447,7 +447,7 @@ export default function EvaluationForm() {
         return elementRatingValue?.value > -1 ? { id: element.evaluationElementId, score: elementRatingValue?.value } : [];
       });
 
-      const objectiveNote = objectiveNotes.find((note) => note.objectiveId == objective.evaluationObjectiveId);
+      const objectiveNote = objectiveNotes.find((note) => note.objectiveId === objective.evaluationObjectiveId);
 
       const objectiveRating = {
         id: objective.evaluationObjectiveId,
