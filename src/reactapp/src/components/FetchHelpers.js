@@ -44,6 +44,7 @@ const post = async (route, values) => {
   return await modify("POST", route, values);
 };
 
+// eslint-disable-next-line no-unused-vars
 const put = async (route, values) => {
   return await modify("PUT", route, values);
 };
