@@ -26,6 +26,7 @@ export default function EvaluationTable() {
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [statusOptions, setStatusOptions] = useState([]);
   const [componentsDataLoaded, setComponentsDataLoaded] = useState(false);
+  const [componentStatusesLoaded, setComponentstatusesLoaded] = useState(false);
   const filter = selectedOptions.map((o) => o.value);
   const headers = [
     { name: 'Evaluation', dataField: 'performanceEvaluationTitle', sortable: true, visible: true, link: { url: '/evaluation/', dataField: 'performanceEvaluationRatingId' } },
@@ -42,9 +43,12 @@ export default function EvaluationTable() {
     if (userId == null) {
       navigate("/login");
     }
-    fetchEvaluationStatuses();
-    fetchEvaluationRatings(userId);
-    setComponentsDataLoaded(true);
+    fetchEvaluationStatuses().then(() => {
+      setComponentstatusesLoaded(true);
+    });
+    fetchEvaluationRatings(userId).then(() => {
+      setComponentsDataLoaded(true);
+    });
   }, [navigate]);
 
   const fetchEvaluationStatuses = async () => {
@@ -95,7 +99,7 @@ export default function EvaluationTable() {
   };
 
   return (
-    <Skeleton isLoaded={componentsDataLoaded}>
+    <Skeleton isLoaded={componentsDataLoaded && componentStatusesLoaded}>
       <Stack spacing={8} mt="24px" px={{ base: "10px", md: "30px" }} align="center">
       <Heading fontSize={{ base: "3xl", md: "5xl" }}>My Evaluations</Heading>
       <HStack spacing={0}>

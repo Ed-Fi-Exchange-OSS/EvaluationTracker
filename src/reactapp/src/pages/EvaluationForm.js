@@ -612,15 +612,17 @@ export default function EvaluationForm() {
       loadDataForNewEvaluation();
       if(id || isPageReload()){
         loadExistingEvaluation().then(() => {
-          fetchEvaluationObjectives();
-          setComponentsDataLoaded(true);
-          setIsEvaluationLoaded(true);
+          fetchEvaluationObjectives().then(() => {
+            setComponentsDataLoaded(true);
+            setIsEvaluationLoaded(true);
+          });
         });        
       }
       else {
-        fetchEvaluationObjectives();
-        setComponentsDataLoaded(true);
-        setIsEvaluationLoaded(true);
+        fetchEvaluationObjectives().then(() => {
+          setComponentsDataLoaded(true);
+          setIsEvaluationLoaded(true);
+        });
       }
       
     }
