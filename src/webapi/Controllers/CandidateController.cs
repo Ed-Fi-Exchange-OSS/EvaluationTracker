@@ -24,14 +24,17 @@ namespace eppeta.webapi.Controllers
         public async Task<ActionResult<IEnumerable<Candidate>>> GetCandidates()
         {
             var candidates = await _evaluationRepository.GetAllCandidates();
-            return candidates != null
-                ? (ActionResult<IEnumerable<Candidate>>)Ok(candidates.Select(c => new Candidate()
+            if (candidates != null)
+            {
+                return Ok(candidates.Select(c => new Candidate()
                 {
                     CandidateName = $"{c.FirstName} {c.LastName}",
                     PersonId = c.PersonId,
                     SourceSystemDescriptor = c.SourceSystemDescriptor
-                }).ToList())
-                : (ActionResult<IEnumerable<Candidate>>)Ok(new List<Candidate>());
+                }).ToList());
+            }
+            else
+                return Ok(new List<Candidate>());
         }
     }
 }
