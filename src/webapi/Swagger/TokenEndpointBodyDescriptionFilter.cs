@@ -19,7 +19,9 @@ public class TokenEndpointBodyDescriptionFilter : IOperationFilter
     {
         var descriptor = context.ApiDescription.ActionDescriptor as ControllerActionDescriptor;
         if (descriptor?.ControllerName != "Connect" || descriptor.ActionName != "Token")
+        {
             return;
+        }
 
         operation.RequestBody ??= new OpenApiRequestBody();
         operation.RequestBody.Content = new Dictionary<string, OpenApiMediaType>
@@ -28,18 +30,21 @@ public class TokenEndpointBodyDescriptionFilter : IOperationFilter
         };
     }
 
-    private static OpenApiMediaType BuildTokenRequestBodyDescription() => new()
+    private static OpenApiMediaType BuildTokenRequestBodyDescription()
     {
-        Schema = new OpenApiSchema
+        return new()
         {
-            Type = "object",
-            Properties = new Dictionary<string, OpenApiSchema>
+            Schema = new OpenApiSchema
+            {
+                Type = "object",
+                Properties = new Dictionary<string, OpenApiSchema>
             {
                 { "client_id", new OpenApiSchema { Type = "string "} },
                 { "client_secret", new OpenApiSchema { Type = "string "} },
                 { "grant_type", new OpenApiSchema { Type = "string "} },
                 { "scope", new OpenApiSchema { Type = "string"} },
             }
-        }
-    };
+            }
+        };
+    }
 }

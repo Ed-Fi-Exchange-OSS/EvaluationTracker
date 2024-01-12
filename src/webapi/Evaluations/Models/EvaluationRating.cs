@@ -56,30 +56,30 @@ namespace eppeta.webapi.Evaluations.Models
         {
             return new TpdmEvaluationRating
             (
-                performanceEvaluationRatingReference : new TpdmPerformanceEvaluationRatingReference
+                performanceEvaluationRatingReference: new TpdmPerformanceEvaluationRatingReference
                 (
-                    educationOrganizationId : (int)evaluationRating.EducationOrganizationId,
-                    evaluationPeriodDescriptor : evaluationRating.EvaluationPeriodDescriptor,
-                    performanceEvaluationTitle : evaluationRating.PerformanceEvaluationTitle,
-                    performanceEvaluationTypeDescriptor : evaluationRating.PerformanceEvaluationTypeDescriptor,
-                    personId : evaluationRating.PersonId,
-                    sourceSystemDescriptor : evaluationRating.SourceSystemDescriptor,
-                    schoolYear : evaluationRating.SchoolYear,
-                    termDescriptor : evaluationRating.TermDescriptor
+                    educationOrganizationId: (int)evaluationRating.EducationOrganizationId,
+                    evaluationPeriodDescriptor: evaluationRating.EvaluationPeriodDescriptor,
+                    performanceEvaluationTitle: evaluationRating.PerformanceEvaluationTitle,
+                    performanceEvaluationTypeDescriptor: evaluationRating.PerformanceEvaluationTypeDescriptor,
+                    personId: evaluationRating.PersonId,
+                    sourceSystemDescriptor: evaluationRating.SourceSystemDescriptor,
+                    schoolYear: evaluationRating.SchoolYear,
+                    termDescriptor: evaluationRating.TermDescriptor
                 ),
-                evaluationReference : new TpdmEvaluationReference
+                evaluationReference: new TpdmEvaluationReference
                 (
-                    educationOrganizationId : (int)evaluationRating.EducationOrganizationId,
-                    evaluationPeriodDescriptor : evaluationRating.EvaluationPeriodDescriptor,
-                    evaluationTitle : evaluationRating.EvaluationTitle,
-                    performanceEvaluationTitle : evaluationRating.PerformanceEvaluationTitle,
-                    performanceEvaluationTypeDescriptor : evaluationRating.PerformanceEvaluationTypeDescriptor,
-                    schoolYear : evaluationRating.SchoolYear,
-                    termDescriptor : evaluationRating.TermDescriptor
+                    educationOrganizationId: (int)evaluationRating.EducationOrganizationId,
+                    evaluationPeriodDescriptor: evaluationRating.EvaluationPeriodDescriptor,
+                    evaluationTitle: evaluationRating.EvaluationTitle,
+                    performanceEvaluationTitle: evaluationRating.PerformanceEvaluationTitle,
+                    performanceEvaluationTypeDescriptor: evaluationRating.PerformanceEvaluationTypeDescriptor,
+                    schoolYear: evaluationRating.SchoolYear,
+                    termDescriptor: evaluationRating.TermDescriptor
                 ),
-                evaluationDate : evaluationRating.EvaluationDate,
+                evaluationDate: evaluationRating.EvaluationDate,
                 evaluationRatingLevelDescriptor: evaluationRating.EvaluationRatingLevelDescriptor ?? string.Empty,
-                evaluationRatingStatusDescriptor : evaluationRating?.EvaluationRatingStatusDescriptor ?? string.Empty
+                evaluationRatingStatusDescriptor: evaluationRating?.EvaluationRatingStatusDescriptor ?? string.Empty
             );
         }
 
@@ -101,7 +101,8 @@ namespace eppeta.webapi.Evaluations.Models
         }
 
         public static explicit operator PerformedEvaluation(EvaluationRating evaluationRating)
-            => new PerformedEvaluation
+        {
+            return new PerformedEvaluation
             {
                 ActualDate = evaluationRating.EvaluationDate,
                 PerformanceEvaluationRatingId = evaluationRating.Id,
@@ -110,5 +111,6 @@ namespace eppeta.webapi.Evaluations.Models
                 ReviewedPersonIdSourceSystemDescriptor = evaluationRating.SourceSystemDescriptor,
                 EvaluationTitle = evaluationRating.EvaluationTitle
             };
+        }
     }
 }

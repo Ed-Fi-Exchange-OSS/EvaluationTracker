@@ -12,12 +12,12 @@
  */
 
 
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using System.Text;
-using Newtonsoft.Json;
-using System.ComponentModel.DataAnnotations;
 
 namespace EdFi.OdsApi.Sdk.Models.All
 {
@@ -36,14 +36,9 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// Initializes a new instance of the <see cref="TpdmCandidateDisabilityDesignation" /> class.
         /// </summary>
         /// <param name="disabilityDesignationDescriptor">Whether the disability is IDEA, Section 504, or other disability designation. (required).</param>
-        public TpdmCandidateDisabilityDesignation(string disabilityDesignationDescriptor = default(string))
+        public TpdmCandidateDisabilityDesignation(string disabilityDesignationDescriptor = default)
         {
-            // to ensure "disabilityDesignationDescriptor" is required (not null)
-            if (disabilityDesignationDescriptor == null)
-            {
-                throw new ArgumentNullException("disabilityDesignationDescriptor is a required property for TpdmCandidateDisabilityDesignation and cannot be null");
-            }
-            this.DisabilityDesignationDescriptor = disabilityDesignationDescriptor;
+            DisabilityDesignationDescriptor = disabilityDesignationDescriptor ?? throw new ArgumentNullException("disabilityDesignationDescriptor is a required property for TpdmCandidateDisabilityDesignation and cannot be null");
         }
 
         /// <summary>
@@ -59,10 +54,10 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder();
-            sb.Append("class TpdmCandidateDisabilityDesignation {\n");
-            sb.Append("  DisabilityDesignationDescriptor: ").Append(DisabilityDesignationDescriptor).Append("\n");
-            sb.Append("}\n");
+            var sb = new StringBuilder();
+            _ = sb.Append("class TpdmCandidateDisabilityDesignation {\n");
+            _ = sb.Append("  DisabilityDesignationDescriptor: ").Append(DisabilityDesignationDescriptor).Append("\n");
+            _ = sb.Append("}\n");
             return sb.ToString();
         }
 
@@ -82,7 +77,7 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as TpdmCandidateDisabilityDesignation);
+            return Equals(input as TpdmCandidateDisabilityDesignation);
         }
 
         /// <summary>
@@ -92,16 +87,10 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public bool Equals(TpdmCandidateDisabilityDesignation input)
         {
-            if (input == null)
-            {
-                return false;
-            }
-            return
-                (
-                    this.DisabilityDesignationDescriptor == input.DisabilityDesignationDescriptor ||
-                    (this.DisabilityDesignationDescriptor != null &&
-                    this.DisabilityDesignationDescriptor.Equals(input.DisabilityDesignationDescriptor))
-                );
+            return input != null
+&& (DisabilityDesignationDescriptor == input.DisabilityDesignationDescriptor ||
+                    (DisabilityDesignationDescriptor != null &&
+                    DisabilityDesignationDescriptor.Equals(input.DisabilityDesignationDescriptor)));
         }
 
         /// <summary>
@@ -112,10 +101,10 @@ namespace EdFi.OdsApi.Sdk.Models.All
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
-                if (this.DisabilityDesignationDescriptor != null)
+                var hashCode = 41;
+                if (DisabilityDesignationDescriptor != null)
                 {
-                    hashCode = (hashCode * 59) + this.DisabilityDesignationDescriptor.GetHashCode();
+                    hashCode = (hashCode * 59) + DisabilityDesignationDescriptor.GetHashCode();
                 }
                 return hashCode;
             }
@@ -129,7 +118,7 @@ namespace EdFi.OdsApi.Sdk.Models.All
         public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
         {
             // DisabilityDesignationDescriptor (string) maxLength
-            if (this.DisabilityDesignationDescriptor != null && this.DisabilityDesignationDescriptor.Length > 306)
+            if (DisabilityDesignationDescriptor != null && DisabilityDesignationDescriptor.Length > 306)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for DisabilityDesignationDescriptor, length must be less than 306.", new[] { "DisabilityDesignationDescriptor" });
             }

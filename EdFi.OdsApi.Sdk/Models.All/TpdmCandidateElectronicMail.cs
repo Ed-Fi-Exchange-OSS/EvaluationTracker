@@ -12,12 +12,12 @@
  */
 
 
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using System.Text;
-using Newtonsoft.Json;
-using System.ComponentModel.DataAnnotations;
 
 namespace EdFi.OdsApi.Sdk.Models.All
 {
@@ -39,22 +39,12 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <param name="electronicMailAddress">The electronic mail (e-mail) address listed for an individual or organization. (required).</param>
         /// <param name="doNotPublishIndicator">An indication that the electronic email address should not be published..</param>
         /// <param name="primaryEmailAddressIndicator">An indication that the electronic mail address should be used as the principal electronic mail address for an individual or organization..</param>
-        public TpdmCandidateElectronicMail(string electronicMailTypeDescriptor = default(string), string electronicMailAddress = default(string), bool? doNotPublishIndicator = default(bool?), bool? primaryEmailAddressIndicator = default(bool?))
+        public TpdmCandidateElectronicMail(string electronicMailTypeDescriptor = default, string electronicMailAddress = default, bool? doNotPublishIndicator = default, bool? primaryEmailAddressIndicator = default)
         {
-            // to ensure "electronicMailTypeDescriptor" is required (not null)
-            if (electronicMailTypeDescriptor == null)
-            {
-                throw new ArgumentNullException("electronicMailTypeDescriptor is a required property for TpdmCandidateElectronicMail and cannot be null");
-            }
-            this.ElectronicMailTypeDescriptor = electronicMailTypeDescriptor;
-            // to ensure "electronicMailAddress" is required (not null)
-            if (electronicMailAddress == null)
-            {
-                throw new ArgumentNullException("electronicMailAddress is a required property for TpdmCandidateElectronicMail and cannot be null");
-            }
-            this.ElectronicMailAddress = electronicMailAddress;
-            this.DoNotPublishIndicator = doNotPublishIndicator;
-            this.PrimaryEmailAddressIndicator = primaryEmailAddressIndicator;
+            ElectronicMailTypeDescriptor = electronicMailTypeDescriptor ?? throw new ArgumentNullException("electronicMailTypeDescriptor is a required property for TpdmCandidateElectronicMail and cannot be null");
+            ElectronicMailAddress = electronicMailAddress ?? throw new ArgumentNullException("electronicMailAddress is a required property for TpdmCandidateElectronicMail and cannot be null");
+            DoNotPublishIndicator = doNotPublishIndicator;
+            PrimaryEmailAddressIndicator = primaryEmailAddressIndicator;
         }
 
         /// <summary>
@@ -91,13 +81,13 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder();
-            sb.Append("class TpdmCandidateElectronicMail {\n");
-            sb.Append("  ElectronicMailTypeDescriptor: ").Append(ElectronicMailTypeDescriptor).Append("\n");
-            sb.Append("  ElectronicMailAddress: ").Append(ElectronicMailAddress).Append("\n");
-            sb.Append("  DoNotPublishIndicator: ").Append(DoNotPublishIndicator).Append("\n");
-            sb.Append("  PrimaryEmailAddressIndicator: ").Append(PrimaryEmailAddressIndicator).Append("\n");
-            sb.Append("}\n");
+            var sb = new StringBuilder();
+            _ = sb.Append("class TpdmCandidateElectronicMail {\n");
+            _ = sb.Append("  ElectronicMailTypeDescriptor: ").Append(ElectronicMailTypeDescriptor).Append("\n");
+            _ = sb.Append("  ElectronicMailAddress: ").Append(ElectronicMailAddress).Append("\n");
+            _ = sb.Append("  DoNotPublishIndicator: ").Append(DoNotPublishIndicator).Append("\n");
+            _ = sb.Append("  PrimaryEmailAddressIndicator: ").Append(PrimaryEmailAddressIndicator).Append("\n");
+            _ = sb.Append("}\n");
             return sb.ToString();
         }
 
@@ -117,7 +107,7 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as TpdmCandidateElectronicMail);
+            return Equals(input as TpdmCandidateElectronicMail);
         }
 
         /// <summary>
@@ -127,30 +117,26 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public bool Equals(TpdmCandidateElectronicMail input)
         {
-            if (input == null)
-            {
-                return false;
-            }
-            return
-                (
-                    this.ElectronicMailTypeDescriptor == input.ElectronicMailTypeDescriptor ||
-                    (this.ElectronicMailTypeDescriptor != null &&
-                    this.ElectronicMailTypeDescriptor.Equals(input.ElectronicMailTypeDescriptor))
+            return input != null
+&& (
+                    ElectronicMailTypeDescriptor == input.ElectronicMailTypeDescriptor ||
+                    (ElectronicMailTypeDescriptor != null &&
+                    ElectronicMailTypeDescriptor.Equals(input.ElectronicMailTypeDescriptor))
                 ) &&
                 (
-                    this.ElectronicMailAddress == input.ElectronicMailAddress ||
-                    (this.ElectronicMailAddress != null &&
-                    this.ElectronicMailAddress.Equals(input.ElectronicMailAddress))
+                    ElectronicMailAddress == input.ElectronicMailAddress ||
+                    (ElectronicMailAddress != null &&
+                    ElectronicMailAddress.Equals(input.ElectronicMailAddress))
                 ) &&
                 (
-                    this.DoNotPublishIndicator == input.DoNotPublishIndicator ||
-                    (this.DoNotPublishIndicator != null &&
-                    this.DoNotPublishIndicator.Equals(input.DoNotPublishIndicator))
+                    DoNotPublishIndicator == input.DoNotPublishIndicator ||
+                    (DoNotPublishIndicator != null &&
+                    DoNotPublishIndicator.Equals(input.DoNotPublishIndicator))
                 ) &&
                 (
-                    this.PrimaryEmailAddressIndicator == input.PrimaryEmailAddressIndicator ||
-                    (this.PrimaryEmailAddressIndicator != null &&
-                    this.PrimaryEmailAddressIndicator.Equals(input.PrimaryEmailAddressIndicator))
+                    PrimaryEmailAddressIndicator == input.PrimaryEmailAddressIndicator ||
+                    (PrimaryEmailAddressIndicator != null &&
+                    PrimaryEmailAddressIndicator.Equals(input.PrimaryEmailAddressIndicator))
                 );
         }
 
@@ -162,22 +148,22 @@ namespace EdFi.OdsApi.Sdk.Models.All
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
-                if (this.ElectronicMailTypeDescriptor != null)
+                var hashCode = 41;
+                if (ElectronicMailTypeDescriptor != null)
                 {
-                    hashCode = (hashCode * 59) + this.ElectronicMailTypeDescriptor.GetHashCode();
+                    hashCode = (hashCode * 59) + ElectronicMailTypeDescriptor.GetHashCode();
                 }
-                if (this.ElectronicMailAddress != null)
+                if (ElectronicMailAddress != null)
                 {
-                    hashCode = (hashCode * 59) + this.ElectronicMailAddress.GetHashCode();
+                    hashCode = (hashCode * 59) + ElectronicMailAddress.GetHashCode();
                 }
-                if (this.DoNotPublishIndicator != null)
+                if (DoNotPublishIndicator != null)
                 {
-                    hashCode = (hashCode * 59) + this.DoNotPublishIndicator.GetHashCode();
+                    hashCode = (hashCode * 59) + DoNotPublishIndicator.GetHashCode();
                 }
-                if (this.PrimaryEmailAddressIndicator != null)
+                if (PrimaryEmailAddressIndicator != null)
                 {
-                    hashCode = (hashCode * 59) + this.PrimaryEmailAddressIndicator.GetHashCode();
+                    hashCode = (hashCode * 59) + PrimaryEmailAddressIndicator.GetHashCode();
                 }
                 return hashCode;
             }
@@ -191,13 +177,13 @@ namespace EdFi.OdsApi.Sdk.Models.All
         public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
         {
             // ElectronicMailTypeDescriptor (string) maxLength
-            if (this.ElectronicMailTypeDescriptor != null && this.ElectronicMailTypeDescriptor.Length > 306)
+            if (ElectronicMailTypeDescriptor != null && ElectronicMailTypeDescriptor.Length > 306)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for ElectronicMailTypeDescriptor, length must be less than 306.", new[] { "ElectronicMailTypeDescriptor" });
             }
 
             // ElectronicMailAddress (string) maxLength
-            if (this.ElectronicMailAddress != null && this.ElectronicMailAddress.Length > 128)
+            if (ElectronicMailAddress != null && ElectronicMailAddress.Length > 128)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for ElectronicMailAddress, length must be less than 128.", new[] { "ElectronicMailAddress" });
             }

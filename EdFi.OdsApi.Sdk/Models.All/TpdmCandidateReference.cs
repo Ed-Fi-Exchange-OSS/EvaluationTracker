@@ -12,12 +12,12 @@
  */
 
 
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using System.Text;
-using Newtonsoft.Json;
-using System.ComponentModel.DataAnnotations;
 
 namespace EdFi.OdsApi.Sdk.Models.All
 {
@@ -37,15 +37,10 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// </summary>
         /// <param name="candidateIdentifier">A unique alphanumeric code assigned to a candidate. (required).</param>
         /// <param name="link">link.</param>
-        public TpdmCandidateReference(string candidateIdentifier = default(string), Link link = default(Link))
+        public TpdmCandidateReference(string candidateIdentifier = default, Link link = default)
         {
-            // to ensure "candidateIdentifier" is required (not null)
-            if (candidateIdentifier == null)
-            {
-                throw new ArgumentNullException("candidateIdentifier is a required property for TpdmCandidateReference and cannot be null");
-            }
-            this.CandidateIdentifier = candidateIdentifier;
-            this.Link = link;
+            CandidateIdentifier = candidateIdentifier ?? throw new ArgumentNullException("candidateIdentifier is a required property for TpdmCandidateReference and cannot be null");
+            Link = link;
         }
 
         /// <summary>
@@ -67,11 +62,11 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder();
-            sb.Append("class TpdmCandidateReference {\n");
-            sb.Append("  CandidateIdentifier: ").Append(CandidateIdentifier).Append("\n");
-            sb.Append("  Link: ").Append(Link).Append("\n");
-            sb.Append("}\n");
+            var sb = new StringBuilder();
+            _ = sb.Append("class TpdmCandidateReference {\n");
+            _ = sb.Append("  CandidateIdentifier: ").Append(CandidateIdentifier).Append("\n");
+            _ = sb.Append("  Link: ").Append(Link).Append("\n");
+            _ = sb.Append("}\n");
             return sb.ToString();
         }
 
@@ -91,7 +86,7 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as TpdmCandidateReference);
+            return Equals(input as TpdmCandidateReference);
         }
 
         /// <summary>
@@ -101,20 +96,16 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public bool Equals(TpdmCandidateReference input)
         {
-            if (input == null)
-            {
-                return false;
-            }
-            return
-                (
-                    this.CandidateIdentifier == input.CandidateIdentifier ||
-                    (this.CandidateIdentifier != null &&
-                    this.CandidateIdentifier.Equals(input.CandidateIdentifier))
+            return input != null
+&& (
+                    CandidateIdentifier == input.CandidateIdentifier ||
+                    (CandidateIdentifier != null &&
+                    CandidateIdentifier.Equals(input.CandidateIdentifier))
                 ) &&
                 (
-                    this.Link == input.Link ||
-                    (this.Link != null &&
-                    this.Link.Equals(input.Link))
+                    Link == input.Link ||
+                    (Link != null &&
+                    Link.Equals(input.Link))
                 );
         }
 
@@ -126,14 +117,14 @@ namespace EdFi.OdsApi.Sdk.Models.All
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
-                if (this.CandidateIdentifier != null)
+                var hashCode = 41;
+                if (CandidateIdentifier != null)
                 {
-                    hashCode = (hashCode * 59) + this.CandidateIdentifier.GetHashCode();
+                    hashCode = (hashCode * 59) + CandidateIdentifier.GetHashCode();
                 }
-                if (this.Link != null)
+                if (Link != null)
                 {
-                    hashCode = (hashCode * 59) + this.Link.GetHashCode();
+                    hashCode = (hashCode * 59) + Link.GetHashCode();
                 }
                 return hashCode;
             }
@@ -147,7 +138,7 @@ namespace EdFi.OdsApi.Sdk.Models.All
         public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
         {
             // CandidateIdentifier (string) maxLength
-            if (this.CandidateIdentifier != null && this.CandidateIdentifier.Length > 32)
+            if (CandidateIdentifier != null && CandidateIdentifier.Length > 32)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for CandidateIdentifier, length must be less than 32.", new[] { "CandidateIdentifier" });
             }

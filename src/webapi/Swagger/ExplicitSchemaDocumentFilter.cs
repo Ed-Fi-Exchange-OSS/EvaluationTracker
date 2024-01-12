@@ -14,7 +14,7 @@ namespace eppeta.webapi.Swagger
         {
             // Don't know why this is showing up in the list of available schemas;
             // manually remove it.
-            context.SchemaRepository.Schemas.Remove("System.Text.Json.JsonValueKind");
+            _ = context.SchemaRepository.Schemas.Remove("System.Text.Json.JsonValueKind");
         }
     }
 }

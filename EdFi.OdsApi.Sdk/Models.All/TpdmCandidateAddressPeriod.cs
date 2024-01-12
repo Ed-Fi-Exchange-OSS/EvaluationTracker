@@ -12,12 +12,12 @@
  */
 
 
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using System.Text;
-using Newtonsoft.Json;
-using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = EdFi.OdsApi.Sdk.Client.OpenAPIDateConverter;
 
 namespace EdFi.OdsApi.Sdk.Models.All
@@ -38,10 +38,10 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// </summary>
         /// <param name="beginDate">The month, day, and year for the start of the period. (required).</param>
         /// <param name="endDate">The month, day, and year for the end of the period..</param>
-        public TpdmCandidateAddressPeriod(DateTime beginDate = default(DateTime), DateTime? endDate = default(DateTime?))
+        public TpdmCandidateAddressPeriod(DateTime beginDate = default, DateTime? endDate = default)
         {
-            this.BeginDate = beginDate;
-            this.EndDate = endDate;
+            BeginDate = beginDate;
+            EndDate = endDate;
         }
 
         /// <summary>
@@ -66,11 +66,11 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder();
-            sb.Append("class TpdmCandidateAddressPeriod {\n");
-            sb.Append("  BeginDate: ").Append(BeginDate).Append("\n");
-            sb.Append("  EndDate: ").Append(EndDate).Append("\n");
-            sb.Append("}\n");
+            var sb = new StringBuilder();
+            _ = sb.Append("class TpdmCandidateAddressPeriod {\n");
+            _ = sb.Append("  BeginDate: ").Append(BeginDate).Append("\n");
+            _ = sb.Append("  EndDate: ").Append(EndDate).Append("\n");
+            _ = sb.Append("}\n");
             return sb.ToString();
         }
 
@@ -90,7 +90,7 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as TpdmCandidateAddressPeriod);
+            return Equals(input as TpdmCandidateAddressPeriod);
         }
 
         /// <summary>
@@ -100,19 +100,15 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public bool Equals(TpdmCandidateAddressPeriod input)
         {
-            if (input == null)
-            {
-                return false;
-            }
-            return
-                (
-                    this.BeginDate == input.BeginDate ||
-                    this.BeginDate.Equals(input.BeginDate)
+            return input != null
+&& (
+                    BeginDate == input.BeginDate ||
+                    BeginDate.Equals(input.BeginDate)
                 ) &&
                 (
-                    this.EndDate == input.EndDate ||
-                    (this.EndDate != null &&
-                    this.EndDate.Equals(input.EndDate))
+                    EndDate == input.EndDate ||
+                    (EndDate != null &&
+                    EndDate.Equals(input.EndDate))
                 );
         }
 
@@ -125,10 +121,10 @@ namespace EdFi.OdsApi.Sdk.Models.All
             unchecked // Overflow is fine, just wrap
             {
                 var hashCode = 41;
-                hashCode = (hashCode * 59) + this.BeginDate.GetHashCode();
-                if (this.EndDate != null)
+                hashCode = (hashCode * 59) + BeginDate.GetHashCode();
+                if (EndDate != null)
                 {
-                    hashCode = (hashCode * 59) + this.EndDate.GetHashCode();
+                    hashCode = (hashCode * 59) + EndDate.GetHashCode();
                 }
                 return hashCode;
             }

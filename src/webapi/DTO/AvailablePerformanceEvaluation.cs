@@ -1,7 +1,3 @@
-using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
-using Microsoft.Identity.Client;
-
 namespace eppeta.webapi.DTO
 {
     public class AvailablePerformanceEvaluation
@@ -22,8 +18,8 @@ namespace eppeta.webapi.DTO
         }
         public class AvailableRatingLevel
         {
-            public string Name { get; set; }
-            public int RatingLevel { get; set;}
+            public string? Name { get; set; }
+            public int RatingLevel { get; set; }
             public int RatingLevelId { get; set; }
         }
     }

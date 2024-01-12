@@ -12,7 +12,6 @@
  */
 
 
-using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
@@ -26,7 +25,7 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <summary>
         ///  Custom JSON serializer
         /// </summary>
-        static public readonly JsonSerializerSettings SerializerSettings = new JsonSerializerSettings
+        public static readonly JsonSerializerSettings SerializerSettings = new()
         {
             // OpenAPI generated types generally hide default constructors.
             ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor,
@@ -43,7 +42,7 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <summary>
         ///  Custom JSON serializer for objects with additional properties
         /// </summary>
-        static public readonly JsonSerializerSettings AdditionalPropertiesSerializerSettings = new JsonSerializerSettings
+        public static readonly JsonSerializerSettings AdditionalPropertiesSerializerSettings = new()
         {
             // OpenAPI generated types generally hide default constructors.
             ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor,
@@ -60,7 +59,7 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <summary>
         /// Gets or Sets the actual instance
         /// </summary>
-        public abstract Object ActualInstance { get; set; }
+        public abstract object ActualInstance { get; set; }
 
         /// <summary>
         /// Gets or Sets IsNullable to indicate whether the instance is nullable

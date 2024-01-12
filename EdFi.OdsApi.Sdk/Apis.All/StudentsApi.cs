@@ -12,10 +12,10 @@
  */
 
 
-using System;
-using System.Collections.Generic;
 using EdFi.OdsApi.Sdk.Client;
 using EdFi.OdsApi.Sdk.Models.All;
+using System;
+using System.Collections.Generic;
 
 namespace EdFi.OdsApi.Sdk.Apis.All
 {
@@ -37,7 +37,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="ifMatch">The ETag header value used to prevent the DELETE from removing a resource modified by another consumer. (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns></returns>
-        void DeleteStudentById(string id, string? ifMatch = default(string?), int operationIndex = 0);
+        void DeleteStudentById(string id, string? ifMatch = default, int operationIndex = 0);
 
         /// <summary>
         /// Deletes an existing resource using the resource identifier.
@@ -50,7 +50,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="ifMatch">The ETag header value used to prevent the DELETE from removing a resource modified by another consumer. (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> DeleteStudentByIdWithHttpInfo(string id, string? ifMatch = default(string?), int operationIndex = 0);
+        ApiResponse<object> DeleteStudentByIdWithHttpInfo(string id, string? ifMatch = default, int operationIndex = 0);
 
         /// <summary>
         /// Retrieves specific resources using the resource&#39;s property values (using the \&quot;Get\&quot; pattern).
@@ -86,7 +86,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="snapshotIdentifier">Indicates the Snapshot-Identifier that should be used. (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>List&lt;EdFiStudent&gt;</returns>
-        List<EdFiStudent> GetStudents(int? offset = default(int?), int? limit = default(int?), long? minChangeVersion = default(long?), long? maxChangeVersion = default(long?), bool? totalCount = default(bool?), string? studentUniqueId = default(string?), string? personId = default(string?), string? sourceSystemDescriptor = default(string?), string? citizenshipStatusDescriptor = default(string?), string? birthCountryDescriptor = default(string?), string? birthSexDescriptor = default(string?), string? birthStateAbbreviationDescriptor = default(string?), string? birthCity = default(string?), DateTime? birthDate = default(DateTime?), string? birthInternationalProvince = default(string?), DateTime? dateEnteredUS = default(DateTime?), string? firstName = default(string?), string? generationCodeSuffix = default(string?), string? id = default(string?), string? lastSurname = default(string?), string? maidenName = default(string?), string? middleName = default(string?), bool? multipleBirthStatus = default(bool?), string? personalTitlePrefix = default(string?), string? snapshotIdentifier = default(string?), int operationIndex = 0);
+        List<EdFiStudent> GetStudents(int? offset = default, int? limit = default, long? minChangeVersion = default, long? maxChangeVersion = default, bool? totalCount = default, string? studentUniqueId = default, string? personId = default, string? sourceSystemDescriptor = default, string? citizenshipStatusDescriptor = default, string? birthCountryDescriptor = default, string? birthSexDescriptor = default, string? birthStateAbbreviationDescriptor = default, string? birthCity = default, DateTime? birthDate = default, string? birthInternationalProvince = default, DateTime? dateEnteredUS = default, string? firstName = default, string? generationCodeSuffix = default, string? id = default, string? lastSurname = default, string? maidenName = default, string? middleName = default, bool? multipleBirthStatus = default, string? personalTitlePrefix = default, string? snapshotIdentifier = default, int operationIndex = 0);
 
         /// <summary>
         /// Retrieves specific resources using the resource&#39;s property values (using the \&quot;Get\&quot; pattern).
@@ -122,7 +122,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="snapshotIdentifier">Indicates the Snapshot-Identifier that should be used. (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of List&lt;EdFiStudent&gt;</returns>
-        ApiResponse<List<EdFiStudent>> GetStudentsWithHttpInfo(int? offset = default(int?), int? limit = default(int?), long? minChangeVersion = default(long?), long? maxChangeVersion = default(long?), bool? totalCount = default(bool?), string? studentUniqueId = default(string?), string? personId = default(string?), string? sourceSystemDescriptor = default(string?), string? citizenshipStatusDescriptor = default(string?), string? birthCountryDescriptor = default(string?), string? birthSexDescriptor = default(string?), string? birthStateAbbreviationDescriptor = default(string?), string? birthCity = default(string?), DateTime? birthDate = default(DateTime?), string? birthInternationalProvince = default(string?), DateTime? dateEnteredUS = default(DateTime?), string? firstName = default(string?), string? generationCodeSuffix = default(string?), string? id = default(string?), string? lastSurname = default(string?), string? maidenName = default(string?), string? middleName = default(string?), bool? multipleBirthStatus = default(bool?), string? personalTitlePrefix = default(string?), string? snapshotIdentifier = default(string?), int operationIndex = 0);
+        ApiResponse<List<EdFiStudent>> GetStudentsWithHttpInfo(int? offset = default, int? limit = default, long? minChangeVersion = default, long? maxChangeVersion = default, bool? totalCount = default, string? studentUniqueId = default, string? personId = default, string? sourceSystemDescriptor = default, string? citizenshipStatusDescriptor = default, string? birthCountryDescriptor = default, string? birthSexDescriptor = default, string? birthStateAbbreviationDescriptor = default, string? birthCity = default, DateTime? birthDate = default, string? birthInternationalProvince = default, DateTime? dateEnteredUS = default, string? firstName = default, string? generationCodeSuffix = default, string? id = default, string? lastSurname = default, string? maidenName = default, string? middleName = default, bool? multipleBirthStatus = default, string? personalTitlePrefix = default, string? snapshotIdentifier = default, int operationIndex = 0);
         /// <summary>
         /// Retrieves a specific resource using the resource&#39;s identifier (using the \&quot;Get By Id\&quot; pattern).
         /// </summary>
@@ -135,7 +135,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="snapshotIdentifier">Indicates the Snapshot-Identifier that should be used. (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>EdFiStudent</returns>
-        EdFiStudent GetStudentsById(string id, string? ifNoneMatch = default(string?), string? snapshotIdentifier = default(string?), int operationIndex = 0);
+        EdFiStudent GetStudentsById(string id, string? ifNoneMatch = default, string? snapshotIdentifier = default, int operationIndex = 0);
 
         /// <summary>
         /// Retrieves a specific resource using the resource&#39;s identifier (using the \&quot;Get By Id\&quot; pattern).
@@ -149,7 +149,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="snapshotIdentifier">Indicates the Snapshot-Identifier that should be used. (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of EdFiStudent</returns>
-        ApiResponse<EdFiStudent> GetStudentsByIdWithHttpInfo(string id, string? ifNoneMatch = default(string?), string? snapshotIdentifier = default(string?), int operationIndex = 0);
+        ApiResponse<EdFiStudent> GetStudentsByIdWithHttpInfo(string id, string? ifNoneMatch = default, string? snapshotIdentifier = default, int operationIndex = 0);
 
         /// <summary>
         /// Creates or updates resources based on the natural key values of the supplied resource.
@@ -173,7 +173,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="student">The JSON representation of the \&quot;student\&quot; resource to be created or updated.</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> PostStudentWithHttpInfo(EdFiStudent student, int operationIndex = 0);
+        ApiResponse<object> PostStudentWithHttpInfo(EdFiStudent student, int operationIndex = 0);
         /// <summary>
         /// Updates a resource based on the resource identifier.
         /// </summary>
@@ -186,7 +186,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="ifMatch">The ETag header value used to prevent the PUT from updating a resource modified by another consumer. (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns></returns>
-        void PutStudent(string id, EdFiStudent student, string? ifMatch = default(string?), int operationIndex = 0);
+        void PutStudent(string id, EdFiStudent student, string? ifMatch = default, int operationIndex = 0);
 
         /// <summary>
         /// Updates a resource based on the resource identifier.
@@ -200,7 +200,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="ifMatch">The ETag header value used to prevent the PUT from updating a resource modified by another consumer. (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> PutStudentWithHttpInfo(string id, EdFiStudent student, string? ifMatch = default(string?), int operationIndex = 0);
+        ApiResponse<object> PutStudentWithHttpInfo(string id, EdFiStudent student, string? ifMatch = default, int operationIndex = 0);
         #endregion Synchronous Operations
     }
 
@@ -222,7 +222,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task DeleteStudentByIdAsync(string id, string? ifMatch = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task DeleteStudentByIdAsync(string id, string? ifMatch = default, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Deletes an existing resource using the resource identifier.
@@ -236,7 +236,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> DeleteStudentByIdWithHttpInfoAsync(string id, string? ifMatch = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<object>> DeleteStudentByIdWithHttpInfoAsync(string id, string? ifMatch = default, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Retrieves specific resources using the resource&#39;s property values (using the \&quot;Get\&quot; pattern).
@@ -273,7 +273,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of List&lt;EdFiStudent&gt;</returns>
-        System.Threading.Tasks.Task<List<EdFiStudent>> GetStudentsAsync(int? offset = default(int?), int? limit = default(int?), long? minChangeVersion = default(long?), long? maxChangeVersion = default(long?), bool? totalCount = default(bool?), string? studentUniqueId = default(string?), string? personId = default(string?), string? sourceSystemDescriptor = default(string?), string? citizenshipStatusDescriptor = default(string?), string? birthCountryDescriptor = default(string?), string? birthSexDescriptor = default(string?), string? birthStateAbbreviationDescriptor = default(string?), string? birthCity = default(string?), DateTime? birthDate = default(DateTime?), string? birthInternationalProvince = default(string?), DateTime? dateEnteredUS = default(DateTime?), string? firstName = default(string?), string? generationCodeSuffix = default(string?), string? id = default(string?), string? lastSurname = default(string?), string? maidenName = default(string?), string? middleName = default(string?), bool? multipleBirthStatus = default(bool?), string? personalTitlePrefix = default(string?), string? snapshotIdentifier = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<List<EdFiStudent>> GetStudentsAsync(int? offset = default, int? limit = default, long? minChangeVersion = default, long? maxChangeVersion = default, bool? totalCount = default, string? studentUniqueId = default, string? personId = default, string? sourceSystemDescriptor = default, string? citizenshipStatusDescriptor = default, string? birthCountryDescriptor = default, string? birthSexDescriptor = default, string? birthStateAbbreviationDescriptor = default, string? birthCity = default, DateTime? birthDate = default, string? birthInternationalProvince = default, DateTime? dateEnteredUS = default, string? firstName = default, string? generationCodeSuffix = default, string? id = default, string? lastSurname = default, string? maidenName = default, string? middleName = default, bool? multipleBirthStatus = default, string? personalTitlePrefix = default, string? snapshotIdentifier = default, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Retrieves specific resources using the resource&#39;s property values (using the \&quot;Get\&quot; pattern).
@@ -310,7 +310,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (List&lt;EdFiStudent&gt;)</returns>
-        System.Threading.Tasks.Task<ApiResponse<List<EdFiStudent>>> GetStudentsWithHttpInfoAsync(int? offset = default(int?), int? limit = default(int?), long? minChangeVersion = default(long?), long? maxChangeVersion = default(long?), bool? totalCount = default(bool?), string? studentUniqueId = default(string?), string? personId = default(string?), string? sourceSystemDescriptor = default(string?), string? citizenshipStatusDescriptor = default(string?), string? birthCountryDescriptor = default(string?), string? birthSexDescriptor = default(string?), string? birthStateAbbreviationDescriptor = default(string?), string? birthCity = default(string?), DateTime? birthDate = default(DateTime?), string? birthInternationalProvince = default(string?), DateTime? dateEnteredUS = default(DateTime?), string? firstName = default(string?), string? generationCodeSuffix = default(string?), string? id = default(string?), string? lastSurname = default(string?), string? maidenName = default(string?), string? middleName = default(string?), bool? multipleBirthStatus = default(bool?), string? personalTitlePrefix = default(string?), string? snapshotIdentifier = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<List<EdFiStudent>>> GetStudentsWithHttpInfoAsync(int? offset = default, int? limit = default, long? minChangeVersion = default, long? maxChangeVersion = default, bool? totalCount = default, string? studentUniqueId = default, string? personId = default, string? sourceSystemDescriptor = default, string? citizenshipStatusDescriptor = default, string? birthCountryDescriptor = default, string? birthSexDescriptor = default, string? birthStateAbbreviationDescriptor = default, string? birthCity = default, DateTime? birthDate = default, string? birthInternationalProvince = default, DateTime? dateEnteredUS = default, string? firstName = default, string? generationCodeSuffix = default, string? id = default, string? lastSurname = default, string? maidenName = default, string? middleName = default, bool? multipleBirthStatus = default, string? personalTitlePrefix = default, string? snapshotIdentifier = default, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default);
         /// <summary>
         /// Retrieves a specific resource using the resource&#39;s identifier (using the \&quot;Get By Id\&quot; pattern).
         /// </summary>
@@ -324,7 +324,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of EdFiStudent</returns>
-        System.Threading.Tasks.Task<EdFiStudent> GetStudentsByIdAsync(string id, string? ifNoneMatch = default(string?), string? snapshotIdentifier = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<EdFiStudent> GetStudentsByIdAsync(string id, string? ifNoneMatch = default, string? snapshotIdentifier = default, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Retrieves a specific resource using the resource&#39;s identifier (using the \&quot;Get By Id\&quot; pattern).
@@ -339,7 +339,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (EdFiStudent)</returns>
-        System.Threading.Tasks.Task<ApiResponse<EdFiStudent>> GetStudentsByIdWithHttpInfoAsync(string id, string? ifNoneMatch = default(string?), string? snapshotIdentifier = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<EdFiStudent>> GetStudentsByIdWithHttpInfoAsync(string id, string? ifNoneMatch = default, string? snapshotIdentifier = default, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Creates or updates resources based on the natural key values of the supplied resource.
@@ -352,7 +352,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task PostStudentAsync(EdFiStudent student, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task PostStudentAsync(EdFiStudent student, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Creates or updates resources based on the natural key values of the supplied resource.
@@ -365,7 +365,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> PostStudentWithHttpInfoAsync(EdFiStudent student, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<object>> PostStudentWithHttpInfoAsync(EdFiStudent student, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default);
         /// <summary>
         /// Updates a resource based on the resource identifier.
         /// </summary>
@@ -379,7 +379,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task PutStudentAsync(string id, EdFiStudent student, string? ifMatch = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task PutStudentAsync(string id, EdFiStudent student, string? ifMatch = default, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Updates a resource based on the resource identifier.
@@ -394,7 +394,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> PutStudentWithHttpInfoAsync(string id, EdFiStudent student, string? ifMatch = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<object>> PutStudentWithHttpInfoAsync(string id, EdFiStudent student, string? ifMatch = default, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default);
         #endregion Asynchronous Operations
     }
 
@@ -427,13 +427,13 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <returns></returns>
         public StudentsApi(string basePath)
         {
-            this.Configuration = EdFi.OdsApi.Sdk.Client.Configuration.MergeConfigurations(
+            Configuration = EdFi.OdsApi.Sdk.Client.Configuration.MergeConfigurations(
                 EdFi.OdsApi.Sdk.Client.GlobalConfiguration.Instance,
                 new EdFi.OdsApi.Sdk.Client.Configuration { BasePath = basePath }
             );
-            this.Client = new EdFi.OdsApi.Sdk.Client.ApiClient(this.Configuration.BasePath);
-            this.AsynchronousClient = new EdFi.OdsApi.Sdk.Client.ApiClient(this.Configuration.BasePath);
-            this.ExceptionFactory = EdFi.OdsApi.Sdk.Client.Configuration.DefaultExceptionFactory;
+            Client = new EdFi.OdsApi.Sdk.Client.ApiClient(Configuration.BasePath);
+            AsynchronousClient = new EdFi.OdsApi.Sdk.Client.ApiClient(Configuration.BasePath);
+            ExceptionFactory = EdFi.OdsApi.Sdk.Client.Configuration.DefaultExceptionFactory;
         }
 
         /// <summary>
@@ -444,14 +444,17 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <returns></returns>
         public StudentsApi(EdFi.OdsApi.Sdk.Client.Configuration configuration)
         {
-            if (configuration == null) throw new ArgumentNullException("configuration");
+            if (configuration == null)
+            {
+                throw new ArgumentNullException("configuration");
+            }
 
-            this.Configuration = EdFi.OdsApi.Sdk.Client.Configuration.MergeConfigurations(
+            Configuration = EdFi.OdsApi.Sdk.Client.Configuration.MergeConfigurations(
                 EdFi.OdsApi.Sdk.Client.GlobalConfiguration.Instance,
                 configuration
             );
-            this.Client = new EdFi.OdsApi.Sdk.Client.ApiClient(this.Configuration.BasePath);
-            this.AsynchronousClient = new EdFi.OdsApi.Sdk.Client.ApiClient(this.Configuration.BasePath);
+            Client = new EdFi.OdsApi.Sdk.Client.ApiClient(Configuration.BasePath);
+            AsynchronousClient = new EdFi.OdsApi.Sdk.Client.ApiClient(Configuration.BasePath);
             ExceptionFactory = EdFi.OdsApi.Sdk.Client.Configuration.DefaultExceptionFactory;
         }
 
@@ -464,14 +467,10 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="configuration">The configuration object.</param>
         public StudentsApi(EdFi.OdsApi.Sdk.Client.ISynchronousClient client, EdFi.OdsApi.Sdk.Client.IAsynchronousClient asyncClient, EdFi.OdsApi.Sdk.Client.IReadableConfiguration configuration)
         {
-            if (client == null) throw new ArgumentNullException("client");
-            if (asyncClient == null) throw new ArgumentNullException("asyncClient");
-            if (configuration == null) throw new ArgumentNullException("configuration");
-
-            this.Client = client;
-            this.AsynchronousClient = asyncClient;
-            this.Configuration = configuration;
-            this.ExceptionFactory = EdFi.OdsApi.Sdk.Client.Configuration.DefaultExceptionFactory;
+            Client = client ?? throw new ArgumentNullException("client");
+            AsynchronousClient = asyncClient ?? throw new ArgumentNullException("asyncClient");
+            Configuration = configuration ?? throw new ArgumentNullException("configuration");
+            ExceptionFactory = EdFi.OdsApi.Sdk.Client.Configuration.DefaultExceptionFactory;
         }
 
         /// <summary>
@@ -490,7 +489,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <value>The base path</value>
         public string GetBasePath()
         {
-            return this.Configuration.BasePath;
+            return Configuration.BasePath;
         }
 
         /// <summary>
@@ -504,15 +503,10 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// </summary>
         public EdFi.OdsApi.Sdk.Client.ExceptionFactory ExceptionFactory
         {
-            get
-            {
-                if (_exceptionFactory != null && _exceptionFactory.GetInvocationList().Length > 1)
-                {
-                    throw new InvalidOperationException("Multicast delegate for ExceptionFactory is unsupported.");
-                }
-                return _exceptionFactory;
-            }
-            set { _exceptionFactory = value; }
+            get => _exceptionFactory != null && _exceptionFactory.GetInvocationList().Length > 1
+                    ? throw new InvalidOperationException("Multicast delegate for ExceptionFactory is unsupported.")
+                    : _exceptionFactory;
+            set => _exceptionFactory = value;
         }
 
         /// <summary>
@@ -523,9 +517,9 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="ifMatch">The ETag header value used to prevent the DELETE from removing a resource modified by another consumer. (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns></returns>
-        public void DeleteStudentById(string id, string? ifMatch = default(string?), int operationIndex = 0)
+        public void DeleteStudentById(string id, string? ifMatch = default, int operationIndex = 0)
         {
-            DeleteStudentByIdWithHttpInfo(id, ifMatch);
+            _ = DeleteStudentByIdWithHttpInfo(id, ifMatch);
         }
 
         /// <summary>
@@ -536,7 +530,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="ifMatch">The ETag header value used to prevent the DELETE from removing a resource modified by another consumer. (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public EdFi.OdsApi.Sdk.Client.ApiResponse<Object> DeleteStudentByIdWithHttpInfo(string id, string? ifMatch = default(string?), int operationIndex = 0)
+        public EdFi.OdsApi.Sdk.Client.ApiResponse<Object> DeleteStudentByIdWithHttpInfo(string id, string? ifMatch = default, int operationIndex = 0)
         {
             // verify the required parameter 'id' is set
             if (id == null)
@@ -544,13 +538,13 @@ namespace EdFi.OdsApi.Sdk.Apis.All
                 throw new EdFi.OdsApi.Sdk.Client.ApiException(400, "Missing required parameter 'id' when calling StudentsApi->DeleteStudentById");
             }
 
-            EdFi.OdsApi.Sdk.Client.RequestOptions localVarRequestOptions = new EdFi.OdsApi.Sdk.Client.RequestOptions();
+            var localVarRequestOptions = new EdFi.OdsApi.Sdk.Client.RequestOptions();
 
-            string[] _contentTypes = new string[] {
+            var _contentTypes = new string[] {
             };
 
             // to determine the Accept header
-            string[] _accepts = new string[] {
+            var _accepts = new string[] {
             };
 
             var localVarContentType = EdFi.OdsApi.Sdk.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
@@ -576,16 +570,16 @@ namespace EdFi.OdsApi.Sdk.Apis.All
 
             // authentication (oauth2_client_credentials) required
             // oauth required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            if (!string.IsNullOrEmpty(Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + Configuration.AccessToken);
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Delete<Object>("/ed-fi/students/{id}", localVarRequestOptions, this.Configuration);
-            if (this.ExceptionFactory != null)
+            var localVarResponse = Client.Delete<object>("/ed-fi/students/{id}", localVarRequestOptions, Configuration);
+            if (ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("DeleteStudentById", localVarResponse);
+                var _exception = ExceptionFactory("DeleteStudentById", localVarResponse);
                 if (_exception != null)
                 {
                     throw _exception;
@@ -604,9 +598,9 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task DeleteStudentByIdAsync(string id, string? ifMatch = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task DeleteStudentByIdAsync(string id, string? ifMatch = default, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default)
         {
-            await DeleteStudentByIdWithHttpInfoAsync(id, ifMatch, operationIndex, cancellationToken).ConfigureAwait(false);
+            _ = await DeleteStudentByIdWithHttpInfoAsync(id, ifMatch, operationIndex, cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -618,7 +612,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<EdFi.OdsApi.Sdk.Client.ApiResponse<Object>> DeleteStudentByIdWithHttpInfoAsync(string id, string? ifMatch = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<EdFi.OdsApi.Sdk.Client.ApiResponse<Object>> DeleteStudentByIdWithHttpInfoAsync(string id, string? ifMatch = default, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default)
         {
             // verify the required parameter 'id' is set
             if (id == null)
@@ -627,13 +621,13 @@ namespace EdFi.OdsApi.Sdk.Apis.All
             }
 
 
-            EdFi.OdsApi.Sdk.Client.RequestOptions localVarRequestOptions = new EdFi.OdsApi.Sdk.Client.RequestOptions();
+            var localVarRequestOptions = new EdFi.OdsApi.Sdk.Client.RequestOptions();
 
-            string[] _contentTypes = new string[] {
+            var _contentTypes = new string[] {
             };
 
             // to determine the Accept header
-            string[] _accepts = new string[] {
+            var _accepts = new string[] {
             };
 
             var localVarContentType = EdFi.OdsApi.Sdk.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
@@ -659,17 +653,17 @@ namespace EdFi.OdsApi.Sdk.Apis.All
 
             // authentication (oauth2_client_credentials) required
             // oauth required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            if (!string.IsNullOrEmpty(Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + Configuration.AccessToken);
             }
 
             // make the HTTP request
-            var localVarResponse = await this.AsynchronousClient.DeleteAsync<Object>("/ed-fi/students/{id}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await AsynchronousClient.DeleteAsync<object>("/ed-fi/students/{id}", localVarRequestOptions, Configuration, cancellationToken).ConfigureAwait(false);
 
-            if (this.ExceptionFactory != null)
+            if (ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("DeleteStudentById", localVarResponse);
+                var _exception = ExceptionFactory("DeleteStudentById", localVarResponse);
                 if (_exception != null)
                 {
                     throw _exception;
@@ -710,9 +704,9 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="snapshotIdentifier">Indicates the Snapshot-Identifier that should be used. (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>List&lt;EdFiStudent&gt;</returns>
-        public List<EdFiStudent> GetStudents(int? offset = default(int?), int? limit = default(int?), long? minChangeVersion = default(long?), long? maxChangeVersion = default(long?), bool? totalCount = default(bool?), string? studentUniqueId = default(string?), string? personId = default(string?), string? sourceSystemDescriptor = default(string?), string? citizenshipStatusDescriptor = default(string?), string? birthCountryDescriptor = default(string?), string? birthSexDescriptor = default(string?), string? birthStateAbbreviationDescriptor = default(string?), string? birthCity = default(string?), DateTime? birthDate = default(DateTime?), string? birthInternationalProvince = default(string?), DateTime? dateEnteredUS = default(DateTime?), string? firstName = default(string?), string? generationCodeSuffix = default(string?), string? id = default(string?), string? lastSurname = default(string?), string? maidenName = default(string?), string? middleName = default(string?), bool? multipleBirthStatus = default(bool?), string? personalTitlePrefix = default(string?), string? snapshotIdentifier = default(string?), int operationIndex = 0)
+        public List<EdFiStudent> GetStudents(int? offset = default, int? limit = default, long? minChangeVersion = default, long? maxChangeVersion = default, bool? totalCount = default, string? studentUniqueId = default, string? personId = default, string? sourceSystemDescriptor = default, string? citizenshipStatusDescriptor = default, string? birthCountryDescriptor = default, string? birthSexDescriptor = default, string? birthStateAbbreviationDescriptor = default, string? birthCity = default, DateTime? birthDate = default, string? birthInternationalProvince = default, DateTime? dateEnteredUS = default, string? firstName = default, string? generationCodeSuffix = default, string? id = default, string? lastSurname = default, string? maidenName = default, string? middleName = default, bool? multipleBirthStatus = default, string? personalTitlePrefix = default, string? snapshotIdentifier = default, int operationIndex = 0)
         {
-            EdFi.OdsApi.Sdk.Client.ApiResponse<List<EdFiStudent>> localVarResponse = GetStudentsWithHttpInfo(offset, limit, minChangeVersion, maxChangeVersion, totalCount, studentUniqueId, personId, sourceSystemDescriptor, citizenshipStatusDescriptor, birthCountryDescriptor, birthSexDescriptor, birthStateAbbreviationDescriptor, birthCity, birthDate, birthInternationalProvince, dateEnteredUS, firstName, generationCodeSuffix, id, lastSurname, maidenName, middleName, multipleBirthStatus, personalTitlePrefix, snapshotIdentifier);
+            var localVarResponse = GetStudentsWithHttpInfo(offset, limit, minChangeVersion, maxChangeVersion, totalCount, studentUniqueId, personId, sourceSystemDescriptor, citizenshipStatusDescriptor, birthCountryDescriptor, birthSexDescriptor, birthStateAbbreviationDescriptor, birthCity, birthDate, birthInternationalProvince, dateEnteredUS, firstName, generationCodeSuffix, id, lastSurname, maidenName, middleName, multipleBirthStatus, personalTitlePrefix, snapshotIdentifier);
             return localVarResponse.Data;
         }
 
@@ -747,15 +741,15 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="snapshotIdentifier">Indicates the Snapshot-Identifier that should be used. (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of List&lt;EdFiStudent&gt;</returns>
-        public EdFi.OdsApi.Sdk.Client.ApiResponse<List<EdFiStudent>> GetStudentsWithHttpInfo(int? offset = default(int?), int? limit = default(int?), long? minChangeVersion = default(long?), long? maxChangeVersion = default(long?), bool? totalCount = default(bool?), string? studentUniqueId = default(string?), string? personId = default(string?), string? sourceSystemDescriptor = default(string?), string? citizenshipStatusDescriptor = default(string?), string? birthCountryDescriptor = default(string?), string? birthSexDescriptor = default(string?), string? birthStateAbbreviationDescriptor = default(string?), string? birthCity = default(string?), DateTime? birthDate = default(DateTime?), string? birthInternationalProvince = default(string?), DateTime? dateEnteredUS = default(DateTime?), string? firstName = default(string?), string? generationCodeSuffix = default(string?), string? id = default(string?), string? lastSurname = default(string?), string? maidenName = default(string?), string? middleName = default(string?), bool? multipleBirthStatus = default(bool?), string? personalTitlePrefix = default(string?), string? snapshotIdentifier = default(string?), int operationIndex = 0)
+        public EdFi.OdsApi.Sdk.Client.ApiResponse<List<EdFiStudent>> GetStudentsWithHttpInfo(int? offset = default, int? limit = default, long? minChangeVersion = default, long? maxChangeVersion = default, bool? totalCount = default, string? studentUniqueId = default, string? personId = default, string? sourceSystemDescriptor = default, string? citizenshipStatusDescriptor = default, string? birthCountryDescriptor = default, string? birthSexDescriptor = default, string? birthStateAbbreviationDescriptor = default, string? birthCity = default, DateTime? birthDate = default, string? birthInternationalProvince = default, DateTime? dateEnteredUS = default, string? firstName = default, string? generationCodeSuffix = default, string? id = default, string? lastSurname = default, string? maidenName = default, string? middleName = default, bool? multipleBirthStatus = default, string? personalTitlePrefix = default, string? snapshotIdentifier = default, int operationIndex = 0)
         {
-            EdFi.OdsApi.Sdk.Client.RequestOptions localVarRequestOptions = new EdFi.OdsApi.Sdk.Client.RequestOptions();
+            var localVarRequestOptions = new EdFi.OdsApi.Sdk.Client.RequestOptions();
 
-            string[] _contentTypes = new string[] {
+            var _contentTypes = new string[] {
             };
 
             // to determine the Accept header
-            string[] _accepts = new string[] {
+            var _accepts = new string[] {
                 "application/json"
             };
 
@@ -877,16 +871,16 @@ namespace EdFi.OdsApi.Sdk.Apis.All
 
             // authentication (oauth2_client_credentials) required
             // oauth required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            if (!string.IsNullOrEmpty(Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + Configuration.AccessToken);
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Get<List<EdFiStudent>>("/ed-fi/students", localVarRequestOptions, this.Configuration);
-            if (this.ExceptionFactory != null)
+            var localVarResponse = Client.Get<List<EdFiStudent>>("/ed-fi/students", localVarRequestOptions, Configuration);
+            if (ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("GetStudents", localVarResponse);
+                var _exception = ExceptionFactory("GetStudents", localVarResponse);
                 if (_exception != null)
                 {
                     throw _exception;
@@ -928,9 +922,9 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of List&lt;EdFiStudent&gt;</returns>
-        public async System.Threading.Tasks.Task<List<EdFiStudent>> GetStudentsAsync(int? offset = default(int?), int? limit = default(int?), long? minChangeVersion = default(long?), long? maxChangeVersion = default(long?), bool? totalCount = default(bool?), string? studentUniqueId = default(string?), string? personId = default(string?), string? sourceSystemDescriptor = default(string?), string? citizenshipStatusDescriptor = default(string?), string? birthCountryDescriptor = default(string?), string? birthSexDescriptor = default(string?), string? birthStateAbbreviationDescriptor = default(string?), string? birthCity = default(string?), DateTime? birthDate = default(DateTime?), string? birthInternationalProvince = default(string?), DateTime? dateEnteredUS = default(DateTime?), string? firstName = default(string?), string? generationCodeSuffix = default(string?), string? id = default(string?), string? lastSurname = default(string?), string? maidenName = default(string?), string? middleName = default(string?), bool? multipleBirthStatus = default(bool?), string? personalTitlePrefix = default(string?), string? snapshotIdentifier = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<List<EdFiStudent>> GetStudentsAsync(int? offset = default, int? limit = default, long? minChangeVersion = default, long? maxChangeVersion = default, bool? totalCount = default, string? studentUniqueId = default, string? personId = default, string? sourceSystemDescriptor = default, string? citizenshipStatusDescriptor = default, string? birthCountryDescriptor = default, string? birthSexDescriptor = default, string? birthStateAbbreviationDescriptor = default, string? birthCity = default, DateTime? birthDate = default, string? birthInternationalProvince = default, DateTime? dateEnteredUS = default, string? firstName = default, string? generationCodeSuffix = default, string? id = default, string? lastSurname = default, string? maidenName = default, string? middleName = default, bool? multipleBirthStatus = default, string? personalTitlePrefix = default, string? snapshotIdentifier = default, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default)
         {
-            EdFi.OdsApi.Sdk.Client.ApiResponse<List<EdFiStudent>> localVarResponse = await GetStudentsWithHttpInfoAsync(offset, limit, minChangeVersion, maxChangeVersion, totalCount, studentUniqueId, personId, sourceSystemDescriptor, citizenshipStatusDescriptor, birthCountryDescriptor, birthSexDescriptor, birthStateAbbreviationDescriptor, birthCity, birthDate, birthInternationalProvince, dateEnteredUS, firstName, generationCodeSuffix, id, lastSurname, maidenName, middleName, multipleBirthStatus, personalTitlePrefix, snapshotIdentifier, operationIndex, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await GetStudentsWithHttpInfoAsync(offset, limit, minChangeVersion, maxChangeVersion, totalCount, studentUniqueId, personId, sourceSystemDescriptor, citizenshipStatusDescriptor, birthCountryDescriptor, birthSexDescriptor, birthStateAbbreviationDescriptor, birthCity, birthDate, birthInternationalProvince, dateEnteredUS, firstName, generationCodeSuffix, id, lastSurname, maidenName, middleName, multipleBirthStatus, personalTitlePrefix, snapshotIdentifier, operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -966,16 +960,16 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (List&lt;EdFiStudent&gt;)</returns>
-        public async System.Threading.Tasks.Task<EdFi.OdsApi.Sdk.Client.ApiResponse<List<EdFiStudent>>> GetStudentsWithHttpInfoAsync(int? offset = default(int?), int? limit = default(int?), long? minChangeVersion = default(long?), long? maxChangeVersion = default(long?), bool? totalCount = default(bool?), string? studentUniqueId = default(string?), string? personId = default(string?), string? sourceSystemDescriptor = default(string?), string? citizenshipStatusDescriptor = default(string?), string? birthCountryDescriptor = default(string?), string? birthSexDescriptor = default(string?), string? birthStateAbbreviationDescriptor = default(string?), string? birthCity = default(string?), DateTime? birthDate = default(DateTime?), string? birthInternationalProvince = default(string?), DateTime? dateEnteredUS = default(DateTime?), string? firstName = default(string?), string? generationCodeSuffix = default(string?), string? id = default(string?), string? lastSurname = default(string?), string? maidenName = default(string?), string? middleName = default(string?), bool? multipleBirthStatus = default(bool?), string? personalTitlePrefix = default(string?), string? snapshotIdentifier = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<EdFi.OdsApi.Sdk.Client.ApiResponse<List<EdFiStudent>>> GetStudentsWithHttpInfoAsync(int? offset = default, int? limit = default, long? minChangeVersion = default, long? maxChangeVersion = default, bool? totalCount = default, string? studentUniqueId = default, string? personId = default, string? sourceSystemDescriptor = default, string? citizenshipStatusDescriptor = default, string? birthCountryDescriptor = default, string? birthSexDescriptor = default, string? birthStateAbbreviationDescriptor = default, string? birthCity = default, DateTime? birthDate = default, string? birthInternationalProvince = default, DateTime? dateEnteredUS = default, string? firstName = default, string? generationCodeSuffix = default, string? id = default, string? lastSurname = default, string? maidenName = default, string? middleName = default, bool? multipleBirthStatus = default, string? personalTitlePrefix = default, string? snapshotIdentifier = default, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default)
         {
 
-            EdFi.OdsApi.Sdk.Client.RequestOptions localVarRequestOptions = new EdFi.OdsApi.Sdk.Client.RequestOptions();
+            var localVarRequestOptions = new EdFi.OdsApi.Sdk.Client.RequestOptions();
 
-            string[] _contentTypes = new string[] {
+            var _contentTypes = new string[] {
             };
 
             // to determine the Accept header
-            string[] _accepts = new string[] {
+            var _accepts = new string[] {
                 "application/json"
             };
 
@@ -1097,17 +1091,17 @@ namespace EdFi.OdsApi.Sdk.Apis.All
 
             // authentication (oauth2_client_credentials) required
             // oauth required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            if (!string.IsNullOrEmpty(Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + Configuration.AccessToken);
             }
 
             // make the HTTP request
-            var localVarResponse = await this.AsynchronousClient.GetAsync<List<EdFiStudent>>("/ed-fi/students", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await AsynchronousClient.GetAsync<List<EdFiStudent>>("/ed-fi/students", localVarRequestOptions, Configuration, cancellationToken).ConfigureAwait(false);
 
-            if (this.ExceptionFactory != null)
+            if (ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("GetStudents", localVarResponse);
+                var _exception = ExceptionFactory("GetStudents", localVarResponse);
                 if (_exception != null)
                 {
                     throw _exception;
@@ -1126,9 +1120,9 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="snapshotIdentifier">Indicates the Snapshot-Identifier that should be used. (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>EdFiStudent</returns>
-        public EdFiStudent GetStudentsById(string id, string? ifNoneMatch = default(string?), string? snapshotIdentifier = default(string?), int operationIndex = 0)
+        public EdFiStudent GetStudentsById(string id, string? ifNoneMatch = default, string? snapshotIdentifier = default, int operationIndex = 0)
         {
-            EdFi.OdsApi.Sdk.Client.ApiResponse<EdFiStudent> localVarResponse = GetStudentsByIdWithHttpInfo(id, ifNoneMatch, snapshotIdentifier);
+            var localVarResponse = GetStudentsByIdWithHttpInfo(id, ifNoneMatch, snapshotIdentifier);
             return localVarResponse.Data;
         }
 
@@ -1141,7 +1135,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="snapshotIdentifier">Indicates the Snapshot-Identifier that should be used. (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of EdFiStudent</returns>
-        public EdFi.OdsApi.Sdk.Client.ApiResponse<EdFiStudent> GetStudentsByIdWithHttpInfo(string id, string? ifNoneMatch = default(string?), string? snapshotIdentifier = default(string?), int operationIndex = 0)
+        public EdFi.OdsApi.Sdk.Client.ApiResponse<EdFiStudent> GetStudentsByIdWithHttpInfo(string id, string? ifNoneMatch = default, string? snapshotIdentifier = default, int operationIndex = 0)
         {
             // verify the required parameter 'id' is set
             if (id == null)
@@ -1149,13 +1143,13 @@ namespace EdFi.OdsApi.Sdk.Apis.All
                 throw new EdFi.OdsApi.Sdk.Client.ApiException(400, "Missing required parameter 'id' when calling StudentsApi->GetStudentsById");
             }
 
-            EdFi.OdsApi.Sdk.Client.RequestOptions localVarRequestOptions = new EdFi.OdsApi.Sdk.Client.RequestOptions();
+            var localVarRequestOptions = new EdFi.OdsApi.Sdk.Client.RequestOptions();
 
-            string[] _contentTypes = new string[] {
+            var _contentTypes = new string[] {
             };
 
             // to determine the Accept header
-            string[] _accepts = new string[] {
+            var _accepts = new string[] {
                 "application/json"
             };
 
@@ -1186,16 +1180,16 @@ namespace EdFi.OdsApi.Sdk.Apis.All
 
             // authentication (oauth2_client_credentials) required
             // oauth required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            if (!string.IsNullOrEmpty(Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + Configuration.AccessToken);
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Get<EdFiStudent>("/ed-fi/students/{id}", localVarRequestOptions, this.Configuration);
-            if (this.ExceptionFactory != null)
+            var localVarResponse = Client.Get<EdFiStudent>("/ed-fi/students/{id}", localVarRequestOptions, Configuration);
+            if (ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("GetStudentsById", localVarResponse);
+                var _exception = ExceptionFactory("GetStudentsById", localVarResponse);
                 if (_exception != null)
                 {
                     throw _exception;
@@ -1215,9 +1209,9 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of EdFiStudent</returns>
-        public async System.Threading.Tasks.Task<EdFiStudent> GetStudentsByIdAsync(string id, string? ifNoneMatch = default(string?), string? snapshotIdentifier = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<EdFiStudent> GetStudentsByIdAsync(string id, string? ifNoneMatch = default, string? snapshotIdentifier = default, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default)
         {
-            EdFi.OdsApi.Sdk.Client.ApiResponse<EdFiStudent> localVarResponse = await GetStudentsByIdWithHttpInfoAsync(id, ifNoneMatch, snapshotIdentifier, operationIndex, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await GetStudentsByIdWithHttpInfoAsync(id, ifNoneMatch, snapshotIdentifier, operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -1231,7 +1225,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (EdFiStudent)</returns>
-        public async System.Threading.Tasks.Task<EdFi.OdsApi.Sdk.Client.ApiResponse<EdFiStudent>> GetStudentsByIdWithHttpInfoAsync(string id, string? ifNoneMatch = default(string?), string? snapshotIdentifier = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<EdFi.OdsApi.Sdk.Client.ApiResponse<EdFiStudent>> GetStudentsByIdWithHttpInfoAsync(string id, string? ifNoneMatch = default, string? snapshotIdentifier = default, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default)
         {
             // verify the required parameter 'id' is set
             if (id == null)
@@ -1240,13 +1234,13 @@ namespace EdFi.OdsApi.Sdk.Apis.All
             }
 
 
-            EdFi.OdsApi.Sdk.Client.RequestOptions localVarRequestOptions = new EdFi.OdsApi.Sdk.Client.RequestOptions();
+            var localVarRequestOptions = new EdFi.OdsApi.Sdk.Client.RequestOptions();
 
-            string[] _contentTypes = new string[] {
+            var _contentTypes = new string[] {
             };
 
             // to determine the Accept header
-            string[] _accepts = new string[] {
+            var _accepts = new string[] {
                 "application/json"
             };
 
@@ -1277,17 +1271,17 @@ namespace EdFi.OdsApi.Sdk.Apis.All
 
             // authentication (oauth2_client_credentials) required
             // oauth required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            if (!string.IsNullOrEmpty(Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + Configuration.AccessToken);
             }
 
             // make the HTTP request
-            var localVarResponse = await this.AsynchronousClient.GetAsync<EdFiStudent>("/ed-fi/students/{id}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await AsynchronousClient.GetAsync<EdFiStudent>("/ed-fi/students/{id}", localVarRequestOptions, Configuration, cancellationToken).ConfigureAwait(false);
 
-            if (this.ExceptionFactory != null)
+            if (ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("GetStudentsById", localVarResponse);
+                var _exception = ExceptionFactory("GetStudentsById", localVarResponse);
                 if (_exception != null)
                 {
                     throw _exception;
@@ -1306,7 +1300,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <returns></returns>
         public void PostStudent(EdFiStudent student, int operationIndex = 0)
         {
-            PostStudentWithHttpInfo(student);
+            _ = PostStudentWithHttpInfo(student);
         }
 
         /// <summary>
@@ -1318,20 +1312,14 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <returns>ApiResponse of Object(void)</returns>
         public EdFi.OdsApi.Sdk.Client.ApiResponse<Object> PostStudentWithHttpInfo(EdFiStudent student, int operationIndex = 0)
         {
-            // verify the required parameter 'student' is set
-            if (student == null)
-            {
-                throw new EdFi.OdsApi.Sdk.Client.ApiException(400, "Missing required parameter 'student' when calling StudentsApi->PostStudent");
-            }
+            var localVarRequestOptions = new EdFi.OdsApi.Sdk.Client.RequestOptions();
 
-            EdFi.OdsApi.Sdk.Client.RequestOptions localVarRequestOptions = new EdFi.OdsApi.Sdk.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
+            var _contentTypes = new string[] {
                 "application/json"
             };
 
             // to determine the Accept header
-            string[] _accepts = new string[] {
+            var _accepts = new string[] {
             };
 
             var localVarContentType = EdFi.OdsApi.Sdk.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
@@ -1346,23 +1334,23 @@ namespace EdFi.OdsApi.Sdk.Apis.All
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            localVarRequestOptions.Data = student;
+            localVarRequestOptions.Data = student ?? throw new EdFi.OdsApi.Sdk.Client.ApiException(400, "Missing required parameter 'student' when calling StudentsApi->PostStudent");
 
             localVarRequestOptions.Operation = "StudentsApi.PostStudent";
             localVarRequestOptions.OperationIndex = operationIndex;
 
             // authentication (oauth2_client_credentials) required
             // oauth required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            if (!string.IsNullOrEmpty(Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + Configuration.AccessToken);
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Post<Object>("/ed-fi/students", localVarRequestOptions, this.Configuration);
-            if (this.ExceptionFactory != null)
+            var localVarResponse = Client.Post<object>("/ed-fi/students", localVarRequestOptions, Configuration);
+            if (ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("PostStudent", localVarResponse);
+                var _exception = ExceptionFactory("PostStudent", localVarResponse);
                 if (_exception != null)
                 {
                     throw _exception;
@@ -1380,9 +1368,9 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task PostStudentAsync(EdFiStudent student, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task PostStudentAsync(EdFiStudent student, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default)
         {
-            await PostStudentWithHttpInfoAsync(student, operationIndex, cancellationToken).ConfigureAwait(false);
+            _ = await PostStudentWithHttpInfoAsync(student, operationIndex, cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -1393,23 +1381,16 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<EdFi.OdsApi.Sdk.Client.ApiResponse<Object>> PostStudentWithHttpInfoAsync(EdFiStudent student, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<EdFi.OdsApi.Sdk.Client.ApiResponse<Object>> PostStudentWithHttpInfoAsync(EdFiStudent student, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default)
         {
-            // verify the required parameter 'student' is set
-            if (student == null)
-            {
-                throw new EdFi.OdsApi.Sdk.Client.ApiException(400, "Missing required parameter 'student' when calling StudentsApi->PostStudent");
-            }
+            var localVarRequestOptions = new EdFi.OdsApi.Sdk.Client.RequestOptions();
 
-
-            EdFi.OdsApi.Sdk.Client.RequestOptions localVarRequestOptions = new EdFi.OdsApi.Sdk.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
+            var _contentTypes = new string[] {
                 "application/json"
             };
 
             // to determine the Accept header
-            string[] _accepts = new string[] {
+            var _accepts = new string[] {
             };
 
             var localVarContentType = EdFi.OdsApi.Sdk.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
@@ -1424,24 +1405,24 @@ namespace EdFi.OdsApi.Sdk.Apis.All
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            localVarRequestOptions.Data = student;
+            localVarRequestOptions.Data = student ?? throw new EdFi.OdsApi.Sdk.Client.ApiException(400, "Missing required parameter 'student' when calling StudentsApi->PostStudent");
 
             localVarRequestOptions.Operation = "StudentsApi.PostStudent";
             localVarRequestOptions.OperationIndex = operationIndex;
 
             // authentication (oauth2_client_credentials) required
             // oauth required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            if (!string.IsNullOrEmpty(Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + Configuration.AccessToken);
             }
 
             // make the HTTP request
-            var localVarResponse = await this.AsynchronousClient.PostAsync<Object>("/ed-fi/students", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await AsynchronousClient.PostAsync<object>("/ed-fi/students", localVarRequestOptions, Configuration, cancellationToken).ConfigureAwait(false);
 
-            if (this.ExceptionFactory != null)
+            if (ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("PostStudent", localVarResponse);
+                var _exception = ExceptionFactory("PostStudent", localVarResponse);
                 if (_exception != null)
                 {
                     throw _exception;
@@ -1460,9 +1441,9 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="ifMatch">The ETag header value used to prevent the PUT from updating a resource modified by another consumer. (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns></returns>
-        public void PutStudent(string id, EdFiStudent student, string? ifMatch = default(string?), int operationIndex = 0)
+        public void PutStudent(string id, EdFiStudent student, string? ifMatch = default, int operationIndex = 0)
         {
-            PutStudentWithHttpInfo(id, student, ifMatch);
+            _ = PutStudentWithHttpInfo(id, student, ifMatch);
         }
 
         /// <summary>
@@ -1474,7 +1455,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="ifMatch">The ETag header value used to prevent the PUT from updating a resource modified by another consumer. (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public EdFi.OdsApi.Sdk.Client.ApiResponse<Object> PutStudentWithHttpInfo(string id, EdFiStudent student, string? ifMatch = default(string?), int operationIndex = 0)
+        public EdFi.OdsApi.Sdk.Client.ApiResponse<Object> PutStudentWithHttpInfo(string id, EdFiStudent student, string? ifMatch = default, int operationIndex = 0)
         {
             // verify the required parameter 'id' is set
             if (id == null)
@@ -1482,20 +1463,14 @@ namespace EdFi.OdsApi.Sdk.Apis.All
                 throw new EdFi.OdsApi.Sdk.Client.ApiException(400, "Missing required parameter 'id' when calling StudentsApi->PutStudent");
             }
 
-            // verify the required parameter 'student' is set
-            if (student == null)
-            {
-                throw new EdFi.OdsApi.Sdk.Client.ApiException(400, "Missing required parameter 'student' when calling StudentsApi->PutStudent");
-            }
+            var localVarRequestOptions = new EdFi.OdsApi.Sdk.Client.RequestOptions();
 
-            EdFi.OdsApi.Sdk.Client.RequestOptions localVarRequestOptions = new EdFi.OdsApi.Sdk.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
+            var _contentTypes = new string[] {
                 "application/json"
             };
 
             // to determine the Accept header
-            string[] _accepts = new string[] {
+            var _accepts = new string[] {
             };
 
             var localVarContentType = EdFi.OdsApi.Sdk.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
@@ -1515,23 +1490,23 @@ namespace EdFi.OdsApi.Sdk.Apis.All
             {
                 localVarRequestOptions.HeaderParameters.Add("If-Match", EdFi.OdsApi.Sdk.Client.ClientUtils.ParameterToString(ifMatch)); // header parameter
             }
-            localVarRequestOptions.Data = student;
+            localVarRequestOptions.Data = student ?? throw new EdFi.OdsApi.Sdk.Client.ApiException(400, "Missing required parameter 'student' when calling StudentsApi->PutStudent");
 
             localVarRequestOptions.Operation = "StudentsApi.PutStudent";
             localVarRequestOptions.OperationIndex = operationIndex;
 
             // authentication (oauth2_client_credentials) required
             // oauth required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            if (!string.IsNullOrEmpty(Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + Configuration.AccessToken);
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Put<Object>("/ed-fi/students/{id}", localVarRequestOptions, this.Configuration);
-            if (this.ExceptionFactory != null)
+            var localVarResponse = Client.Put<object>("/ed-fi/students/{id}", localVarRequestOptions, Configuration);
+            if (ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("PutStudent", localVarResponse);
+                var _exception = ExceptionFactory("PutStudent", localVarResponse);
                 if (_exception != null)
                 {
                     throw _exception;
@@ -1551,9 +1526,9 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task PutStudentAsync(string id, EdFiStudent student, string? ifMatch = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task PutStudentAsync(string id, EdFiStudent student, string? ifMatch = default, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default)
         {
-            await PutStudentWithHttpInfoAsync(id, student, ifMatch, operationIndex, cancellationToken).ConfigureAwait(false);
+            _ = await PutStudentWithHttpInfoAsync(id, student, ifMatch, operationIndex, cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -1566,7 +1541,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<EdFi.OdsApi.Sdk.Client.ApiResponse<Object>> PutStudentWithHttpInfoAsync(string id, EdFiStudent student, string? ifMatch = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<EdFi.OdsApi.Sdk.Client.ApiResponse<Object>> PutStudentWithHttpInfoAsync(string id, EdFiStudent student, string? ifMatch = default, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default)
         {
             // verify the required parameter 'id' is set
             if (id == null)
@@ -1574,21 +1549,14 @@ namespace EdFi.OdsApi.Sdk.Apis.All
                 throw new EdFi.OdsApi.Sdk.Client.ApiException(400, "Missing required parameter 'id' when calling StudentsApi->PutStudent");
             }
 
-            // verify the required parameter 'student' is set
-            if (student == null)
-            {
-                throw new EdFi.OdsApi.Sdk.Client.ApiException(400, "Missing required parameter 'student' when calling StudentsApi->PutStudent");
-            }
+            var localVarRequestOptions = new EdFi.OdsApi.Sdk.Client.RequestOptions();
 
-
-            EdFi.OdsApi.Sdk.Client.RequestOptions localVarRequestOptions = new EdFi.OdsApi.Sdk.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
+            var _contentTypes = new string[] {
                 "application/json"
             };
 
             // to determine the Accept header
-            string[] _accepts = new string[] {
+            var _accepts = new string[] {
             };
 
             var localVarContentType = EdFi.OdsApi.Sdk.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
@@ -1608,24 +1576,24 @@ namespace EdFi.OdsApi.Sdk.Apis.All
             {
                 localVarRequestOptions.HeaderParameters.Add("If-Match", EdFi.OdsApi.Sdk.Client.ClientUtils.ParameterToString(ifMatch)); // header parameter
             }
-            localVarRequestOptions.Data = student;
+            localVarRequestOptions.Data = student ?? throw new EdFi.OdsApi.Sdk.Client.ApiException(400, "Missing required parameter 'student' when calling StudentsApi->PutStudent");
 
             localVarRequestOptions.Operation = "StudentsApi.PutStudent";
             localVarRequestOptions.OperationIndex = operationIndex;
 
             // authentication (oauth2_client_credentials) required
             // oauth required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            if (!string.IsNullOrEmpty(Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + Configuration.AccessToken);
             }
 
             // make the HTTP request
-            var localVarResponse = await this.AsynchronousClient.PutAsync<Object>("/ed-fi/students/{id}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await AsynchronousClient.PutAsync<object>("/ed-fi/students/{id}", localVarRequestOptions, Configuration, cancellationToken).ConfigureAwait(false);
 
-            if (this.ExceptionFactory != null)
+            if (ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("PutStudent", localVarResponse);
+                var _exception = ExceptionFactory("PutStudent", localVarResponse);
                 if (_exception != null)
                 {
                     throw _exception;

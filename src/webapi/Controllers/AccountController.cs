@@ -45,9 +45,7 @@ public class AccountController : Controller
         if (id is null || id == string.Empty) { return NotFound(); }
 
         var result = await _userManager.FindByIdAsync(id);
-        if (result is null || result.DeletedAt is not null) { return NotFound(); }
-
-        return Ok(UserAccountResponse.From(result));
+        return result is null || result.DeletedAt is not null ? NotFound() : Ok(UserAccountResponse.From(result));
     }
 
     [HttpGet()]
@@ -80,12 +78,7 @@ public class AccountController : Controller
             if (result.Succeeded)
             {
                 var roleSuccess = await AddToRole(user);
-                if (!roleSuccess)
-                {
-                    return new JsonResult(ModelState);
-                }
-
-                return Created($"/{Route}/{user.Id}", UserAccountResponse.From(user));
+                return !roleSuccess ? new JsonResult(ModelState) : Created($"/{Route}/{user.Id}", UserAccountResponse.From(user));
             }
 
             AddErrors(result);
@@ -186,9 +179,9 @@ public class AccountController : Controller
         }
 
         lookup.DeletedAt = DateTime.UtcNow;
-        await _identityRepository.Update(lookup);
+        _ = await _identityRepository.Update(lookup);
 
-        await _userManager.RemovePasswordAsync(lookup);
+        _ = await _userManager.RemovePasswordAsync(lookup);
         await _identityRepository.RemoveAccessTokens(lookup);
 
         var tokens = _tokenManager.FindBySubjectAsync(id);

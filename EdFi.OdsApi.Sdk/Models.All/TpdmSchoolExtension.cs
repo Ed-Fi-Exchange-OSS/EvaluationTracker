@@ -14,9 +14,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using System.Text;
-using System.ComponentModel.DataAnnotations;
 
 namespace EdFi.OdsApi.Sdk.Models.All
 {
@@ -30,9 +30,9 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// Initializes a new instance of the <see cref="TpdmSchoolExtension" /> class.
         /// </summary>
         /// <param name="postSecondaryInstitutionReference">postSecondaryInstitutionReference.</param>
-        public TpdmSchoolExtension(EdFiPostSecondaryInstitutionReference postSecondaryInstitutionReference = default(EdFiPostSecondaryInstitutionReference))
+        public TpdmSchoolExtension(EdFiPostSecondaryInstitutionReference postSecondaryInstitutionReference = default)
         {
-            this.PostSecondaryInstitutionReference = postSecondaryInstitutionReference;
+            PostSecondaryInstitutionReference = postSecondaryInstitutionReference;
         }
 
         /// <summary>
@@ -47,10 +47,10 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder();
-            sb.Append("class TpdmSchoolExtension {\n");
-            sb.Append("  PostSecondaryInstitutionReference: ").Append(PostSecondaryInstitutionReference).Append("\n");
-            sb.Append("}\n");
+            var sb = new StringBuilder();
+            _ = sb.Append("class TpdmSchoolExtension {\n");
+            _ = sb.Append("  PostSecondaryInstitutionReference: ").Append(PostSecondaryInstitutionReference).Append("\n");
+            _ = sb.Append("}\n");
             return sb.ToString();
         }
 
@@ -70,7 +70,7 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as TpdmSchoolExtension);
+            return Equals(input as TpdmSchoolExtension);
         }
 
         /// <summary>
@@ -80,16 +80,10 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public bool Equals(TpdmSchoolExtension input)
         {
-            if (input == null)
-            {
-                return false;
-            }
-            return
-                (
-                    this.PostSecondaryInstitutionReference == input.PostSecondaryInstitutionReference ||
-                    (this.PostSecondaryInstitutionReference != null &&
-                    this.PostSecondaryInstitutionReference.Equals(input.PostSecondaryInstitutionReference))
-                );
+            return input != null
+&& (PostSecondaryInstitutionReference == input.PostSecondaryInstitutionReference ||
+                    (PostSecondaryInstitutionReference != null &&
+                    PostSecondaryInstitutionReference.Equals(input.PostSecondaryInstitutionReference)));
         }
 
         /// <summary>
@@ -100,10 +94,10 @@ namespace EdFi.OdsApi.Sdk.Models.All
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
-                if (this.PostSecondaryInstitutionReference != null)
+                var hashCode = 41;
+                if (PostSecondaryInstitutionReference != null)
                 {
-                    hashCode = (hashCode * 59) + this.PostSecondaryInstitutionReference.GetHashCode();
+                    hashCode = (hashCode * 59) + PostSecondaryInstitutionReference.GetHashCode();
                 }
                 return hashCode;
             }

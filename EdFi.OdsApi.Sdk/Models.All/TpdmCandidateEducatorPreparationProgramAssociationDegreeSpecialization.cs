@@ -12,12 +12,12 @@
  */
 
 
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using System.Text;
-using Newtonsoft.Json;
-using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = EdFi.OdsApi.Sdk.Client.OpenAPIDateConverter;
 
 namespace EdFi.OdsApi.Sdk.Models.All
@@ -39,16 +39,11 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <param name="majorSpecialization">The major area for a degree or area of specialization for a certificate. (required).</param>
         /// <param name="endDate">The month, day, and year on which the Teacher Candidate exited the declared specialization..</param>
         /// <param name="minorSpecialization">The minor area for a degree or area of specialization for a certificate..</param>
-        public TpdmCandidateEducatorPreparationProgramAssociationDegreeSpecialization(string majorSpecialization = default(string), DateTime? endDate = default(DateTime?), string minorSpecialization = default(string))
+        public TpdmCandidateEducatorPreparationProgramAssociationDegreeSpecialization(string majorSpecialization = default, DateTime? endDate = default, string minorSpecialization = default)
         {
-            // to ensure "majorSpecialization" is required (not null)
-            if (majorSpecialization == null)
-            {
-                throw new ArgumentNullException("majorSpecialization is a required property for TpdmCandidateEducatorPreparationProgramAssociationDegreeSpecialization and cannot be null");
-            }
-            this.MajorSpecialization = majorSpecialization;
-            this.EndDate = endDate;
-            this.MinorSpecialization = minorSpecialization;
+            MajorSpecialization = majorSpecialization ?? throw new ArgumentNullException("majorSpecialization is a required property for TpdmCandidateEducatorPreparationProgramAssociationDegreeSpecialization and cannot be null");
+            EndDate = endDate;
+            MinorSpecialization = minorSpecialization;
         }
 
         /// <summary>
@@ -79,12 +74,12 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder();
-            sb.Append("class TpdmCandidateEducatorPreparationProgramAssociationDegreeSpecialization {\n");
-            sb.Append("  MajorSpecialization: ").Append(MajorSpecialization).Append("\n");
-            sb.Append("  EndDate: ").Append(EndDate).Append("\n");
-            sb.Append("  MinorSpecialization: ").Append(MinorSpecialization).Append("\n");
-            sb.Append("}\n");
+            var sb = new StringBuilder();
+            _ = sb.Append("class TpdmCandidateEducatorPreparationProgramAssociationDegreeSpecialization {\n");
+            _ = sb.Append("  MajorSpecialization: ").Append(MajorSpecialization).Append("\n");
+            _ = sb.Append("  EndDate: ").Append(EndDate).Append("\n");
+            _ = sb.Append("  MinorSpecialization: ").Append(MinorSpecialization).Append("\n");
+            _ = sb.Append("}\n");
             return sb.ToString();
         }
 
@@ -104,7 +99,7 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as TpdmCandidateEducatorPreparationProgramAssociationDegreeSpecialization);
+            return Equals(input as TpdmCandidateEducatorPreparationProgramAssociationDegreeSpecialization);
         }
 
         /// <summary>
@@ -114,25 +109,21 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public bool Equals(TpdmCandidateEducatorPreparationProgramAssociationDegreeSpecialization input)
         {
-            if (input == null)
-            {
-                return false;
-            }
-            return
-                (
-                    this.MajorSpecialization == input.MajorSpecialization ||
-                    (this.MajorSpecialization != null &&
-                    this.MajorSpecialization.Equals(input.MajorSpecialization))
+            return input != null
+&& (
+                    MajorSpecialization == input.MajorSpecialization ||
+                    (MajorSpecialization != null &&
+                    MajorSpecialization.Equals(input.MajorSpecialization))
                 ) &&
                 (
-                    this.EndDate == input.EndDate ||
-                    (this.EndDate != null &&
-                    this.EndDate.Equals(input.EndDate))
+                    EndDate == input.EndDate ||
+                    (EndDate != null &&
+                    EndDate.Equals(input.EndDate))
                 ) &&
                 (
-                    this.MinorSpecialization == input.MinorSpecialization ||
-                    (this.MinorSpecialization != null &&
-                    this.MinorSpecialization.Equals(input.MinorSpecialization))
+                    MinorSpecialization == input.MinorSpecialization ||
+                    (MinorSpecialization != null &&
+                    MinorSpecialization.Equals(input.MinorSpecialization))
                 );
         }
 
@@ -144,18 +135,18 @@ namespace EdFi.OdsApi.Sdk.Models.All
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
-                if (this.MajorSpecialization != null)
+                var hashCode = 41;
+                if (MajorSpecialization != null)
                 {
-                    hashCode = (hashCode * 59) + this.MajorSpecialization.GetHashCode();
+                    hashCode = (hashCode * 59) + MajorSpecialization.GetHashCode();
                 }
-                if (this.EndDate != null)
+                if (EndDate != null)
                 {
-                    hashCode = (hashCode * 59) + this.EndDate.GetHashCode();
+                    hashCode = (hashCode * 59) + EndDate.GetHashCode();
                 }
-                if (this.MinorSpecialization != null)
+                if (MinorSpecialization != null)
                 {
-                    hashCode = (hashCode * 59) + this.MinorSpecialization.GetHashCode();
+                    hashCode = (hashCode * 59) + MinorSpecialization.GetHashCode();
                 }
                 return hashCode;
             }
@@ -169,13 +160,13 @@ namespace EdFi.OdsApi.Sdk.Models.All
         public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
         {
             // MajorSpecialization (string) maxLength
-            if (this.MajorSpecialization != null && this.MajorSpecialization.Length > 255)
+            if (MajorSpecialization != null && MajorSpecialization.Length > 255)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for MajorSpecialization, length must be less than 255.", new[] { "MajorSpecialization" });
             }
 
             // MinorSpecialization (string) maxLength
-            if (this.MinorSpecialization != null && this.MinorSpecialization.Length > 255)
+            if (MinorSpecialization != null && MinorSpecialization.Length > 255)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for MinorSpecialization, length must be less than 255.", new[] { "MinorSpecialization" });
             }

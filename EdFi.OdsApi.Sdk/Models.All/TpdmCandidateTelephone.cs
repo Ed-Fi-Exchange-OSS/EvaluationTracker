@@ -12,12 +12,12 @@
  */
 
 
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using System.Text;
-using Newtonsoft.Json;
-using System.ComponentModel.DataAnnotations;
 
 namespace EdFi.OdsApi.Sdk.Models.All
 {
@@ -40,23 +40,13 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <param name="doNotPublishIndicator">An indication that the telephone number should not be published..</param>
         /// <param name="orderOfPriority">The order of priority assigned to telephone numbers to define which number to attempt first, second, etc..</param>
         /// <param name="textMessageCapabilityIndicator">An indication that the telephone number is technically capable of sending and receiving Short Message Service (SMS) text messages..</param>
-        public TpdmCandidateTelephone(string telephoneNumberTypeDescriptor = default(string), string telephoneNumber = default(string), bool? doNotPublishIndicator = default(bool?), int? orderOfPriority = default(int?), bool? textMessageCapabilityIndicator = default(bool?))
+        public TpdmCandidateTelephone(string telephoneNumberTypeDescriptor = default, string telephoneNumber = default, bool? doNotPublishIndicator = default, int? orderOfPriority = default, bool? textMessageCapabilityIndicator = default)
         {
-            // to ensure "telephoneNumberTypeDescriptor" is required (not null)
-            if (telephoneNumberTypeDescriptor == null)
-            {
-                throw new ArgumentNullException("telephoneNumberTypeDescriptor is a required property for TpdmCandidateTelephone and cannot be null");
-            }
-            this.TelephoneNumberTypeDescriptor = telephoneNumberTypeDescriptor;
-            // to ensure "telephoneNumber" is required (not null)
-            if (telephoneNumber == null)
-            {
-                throw new ArgumentNullException("telephoneNumber is a required property for TpdmCandidateTelephone and cannot be null");
-            }
-            this.TelephoneNumber = telephoneNumber;
-            this.DoNotPublishIndicator = doNotPublishIndicator;
-            this.OrderOfPriority = orderOfPriority;
-            this.TextMessageCapabilityIndicator = textMessageCapabilityIndicator;
+            TelephoneNumberTypeDescriptor = telephoneNumberTypeDescriptor ?? throw new ArgumentNullException("telephoneNumberTypeDescriptor is a required property for TpdmCandidateTelephone and cannot be null");
+            TelephoneNumber = telephoneNumber ?? throw new ArgumentNullException("telephoneNumber is a required property for TpdmCandidateTelephone and cannot be null");
+            DoNotPublishIndicator = doNotPublishIndicator;
+            OrderOfPriority = orderOfPriority;
+            TextMessageCapabilityIndicator = textMessageCapabilityIndicator;
         }
 
         /// <summary>
@@ -100,14 +90,14 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder();
-            sb.Append("class TpdmCandidateTelephone {\n");
-            sb.Append("  TelephoneNumberTypeDescriptor: ").Append(TelephoneNumberTypeDescriptor).Append("\n");
-            sb.Append("  TelephoneNumber: ").Append(TelephoneNumber).Append("\n");
-            sb.Append("  DoNotPublishIndicator: ").Append(DoNotPublishIndicator).Append("\n");
-            sb.Append("  OrderOfPriority: ").Append(OrderOfPriority).Append("\n");
-            sb.Append("  TextMessageCapabilityIndicator: ").Append(TextMessageCapabilityIndicator).Append("\n");
-            sb.Append("}\n");
+            var sb = new StringBuilder();
+            _ = sb.Append("class TpdmCandidateTelephone {\n");
+            _ = sb.Append("  TelephoneNumberTypeDescriptor: ").Append(TelephoneNumberTypeDescriptor).Append("\n");
+            _ = sb.Append("  TelephoneNumber: ").Append(TelephoneNumber).Append("\n");
+            _ = sb.Append("  DoNotPublishIndicator: ").Append(DoNotPublishIndicator).Append("\n");
+            _ = sb.Append("  OrderOfPriority: ").Append(OrderOfPriority).Append("\n");
+            _ = sb.Append("  TextMessageCapabilityIndicator: ").Append(TextMessageCapabilityIndicator).Append("\n");
+            _ = sb.Append("}\n");
             return sb.ToString();
         }
 
@@ -127,7 +117,7 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as TpdmCandidateTelephone);
+            return Equals(input as TpdmCandidateTelephone);
         }
 
         /// <summary>
@@ -137,35 +127,31 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public bool Equals(TpdmCandidateTelephone input)
         {
-            if (input == null)
-            {
-                return false;
-            }
-            return
-                (
-                    this.TelephoneNumberTypeDescriptor == input.TelephoneNumberTypeDescriptor ||
-                    (this.TelephoneNumberTypeDescriptor != null &&
-                    this.TelephoneNumberTypeDescriptor.Equals(input.TelephoneNumberTypeDescriptor))
+            return input != null
+&& (
+                    TelephoneNumberTypeDescriptor == input.TelephoneNumberTypeDescriptor ||
+                    (TelephoneNumberTypeDescriptor != null &&
+                    TelephoneNumberTypeDescriptor.Equals(input.TelephoneNumberTypeDescriptor))
                 ) &&
                 (
-                    this.TelephoneNumber == input.TelephoneNumber ||
-                    (this.TelephoneNumber != null &&
-                    this.TelephoneNumber.Equals(input.TelephoneNumber))
+                    TelephoneNumber == input.TelephoneNumber ||
+                    (TelephoneNumber != null &&
+                    TelephoneNumber.Equals(input.TelephoneNumber))
                 ) &&
                 (
-                    this.DoNotPublishIndicator == input.DoNotPublishIndicator ||
-                    (this.DoNotPublishIndicator != null &&
-                    this.DoNotPublishIndicator.Equals(input.DoNotPublishIndicator))
+                    DoNotPublishIndicator == input.DoNotPublishIndicator ||
+                    (DoNotPublishIndicator != null &&
+                    DoNotPublishIndicator.Equals(input.DoNotPublishIndicator))
                 ) &&
                 (
-                    this.OrderOfPriority == input.OrderOfPriority ||
-                    (this.OrderOfPriority != null &&
-                    this.OrderOfPriority.Equals(input.OrderOfPriority))
+                    OrderOfPriority == input.OrderOfPriority ||
+                    (OrderOfPriority != null &&
+                    OrderOfPriority.Equals(input.OrderOfPriority))
                 ) &&
                 (
-                    this.TextMessageCapabilityIndicator == input.TextMessageCapabilityIndicator ||
-                    (this.TextMessageCapabilityIndicator != null &&
-                    this.TextMessageCapabilityIndicator.Equals(input.TextMessageCapabilityIndicator))
+                    TextMessageCapabilityIndicator == input.TextMessageCapabilityIndicator ||
+                    (TextMessageCapabilityIndicator != null &&
+                    TextMessageCapabilityIndicator.Equals(input.TextMessageCapabilityIndicator))
                 );
         }
 
@@ -177,26 +163,26 @@ namespace EdFi.OdsApi.Sdk.Models.All
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
-                if (this.TelephoneNumberTypeDescriptor != null)
+                var hashCode = 41;
+                if (TelephoneNumberTypeDescriptor != null)
                 {
-                    hashCode = (hashCode * 59) + this.TelephoneNumberTypeDescriptor.GetHashCode();
+                    hashCode = (hashCode * 59) + TelephoneNumberTypeDescriptor.GetHashCode();
                 }
-                if (this.TelephoneNumber != null)
+                if (TelephoneNumber != null)
                 {
-                    hashCode = (hashCode * 59) + this.TelephoneNumber.GetHashCode();
+                    hashCode = (hashCode * 59) + TelephoneNumber.GetHashCode();
                 }
-                if (this.DoNotPublishIndicator != null)
+                if (DoNotPublishIndicator != null)
                 {
-                    hashCode = (hashCode * 59) + this.DoNotPublishIndicator.GetHashCode();
+                    hashCode = (hashCode * 59) + DoNotPublishIndicator.GetHashCode();
                 }
-                if (this.OrderOfPriority != null)
+                if (OrderOfPriority != null)
                 {
-                    hashCode = (hashCode * 59) + this.OrderOfPriority.GetHashCode();
+                    hashCode = (hashCode * 59) + OrderOfPriority.GetHashCode();
                 }
-                if (this.TextMessageCapabilityIndicator != null)
+                if (TextMessageCapabilityIndicator != null)
                 {
-                    hashCode = (hashCode * 59) + this.TextMessageCapabilityIndicator.GetHashCode();
+                    hashCode = (hashCode * 59) + TextMessageCapabilityIndicator.GetHashCode();
                 }
                 return hashCode;
             }
@@ -210,13 +196,13 @@ namespace EdFi.OdsApi.Sdk.Models.All
         public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
         {
             // TelephoneNumberTypeDescriptor (string) maxLength
-            if (this.TelephoneNumberTypeDescriptor != null && this.TelephoneNumberTypeDescriptor.Length > 306)
+            if (TelephoneNumberTypeDescriptor != null && TelephoneNumberTypeDescriptor.Length > 306)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for TelephoneNumberTypeDescriptor, length must be less than 306.", new[] { "TelephoneNumberTypeDescriptor" });
             }
 
             // TelephoneNumber (string) maxLength
-            if (this.TelephoneNumber != null && this.TelephoneNumber.Length > 24)
+            if (TelephoneNumber != null && TelephoneNumber.Length > 24)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for TelephoneNumber, length must be less than 24.", new[] { "TelephoneNumber" });
             }

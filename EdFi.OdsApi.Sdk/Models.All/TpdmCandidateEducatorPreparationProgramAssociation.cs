@@ -12,13 +12,13 @@
  */
 
 
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
-using Newtonsoft.Json;
-using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = EdFi.OdsApi.Sdk.Client.OpenAPIDateConverter;
 
 namespace EdFi.OdsApi.Sdk.Models.All
@@ -47,28 +47,18 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <param name="eppProgramPathwayDescriptor">The program pathway the candidate is following; for example: Residency, Internship, Traditional.</param>
         /// <param name="reasonExitedDescriptor">Reason exited for the association..</param>
         /// <param name="etag">A unique system-generated value that identifies the version of the resource..</param>
-        public TpdmCandidateEducatorPreparationProgramAssociation(string id = default(string), DateTime beginDate = default(DateTime), TpdmCandidateReference candidateReference = default(TpdmCandidateReference), TpdmEducatorPreparationProgramReference educatorPreparationProgramReference = default(TpdmEducatorPreparationProgramReference), List<TpdmCandidateEducatorPreparationProgramAssociationCohortYear> cohortYears = default(List<TpdmCandidateEducatorPreparationProgramAssociationCohortYear>), List<TpdmCandidateEducatorPreparationProgramAssociationDegreeSpecialization> degreeSpecializations = default(List<TpdmCandidateEducatorPreparationProgramAssociationDegreeSpecialization>), DateTime? endDate = default(DateTime?), string eppProgramPathwayDescriptor = default(string), string reasonExitedDescriptor = default(string), string etag = default(string))
+        public TpdmCandidateEducatorPreparationProgramAssociation(string id = default, DateTime beginDate = default, TpdmCandidateReference candidateReference = default, TpdmEducatorPreparationProgramReference educatorPreparationProgramReference = default, List<TpdmCandidateEducatorPreparationProgramAssociationCohortYear> cohortYears = default, List<TpdmCandidateEducatorPreparationProgramAssociationDegreeSpecialization> degreeSpecializations = default, DateTime? endDate = default, string eppProgramPathwayDescriptor = default, string reasonExitedDescriptor = default, string etag = default)
         {
-            this.BeginDate = beginDate;
-            // to ensure "candidateReference" is required (not null)
-            if (candidateReference == null)
-            {
-                throw new ArgumentNullException("candidateReference is a required property for TpdmCandidateEducatorPreparationProgramAssociation and cannot be null");
-            }
-            this.CandidateReference = candidateReference;
-            // to ensure "educatorPreparationProgramReference" is required (not null)
-            if (educatorPreparationProgramReference == null)
-            {
-                throw new ArgumentNullException("educatorPreparationProgramReference is a required property for TpdmCandidateEducatorPreparationProgramAssociation and cannot be null");
-            }
-            this.EducatorPreparationProgramReference = educatorPreparationProgramReference;
-            this.Id = id;
-            this.CohortYears = cohortYears;
-            this.DegreeSpecializations = degreeSpecializations;
-            this.EndDate = endDate;
-            this.EppProgramPathwayDescriptor = eppProgramPathwayDescriptor;
-            this.ReasonExitedDescriptor = reasonExitedDescriptor;
-            this.Etag = etag;
+            BeginDate = beginDate;
+            CandidateReference = candidateReference ?? throw new ArgumentNullException("candidateReference is a required property for TpdmCandidateEducatorPreparationProgramAssociation and cannot be null");
+            EducatorPreparationProgramReference = educatorPreparationProgramReference ?? throw new ArgumentNullException("educatorPreparationProgramReference is a required property for TpdmCandidateEducatorPreparationProgramAssociation and cannot be null");
+            Id = id;
+            CohortYears = cohortYears;
+            DegreeSpecializations = degreeSpecializations;
+            EndDate = endDate;
+            EppProgramPathwayDescriptor = eppProgramPathwayDescriptor;
+            ReasonExitedDescriptor = reasonExitedDescriptor;
+            Etag = etag;
         }
 
         /// <summary>
@@ -146,19 +136,19 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder();
-            sb.Append("class TpdmCandidateEducatorPreparationProgramAssociation {\n");
-            sb.Append("  Id: ").Append(Id).Append("\n");
-            sb.Append("  BeginDate: ").Append(BeginDate).Append("\n");
-            sb.Append("  CandidateReference: ").Append(CandidateReference).Append("\n");
-            sb.Append("  EducatorPreparationProgramReference: ").Append(EducatorPreparationProgramReference).Append("\n");
-            sb.Append("  CohortYears: ").Append(CohortYears).Append("\n");
-            sb.Append("  DegreeSpecializations: ").Append(DegreeSpecializations).Append("\n");
-            sb.Append("  EndDate: ").Append(EndDate).Append("\n");
-            sb.Append("  EppProgramPathwayDescriptor: ").Append(EppProgramPathwayDescriptor).Append("\n");
-            sb.Append("  ReasonExitedDescriptor: ").Append(ReasonExitedDescriptor).Append("\n");
-            sb.Append("  Etag: ").Append(Etag).Append("\n");
-            sb.Append("}\n");
+            var sb = new StringBuilder();
+            _ = sb.Append("class TpdmCandidateEducatorPreparationProgramAssociation {\n");
+            _ = sb.Append("  Id: ").Append(Id).Append("\n");
+            _ = sb.Append("  BeginDate: ").Append(BeginDate).Append("\n");
+            _ = sb.Append("  CandidateReference: ").Append(CandidateReference).Append("\n");
+            _ = sb.Append("  EducatorPreparationProgramReference: ").Append(EducatorPreparationProgramReference).Append("\n");
+            _ = sb.Append("  CohortYears: ").Append(CohortYears).Append("\n");
+            _ = sb.Append("  DegreeSpecializations: ").Append(DegreeSpecializations).Append("\n");
+            _ = sb.Append("  EndDate: ").Append(EndDate).Append("\n");
+            _ = sb.Append("  EppProgramPathwayDescriptor: ").Append(EppProgramPathwayDescriptor).Append("\n");
+            _ = sb.Append("  ReasonExitedDescriptor: ").Append(ReasonExitedDescriptor).Append("\n");
+            _ = sb.Append("  Etag: ").Append(Etag).Append("\n");
+            _ = sb.Append("}\n");
             return sb.ToString();
         }
 
@@ -178,7 +168,7 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as TpdmCandidateEducatorPreparationProgramAssociation);
+            return Equals(input as TpdmCandidateEducatorPreparationProgramAssociation);
         }
 
         /// <summary>
@@ -188,61 +178,57 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public bool Equals(TpdmCandidateEducatorPreparationProgramAssociation input)
         {
-            if (input == null)
-            {
-                return false;
-            }
-            return
-                (
-                    this.Id == input.Id ||
-                    (this.Id != null &&
-                    this.Id.Equals(input.Id))
+            return input != null
+&& (
+                    Id == input.Id ||
+                    (Id != null &&
+                    Id.Equals(input.Id))
                 ) &&
                 (
-                    this.BeginDate == input.BeginDate ||
-                    this.BeginDate.Equals(input.BeginDate)
+                    BeginDate == input.BeginDate ||
+                    BeginDate.Equals(input.BeginDate)
                 ) &&
                 (
-                    this.CandidateReference == input.CandidateReference ||
-                    (this.CandidateReference != null &&
-                    this.CandidateReference.Equals(input.CandidateReference))
+                    CandidateReference == input.CandidateReference ||
+                    (CandidateReference != null &&
+                    CandidateReference.Equals(input.CandidateReference))
                 ) &&
                 (
-                    this.EducatorPreparationProgramReference == input.EducatorPreparationProgramReference ||
-                    (this.EducatorPreparationProgramReference != null &&
-                    this.EducatorPreparationProgramReference.Equals(input.EducatorPreparationProgramReference))
+                    EducatorPreparationProgramReference == input.EducatorPreparationProgramReference ||
+                    (EducatorPreparationProgramReference != null &&
+                    EducatorPreparationProgramReference.Equals(input.EducatorPreparationProgramReference))
                 ) &&
                 (
-                    this.CohortYears == input.CohortYears ||
-                    this.CohortYears != null &&
+                    CohortYears == input.CohortYears ||
+                    CohortYears != null &&
                     input.CohortYears != null &&
-                    this.CohortYears.SequenceEqual(input.CohortYears)
+                    CohortYears.SequenceEqual(input.CohortYears)
                 ) &&
                 (
-                    this.DegreeSpecializations == input.DegreeSpecializations ||
-                    this.DegreeSpecializations != null &&
+                    DegreeSpecializations == input.DegreeSpecializations ||
+                    DegreeSpecializations != null &&
                     input.DegreeSpecializations != null &&
-                    this.DegreeSpecializations.SequenceEqual(input.DegreeSpecializations)
+                    DegreeSpecializations.SequenceEqual(input.DegreeSpecializations)
                 ) &&
                 (
-                    this.EndDate == input.EndDate ||
-                    (this.EndDate != null &&
-                    this.EndDate.Equals(input.EndDate))
+                    EndDate == input.EndDate ||
+                    (EndDate != null &&
+                    EndDate.Equals(input.EndDate))
                 ) &&
                 (
-                    this.EppProgramPathwayDescriptor == input.EppProgramPathwayDescriptor ||
-                    (this.EppProgramPathwayDescriptor != null &&
-                    this.EppProgramPathwayDescriptor.Equals(input.EppProgramPathwayDescriptor))
+                    EppProgramPathwayDescriptor == input.EppProgramPathwayDescriptor ||
+                    (EppProgramPathwayDescriptor != null &&
+                    EppProgramPathwayDescriptor.Equals(input.EppProgramPathwayDescriptor))
                 ) &&
                 (
-                    this.ReasonExitedDescriptor == input.ReasonExitedDescriptor ||
-                    (this.ReasonExitedDescriptor != null &&
-                    this.ReasonExitedDescriptor.Equals(input.ReasonExitedDescriptor))
+                    ReasonExitedDescriptor == input.ReasonExitedDescriptor ||
+                    (ReasonExitedDescriptor != null &&
+                    ReasonExitedDescriptor.Equals(input.ReasonExitedDescriptor))
                 ) &&
                 (
-                    this.Etag == input.Etag ||
-                    (this.Etag != null &&
-                    this.Etag.Equals(input.Etag))
+                    Etag == input.Etag ||
+                    (Etag != null &&
+                    Etag.Equals(input.Etag))
                 );
         }
 
@@ -254,43 +240,43 @@ namespace EdFi.OdsApi.Sdk.Models.All
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
-                if (this.Id != null)
+                var hashCode = 41;
+                if (Id != null)
                 {
-                    hashCode = (hashCode * 59) + this.Id.GetHashCode();
+                    hashCode = (hashCode * 59) + Id.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + this.BeginDate.GetHashCode();
-                if (this.CandidateReference != null)
+                hashCode = (hashCode * 59) + BeginDate.GetHashCode();
+                if (CandidateReference != null)
                 {
-                    hashCode = (hashCode * 59) + this.CandidateReference.GetHashCode();
+                    hashCode = (hashCode * 59) + CandidateReference.GetHashCode();
                 }
-                if (this.EducatorPreparationProgramReference != null)
+                if (EducatorPreparationProgramReference != null)
                 {
-                    hashCode = (hashCode * 59) + this.EducatorPreparationProgramReference.GetHashCode();
+                    hashCode = (hashCode * 59) + EducatorPreparationProgramReference.GetHashCode();
                 }
-                if (this.CohortYears != null)
+                if (CohortYears != null)
                 {
-                    hashCode = (hashCode * 59) + this.CohortYears.GetHashCode();
+                    hashCode = (hashCode * 59) + CohortYears.GetHashCode();
                 }
-                if (this.DegreeSpecializations != null)
+                if (DegreeSpecializations != null)
                 {
-                    hashCode = (hashCode * 59) + this.DegreeSpecializations.GetHashCode();
+                    hashCode = (hashCode * 59) + DegreeSpecializations.GetHashCode();
                 }
-                if (this.EndDate != null)
+                if (EndDate != null)
                 {
-                    hashCode = (hashCode * 59) + this.EndDate.GetHashCode();
+                    hashCode = (hashCode * 59) + EndDate.GetHashCode();
                 }
-                if (this.EppProgramPathwayDescriptor != null)
+                if (EppProgramPathwayDescriptor != null)
                 {
-                    hashCode = (hashCode * 59) + this.EppProgramPathwayDescriptor.GetHashCode();
+                    hashCode = (hashCode * 59) + EppProgramPathwayDescriptor.GetHashCode();
                 }
-                if (this.ReasonExitedDescriptor != null)
+                if (ReasonExitedDescriptor != null)
                 {
-                    hashCode = (hashCode * 59) + this.ReasonExitedDescriptor.GetHashCode();
+                    hashCode = (hashCode * 59) + ReasonExitedDescriptor.GetHashCode();
                 }
-                if (this.Etag != null)
+                if (Etag != null)
                 {
-                    hashCode = (hashCode * 59) + this.Etag.GetHashCode();
+                    hashCode = (hashCode * 59) + Etag.GetHashCode();
                 }
                 return hashCode;
             }
@@ -304,13 +290,13 @@ namespace EdFi.OdsApi.Sdk.Models.All
         public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
         {
             // EppProgramPathwayDescriptor (string) maxLength
-            if (this.EppProgramPathwayDescriptor != null && this.EppProgramPathwayDescriptor.Length > 306)
+            if (EppProgramPathwayDescriptor != null && EppProgramPathwayDescriptor.Length > 306)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for EppProgramPathwayDescriptor, length must be less than 306.", new[] { "EppProgramPathwayDescriptor" });
             }
 
             // ReasonExitedDescriptor (string) maxLength
-            if (this.ReasonExitedDescriptor != null && this.ReasonExitedDescriptor.Length > 306)
+            if (ReasonExitedDescriptor != null && ReasonExitedDescriptor.Length > 306)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for ReasonExitedDescriptor, length must be less than 306.", new[] { "ReasonExitedDescriptor" });
             }

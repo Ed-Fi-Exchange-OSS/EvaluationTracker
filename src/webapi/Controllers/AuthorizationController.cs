@@ -3,17 +3,17 @@
 // The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
 // See the LICENSE and NOTICES files in the project root for more information.
 
+using eppeta.webapi.DTO;
+using eppeta.webapi.Identity.Models;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using OpenIddict.Abstractions;
 using OpenIddict.Server.AspNetCore;
-using static OpenIddict.Abstractions.OpenIddictConstants;
-using System.Security.Claims;
-using eppeta.webapi.Identity.Models;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Authentication;
 using System.Collections.Immutable;
-using eppeta.webapi.DTO;
+using System.Security.Claims;
+using static OpenIddict.Abstractions.OpenIddictConstants;
 
 namespace eppeta.webapi.Controllers;
 
@@ -78,13 +78,13 @@ public class AuthorizationController : Controller
             roleType: Claims.Role);
 
         // Add the claims that will be persisted in the tokens.
-        identity.SetClaim(Claims.Subject, await _userManager.GetUserIdAsync(user))
+        _ = identity.SetClaim(Claims.Subject, await _userManager.GetUserIdAsync(user))
                 .SetClaim(Claims.Email, await _userManager.GetEmailAsync(user))
                 .SetClaim(Claims.Name, $"{user.FirstName} {user.LastName}")
                 .SetClaims(Claims.Role, (await _userManager.GetRolesAsync(user)).ToImmutableArray());
 
         // Set the list of scopes granted to the client application.
-        identity.SetScopes(new[]
+        _ = identity.SetScopes(new[]
         {
                 Scopes.OpenId,
                 Scopes.Email,
@@ -92,7 +92,7 @@ public class AuthorizationController : Controller
                 Scopes.Roles
             }.Intersect(tokenRequest.GetScopes()));
 
-        identity.SetDestinations(GetDestinations);
+        _ = identity.SetDestinations(GetDestinations);
 
         return SignIn(new ClaimsPrincipal(identity), OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
     }
@@ -109,7 +109,9 @@ public class AuthorizationController : Controller
                 yield return Destinations.AccessToken;
 
                 if (claim.Subject!.HasScope(Scopes.Profile))
+                {
                     yield return Destinations.IdentityToken;
+                }
 
                 yield break;
 
@@ -117,7 +119,9 @@ public class AuthorizationController : Controller
                 yield return Destinations.AccessToken;
 
                 if (claim.Subject!.HasScope(Scopes.Email))
+                {
                     yield return Destinations.IdentityToken;
+                }
 
                 yield break;
 
@@ -125,7 +129,9 @@ public class AuthorizationController : Controller
                 yield return Destinations.AccessToken;
 
                 if (claim.Subject!.HasScope(Scopes.Roles))
+                {
                     yield return Destinations.IdentityToken;
+                }
 
                 yield break;
 

@@ -3,13 +3,12 @@
 // The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
 // See the LICENSE and NOTICES files in the project root for more information.
 
-using Microsoft.AspNetCore.Mvc;
-using eppeta.webapi.Service;
-using eppeta.webapi.Evaluations.Data;
 using eppeta.webapi.DTO;
-using eppeta.webapi.Evaluations.Models;
+using eppeta.webapi.Evaluations.Data;
+using eppeta.webapi.Service;
+using Microsoft.AspNetCore.Mvc;
 
-namespace webapi.Controllers;
+namespace eppeta.webapi.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -50,17 +49,20 @@ public class PerformanceEvaluationController : ControllerBase
         var evaluationRating = await _evaluationRepository.GetEvaluationRatingById(PerformanceEvaluationRatingId);
         var perEvalRatingDB = (await _evaluationRepository.GetPerformanceEvaluationRatingsByPK(evaluationRating)).FirstOrDefault();
         if (evaluationRating == null || perEvalRatingDB == null)
+        {
             return NotFound();
+        }
 
-        var performedEvaluation = new PerformedEvaluationResult {
+        var performedEvaluation = new PerformedEvaluationResult
+        {
             EvaluationRatingId = evaluationRating.Id,
             ReviewedCandidateName = perEvalRatingDB.ReviewedCandidateName ?? string.Empty,
             ReviewedPersonId = evaluationRating.PersonId,
             ReviewedPersonSourceSystemDescriptor = evaluationRating.SourceSystemDescriptor,
             StartDateTime = perEvalRatingDB.StartTime,
             EndDateTime = perEvalRatingDB.EndTime,
-            EvaluatorName = perEvalRatingDB.EvaluatorName,
-            StatusId = perEvalRatingDB.StatusId,
+            EvaluatorName = perEvalRatingDB?.EvaluatorName ?? string.Empty,
+            StatusId = perEvalRatingDB?.StatusId ?? default,
             PerformanceEvaluationTitle = evaluationRating.PerformanceEvaluationTitle,
             UserId = evaluationRating.UserId,
             ObjectiveResults = new List<PerformedEvaluationResult.PerformedEvaluationResultObjective>()
@@ -68,8 +70,10 @@ public class PerformanceEvaluationController : ControllerBase
 
         var evaluation = await _evaluationRepository.GetPerformanceEvaluationByPK(evaluationRating);
         if (evaluation != null)
+        {
             performedEvaluation.EvaluationId = evaluation.First().Id;
-        
+        }
+
         var evaluationObjectiveRatings = await _evaluationRepository.GetEvaluationObjectiveRatingsByPK(evaluationRating);
         if (evaluationObjectiveRatings != null)
         {
@@ -78,21 +82,24 @@ public class PerformanceEvaluationController : ControllerBase
                 var evaluationObjective = _evaluationRepository.GetEvaluationObjectivesByPK(evaluationObjectiveRating).Result.FirstOrDefault();
                 var objectiveResult = new PerformedEvaluationResult.PerformedEvaluationResultObjective
                 {
-                    Id = evaluationObjective.Id,
-                    Comment = evaluationObjectiveRating.Comments,
+                    Id = evaluationObjective?.Id ?? default,
+                    Comment = evaluationObjectiveRating?.Comments ?? string.Empty,
                     Elements = new List<PerformedEvaluationResult.PerformedEvaluationResultElement>()
                 };
-                var evaluationElementRatings = await _evaluationRepository.GetEvaluationElementRatingResultsByPK(evaluationObjectiveRating);
-                if (evaluationElementRatings != null)
+                if (evaluationObjectiveRating != null)
                 {
-                    foreach (var evaluationElementRating in evaluationElementRatings)
+                    var evaluationElementRatings = await _evaluationRepository.GetEvaluationElementRatingResultsByPK(evaluationObjectiveRating);
+                    if (evaluationElementRatings != null)
                     {
-                        var evaluationElement = _evaluationRepository.GetEvaluationElementsByPK(evaluationElementRating).Result;
-                        objectiveResult.Elements.Add(new PerformedEvaluationResult.PerformedEvaluationResultElement
+                        foreach (var evaluationElementRating in evaluationElementRatings)
                         {
-                            Score = (int)evaluationElementRating.Rating,
-                            Id = evaluationElement.FirstOrDefault().Id,
-                        });
+                            var evaluationElement = _evaluationRepository.GetEvaluationElementsByPK(evaluationElementRating).Result;
+                            objectiveResult.Elements.Add(new PerformedEvaluationResult.PerformedEvaluationResultElement
+                            {
+                                Score = (int)evaluationElementRating.Rating,
+                                Id = evaluationElement?.FirstOrDefault()?.Id ?? default,
+                            });
+                        }
                     }
                 }
                 performedEvaluation.ObjectiveResults.Add(objectiveResult);

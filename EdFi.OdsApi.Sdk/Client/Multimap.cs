@@ -82,7 +82,9 @@ namespace EdFi.OdsApi.Sdk.Client
         public void Add(KeyValuePair<TKey, IList<TValue>> item)
         {
             if (!TryAdd(item.Key, item.Value))
+            {
                 throw new InvalidOperationException("Could not add values to Multimap.");
+            }
         }
 
         /// <summary>
@@ -94,7 +96,9 @@ namespace EdFi.OdsApi.Sdk.Client
             foreach (var item in multimap)
             {
                 if (!TryAdd(item.Key, item.Value))
+                {
                     throw new InvalidOperationException("Could not add values to Multimap.");
+                }
             }
         }
 
@@ -163,13 +167,18 @@ namespace EdFi.OdsApi.Sdk.Client
             {
                 if (_dictionary.TryGetValue(key, out var list))
                 {
-                    foreach (var k in value) list.Add(k);
+                    foreach (var k in value)
+                    {
+                        list.Add(k);
+                    }
                 }
                 else
                 {
                     list = new List<TValue>(value);
                     if (!TryAdd(key, list))
+                    {
                         throw new InvalidOperationException("Could not add values to Multimap.");
+                    }
                 }
             }
         }
@@ -260,7 +269,9 @@ namespace EdFi.OdsApi.Sdk.Client
                 {
                     list = new List<TValue> { value };
                     if (!TryAdd(key, list))
+                    {
                         throw new InvalidOperationException("Could not add value to Multimap.");
+                    }
                 }
             }
         }
@@ -274,7 +285,7 @@ namespace EdFi.OdsApi.Sdk.Client
          */
         private bool TryRemove(TKey key, out IList<TValue> value)
         {
-            _dictionary.TryGetValue(key, out value);
+            _ = _dictionary.TryGetValue(key, out value);
             return _dictionary.Remove(key);
         }
 

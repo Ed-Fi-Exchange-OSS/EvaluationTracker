@@ -12,13 +12,13 @@
  */
 
 
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
-using Newtonsoft.Json;
-using System.ComponentModel.DataAnnotations;
 
 namespace EdFi.OdsApi.Sdk.Models.All
 {
@@ -38,15 +38,10 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// </summary>
         /// <param name="languageDescriptor">A specification of which written or spoken communication is being used. (required).</param>
         /// <param name="uses">An unordered collection of candidateLanguageUses. A description of how the language is used (e.g. Home Language, Native Language, Spoken Language)..</param>
-        public TpdmCandidateLanguage(string languageDescriptor = default(string), List<TpdmCandidateLanguageUse> uses = default(List<TpdmCandidateLanguageUse>))
+        public TpdmCandidateLanguage(string languageDescriptor = default, List<TpdmCandidateLanguageUse> uses = default)
         {
-            // to ensure "languageDescriptor" is required (not null)
-            if (languageDescriptor == null)
-            {
-                throw new ArgumentNullException("languageDescriptor is a required property for TpdmCandidateLanguage and cannot be null");
-            }
-            this.LanguageDescriptor = languageDescriptor;
-            this.Uses = uses;
+            LanguageDescriptor = languageDescriptor ?? throw new ArgumentNullException("languageDescriptor is a required property for TpdmCandidateLanguage and cannot be null");
+            Uses = uses;
         }
 
         /// <summary>
@@ -69,11 +64,11 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder();
-            sb.Append("class TpdmCandidateLanguage {\n");
-            sb.Append("  LanguageDescriptor: ").Append(LanguageDescriptor).Append("\n");
-            sb.Append("  Uses: ").Append(Uses).Append("\n");
-            sb.Append("}\n");
+            var sb = new StringBuilder();
+            _ = sb.Append("class TpdmCandidateLanguage {\n");
+            _ = sb.Append("  LanguageDescriptor: ").Append(LanguageDescriptor).Append("\n");
+            _ = sb.Append("  Uses: ").Append(Uses).Append("\n");
+            _ = sb.Append("}\n");
             return sb.ToString();
         }
 
@@ -93,7 +88,7 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as TpdmCandidateLanguage);
+            return Equals(input as TpdmCandidateLanguage);
         }
 
         /// <summary>
@@ -103,21 +98,17 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public bool Equals(TpdmCandidateLanguage input)
         {
-            if (input == null)
-            {
-                return false;
-            }
-            return
-                (
-                    this.LanguageDescriptor == input.LanguageDescriptor ||
-                    (this.LanguageDescriptor != null &&
-                    this.LanguageDescriptor.Equals(input.LanguageDescriptor))
+            return input != null
+&& (
+                    LanguageDescriptor == input.LanguageDescriptor ||
+                    (LanguageDescriptor != null &&
+                    LanguageDescriptor.Equals(input.LanguageDescriptor))
                 ) &&
                 (
-                    this.Uses == input.Uses ||
-                    this.Uses != null &&
+                    Uses == input.Uses ||
+                    Uses != null &&
                     input.Uses != null &&
-                    this.Uses.SequenceEqual(input.Uses)
+                    Uses.SequenceEqual(input.Uses)
                 );
         }
 
@@ -129,14 +120,14 @@ namespace EdFi.OdsApi.Sdk.Models.All
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
-                if (this.LanguageDescriptor != null)
+                var hashCode = 41;
+                if (LanguageDescriptor != null)
                 {
-                    hashCode = (hashCode * 59) + this.LanguageDescriptor.GetHashCode();
+                    hashCode = (hashCode * 59) + LanguageDescriptor.GetHashCode();
                 }
-                if (this.Uses != null)
+                if (Uses != null)
                 {
-                    hashCode = (hashCode * 59) + this.Uses.GetHashCode();
+                    hashCode = (hashCode * 59) + Uses.GetHashCode();
                 }
                 return hashCode;
             }
@@ -150,7 +141,7 @@ namespace EdFi.OdsApi.Sdk.Models.All
         public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
         {
             // LanguageDescriptor (string) maxLength
-            if (this.LanguageDescriptor != null && this.LanguageDescriptor.Length > 306)
+            if (LanguageDescriptor != null && LanguageDescriptor.Length > 306)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for LanguageDescriptor, length must be less than 306.", new[] { "LanguageDescriptor" });
             }

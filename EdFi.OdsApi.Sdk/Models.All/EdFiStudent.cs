@@ -12,13 +12,13 @@
  */
 
 
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
-using Newtonsoft.Json;
-using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = EdFi.OdsApi.Sdk.Client.OpenAPIDateConverter;
 
 namespace EdFi.OdsApi.Sdk.Models.All
@@ -60,46 +60,31 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <param name="personalTitlePrefix">A prefix used to denote the title, degree, position, or seniority of the individual..</param>
         /// <param name="visas">An unordered collection of studentVisas. An indicator of a non-US citizen&#39;s Visa type..</param>
         /// <param name="etag">A unique system-generated value that identifies the version of the resource..</param>
-        public EdFiStudent(string id = default(string), string studentUniqueId = default(string), EdFiPersonReference personReference = default(EdFiPersonReference), string birthCity = default(string), string birthCountryDescriptor = default(string), DateTime birthDate = default(DateTime), string birthInternationalProvince = default(string), string birthSexDescriptor = default(string), string birthStateAbbreviationDescriptor = default(string), string citizenshipStatusDescriptor = default(string), DateTime? dateEnteredUS = default(DateTime?), string firstName = default(string), string generationCodeSuffix = default(string), List<EdFiStudentIdentificationDocument> identificationDocuments = default(List<EdFiStudentIdentificationDocument>), string lastSurname = default(string), string maidenName = default(string), string middleName = default(string), bool? multipleBirthStatus = default(bool?), List<EdFiStudentOtherName> otherNames = default(List<EdFiStudentOtherName>), List<EdFiStudentPersonalIdentificationDocument> personalIdentificationDocuments = default(List<EdFiStudentPersonalIdentificationDocument>), string personalTitlePrefix = default(string), List<EdFiStudentVisa> visas = default(List<EdFiStudentVisa>), string etag = default(string))
+        public EdFiStudent(string id = default, string studentUniqueId = default, EdFiPersonReference personReference = default, string birthCity = default, string birthCountryDescriptor = default, DateTime birthDate = default, string birthInternationalProvince = default, string birthSexDescriptor = default, string birthStateAbbreviationDescriptor = default, string citizenshipStatusDescriptor = default, DateTime? dateEnteredUS = default, string firstName = default, string generationCodeSuffix = default, List<EdFiStudentIdentificationDocument> identificationDocuments = default, string lastSurname = default, string maidenName = default, string middleName = default, bool? multipleBirthStatus = default, List<EdFiStudentOtherName> otherNames = default, List<EdFiStudentPersonalIdentificationDocument> personalIdentificationDocuments = default, string personalTitlePrefix = default, List<EdFiStudentVisa> visas = default, string etag = default)
         {
-            // to ensure "studentUniqueId" is required (not null)
-            if (studentUniqueId == null)
-            {
-                throw new ArgumentNullException("studentUniqueId is a required property for EdFiStudent and cannot be null");
-            }
-            this.StudentUniqueId = studentUniqueId;
-            this.BirthDate = birthDate;
-            // to ensure "firstName" is required (not null)
-            if (firstName == null)
-            {
-                throw new ArgumentNullException("firstName is a required property for EdFiStudent and cannot be null");
-            }
-            this.FirstName = firstName;
-            // to ensure "lastSurname" is required (not null)
-            if (lastSurname == null)
-            {
-                throw new ArgumentNullException("lastSurname is a required property for EdFiStudent and cannot be null");
-            }
-            this.LastSurname = lastSurname;
-            this.Id = id;
-            this.PersonReference = personReference;
-            this.BirthCity = birthCity;
-            this.BirthCountryDescriptor = birthCountryDescriptor;
-            this.BirthInternationalProvince = birthInternationalProvince;
-            this.BirthSexDescriptor = birthSexDescriptor;
-            this.BirthStateAbbreviationDescriptor = birthStateAbbreviationDescriptor;
-            this.CitizenshipStatusDescriptor = citizenshipStatusDescriptor;
-            this.DateEnteredUS = dateEnteredUS;
-            this.GenerationCodeSuffix = generationCodeSuffix;
-            this.IdentificationDocuments = identificationDocuments;
-            this.MaidenName = maidenName;
-            this.MiddleName = middleName;
-            this.MultipleBirthStatus = multipleBirthStatus;
-            this.OtherNames = otherNames;
-            this.PersonalIdentificationDocuments = personalIdentificationDocuments;
-            this.PersonalTitlePrefix = personalTitlePrefix;
-            this.Visas = visas;
-            this.Etag = etag;
+            StudentUniqueId = studentUniqueId ?? throw new ArgumentNullException("studentUniqueId is a required property for EdFiStudent and cannot be null");
+            BirthDate = birthDate;
+            FirstName = firstName ?? throw new ArgumentNullException("firstName is a required property for EdFiStudent and cannot be null");
+            LastSurname = lastSurname ?? throw new ArgumentNullException("lastSurname is a required property for EdFiStudent and cannot be null");
+            Id = id;
+            PersonReference = personReference;
+            BirthCity = birthCity;
+            BirthCountryDescriptor = birthCountryDescriptor;
+            BirthInternationalProvince = birthInternationalProvince;
+            BirthSexDescriptor = birthSexDescriptor;
+            BirthStateAbbreviationDescriptor = birthStateAbbreviationDescriptor;
+            CitizenshipStatusDescriptor = citizenshipStatusDescriptor;
+            DateEnteredUS = dateEnteredUS;
+            GenerationCodeSuffix = generationCodeSuffix;
+            IdentificationDocuments = identificationDocuments;
+            MaidenName = maidenName;
+            MiddleName = middleName;
+            MultipleBirthStatus = multipleBirthStatus;
+            OtherNames = otherNames;
+            PersonalIdentificationDocuments = personalIdentificationDocuments;
+            PersonalTitlePrefix = personalTitlePrefix;
+            Visas = visas;
+            Etag = etag;
         }
 
         /// <summary>
@@ -269,32 +254,32 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder();
-            sb.Append("class EdFiStudent {\n");
-            sb.Append("  Id: ").Append(Id).Append("\n");
-            sb.Append("  StudentUniqueId: ").Append(StudentUniqueId).Append("\n");
-            sb.Append("  PersonReference: ").Append(PersonReference).Append("\n");
-            sb.Append("  BirthCity: ").Append(BirthCity).Append("\n");
-            sb.Append("  BirthCountryDescriptor: ").Append(BirthCountryDescriptor).Append("\n");
-            sb.Append("  BirthDate: ").Append(BirthDate).Append("\n");
-            sb.Append("  BirthInternationalProvince: ").Append(BirthInternationalProvince).Append("\n");
-            sb.Append("  BirthSexDescriptor: ").Append(BirthSexDescriptor).Append("\n");
-            sb.Append("  BirthStateAbbreviationDescriptor: ").Append(BirthStateAbbreviationDescriptor).Append("\n");
-            sb.Append("  CitizenshipStatusDescriptor: ").Append(CitizenshipStatusDescriptor).Append("\n");
-            sb.Append("  DateEnteredUS: ").Append(DateEnteredUS).Append("\n");
-            sb.Append("  FirstName: ").Append(FirstName).Append("\n");
-            sb.Append("  GenerationCodeSuffix: ").Append(GenerationCodeSuffix).Append("\n");
-            sb.Append("  IdentificationDocuments: ").Append(IdentificationDocuments).Append("\n");
-            sb.Append("  LastSurname: ").Append(LastSurname).Append("\n");
-            sb.Append("  MaidenName: ").Append(MaidenName).Append("\n");
-            sb.Append("  MiddleName: ").Append(MiddleName).Append("\n");
-            sb.Append("  MultipleBirthStatus: ").Append(MultipleBirthStatus).Append("\n");
-            sb.Append("  OtherNames: ").Append(OtherNames).Append("\n");
-            sb.Append("  PersonalIdentificationDocuments: ").Append(PersonalIdentificationDocuments).Append("\n");
-            sb.Append("  PersonalTitlePrefix: ").Append(PersonalTitlePrefix).Append("\n");
-            sb.Append("  Visas: ").Append(Visas).Append("\n");
-            sb.Append("  Etag: ").Append(Etag).Append("\n");
-            sb.Append("}\n");
+            var sb = new StringBuilder();
+            _ = sb.Append("class EdFiStudent {\n");
+            _ = sb.Append("  Id: ").Append(Id).Append("\n");
+            _ = sb.Append("  StudentUniqueId: ").Append(StudentUniqueId).Append("\n");
+            _ = sb.Append("  PersonReference: ").Append(PersonReference).Append("\n");
+            _ = sb.Append("  BirthCity: ").Append(BirthCity).Append("\n");
+            _ = sb.Append("  BirthCountryDescriptor: ").Append(BirthCountryDescriptor).Append("\n");
+            _ = sb.Append("  BirthDate: ").Append(BirthDate).Append("\n");
+            _ = sb.Append("  BirthInternationalProvince: ").Append(BirthInternationalProvince).Append("\n");
+            _ = sb.Append("  BirthSexDescriptor: ").Append(BirthSexDescriptor).Append("\n");
+            _ = sb.Append("  BirthStateAbbreviationDescriptor: ").Append(BirthStateAbbreviationDescriptor).Append("\n");
+            _ = sb.Append("  CitizenshipStatusDescriptor: ").Append(CitizenshipStatusDescriptor).Append("\n");
+            _ = sb.Append("  DateEnteredUS: ").Append(DateEnteredUS).Append("\n");
+            _ = sb.Append("  FirstName: ").Append(FirstName).Append("\n");
+            _ = sb.Append("  GenerationCodeSuffix: ").Append(GenerationCodeSuffix).Append("\n");
+            _ = sb.Append("  IdentificationDocuments: ").Append(IdentificationDocuments).Append("\n");
+            _ = sb.Append("  LastSurname: ").Append(LastSurname).Append("\n");
+            _ = sb.Append("  MaidenName: ").Append(MaidenName).Append("\n");
+            _ = sb.Append("  MiddleName: ").Append(MiddleName).Append("\n");
+            _ = sb.Append("  MultipleBirthStatus: ").Append(MultipleBirthStatus).Append("\n");
+            _ = sb.Append("  OtherNames: ").Append(OtherNames).Append("\n");
+            _ = sb.Append("  PersonalIdentificationDocuments: ").Append(PersonalIdentificationDocuments).Append("\n");
+            _ = sb.Append("  PersonalTitlePrefix: ").Append(PersonalTitlePrefix).Append("\n");
+            _ = sb.Append("  Visas: ").Append(Visas).Append("\n");
+            _ = sb.Append("  Etag: ").Append(Etag).Append("\n");
+            _ = sb.Append("}\n");
             return sb.ToString();
         }
 
@@ -314,7 +299,7 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as EdFiStudent);
+            return Equals(input as EdFiStudent);
         }
 
         /// <summary>
@@ -324,128 +309,124 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public bool Equals(EdFiStudent input)
         {
-            if (input == null)
-            {
-                return false;
-            }
-            return
-                (
-                    this.Id == input.Id ||
-                    (this.Id != null &&
-                    this.Id.Equals(input.Id))
+            return input != null
+&& (
+                    Id == input.Id ||
+                    (Id != null &&
+                    Id.Equals(input.Id))
                 ) &&
                 (
-                    this.StudentUniqueId == input.StudentUniqueId ||
-                    (this.StudentUniqueId != null &&
-                    this.StudentUniqueId.Equals(input.StudentUniqueId))
+                    StudentUniqueId == input.StudentUniqueId ||
+                    (StudentUniqueId != null &&
+                    StudentUniqueId.Equals(input.StudentUniqueId))
                 ) &&
                 (
-                    this.PersonReference == input.PersonReference ||
-                    (this.PersonReference != null &&
-                    this.PersonReference.Equals(input.PersonReference))
+                    PersonReference == input.PersonReference ||
+                    (PersonReference != null &&
+                    PersonReference.Equals(input.PersonReference))
                 ) &&
                 (
-                    this.BirthCity == input.BirthCity ||
-                    (this.BirthCity != null &&
-                    this.BirthCity.Equals(input.BirthCity))
+                    BirthCity == input.BirthCity ||
+                    (BirthCity != null &&
+                    BirthCity.Equals(input.BirthCity))
                 ) &&
                 (
-                    this.BirthCountryDescriptor == input.BirthCountryDescriptor ||
-                    (this.BirthCountryDescriptor != null &&
-                    this.BirthCountryDescriptor.Equals(input.BirthCountryDescriptor))
+                    BirthCountryDescriptor == input.BirthCountryDescriptor ||
+                    (BirthCountryDescriptor != null &&
+                    BirthCountryDescriptor.Equals(input.BirthCountryDescriptor))
                 ) &&
                 (
-                    this.BirthDate == input.BirthDate ||
-                    this.BirthDate.Equals(input.BirthDate)
+                    BirthDate == input.BirthDate ||
+                    BirthDate.Equals(input.BirthDate)
                 ) &&
                 (
-                    this.BirthInternationalProvince == input.BirthInternationalProvince ||
-                    (this.BirthInternationalProvince != null &&
-                    this.BirthInternationalProvince.Equals(input.BirthInternationalProvince))
+                    BirthInternationalProvince == input.BirthInternationalProvince ||
+                    (BirthInternationalProvince != null &&
+                    BirthInternationalProvince.Equals(input.BirthInternationalProvince))
                 ) &&
                 (
-                    this.BirthSexDescriptor == input.BirthSexDescriptor ||
-                    (this.BirthSexDescriptor != null &&
-                    this.BirthSexDescriptor.Equals(input.BirthSexDescriptor))
+                    BirthSexDescriptor == input.BirthSexDescriptor ||
+                    (BirthSexDescriptor != null &&
+                    BirthSexDescriptor.Equals(input.BirthSexDescriptor))
                 ) &&
                 (
-                    this.BirthStateAbbreviationDescriptor == input.BirthStateAbbreviationDescriptor ||
-                    (this.BirthStateAbbreviationDescriptor != null &&
-                    this.BirthStateAbbreviationDescriptor.Equals(input.BirthStateAbbreviationDescriptor))
+                    BirthStateAbbreviationDescriptor == input.BirthStateAbbreviationDescriptor ||
+                    (BirthStateAbbreviationDescriptor != null &&
+                    BirthStateAbbreviationDescriptor.Equals(input.BirthStateAbbreviationDescriptor))
                 ) &&
                 (
-                    this.CitizenshipStatusDescriptor == input.CitizenshipStatusDescriptor ||
-                    (this.CitizenshipStatusDescriptor != null &&
-                    this.CitizenshipStatusDescriptor.Equals(input.CitizenshipStatusDescriptor))
+                    CitizenshipStatusDescriptor == input.CitizenshipStatusDescriptor ||
+                    (CitizenshipStatusDescriptor != null &&
+                    CitizenshipStatusDescriptor.Equals(input.CitizenshipStatusDescriptor))
                 ) &&
                 (
-                    this.DateEnteredUS == input.DateEnteredUS ||
-                    (this.DateEnteredUS != null &&
-                    this.DateEnteredUS.Equals(input.DateEnteredUS))
+                    DateEnteredUS == input.DateEnteredUS ||
+                    (DateEnteredUS != null &&
+                    DateEnteredUS.Equals(input.DateEnteredUS))
                 ) &&
                 (
-                    this.FirstName == input.FirstName ||
-                    (this.FirstName != null &&
-                    this.FirstName.Equals(input.FirstName))
+                    FirstName == input.FirstName ||
+                    (FirstName != null &&
+                    FirstName.Equals(input.FirstName))
                 ) &&
                 (
-                    this.GenerationCodeSuffix == input.GenerationCodeSuffix ||
-                    (this.GenerationCodeSuffix != null &&
-                    this.GenerationCodeSuffix.Equals(input.GenerationCodeSuffix))
+                    GenerationCodeSuffix == input.GenerationCodeSuffix ||
+                    (GenerationCodeSuffix != null &&
+                    GenerationCodeSuffix.Equals(input.GenerationCodeSuffix))
                 ) &&
                 (
-                    this.IdentificationDocuments == input.IdentificationDocuments ||
-                    this.IdentificationDocuments != null &&
+                    IdentificationDocuments == input.IdentificationDocuments ||
+                    IdentificationDocuments != null &&
                     input.IdentificationDocuments != null &&
-                    this.IdentificationDocuments.SequenceEqual(input.IdentificationDocuments)
+                    IdentificationDocuments.SequenceEqual(input.IdentificationDocuments)
                 ) &&
                 (
-                    this.LastSurname == input.LastSurname ||
-                    (this.LastSurname != null &&
-                    this.LastSurname.Equals(input.LastSurname))
+                    LastSurname == input.LastSurname ||
+                    (LastSurname != null &&
+                    LastSurname.Equals(input.LastSurname))
                 ) &&
                 (
-                    this.MaidenName == input.MaidenName ||
-                    (this.MaidenName != null &&
-                    this.MaidenName.Equals(input.MaidenName))
+                    MaidenName == input.MaidenName ||
+                    (MaidenName != null &&
+                    MaidenName.Equals(input.MaidenName))
                 ) &&
                 (
-                    this.MiddleName == input.MiddleName ||
-                    (this.MiddleName != null &&
-                    this.MiddleName.Equals(input.MiddleName))
+                    MiddleName == input.MiddleName ||
+                    (MiddleName != null &&
+                    MiddleName.Equals(input.MiddleName))
                 ) &&
                 (
-                    this.MultipleBirthStatus == input.MultipleBirthStatus ||
-                    (this.MultipleBirthStatus != null &&
-                    this.MultipleBirthStatus.Equals(input.MultipleBirthStatus))
+                    MultipleBirthStatus == input.MultipleBirthStatus ||
+                    (MultipleBirthStatus != null &&
+                    MultipleBirthStatus.Equals(input.MultipleBirthStatus))
                 ) &&
                 (
-                    this.OtherNames == input.OtherNames ||
-                    this.OtherNames != null &&
+                    OtherNames == input.OtherNames ||
+                    OtherNames != null &&
                     input.OtherNames != null &&
-                    this.OtherNames.SequenceEqual(input.OtherNames)
+                    OtherNames.SequenceEqual(input.OtherNames)
                 ) &&
                 (
-                    this.PersonalIdentificationDocuments == input.PersonalIdentificationDocuments ||
-                    this.PersonalIdentificationDocuments != null &&
+                    PersonalIdentificationDocuments == input.PersonalIdentificationDocuments ||
+                    PersonalIdentificationDocuments != null &&
                     input.PersonalIdentificationDocuments != null &&
-                    this.PersonalIdentificationDocuments.SequenceEqual(input.PersonalIdentificationDocuments)
+                    PersonalIdentificationDocuments.SequenceEqual(input.PersonalIdentificationDocuments)
                 ) &&
                 (
-                    this.PersonalTitlePrefix == input.PersonalTitlePrefix ||
-                    (this.PersonalTitlePrefix != null &&
-                    this.PersonalTitlePrefix.Equals(input.PersonalTitlePrefix))
+                    PersonalTitlePrefix == input.PersonalTitlePrefix ||
+                    (PersonalTitlePrefix != null &&
+                    PersonalTitlePrefix.Equals(input.PersonalTitlePrefix))
                 ) &&
                 (
-                    this.Visas == input.Visas ||
-                    this.Visas != null &&
+                    Visas == input.Visas ||
+                    Visas != null &&
                     input.Visas != null &&
-                    this.Visas.SequenceEqual(input.Visas)
+                    Visas.SequenceEqual(input.Visas)
                 ) &&
                 (
-                    this.Etag == input.Etag ||
-                    (this.Etag != null &&
-                    this.Etag.Equals(input.Etag))
+                    Etag == input.Etag ||
+                    (Etag != null &&
+                    Etag.Equals(input.Etag))
                 );
         }
 
@@ -457,95 +438,95 @@ namespace EdFi.OdsApi.Sdk.Models.All
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
-                if (this.Id != null)
+                var hashCode = 41;
+                if (Id != null)
                 {
-                    hashCode = (hashCode * 59) + this.Id.GetHashCode();
+                    hashCode = (hashCode * 59) + Id.GetHashCode();
                 }
-                if (this.StudentUniqueId != null)
+                if (StudentUniqueId != null)
                 {
-                    hashCode = (hashCode * 59) + this.StudentUniqueId.GetHashCode();
+                    hashCode = (hashCode * 59) + StudentUniqueId.GetHashCode();
                 }
-                if (this.PersonReference != null)
+                if (PersonReference != null)
                 {
-                    hashCode = (hashCode * 59) + this.PersonReference.GetHashCode();
+                    hashCode = (hashCode * 59) + PersonReference.GetHashCode();
                 }
-                if (this.BirthCity != null)
+                if (BirthCity != null)
                 {
-                    hashCode = (hashCode * 59) + this.BirthCity.GetHashCode();
+                    hashCode = (hashCode * 59) + BirthCity.GetHashCode();
                 }
-                if (this.BirthCountryDescriptor != null)
+                if (BirthCountryDescriptor != null)
                 {
-                    hashCode = (hashCode * 59) + this.BirthCountryDescriptor.GetHashCode();
+                    hashCode = (hashCode * 59) + BirthCountryDescriptor.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + this.BirthDate.GetHashCode();
-                if (this.BirthInternationalProvince != null)
+                hashCode = (hashCode * 59) + BirthDate.GetHashCode();
+                if (BirthInternationalProvince != null)
                 {
-                    hashCode = (hashCode * 59) + this.BirthInternationalProvince.GetHashCode();
+                    hashCode = (hashCode * 59) + BirthInternationalProvince.GetHashCode();
                 }
-                if (this.BirthSexDescriptor != null)
+                if (BirthSexDescriptor != null)
                 {
-                    hashCode = (hashCode * 59) + this.BirthSexDescriptor.GetHashCode();
+                    hashCode = (hashCode * 59) + BirthSexDescriptor.GetHashCode();
                 }
-                if (this.BirthStateAbbreviationDescriptor != null)
+                if (BirthStateAbbreviationDescriptor != null)
                 {
-                    hashCode = (hashCode * 59) + this.BirthStateAbbreviationDescriptor.GetHashCode();
+                    hashCode = (hashCode * 59) + BirthStateAbbreviationDescriptor.GetHashCode();
                 }
-                if (this.CitizenshipStatusDescriptor != null)
+                if (CitizenshipStatusDescriptor != null)
                 {
-                    hashCode = (hashCode * 59) + this.CitizenshipStatusDescriptor.GetHashCode();
+                    hashCode = (hashCode * 59) + CitizenshipStatusDescriptor.GetHashCode();
                 }
-                if (this.DateEnteredUS != null)
+                if (DateEnteredUS != null)
                 {
-                    hashCode = (hashCode * 59) + this.DateEnteredUS.GetHashCode();
+                    hashCode = (hashCode * 59) + DateEnteredUS.GetHashCode();
                 }
-                if (this.FirstName != null)
+                if (FirstName != null)
                 {
-                    hashCode = (hashCode * 59) + this.FirstName.GetHashCode();
+                    hashCode = (hashCode * 59) + FirstName.GetHashCode();
                 }
-                if (this.GenerationCodeSuffix != null)
+                if (GenerationCodeSuffix != null)
                 {
-                    hashCode = (hashCode * 59) + this.GenerationCodeSuffix.GetHashCode();
+                    hashCode = (hashCode * 59) + GenerationCodeSuffix.GetHashCode();
                 }
-                if (this.IdentificationDocuments != null)
+                if (IdentificationDocuments != null)
                 {
-                    hashCode = (hashCode * 59) + this.IdentificationDocuments.GetHashCode();
+                    hashCode = (hashCode * 59) + IdentificationDocuments.GetHashCode();
                 }
-                if (this.LastSurname != null)
+                if (LastSurname != null)
                 {
-                    hashCode = (hashCode * 59) + this.LastSurname.GetHashCode();
+                    hashCode = (hashCode * 59) + LastSurname.GetHashCode();
                 }
-                if (this.MaidenName != null)
+                if (MaidenName != null)
                 {
-                    hashCode = (hashCode * 59) + this.MaidenName.GetHashCode();
+                    hashCode = (hashCode * 59) + MaidenName.GetHashCode();
                 }
-                if (this.MiddleName != null)
+                if (MiddleName != null)
                 {
-                    hashCode = (hashCode * 59) + this.MiddleName.GetHashCode();
+                    hashCode = (hashCode * 59) + MiddleName.GetHashCode();
                 }
-                if (this.MultipleBirthStatus != null)
+                if (MultipleBirthStatus != null)
                 {
-                    hashCode = (hashCode * 59) + this.MultipleBirthStatus.GetHashCode();
+                    hashCode = (hashCode * 59) + MultipleBirthStatus.GetHashCode();
                 }
-                if (this.OtherNames != null)
+                if (OtherNames != null)
                 {
-                    hashCode = (hashCode * 59) + this.OtherNames.GetHashCode();
+                    hashCode = (hashCode * 59) + OtherNames.GetHashCode();
                 }
-                if (this.PersonalIdentificationDocuments != null)
+                if (PersonalIdentificationDocuments != null)
                 {
-                    hashCode = (hashCode * 59) + this.PersonalIdentificationDocuments.GetHashCode();
+                    hashCode = (hashCode * 59) + PersonalIdentificationDocuments.GetHashCode();
                 }
-                if (this.PersonalTitlePrefix != null)
+                if (PersonalTitlePrefix != null)
                 {
-                    hashCode = (hashCode * 59) + this.PersonalTitlePrefix.GetHashCode();
+                    hashCode = (hashCode * 59) + PersonalTitlePrefix.GetHashCode();
                 }
-                if (this.Visas != null)
+                if (Visas != null)
                 {
-                    hashCode = (hashCode * 59) + this.Visas.GetHashCode();
+                    hashCode = (hashCode * 59) + Visas.GetHashCode();
                 }
-                if (this.Etag != null)
+                if (Etag != null)
                 {
-                    hashCode = (hashCode * 59) + this.Etag.GetHashCode();
+                    hashCode = (hashCode * 59) + Etag.GetHashCode();
                 }
                 return hashCode;
             }
@@ -559,79 +540,79 @@ namespace EdFi.OdsApi.Sdk.Models.All
         public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
         {
             // StudentUniqueId (string) maxLength
-            if (this.StudentUniqueId != null && this.StudentUniqueId.Length > 32)
+            if (StudentUniqueId != null && StudentUniqueId.Length > 32)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for StudentUniqueId, length must be less than 32.", new[] { "StudentUniqueId" });
             }
 
             // BirthCity (string) maxLength
-            if (this.BirthCity != null && this.BirthCity.Length > 30)
+            if (BirthCity != null && BirthCity.Length > 30)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for BirthCity, length must be less than 30.", new[] { "BirthCity" });
             }
 
             // BirthCountryDescriptor (string) maxLength
-            if (this.BirthCountryDescriptor != null && this.BirthCountryDescriptor.Length > 306)
+            if (BirthCountryDescriptor != null && BirthCountryDescriptor.Length > 306)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for BirthCountryDescriptor, length must be less than 306.", new[] { "BirthCountryDescriptor" });
             }
 
             // BirthInternationalProvince (string) maxLength
-            if (this.BirthInternationalProvince != null && this.BirthInternationalProvince.Length > 150)
+            if (BirthInternationalProvince != null && BirthInternationalProvince.Length > 150)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for BirthInternationalProvince, length must be less than 150.", new[] { "BirthInternationalProvince" });
             }
 
             // BirthSexDescriptor (string) maxLength
-            if (this.BirthSexDescriptor != null && this.BirthSexDescriptor.Length > 306)
+            if (BirthSexDescriptor != null && BirthSexDescriptor.Length > 306)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for BirthSexDescriptor, length must be less than 306.", new[] { "BirthSexDescriptor" });
             }
 
             // BirthStateAbbreviationDescriptor (string) maxLength
-            if (this.BirthStateAbbreviationDescriptor != null && this.BirthStateAbbreviationDescriptor.Length > 306)
+            if (BirthStateAbbreviationDescriptor != null && BirthStateAbbreviationDescriptor.Length > 306)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for BirthStateAbbreviationDescriptor, length must be less than 306.", new[] { "BirthStateAbbreviationDescriptor" });
             }
 
             // CitizenshipStatusDescriptor (string) maxLength
-            if (this.CitizenshipStatusDescriptor != null && this.CitizenshipStatusDescriptor.Length > 306)
+            if (CitizenshipStatusDescriptor != null && CitizenshipStatusDescriptor.Length > 306)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for CitizenshipStatusDescriptor, length must be less than 306.", new[] { "CitizenshipStatusDescriptor" });
             }
 
             // FirstName (string) maxLength
-            if (this.FirstName != null && this.FirstName.Length > 75)
+            if (FirstName != null && FirstName.Length > 75)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for FirstName, length must be less than 75.", new[] { "FirstName" });
             }
 
             // GenerationCodeSuffix (string) maxLength
-            if (this.GenerationCodeSuffix != null && this.GenerationCodeSuffix.Length > 10)
+            if (GenerationCodeSuffix != null && GenerationCodeSuffix.Length > 10)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for GenerationCodeSuffix, length must be less than 10.", new[] { "GenerationCodeSuffix" });
             }
 
             // LastSurname (string) maxLength
-            if (this.LastSurname != null && this.LastSurname.Length > 75)
+            if (LastSurname != null && LastSurname.Length > 75)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for LastSurname, length must be less than 75.", new[] { "LastSurname" });
             }
 
             // MaidenName (string) maxLength
-            if (this.MaidenName != null && this.MaidenName.Length > 75)
+            if (MaidenName != null && MaidenName.Length > 75)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for MaidenName, length must be less than 75.", new[] { "MaidenName" });
             }
 
             // MiddleName (string) maxLength
-            if (this.MiddleName != null && this.MiddleName.Length > 75)
+            if (MiddleName != null && MiddleName.Length > 75)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for MiddleName, length must be less than 75.", new[] { "MiddleName" });
             }
 
             // PersonalTitlePrefix (string) maxLength
-            if (this.PersonalTitlePrefix != null && this.PersonalTitlePrefix.Length > 30)
+            if (PersonalTitlePrefix != null && PersonalTitlePrefix.Length > 30)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for PersonalTitlePrefix, length must be less than 30.", new[] { "PersonalTitlePrefix" });
             }

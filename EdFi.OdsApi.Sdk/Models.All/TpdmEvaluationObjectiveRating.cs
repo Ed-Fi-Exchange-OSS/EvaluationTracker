@@ -12,13 +12,13 @@
  */
 
 
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
-using Newtonsoft.Json;
-using System.ComponentModel.DataAnnotations;
 
 namespace EdFi.OdsApi.Sdk.Models.All
 {
@@ -43,25 +43,15 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <param name="objectiveRatingLevelDescriptor">The rating level achieved based upon the rating or score..</param>
         /// <param name="results">An unordered collection of evaluationObjectiveRatingResults. The numerical summary rating or score for the evaluation Objective..</param>
         /// <param name="etag">A unique system-generated value that identifies the version of the resource..</param>
-        public TpdmEvaluationObjectiveRating(string id = default(string), TpdmEvaluationObjectiveReference evaluationObjectiveReference = default(TpdmEvaluationObjectiveReference), TpdmEvaluationRatingReference evaluationRatingReference = default(TpdmEvaluationRatingReference), string comments = default(string), string objectiveRatingLevelDescriptor = default(string), List<TpdmEvaluationObjectiveRatingResult> results = default(List<TpdmEvaluationObjectiveRatingResult>), string etag = default(string))
+        public TpdmEvaluationObjectiveRating(string id = default, TpdmEvaluationObjectiveReference evaluationObjectiveReference = default, TpdmEvaluationRatingReference evaluationRatingReference = default, string comments = default, string objectiveRatingLevelDescriptor = default, List<TpdmEvaluationObjectiveRatingResult> results = default, string etag = default)
         {
-            // to ensure "evaluationObjectiveReference" is required (not null)
-            if (evaluationObjectiveReference == null)
-            {
-                throw new ArgumentNullException("evaluationObjectiveReference is a required property for TpdmEvaluationObjectiveRating and cannot be null");
-            }
-            this.EvaluationObjectiveReference = evaluationObjectiveReference;
-            // to ensure "evaluationRatingReference" is required (not null)
-            if (evaluationRatingReference == null)
-            {
-                throw new ArgumentNullException("evaluationRatingReference is a required property for TpdmEvaluationObjectiveRating and cannot be null");
-            }
-            this.EvaluationRatingReference = evaluationRatingReference;
-            this.Id = id;
-            this.Comments = comments;
-            this.ObjectiveRatingLevelDescriptor = objectiveRatingLevelDescriptor;
-            this.Results = results;
-            this.Etag = etag;
+            EvaluationObjectiveReference = evaluationObjectiveReference ?? throw new ArgumentNullException("evaluationObjectiveReference is a required property for TpdmEvaluationObjectiveRating and cannot be null");
+            EvaluationRatingReference = evaluationRatingReference ?? throw new ArgumentNullException("evaluationRatingReference is a required property for TpdmEvaluationObjectiveRating and cannot be null");
+            Id = id;
+            Comments = comments;
+            ObjectiveRatingLevelDescriptor = objectiveRatingLevelDescriptor;
+            Results = results;
+            Etag = etag;
         }
 
         /// <summary>
@@ -116,16 +106,16 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder();
-            sb.Append("class TpdmEvaluationObjectiveRating {\n");
-            sb.Append("  Id: ").Append(Id).Append("\n");
-            sb.Append("  EvaluationObjectiveReference: ").Append(EvaluationObjectiveReference).Append("\n");
-            sb.Append("  EvaluationRatingReference: ").Append(EvaluationRatingReference).Append("\n");
-            sb.Append("  Comments: ").Append(Comments).Append("\n");
-            sb.Append("  ObjectiveRatingLevelDescriptor: ").Append(ObjectiveRatingLevelDescriptor).Append("\n");
-            sb.Append("  Results: ").Append(Results).Append("\n");
-            sb.Append("  Etag: ").Append(Etag).Append("\n");
-            sb.Append("}\n");
+            var sb = new StringBuilder();
+            _ = sb.Append("class TpdmEvaluationObjectiveRating {\n");
+            _ = sb.Append("  Id: ").Append(Id).Append("\n");
+            _ = sb.Append("  EvaluationObjectiveReference: ").Append(EvaluationObjectiveReference).Append("\n");
+            _ = sb.Append("  EvaluationRatingReference: ").Append(EvaluationRatingReference).Append("\n");
+            _ = sb.Append("  Comments: ").Append(Comments).Append("\n");
+            _ = sb.Append("  ObjectiveRatingLevelDescriptor: ").Append(ObjectiveRatingLevelDescriptor).Append("\n");
+            _ = sb.Append("  Results: ").Append(Results).Append("\n");
+            _ = sb.Append("  Etag: ").Append(Etag).Append("\n");
+            _ = sb.Append("}\n");
             return sb.ToString();
         }
 
@@ -145,7 +135,7 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as TpdmEvaluationObjectiveRating);
+            return Equals(input as TpdmEvaluationObjectiveRating);
         }
 
         /// <summary>
@@ -155,46 +145,42 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public bool Equals(TpdmEvaluationObjectiveRating input)
         {
-            if (input == null)
-            {
-                return false;
-            }
-            return
-                (
-                    this.Id == input.Id ||
-                    (this.Id != null &&
-                    this.Id.Equals(input.Id))
+            return input != null
+&& (
+                    Id == input.Id ||
+                    (Id != null &&
+                    Id.Equals(input.Id))
                 ) &&
                 (
-                    this.EvaluationObjectiveReference == input.EvaluationObjectiveReference ||
-                    (this.EvaluationObjectiveReference != null &&
-                    this.EvaluationObjectiveReference.Equals(input.EvaluationObjectiveReference))
+                    EvaluationObjectiveReference == input.EvaluationObjectiveReference ||
+                    (EvaluationObjectiveReference != null &&
+                    EvaluationObjectiveReference.Equals(input.EvaluationObjectiveReference))
                 ) &&
                 (
-                    this.EvaluationRatingReference == input.EvaluationRatingReference ||
-                    (this.EvaluationRatingReference != null &&
-                    this.EvaluationRatingReference.Equals(input.EvaluationRatingReference))
+                    EvaluationRatingReference == input.EvaluationRatingReference ||
+                    (EvaluationRatingReference != null &&
+                    EvaluationRatingReference.Equals(input.EvaluationRatingReference))
                 ) &&
                 (
-                    this.Comments == input.Comments ||
-                    (this.Comments != null &&
-                    this.Comments.Equals(input.Comments))
+                    Comments == input.Comments ||
+                    (Comments != null &&
+                    Comments.Equals(input.Comments))
                 ) &&
                 (
-                    this.ObjectiveRatingLevelDescriptor == input.ObjectiveRatingLevelDescriptor ||
-                    (this.ObjectiveRatingLevelDescriptor != null &&
-                    this.ObjectiveRatingLevelDescriptor.Equals(input.ObjectiveRatingLevelDescriptor))
+                    ObjectiveRatingLevelDescriptor == input.ObjectiveRatingLevelDescriptor ||
+                    (ObjectiveRatingLevelDescriptor != null &&
+                    ObjectiveRatingLevelDescriptor.Equals(input.ObjectiveRatingLevelDescriptor))
                 ) &&
                 (
-                    this.Results == input.Results ||
-                    this.Results != null &&
+                    Results == input.Results ||
+                    Results != null &&
                     input.Results != null &&
-                    this.Results.SequenceEqual(input.Results)
+                    Results.SequenceEqual(input.Results)
                 ) &&
                 (
-                    this.Etag == input.Etag ||
-                    (this.Etag != null &&
-                    this.Etag.Equals(input.Etag))
+                    Etag == input.Etag ||
+                    (Etag != null &&
+                    Etag.Equals(input.Etag))
                 );
         }
 
@@ -206,34 +192,34 @@ namespace EdFi.OdsApi.Sdk.Models.All
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
-                if (this.Id != null)
+                var hashCode = 41;
+                if (Id != null)
                 {
-                    hashCode = (hashCode * 59) + this.Id.GetHashCode();
+                    hashCode = (hashCode * 59) + Id.GetHashCode();
                 }
-                if (this.EvaluationObjectiveReference != null)
+                if (EvaluationObjectiveReference != null)
                 {
-                    hashCode = (hashCode * 59) + this.EvaluationObjectiveReference.GetHashCode();
+                    hashCode = (hashCode * 59) + EvaluationObjectiveReference.GetHashCode();
                 }
-                if (this.EvaluationRatingReference != null)
+                if (EvaluationRatingReference != null)
                 {
-                    hashCode = (hashCode * 59) + this.EvaluationRatingReference.GetHashCode();
+                    hashCode = (hashCode * 59) + EvaluationRatingReference.GetHashCode();
                 }
-                if (this.Comments != null)
+                if (Comments != null)
                 {
-                    hashCode = (hashCode * 59) + this.Comments.GetHashCode();
+                    hashCode = (hashCode * 59) + Comments.GetHashCode();
                 }
-                if (this.ObjectiveRatingLevelDescriptor != null)
+                if (ObjectiveRatingLevelDescriptor != null)
                 {
-                    hashCode = (hashCode * 59) + this.ObjectiveRatingLevelDescriptor.GetHashCode();
+                    hashCode = (hashCode * 59) + ObjectiveRatingLevelDescriptor.GetHashCode();
                 }
-                if (this.Results != null)
+                if (Results != null)
                 {
-                    hashCode = (hashCode * 59) + this.Results.GetHashCode();
+                    hashCode = (hashCode * 59) + Results.GetHashCode();
                 }
-                if (this.Etag != null)
+                if (Etag != null)
                 {
-                    hashCode = (hashCode * 59) + this.Etag.GetHashCode();
+                    hashCode = (hashCode * 59) + Etag.GetHashCode();
                 }
                 return hashCode;
             }
@@ -247,13 +233,13 @@ namespace EdFi.OdsApi.Sdk.Models.All
         public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
         {
             // Comments (string) maxLength
-            if (this.Comments != null && this.Comments.Length > 1024)
+            if (Comments != null && Comments.Length > 1024)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Comments, length must be less than 1024.", new[] { "Comments" });
             }
 
             // ObjectiveRatingLevelDescriptor (string) maxLength
-            if (this.ObjectiveRatingLevelDescriptor != null && this.ObjectiveRatingLevelDescriptor.Length > 306)
+            if (ObjectiveRatingLevelDescriptor != null && ObjectiveRatingLevelDescriptor.Length > 306)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for ObjectiveRatingLevelDescriptor, length must be less than 306.", new[] { "ObjectiveRatingLevelDescriptor" });
             }

@@ -12,13 +12,13 @@
  */
 
 
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
-using Newtonsoft.Json;
-using System.ComponentModel.DataAnnotations;
 
 namespace EdFi.OdsApi.Sdk.Models.All
 {
@@ -41,18 +41,13 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <param name="disabilityDiagnosis">A description of the disability diagnosis..</param>
         /// <param name="orderOfDisability">The order by severity of individual&#39;s disabilities: 1- Primary, 2 -  Secondary, 3 - Tertiary, etc..</param>
         /// <param name="designations">An unordered collection of candidateDisabilityDesignations. Whether the disability is IDEA, Section 504, or other disability designation..</param>
-        public TpdmCandidateDisability(string disabilityDescriptor = default(string), string disabilityDeterminationSourceTypeDescriptor = default(string), string disabilityDiagnosis = default(string), int? orderOfDisability = default(int?), List<TpdmCandidateDisabilityDesignation> designations = default(List<TpdmCandidateDisabilityDesignation>))
+        public TpdmCandidateDisability(string disabilityDescriptor = default, string disabilityDeterminationSourceTypeDescriptor = default, string disabilityDiagnosis = default, int? orderOfDisability = default, List<TpdmCandidateDisabilityDesignation> designations = default)
         {
-            // to ensure "disabilityDescriptor" is required (not null)
-            if (disabilityDescriptor == null)
-            {
-                throw new ArgumentNullException("disabilityDescriptor is a required property for TpdmCandidateDisability and cannot be null");
-            }
-            this.DisabilityDescriptor = disabilityDescriptor;
-            this.DisabilityDeterminationSourceTypeDescriptor = disabilityDeterminationSourceTypeDescriptor;
-            this.DisabilityDiagnosis = disabilityDiagnosis;
-            this.OrderOfDisability = orderOfDisability;
-            this.Designations = designations;
+            DisabilityDescriptor = disabilityDescriptor ?? throw new ArgumentNullException("disabilityDescriptor is a required property for TpdmCandidateDisability and cannot be null");
+            DisabilityDeterminationSourceTypeDescriptor = disabilityDeterminationSourceTypeDescriptor;
+            DisabilityDiagnosis = disabilityDiagnosis;
+            OrderOfDisability = orderOfDisability;
+            Designations = designations;
         }
 
         /// <summary>
@@ -96,14 +91,14 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder();
-            sb.Append("class TpdmCandidateDisability {\n");
-            sb.Append("  DisabilityDescriptor: ").Append(DisabilityDescriptor).Append("\n");
-            sb.Append("  DisabilityDeterminationSourceTypeDescriptor: ").Append(DisabilityDeterminationSourceTypeDescriptor).Append("\n");
-            sb.Append("  DisabilityDiagnosis: ").Append(DisabilityDiagnosis).Append("\n");
-            sb.Append("  OrderOfDisability: ").Append(OrderOfDisability).Append("\n");
-            sb.Append("  Designations: ").Append(Designations).Append("\n");
-            sb.Append("}\n");
+            var sb = new StringBuilder();
+            _ = sb.Append("class TpdmCandidateDisability {\n");
+            _ = sb.Append("  DisabilityDescriptor: ").Append(DisabilityDescriptor).Append("\n");
+            _ = sb.Append("  DisabilityDeterminationSourceTypeDescriptor: ").Append(DisabilityDeterminationSourceTypeDescriptor).Append("\n");
+            _ = sb.Append("  DisabilityDiagnosis: ").Append(DisabilityDiagnosis).Append("\n");
+            _ = sb.Append("  OrderOfDisability: ").Append(OrderOfDisability).Append("\n");
+            _ = sb.Append("  Designations: ").Append(Designations).Append("\n");
+            _ = sb.Append("}\n");
             return sb.ToString();
         }
 
@@ -123,7 +118,7 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as TpdmCandidateDisability);
+            return Equals(input as TpdmCandidateDisability);
         }
 
         /// <summary>
@@ -133,36 +128,32 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public bool Equals(TpdmCandidateDisability input)
         {
-            if (input == null)
-            {
-                return false;
-            }
-            return
-                (
-                    this.DisabilityDescriptor == input.DisabilityDescriptor ||
-                    (this.DisabilityDescriptor != null &&
-                    this.DisabilityDescriptor.Equals(input.DisabilityDescriptor))
+            return input != null
+&& (
+                    DisabilityDescriptor == input.DisabilityDescriptor ||
+                    (DisabilityDescriptor != null &&
+                    DisabilityDescriptor.Equals(input.DisabilityDescriptor))
                 ) &&
                 (
-                    this.DisabilityDeterminationSourceTypeDescriptor == input.DisabilityDeterminationSourceTypeDescriptor ||
-                    (this.DisabilityDeterminationSourceTypeDescriptor != null &&
-                    this.DisabilityDeterminationSourceTypeDescriptor.Equals(input.DisabilityDeterminationSourceTypeDescriptor))
+                    DisabilityDeterminationSourceTypeDescriptor == input.DisabilityDeterminationSourceTypeDescriptor ||
+                    (DisabilityDeterminationSourceTypeDescriptor != null &&
+                    DisabilityDeterminationSourceTypeDescriptor.Equals(input.DisabilityDeterminationSourceTypeDescriptor))
                 ) &&
                 (
-                    this.DisabilityDiagnosis == input.DisabilityDiagnosis ||
-                    (this.DisabilityDiagnosis != null &&
-                    this.DisabilityDiagnosis.Equals(input.DisabilityDiagnosis))
+                    DisabilityDiagnosis == input.DisabilityDiagnosis ||
+                    (DisabilityDiagnosis != null &&
+                    DisabilityDiagnosis.Equals(input.DisabilityDiagnosis))
                 ) &&
                 (
-                    this.OrderOfDisability == input.OrderOfDisability ||
-                    (this.OrderOfDisability != null &&
-                    this.OrderOfDisability.Equals(input.OrderOfDisability))
+                    OrderOfDisability == input.OrderOfDisability ||
+                    (OrderOfDisability != null &&
+                    OrderOfDisability.Equals(input.OrderOfDisability))
                 ) &&
                 (
-                    this.Designations == input.Designations ||
-                    this.Designations != null &&
+                    Designations == input.Designations ||
+                    Designations != null &&
                     input.Designations != null &&
-                    this.Designations.SequenceEqual(input.Designations)
+                    Designations.SequenceEqual(input.Designations)
                 );
         }
 
@@ -174,26 +165,26 @@ namespace EdFi.OdsApi.Sdk.Models.All
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
-                if (this.DisabilityDescriptor != null)
+                var hashCode = 41;
+                if (DisabilityDescriptor != null)
                 {
-                    hashCode = (hashCode * 59) + this.DisabilityDescriptor.GetHashCode();
+                    hashCode = (hashCode * 59) + DisabilityDescriptor.GetHashCode();
                 }
-                if (this.DisabilityDeterminationSourceTypeDescriptor != null)
+                if (DisabilityDeterminationSourceTypeDescriptor != null)
                 {
-                    hashCode = (hashCode * 59) + this.DisabilityDeterminationSourceTypeDescriptor.GetHashCode();
+                    hashCode = (hashCode * 59) + DisabilityDeterminationSourceTypeDescriptor.GetHashCode();
                 }
-                if (this.DisabilityDiagnosis != null)
+                if (DisabilityDiagnosis != null)
                 {
-                    hashCode = (hashCode * 59) + this.DisabilityDiagnosis.GetHashCode();
+                    hashCode = (hashCode * 59) + DisabilityDiagnosis.GetHashCode();
                 }
-                if (this.OrderOfDisability != null)
+                if (OrderOfDisability != null)
                 {
-                    hashCode = (hashCode * 59) + this.OrderOfDisability.GetHashCode();
+                    hashCode = (hashCode * 59) + OrderOfDisability.GetHashCode();
                 }
-                if (this.Designations != null)
+                if (Designations != null)
                 {
-                    hashCode = (hashCode * 59) + this.Designations.GetHashCode();
+                    hashCode = (hashCode * 59) + Designations.GetHashCode();
                 }
                 return hashCode;
             }
@@ -207,19 +198,19 @@ namespace EdFi.OdsApi.Sdk.Models.All
         public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
         {
             // DisabilityDescriptor (string) maxLength
-            if (this.DisabilityDescriptor != null && this.DisabilityDescriptor.Length > 306)
+            if (DisabilityDescriptor != null && DisabilityDescriptor.Length > 306)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for DisabilityDescriptor, length must be less than 306.", new[] { "DisabilityDescriptor" });
             }
 
             // DisabilityDeterminationSourceTypeDescriptor (string) maxLength
-            if (this.DisabilityDeterminationSourceTypeDescriptor != null && this.DisabilityDeterminationSourceTypeDescriptor.Length > 306)
+            if (DisabilityDeterminationSourceTypeDescriptor != null && DisabilityDeterminationSourceTypeDescriptor.Length > 306)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for DisabilityDeterminationSourceTypeDescriptor, length must be less than 306.", new[] { "DisabilityDeterminationSourceTypeDescriptor" });
             }
 
             // DisabilityDiagnosis (string) maxLength
-            if (this.DisabilityDiagnosis != null && this.DisabilityDiagnosis.Length > 80)
+            if (DisabilityDiagnosis != null && DisabilityDiagnosis.Length > 80)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for DisabilityDiagnosis, length must be less than 80.", new[] { "DisabilityDiagnosis" });
             }

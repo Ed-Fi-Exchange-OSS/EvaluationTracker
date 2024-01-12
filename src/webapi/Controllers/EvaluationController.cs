@@ -3,17 +3,15 @@
 // The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
 // See the LICENSE and NOTICES files in the project root for more information.
 
-using EdFi.OdsApi.Sdk.Apis.All;
-using Microsoft.AspNetCore.Mvc;
-using eppeta.webapi.Service;
+using eppeta.webapi.DTO;
 using eppeta.webapi.Evaluations.Data;
 using eppeta.webapi.Evaluations.Models;
+using eppeta.webapi.Service;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
-using eppeta.webapi.DTO;
 using System.Linq.Dynamic.Core;
-using System.Linq.Expressions;
 
-namespace webapi.Controllers;
+namespace eppeta.webapi.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -50,13 +48,18 @@ public class EvaluationController : ControllerBase
     public async Task<ActionResult<List<AvailablePerformanceEvaluation>>> GetEvaluationObjectivesElementsTitles(int performanceEvaluationId)
     {
         if (performanceEvaluationId == 0)
+        {
             return BadRequest();
+        }
         // use dynamic Linq to join on matching column names
         string[] nonJoinCols = { "EdFiId", "Id", "CreateDate", "LastModifiedDate" };
         // get performanceEvaluation, evaluationObjective and evaluationElements records, columns and matching columns
         var performanceEvaluation = new List<PerformanceEvaluation> { await _evaluationRepository.GetPerformanceEvaluationById(performanceEvaluationId) };
         if (!performanceEvaluation.Any() || performanceEvaluation[0] == null)
+        {
             return NotFound();
+        }
+
         var evaluationObjectives = await _evaluationRepository.GetAllEvaluationObjectives();
         var evaluationElements = await _evaluationRepository.GetAllEvaluationElements();
         var performanceEvaluationCols = typeof(PerformanceEvaluation).GetProperties().Select(f => f.Name).ToList();
@@ -100,8 +103,8 @@ public class EvaluationController : ControllerBase
                 .PerformanceEvaluationRatingLevels.Select(l => new AvailablePerformanceEvaluation.AvailableRatingLevel
                 {
                     Name = l.EvaluationRatingLevelDescriptor.Split('#').Last(),
-                    RatingLevel = (int)l.MaxRating,
-                    RatingLevelId = l.Id
+                    RatingLevel = (int)(l?.MaxRating ?? default(int)),
+                    RatingLevelId = l?.Id ?? default
                 }
             ));
         return Ok(availablePerformanceEvaluation);

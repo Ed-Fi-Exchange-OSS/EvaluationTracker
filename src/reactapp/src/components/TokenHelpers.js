@@ -28,10 +28,6 @@ const getToken = () => {
   }
 };
 
-const validateToken = () => {
-  
-};
-
 const getLoggedInUserId = () => {
   const jwt = getToken();
   if (!jwt) return null;

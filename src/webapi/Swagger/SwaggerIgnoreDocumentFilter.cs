@@ -14,7 +14,7 @@ namespace eppeta.webapi.Swagger
         public void Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context)
         {
             // Swagger should not load the TokenPath as a separate endpoint
-            swaggerDoc.Paths.Remove(AuthorizationController.TokenPath);
+            _ = swaggerDoc.Paths.Remove(AuthorizationController.TokenPath);
         }
     }
 }

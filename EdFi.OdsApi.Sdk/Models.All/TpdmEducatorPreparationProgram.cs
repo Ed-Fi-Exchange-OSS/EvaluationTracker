@@ -12,13 +12,13 @@
  */
 
 
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
-using Newtonsoft.Json;
-using System.ComponentModel.DataAnnotations;
 
 namespace EdFi.OdsApi.Sdk.Models.All
 {
@@ -44,31 +44,16 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <param name="gradeLevels">An unordered collection of educatorPreparationProgramGradeLevels. The grade levels served at the EPP Program..</param>
         /// <param name="programId">A unique number or alphanumeric code assigned to a program by a school, school system, a state, or other agency or entity..</param>
         /// <param name="etag">A unique system-generated value that identifies the version of the resource..</param>
-        public TpdmEducatorPreparationProgram(string id = default(string), string programName = default(string), string programTypeDescriptor = default(string), EdFiEducationOrganizationReference educationOrganizationReference = default(EdFiEducationOrganizationReference), string accreditationStatusDescriptor = default(string), List<TpdmEducatorPreparationProgramGradeLevel> gradeLevels = default(List<TpdmEducatorPreparationProgramGradeLevel>), string programId = default(string), string etag = default(string))
+        public TpdmEducatorPreparationProgram(string id = default, string programName = default, string programTypeDescriptor = default, EdFiEducationOrganizationReference educationOrganizationReference = default, string accreditationStatusDescriptor = default, List<TpdmEducatorPreparationProgramGradeLevel> gradeLevels = default, string programId = default, string etag = default)
         {
-            // to ensure "programName" is required (not null)
-            if (programName == null)
-            {
-                throw new ArgumentNullException("programName is a required property for TpdmEducatorPreparationProgram and cannot be null");
-            }
-            this.ProgramName = programName;
-            // to ensure "programTypeDescriptor" is required (not null)
-            if (programTypeDescriptor == null)
-            {
-                throw new ArgumentNullException("programTypeDescriptor is a required property for TpdmEducatorPreparationProgram and cannot be null");
-            }
-            this.ProgramTypeDescriptor = programTypeDescriptor;
-            // to ensure "educationOrganizationReference" is required (not null)
-            if (educationOrganizationReference == null)
-            {
-                throw new ArgumentNullException("educationOrganizationReference is a required property for TpdmEducatorPreparationProgram and cannot be null");
-            }
-            this.EducationOrganizationReference = educationOrganizationReference;
-            this.Id = id;
-            this.AccreditationStatusDescriptor = accreditationStatusDescriptor;
-            this.GradeLevels = gradeLevels;
-            this.ProgramId = programId;
-            this.Etag = etag;
+            ProgramName = programName ?? throw new ArgumentNullException("programName is a required property for TpdmEducatorPreparationProgram and cannot be null");
+            ProgramTypeDescriptor = programTypeDescriptor ?? throw new ArgumentNullException("programTypeDescriptor is a required property for TpdmEducatorPreparationProgram and cannot be null");
+            EducationOrganizationReference = educationOrganizationReference ?? throw new ArgumentNullException("educationOrganizationReference is a required property for TpdmEducatorPreparationProgram and cannot be null");
+            Id = id;
+            AccreditationStatusDescriptor = accreditationStatusDescriptor;
+            GradeLevels = gradeLevels;
+            ProgramId = programId;
+            Etag = etag;
         }
 
         /// <summary>
@@ -131,17 +116,17 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder();
-            sb.Append("class TpdmEducatorPreparationProgram {\n");
-            sb.Append("  Id: ").Append(Id).Append("\n");
-            sb.Append("  ProgramName: ").Append(ProgramName).Append("\n");
-            sb.Append("  ProgramTypeDescriptor: ").Append(ProgramTypeDescriptor).Append("\n");
-            sb.Append("  EducationOrganizationReference: ").Append(EducationOrganizationReference).Append("\n");
-            sb.Append("  AccreditationStatusDescriptor: ").Append(AccreditationStatusDescriptor).Append("\n");
-            sb.Append("  GradeLevels: ").Append(GradeLevels).Append("\n");
-            sb.Append("  ProgramId: ").Append(ProgramId).Append("\n");
-            sb.Append("  Etag: ").Append(Etag).Append("\n");
-            sb.Append("}\n");
+            var sb = new StringBuilder();
+            _ = sb.Append("class TpdmEducatorPreparationProgram {\n");
+            _ = sb.Append("  Id: ").Append(Id).Append("\n");
+            _ = sb.Append("  ProgramName: ").Append(ProgramName).Append("\n");
+            _ = sb.Append("  ProgramTypeDescriptor: ").Append(ProgramTypeDescriptor).Append("\n");
+            _ = sb.Append("  EducationOrganizationReference: ").Append(EducationOrganizationReference).Append("\n");
+            _ = sb.Append("  AccreditationStatusDescriptor: ").Append(AccreditationStatusDescriptor).Append("\n");
+            _ = sb.Append("  GradeLevels: ").Append(GradeLevels).Append("\n");
+            _ = sb.Append("  ProgramId: ").Append(ProgramId).Append("\n");
+            _ = sb.Append("  Etag: ").Append(Etag).Append("\n");
+            _ = sb.Append("}\n");
             return sb.ToString();
         }
 
@@ -161,7 +146,7 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as TpdmEducatorPreparationProgram);
+            return Equals(input as TpdmEducatorPreparationProgram);
         }
 
         /// <summary>
@@ -171,51 +156,47 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public bool Equals(TpdmEducatorPreparationProgram input)
         {
-            if (input == null)
-            {
-                return false;
-            }
-            return
-                (
-                    this.Id == input.Id ||
-                    (this.Id != null &&
-                    this.Id.Equals(input.Id))
+            return input != null
+&& (
+                    Id == input.Id ||
+                    (Id != null &&
+                    Id.Equals(input.Id))
                 ) &&
                 (
-                    this.ProgramName == input.ProgramName ||
-                    (this.ProgramName != null &&
-                    this.ProgramName.Equals(input.ProgramName))
+                    ProgramName == input.ProgramName ||
+                    (ProgramName != null &&
+                    ProgramName.Equals(input.ProgramName))
                 ) &&
                 (
-                    this.ProgramTypeDescriptor == input.ProgramTypeDescriptor ||
-                    (this.ProgramTypeDescriptor != null &&
-                    this.ProgramTypeDescriptor.Equals(input.ProgramTypeDescriptor))
+                    ProgramTypeDescriptor == input.ProgramTypeDescriptor ||
+                    (ProgramTypeDescriptor != null &&
+                    ProgramTypeDescriptor.Equals(input.ProgramTypeDescriptor))
                 ) &&
                 (
-                    this.EducationOrganizationReference == input.EducationOrganizationReference ||
-                    (this.EducationOrganizationReference != null &&
-                    this.EducationOrganizationReference.Equals(input.EducationOrganizationReference))
+                    EducationOrganizationReference == input.EducationOrganizationReference ||
+                    (EducationOrganizationReference != null &&
+                    EducationOrganizationReference.Equals(input.EducationOrganizationReference))
                 ) &&
                 (
-                    this.AccreditationStatusDescriptor == input.AccreditationStatusDescriptor ||
-                    (this.AccreditationStatusDescriptor != null &&
-                    this.AccreditationStatusDescriptor.Equals(input.AccreditationStatusDescriptor))
+                    AccreditationStatusDescriptor == input.AccreditationStatusDescriptor ||
+                    (AccreditationStatusDescriptor != null &&
+                    AccreditationStatusDescriptor.Equals(input.AccreditationStatusDescriptor))
                 ) &&
                 (
-                    this.GradeLevels == input.GradeLevels ||
-                    this.GradeLevels != null &&
+                    GradeLevels == input.GradeLevels ||
+                    GradeLevels != null &&
                     input.GradeLevels != null &&
-                    this.GradeLevels.SequenceEqual(input.GradeLevels)
+                    GradeLevels.SequenceEqual(input.GradeLevels)
                 ) &&
                 (
-                    this.ProgramId == input.ProgramId ||
-                    (this.ProgramId != null &&
-                    this.ProgramId.Equals(input.ProgramId))
+                    ProgramId == input.ProgramId ||
+                    (ProgramId != null &&
+                    ProgramId.Equals(input.ProgramId))
                 ) &&
                 (
-                    this.Etag == input.Etag ||
-                    (this.Etag != null &&
-                    this.Etag.Equals(input.Etag))
+                    Etag == input.Etag ||
+                    (Etag != null &&
+                    Etag.Equals(input.Etag))
                 );
         }
 
@@ -227,38 +208,38 @@ namespace EdFi.OdsApi.Sdk.Models.All
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
-                if (this.Id != null)
+                var hashCode = 41;
+                if (Id != null)
                 {
-                    hashCode = (hashCode * 59) + this.Id.GetHashCode();
+                    hashCode = (hashCode * 59) + Id.GetHashCode();
                 }
-                if (this.ProgramName != null)
+                if (ProgramName != null)
                 {
-                    hashCode = (hashCode * 59) + this.ProgramName.GetHashCode();
+                    hashCode = (hashCode * 59) + ProgramName.GetHashCode();
                 }
-                if (this.ProgramTypeDescriptor != null)
+                if (ProgramTypeDescriptor != null)
                 {
-                    hashCode = (hashCode * 59) + this.ProgramTypeDescriptor.GetHashCode();
+                    hashCode = (hashCode * 59) + ProgramTypeDescriptor.GetHashCode();
                 }
-                if (this.EducationOrganizationReference != null)
+                if (EducationOrganizationReference != null)
                 {
-                    hashCode = (hashCode * 59) + this.EducationOrganizationReference.GetHashCode();
+                    hashCode = (hashCode * 59) + EducationOrganizationReference.GetHashCode();
                 }
-                if (this.AccreditationStatusDescriptor != null)
+                if (AccreditationStatusDescriptor != null)
                 {
-                    hashCode = (hashCode * 59) + this.AccreditationStatusDescriptor.GetHashCode();
+                    hashCode = (hashCode * 59) + AccreditationStatusDescriptor.GetHashCode();
                 }
-                if (this.GradeLevels != null)
+                if (GradeLevels != null)
                 {
-                    hashCode = (hashCode * 59) + this.GradeLevels.GetHashCode();
+                    hashCode = (hashCode * 59) + GradeLevels.GetHashCode();
                 }
-                if (this.ProgramId != null)
+                if (ProgramId != null)
                 {
-                    hashCode = (hashCode * 59) + this.ProgramId.GetHashCode();
+                    hashCode = (hashCode * 59) + ProgramId.GetHashCode();
                 }
-                if (this.Etag != null)
+                if (Etag != null)
                 {
-                    hashCode = (hashCode * 59) + this.Etag.GetHashCode();
+                    hashCode = (hashCode * 59) + Etag.GetHashCode();
                 }
                 return hashCode;
             }
@@ -272,25 +253,25 @@ namespace EdFi.OdsApi.Sdk.Models.All
         public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
         {
             // ProgramName (string) maxLength
-            if (this.ProgramName != null && this.ProgramName.Length > 255)
+            if (ProgramName != null && ProgramName.Length > 255)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for ProgramName, length must be less than 255.", new[] { "ProgramName" });
             }
 
             // ProgramTypeDescriptor (string) maxLength
-            if (this.ProgramTypeDescriptor != null && this.ProgramTypeDescriptor.Length > 306)
+            if (ProgramTypeDescriptor != null && ProgramTypeDescriptor.Length > 306)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for ProgramTypeDescriptor, length must be less than 306.", new[] { "ProgramTypeDescriptor" });
             }
 
             // AccreditationStatusDescriptor (string) maxLength
-            if (this.AccreditationStatusDescriptor != null && this.AccreditationStatusDescriptor.Length > 306)
+            if (AccreditationStatusDescriptor != null && AccreditationStatusDescriptor.Length > 306)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for AccreditationStatusDescriptor, length must be less than 306.", new[] { "AccreditationStatusDescriptor" });
             }
 
             // ProgramId (string) maxLength
-            if (this.ProgramId != null && this.ProgramId.Length > 20)
+            if (ProgramId != null && ProgramId.Length > 20)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for ProgramId, length must be less than 20.", new[] { "ProgramId" });
             }

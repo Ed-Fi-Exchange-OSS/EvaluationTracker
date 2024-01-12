@@ -12,12 +12,12 @@
  */
 
 
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using System.Text;
-using Newtonsoft.Json;
-using System.ComponentModel.DataAnnotations;
 
 namespace EdFi.OdsApi.Sdk.Models.All
 {
@@ -41,29 +41,14 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <param name="sectionIdentifier">The local identifier assigned to a section. (required).</param>
         /// <param name="sessionName">The identifier for the calendar for the academic session. (required).</param>
         /// <param name="link">link.</param>
-        public EdFiSectionReference(string localCourseCode = default(string), int schoolId = default(int), int schoolYear = default(int), string sectionIdentifier = default(string), string sessionName = default(string), Link link = default(Link))
+        public EdFiSectionReference(string localCourseCode = default, int schoolId = default, int schoolYear = default, string sectionIdentifier = default, string sessionName = default, Link link = default)
         {
-            // to ensure "localCourseCode" is required (not null)
-            if (localCourseCode == null)
-            {
-                throw new ArgumentNullException("localCourseCode is a required property for EdFiSectionReference and cannot be null");
-            }
-            this.LocalCourseCode = localCourseCode;
-            this.SchoolId = schoolId;
-            this.SchoolYear = schoolYear;
-            // to ensure "sectionIdentifier" is required (not null)
-            if (sectionIdentifier == null)
-            {
-                throw new ArgumentNullException("sectionIdentifier is a required property for EdFiSectionReference and cannot be null");
-            }
-            this.SectionIdentifier = sectionIdentifier;
-            // to ensure "sessionName" is required (not null)
-            if (sessionName == null)
-            {
-                throw new ArgumentNullException("sessionName is a required property for EdFiSectionReference and cannot be null");
-            }
-            this.SessionName = sessionName;
-            this.Link = link;
+            LocalCourseCode = localCourseCode ?? throw new ArgumentNullException("localCourseCode is a required property for EdFiSectionReference and cannot be null");
+            SchoolId = schoolId;
+            SchoolYear = schoolYear;
+            SectionIdentifier = sectionIdentifier ?? throw new ArgumentNullException("sectionIdentifier is a required property for EdFiSectionReference and cannot be null");
+            SessionName = sessionName ?? throw new ArgumentNullException("sessionName is a required property for EdFiSectionReference and cannot be null");
+            Link = link;
         }
 
         /// <summary>
@@ -113,15 +98,15 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder();
-            sb.Append("class EdFiSectionReference {\n");
-            sb.Append("  LocalCourseCode: ").Append(LocalCourseCode).Append("\n");
-            sb.Append("  SchoolId: ").Append(SchoolId).Append("\n");
-            sb.Append("  SchoolYear: ").Append(SchoolYear).Append("\n");
-            sb.Append("  SectionIdentifier: ").Append(SectionIdentifier).Append("\n");
-            sb.Append("  SessionName: ").Append(SessionName).Append("\n");
-            sb.Append("  Link: ").Append(Link).Append("\n");
-            sb.Append("}\n");
+            var sb = new StringBuilder();
+            _ = sb.Append("class EdFiSectionReference {\n");
+            _ = sb.Append("  LocalCourseCode: ").Append(LocalCourseCode).Append("\n");
+            _ = sb.Append("  SchoolId: ").Append(SchoolId).Append("\n");
+            _ = sb.Append("  SchoolYear: ").Append(SchoolYear).Append("\n");
+            _ = sb.Append("  SectionIdentifier: ").Append(SectionIdentifier).Append("\n");
+            _ = sb.Append("  SessionName: ").Append(SessionName).Append("\n");
+            _ = sb.Append("  Link: ").Append(Link).Append("\n");
+            _ = sb.Append("}\n");
             return sb.ToString();
         }
 
@@ -141,7 +126,7 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as EdFiSectionReference);
+            return Equals(input as EdFiSectionReference);
         }
 
         /// <summary>
@@ -151,38 +136,34 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public bool Equals(EdFiSectionReference input)
         {
-            if (input == null)
-            {
-                return false;
-            }
-            return
-                (
-                    this.LocalCourseCode == input.LocalCourseCode ||
-                    (this.LocalCourseCode != null &&
-                    this.LocalCourseCode.Equals(input.LocalCourseCode))
+            return input != null
+&& (
+                    LocalCourseCode == input.LocalCourseCode ||
+                    (LocalCourseCode != null &&
+                    LocalCourseCode.Equals(input.LocalCourseCode))
                 ) &&
                 (
-                    this.SchoolId == input.SchoolId ||
-                    this.SchoolId.Equals(input.SchoolId)
+                    SchoolId == input.SchoolId ||
+                    SchoolId.Equals(input.SchoolId)
                 ) &&
                 (
-                    this.SchoolYear == input.SchoolYear ||
-                    this.SchoolYear.Equals(input.SchoolYear)
+                    SchoolYear == input.SchoolYear ||
+                    SchoolYear.Equals(input.SchoolYear)
                 ) &&
                 (
-                    this.SectionIdentifier == input.SectionIdentifier ||
-                    (this.SectionIdentifier != null &&
-                    this.SectionIdentifier.Equals(input.SectionIdentifier))
+                    SectionIdentifier == input.SectionIdentifier ||
+                    (SectionIdentifier != null &&
+                    SectionIdentifier.Equals(input.SectionIdentifier))
                 ) &&
                 (
-                    this.SessionName == input.SessionName ||
-                    (this.SessionName != null &&
-                    this.SessionName.Equals(input.SessionName))
+                    SessionName == input.SessionName ||
+                    (SessionName != null &&
+                    SessionName.Equals(input.SessionName))
                 ) &&
                 (
-                    this.Link == input.Link ||
-                    (this.Link != null &&
-                    this.Link.Equals(input.Link))
+                    Link == input.Link ||
+                    (Link != null &&
+                    Link.Equals(input.Link))
                 );
         }
 
@@ -194,24 +175,24 @@ namespace EdFi.OdsApi.Sdk.Models.All
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
-                if (this.LocalCourseCode != null)
+                var hashCode = 41;
+                if (LocalCourseCode != null)
                 {
-                    hashCode = (hashCode * 59) + this.LocalCourseCode.GetHashCode();
+                    hashCode = (hashCode * 59) + LocalCourseCode.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + this.SchoolId.GetHashCode();
-                hashCode = (hashCode * 59) + this.SchoolYear.GetHashCode();
-                if (this.SectionIdentifier != null)
+                hashCode = (hashCode * 59) + SchoolId.GetHashCode();
+                hashCode = (hashCode * 59) + SchoolYear.GetHashCode();
+                if (SectionIdentifier != null)
                 {
-                    hashCode = (hashCode * 59) + this.SectionIdentifier.GetHashCode();
+                    hashCode = (hashCode * 59) + SectionIdentifier.GetHashCode();
                 }
-                if (this.SessionName != null)
+                if (SessionName != null)
                 {
-                    hashCode = (hashCode * 59) + this.SessionName.GetHashCode();
+                    hashCode = (hashCode * 59) + SessionName.GetHashCode();
                 }
-                if (this.Link != null)
+                if (Link != null)
                 {
-                    hashCode = (hashCode * 59) + this.Link.GetHashCode();
+                    hashCode = (hashCode * 59) + Link.GetHashCode();
                 }
                 return hashCode;
             }
@@ -225,19 +206,19 @@ namespace EdFi.OdsApi.Sdk.Models.All
         public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
         {
             // LocalCourseCode (string) maxLength
-            if (this.LocalCourseCode != null && this.LocalCourseCode.Length > 60)
+            if (LocalCourseCode != null && LocalCourseCode.Length > 60)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for LocalCourseCode, length must be less than 60.", new[] { "LocalCourseCode" });
             }
 
             // SectionIdentifier (string) maxLength
-            if (this.SectionIdentifier != null && this.SectionIdentifier.Length > 255)
+            if (SectionIdentifier != null && SectionIdentifier.Length > 255)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for SectionIdentifier, length must be less than 255.", new[] { "SectionIdentifier" });
             }
 
             // SessionName (string) maxLength
-            if (this.SessionName != null && this.SessionName.Length > 60)
+            if (SessionName != null && SessionName.Length > 60)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for SessionName, length must be less than 60.", new[] { "SessionName" });
             }

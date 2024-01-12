@@ -4,7 +4,7 @@ using eppeta.webapi.Evaluations.Models;
 
 namespace eppeta.webapi.Service
 {
-    class SyncOdsAssets
+    internal class SyncOdsAssets
     {
         private readonly IODSAPIAuthenticationConfigurationService _service;
         private readonly IEvaluationRepository _evaluationRepository;

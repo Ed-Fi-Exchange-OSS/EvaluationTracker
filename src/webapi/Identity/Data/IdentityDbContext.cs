@@ -39,7 +39,7 @@ public class IdentityDbContext : IdentityDbContext<ApplicationUser>, IIdentityRe
         existing.RequirePasswordChange = user.RequirePasswordChange;
         existing.DeletedAt = user.DeletedAt;
 
-        await SaveChangesAsync();
+        _ = await SaveChangesAsync();
 
         return true;
     }
@@ -55,33 +55,33 @@ public class IdentityDbContext : IdentityDbContext<ApplicationUser>, IIdentityRe
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-        modelBuilder.HasDefaultSchema("eppeta");
+        _ = modelBuilder.HasDefaultSchema("eppeta");
 
-        modelBuilder.Entity<ApplicationUser>().ToTable("Users");
-        modelBuilder.Entity<IdentityRole>().ToTable("Roles");
-        modelBuilder.Entity<IdentityUserClaim<string>>().ToTable("UserClaims");
-        modelBuilder.Entity<IdentityRoleClaim<string>>().ToTable("RoleClaims");
-        modelBuilder.Entity<IdentityUserLogin<string>>().ToTable("UserLogins");
-        modelBuilder.Entity<IdentityUserRole<string>>().ToTable("UserRoles");
-        modelBuilder.Entity<IdentityUserToken<string>>().ToTable("UserTokens");
+        _ = modelBuilder.Entity<ApplicationUser>().ToTable("Users");
+        _ = modelBuilder.Entity<IdentityRole>().ToTable("Roles");
+        _ = modelBuilder.Entity<IdentityUserClaim<string>>().ToTable("UserClaims");
+        _ = modelBuilder.Entity<IdentityRoleClaim<string>>().ToTable("RoleClaims");
+        _ = modelBuilder.Entity<IdentityUserLogin<string>>().ToTable("UserLogins");
+        _ = modelBuilder.Entity<IdentityUserRole<string>>().ToTable("UserRoles");
+        _ = modelBuilder.Entity<IdentityUserToken<string>>().ToTable("UserTokens");
 
-        modelBuilder.Entity<ApplicationUser>().Property(x => x.Id).HasMaxLength(225);
-        modelBuilder.Entity<ApplicationUser>().Property(x => x.FirstName).HasMaxLength(100);
-        modelBuilder.Entity<ApplicationUser>().Property(x => x.LastName).HasMaxLength(100);
+        _ = modelBuilder.Entity<ApplicationUser>().Property(x => x.Id).HasMaxLength(225);
+        _ = modelBuilder.Entity<ApplicationUser>().Property(x => x.FirstName).HasMaxLength(100);
+        _ = modelBuilder.Entity<ApplicationUser>().Property(x => x.LastName).HasMaxLength(100);
 
-        modelBuilder.Entity<IdentityRole>().Property(x => x.Id).HasMaxLength(225);
+        _ = modelBuilder.Entity<IdentityRole>().Property(x => x.Id).HasMaxLength(225);
 
-        modelBuilder.Entity<IdentityUserClaim<string>>().Property(x => x.UserId).HasMaxLength(225);
+        _ = modelBuilder.Entity<IdentityUserClaim<string>>().Property(x => x.UserId).HasMaxLength(225);
 
-        modelBuilder.Entity<IdentityRoleClaim<string>>().Property(x => x.RoleId).HasMaxLength(225);
+        _ = modelBuilder.Entity<IdentityRoleClaim<string>>().Property(x => x.RoleId).HasMaxLength(225);
 
-        modelBuilder.Entity<IdentityUserLogin<string>>().Property(x => x.UserId).HasMaxLength(225);
+        _ = modelBuilder.Entity<IdentityUserLogin<string>>().Property(x => x.UserId).HasMaxLength(225);
 
-        modelBuilder.Entity<IdentityUserRole<string>>().Property(x => x.UserId).HasMaxLength(225);
-        modelBuilder.Entity<IdentityUserRole<string>>().Property(x => x.RoleId).HasMaxLength(225);
+        _ = modelBuilder.Entity<IdentityUserRole<string>>().Property(x => x.UserId).HasMaxLength(225);
+        _ = modelBuilder.Entity<IdentityUserRole<string>>().Property(x => x.RoleId).HasMaxLength(225);
 
-        modelBuilder.Entity<IdentityUserToken<string>>().Property(x => x.UserId).HasMaxLength(225);
-        modelBuilder.Entity<IdentityUserToken<string>>().Property(x => x.LoginProvider).HasMaxLength(112);
-        modelBuilder.Entity<IdentityUserToken<string>>().Property(x => x.Name).HasMaxLength(112);
+        _ = modelBuilder.Entity<IdentityUserToken<string>>().Property(x => x.UserId).HasMaxLength(225);
+        _ = modelBuilder.Entity<IdentityUserToken<string>>().Property(x => x.LoginProvider).HasMaxLength(112);
+        _ = modelBuilder.Entity<IdentityUserToken<string>>().Property(x => x.Name).HasMaxLength(112);
     }
 }

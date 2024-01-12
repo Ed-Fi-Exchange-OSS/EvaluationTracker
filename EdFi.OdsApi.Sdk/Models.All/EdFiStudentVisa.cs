@@ -12,12 +12,12 @@
  */
 
 
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using System.Text;
-using Newtonsoft.Json;
-using System.ComponentModel.DataAnnotations;
 
 namespace EdFi.OdsApi.Sdk.Models.All
 {
@@ -36,14 +36,9 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// Initializes a new instance of the <see cref="EdFiStudentVisa" /> class.
         /// </summary>
         /// <param name="visaDescriptor">An indicator of a non-US citizen&#39;s Visa type. (required).</param>
-        public EdFiStudentVisa(string visaDescriptor = default(string))
+        public EdFiStudentVisa(string visaDescriptor = default)
         {
-            // to ensure "visaDescriptor" is required (not null)
-            if (visaDescriptor == null)
-            {
-                throw new ArgumentNullException("visaDescriptor is a required property for EdFiStudentVisa and cannot be null");
-            }
-            this.VisaDescriptor = visaDescriptor;
+            VisaDescriptor = visaDescriptor ?? throw new ArgumentNullException("visaDescriptor is a required property for EdFiStudentVisa and cannot be null");
         }
 
         /// <summary>
@@ -59,10 +54,10 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder();
-            sb.Append("class EdFiStudentVisa {\n");
-            sb.Append("  VisaDescriptor: ").Append(VisaDescriptor).Append("\n");
-            sb.Append("}\n");
+            var sb = new StringBuilder();
+            _ = sb.Append("class EdFiStudentVisa {\n");
+            _ = sb.Append("  VisaDescriptor: ").Append(VisaDescriptor).Append("\n");
+            _ = sb.Append("}\n");
             return sb.ToString();
         }
 
@@ -82,7 +77,7 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as EdFiStudentVisa);
+            return Equals(input as EdFiStudentVisa);
         }
 
         /// <summary>
@@ -92,16 +87,10 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public bool Equals(EdFiStudentVisa input)
         {
-            if (input == null)
-            {
-                return false;
-            }
-            return
-                (
-                    this.VisaDescriptor == input.VisaDescriptor ||
-                    (this.VisaDescriptor != null &&
-                    this.VisaDescriptor.Equals(input.VisaDescriptor))
-                );
+            return input != null
+&& (VisaDescriptor == input.VisaDescriptor ||
+                    (VisaDescriptor != null &&
+                    VisaDescriptor.Equals(input.VisaDescriptor)));
         }
 
         /// <summary>
@@ -112,10 +101,10 @@ namespace EdFi.OdsApi.Sdk.Models.All
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
-                if (this.VisaDescriptor != null)
+                var hashCode = 41;
+                if (VisaDescriptor != null)
                 {
-                    hashCode = (hashCode * 59) + this.VisaDescriptor.GetHashCode();
+                    hashCode = (hashCode * 59) + VisaDescriptor.GetHashCode();
                 }
                 return hashCode;
             }
@@ -129,7 +118,7 @@ namespace EdFi.OdsApi.Sdk.Models.All
         public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
         {
             // VisaDescriptor (string) maxLength
-            if (this.VisaDescriptor != null && this.VisaDescriptor.Length > 306)
+            if (VisaDescriptor != null && VisaDescriptor.Length > 306)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for VisaDescriptor, length must be less than 306.", new[] { "VisaDescriptor" });
             }

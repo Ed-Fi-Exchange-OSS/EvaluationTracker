@@ -17,29 +17,29 @@ namespace eppeta.webapi.Evaluations.Models
         public DateTime EvaluationDate { get; set; }
         [Required]
         [StringLength(255)]
-        public string EvaluationElementTitle { get; set; }
+        public string? EvaluationElementTitle { get; set; }
         [Required]
         [StringLength(50)]
-        public string EvaluationObjectiveTitle { get; set; }
+        public string? EvaluationObjectiveTitle { get; set; }
         [Required]
-        public string EvaluationPeriodDescriptor { get; set; }
-        [Required]
-        [StringLength(50)]
-        public string EvaluationTitle { get; set; }
+        public string? EvaluationPeriodDescriptor { get; set; }
         [Required]
         [StringLength(50)]
-        public string PerformanceEvaluationTitle { get; set; }
+        public string? EvaluationTitle { get; set; }
         [Required]
-        public string PerformanceEvaluationTypeDescriptor { get; set; }
+        [StringLength(50)]
+        public string? PerformanceEvaluationTitle { get; set; }
+        [Required]
+        public string? PerformanceEvaluationTypeDescriptor { get; set; }
         [Required]
         [StringLength(32)]
-        public string PersonId { get; set; }
+        public string? PersonId { get; set; }
         [Required]
         public short SchoolYear { get; set; }
         [Required]
-        public string SourceSystemDescriptor { get; set; }
+        public string? SourceSystemDescriptor { get; set; }
         [Required]
-        public string TermDescriptor { get; set; }
+        public string? TermDescriptor { get; set; }
         public string? EvaluationElementRatingLevelDescriptor { get; set; } = string.Empty;
         public decimal Rating { get; set; }
         public DateTime CreateDate { get; set; }
@@ -51,36 +51,38 @@ namespace eppeta.webapi.Evaluations.Models
         // Foreign keys
         [ForeignKey("UserId")]
         public ApplicationUser? ApplicationUser { get; set; }
-    public static explicit operator TpdmEvaluationElementRating(EvaluationElementRating evaluationElementRating)
-        => new TpdmEvaluationElementRating
-        (
-            evaluationElementReference: new TpdmEvaluationElementReference
-            (
-                educationOrganizationId: (int)evaluationElementRating.EducationOrganizationId,
-                evaluationElementTitle:evaluationElementRating.EvaluationElementTitle,
-                evaluationObjectiveTitle: evaluationElementRating.EvaluationObjectiveTitle,
-                evaluationPeriodDescriptor: evaluationElementRating.EvaluationPeriodDescriptor,
-                evaluationTitle: evaluationElementRating.EvaluationTitle,
-                performanceEvaluationTitle: evaluationElementRating.PerformanceEvaluationTitle,
-                performanceEvaluationTypeDescriptor: evaluationElementRating.PerformanceEvaluationTypeDescriptor,
-                schoolYear: evaluationElementRating.SchoolYear,
-                termDescriptor:evaluationElementRating.TermDescriptor
-            ),
-            evaluationObjectiveRatingReference: new TpdmEvaluationObjectiveRatingReference
-            (
-                educationOrganizationId: (int)evaluationElementRating.EducationOrganizationId,
-                evaluationObjectiveTitle: evaluationElementRating.EvaluationObjectiveTitle,
-                evaluationPeriodDescriptor: evaluationElementRating.EvaluationPeriodDescriptor,
-                evaluationTitle: evaluationElementRating.EvaluationTitle,
-                evaluationDate: evaluationElementRating.EvaluationDate,
-                performanceEvaluationTitle: evaluationElementRating.PerformanceEvaluationTitle,
-                performanceEvaluationTypeDescriptor: evaluationElementRating.PerformanceEvaluationTypeDescriptor,
-                schoolYear: evaluationElementRating.SchoolYear,
-                termDescriptor: evaluationElementRating.TermDescriptor,
-                personId: evaluationElementRating.PersonId,
-                sourceSystemDescriptor: evaluationElementRating.SourceSystemDescriptor
-            )
-        );
+        public static explicit operator TpdmEvaluationElementRating(EvaluationElementRating evaluationElementRating)
+        {
+            return new TpdmEvaluationElementRating
+                (
+                    evaluationElementReference: new TpdmEvaluationElementReference
+                    (
+                        educationOrganizationId: (int)evaluationElementRating.EducationOrganizationId,
+                        evaluationElementTitle: evaluationElementRating.EvaluationElementTitle ?? string.Empty,
+                        evaluationObjectiveTitle: evaluationElementRating.EvaluationObjectiveTitle ?? string.Empty,
+                        evaluationPeriodDescriptor: evaluationElementRating.EvaluationPeriodDescriptor ?? string.Empty,
+                        evaluationTitle: evaluationElementRating.EvaluationTitle ?? string.Empty,
+                        performanceEvaluationTitle: evaluationElementRating.PerformanceEvaluationTitle ?? string.Empty,
+                        performanceEvaluationTypeDescriptor: evaluationElementRating.PerformanceEvaluationTypeDescriptor ?? string.Empty,
+                        schoolYear: evaluationElementRating.SchoolYear,
+                        termDescriptor: evaluationElementRating.TermDescriptor ?? string.Empty
+                    ),
+                    evaluationObjectiveRatingReference: new TpdmEvaluationObjectiveRatingReference
+                    (
+                        educationOrganizationId: (int)evaluationElementRating.EducationOrganizationId,
+                        evaluationObjectiveTitle: evaluationElementRating.EvaluationObjectiveTitle ?? string.Empty,
+                        evaluationPeriodDescriptor: evaluationElementRating.EvaluationPeriodDescriptor ?? string.Empty,
+                        evaluationTitle: evaluationElementRating.EvaluationTitle ?? string.Empty,
+                        evaluationDate: evaluationElementRating.EvaluationDate,
+                        performanceEvaluationTitle: evaluationElementRating.PerformanceEvaluationTitle ?? string.Empty,
+                        performanceEvaluationTypeDescriptor: evaluationElementRating.PerformanceEvaluationTypeDescriptor ?? string.Empty,
+                        schoolYear: evaluationElementRating.SchoolYear,
+                        termDescriptor: evaluationElementRating.TermDescriptor ?? string.Empty,
+                        personId: evaluationElementRating.PersonId ?? string.Empty,
+                        sourceSystemDescriptor: evaluationElementRating.SourceSystemDescriptor ?? string.Empty
+                    )
+                );
+        }
     }
 }
 

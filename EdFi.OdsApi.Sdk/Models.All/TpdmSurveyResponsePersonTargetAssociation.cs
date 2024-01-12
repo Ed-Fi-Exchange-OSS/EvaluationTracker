@@ -12,12 +12,12 @@
  */
 
 
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using System.Text;
-using Newtonsoft.Json;
-using System.ComponentModel.DataAnnotations;
 
 namespace EdFi.OdsApi.Sdk.Models.All
 {
@@ -39,22 +39,12 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <param name="personReference">personReference (required).</param>
         /// <param name="surveyResponseReference">surveyResponseReference (required).</param>
         /// <param name="etag">A unique system-generated value that identifies the version of the resource..</param>
-        public TpdmSurveyResponsePersonTargetAssociation(string id = default(string), EdFiPersonReference personReference = default(EdFiPersonReference), EdFiSurveyResponseReference surveyResponseReference = default(EdFiSurveyResponseReference), string etag = default(string))
+        public TpdmSurveyResponsePersonTargetAssociation(string id = default, EdFiPersonReference personReference = default, EdFiSurveyResponseReference surveyResponseReference = default, string etag = default)
         {
-            // to ensure "personReference" is required (not null)
-            if (personReference == null)
-            {
-                throw new ArgumentNullException("personReference is a required property for TpdmSurveyResponsePersonTargetAssociation and cannot be null");
-            }
-            this.PersonReference = personReference;
-            // to ensure "surveyResponseReference" is required (not null)
-            if (surveyResponseReference == null)
-            {
-                throw new ArgumentNullException("surveyResponseReference is a required property for TpdmSurveyResponsePersonTargetAssociation and cannot be null");
-            }
-            this.SurveyResponseReference = surveyResponseReference;
-            this.Id = id;
-            this.Etag = etag;
+            PersonReference = personReference ?? throw new ArgumentNullException("personReference is a required property for TpdmSurveyResponsePersonTargetAssociation and cannot be null");
+            SurveyResponseReference = surveyResponseReference ?? throw new ArgumentNullException("surveyResponseReference is a required property for TpdmSurveyResponsePersonTargetAssociation and cannot be null");
+            Id = id;
+            Etag = etag;
         }
 
         /// <summary>
@@ -88,13 +78,13 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder();
-            sb.Append("class TpdmSurveyResponsePersonTargetAssociation {\n");
-            sb.Append("  Id: ").Append(Id).Append("\n");
-            sb.Append("  PersonReference: ").Append(PersonReference).Append("\n");
-            sb.Append("  SurveyResponseReference: ").Append(SurveyResponseReference).Append("\n");
-            sb.Append("  Etag: ").Append(Etag).Append("\n");
-            sb.Append("}\n");
+            var sb = new StringBuilder();
+            _ = sb.Append("class TpdmSurveyResponsePersonTargetAssociation {\n");
+            _ = sb.Append("  Id: ").Append(Id).Append("\n");
+            _ = sb.Append("  PersonReference: ").Append(PersonReference).Append("\n");
+            _ = sb.Append("  SurveyResponseReference: ").Append(SurveyResponseReference).Append("\n");
+            _ = sb.Append("  Etag: ").Append(Etag).Append("\n");
+            _ = sb.Append("}\n");
             return sb.ToString();
         }
 
@@ -114,7 +104,7 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as TpdmSurveyResponsePersonTargetAssociation);
+            return Equals(input as TpdmSurveyResponsePersonTargetAssociation);
         }
 
         /// <summary>
@@ -124,30 +114,26 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public bool Equals(TpdmSurveyResponsePersonTargetAssociation input)
         {
-            if (input == null)
-            {
-                return false;
-            }
-            return
-                (
-                    this.Id == input.Id ||
-                    (this.Id != null &&
-                    this.Id.Equals(input.Id))
+            return input != null
+&& (
+                    Id == input.Id ||
+                    (Id != null &&
+                    Id.Equals(input.Id))
                 ) &&
                 (
-                    this.PersonReference == input.PersonReference ||
-                    (this.PersonReference != null &&
-                    this.PersonReference.Equals(input.PersonReference))
+                    PersonReference == input.PersonReference ||
+                    (PersonReference != null &&
+                    PersonReference.Equals(input.PersonReference))
                 ) &&
                 (
-                    this.SurveyResponseReference == input.SurveyResponseReference ||
-                    (this.SurveyResponseReference != null &&
-                    this.SurveyResponseReference.Equals(input.SurveyResponseReference))
+                    SurveyResponseReference == input.SurveyResponseReference ||
+                    (SurveyResponseReference != null &&
+                    SurveyResponseReference.Equals(input.SurveyResponseReference))
                 ) &&
                 (
-                    this.Etag == input.Etag ||
-                    (this.Etag != null &&
-                    this.Etag.Equals(input.Etag))
+                    Etag == input.Etag ||
+                    (Etag != null &&
+                    Etag.Equals(input.Etag))
                 );
         }
 
@@ -159,22 +145,22 @@ namespace EdFi.OdsApi.Sdk.Models.All
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
-                if (this.Id != null)
+                var hashCode = 41;
+                if (Id != null)
                 {
-                    hashCode = (hashCode * 59) + this.Id.GetHashCode();
+                    hashCode = (hashCode * 59) + Id.GetHashCode();
                 }
-                if (this.PersonReference != null)
+                if (PersonReference != null)
                 {
-                    hashCode = (hashCode * 59) + this.PersonReference.GetHashCode();
+                    hashCode = (hashCode * 59) + PersonReference.GetHashCode();
                 }
-                if (this.SurveyResponseReference != null)
+                if (SurveyResponseReference != null)
                 {
-                    hashCode = (hashCode * 59) + this.SurveyResponseReference.GetHashCode();
+                    hashCode = (hashCode * 59) + SurveyResponseReference.GetHashCode();
                 }
-                if (this.Etag != null)
+                if (Etag != null)
                 {
-                    hashCode = (hashCode * 59) + this.Etag.GetHashCode();
+                    hashCode = (hashCode * 59) + Etag.GetHashCode();
                 }
                 return hashCode;
             }

@@ -12,7 +12,6 @@
  */
 
 
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
@@ -70,7 +69,7 @@ namespace EdFi.OdsApi.Sdk.Client
         /// <summary>
         /// Any data associated with a request body.
         /// </summary>
-        public Object Data { get; set; }
+        public object Data { get; set; }
 
         /// <summary>
         /// Constructs a new instance of <see cref="RequestOptions"/>

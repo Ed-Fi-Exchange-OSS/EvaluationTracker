@@ -30,32 +30,36 @@ namespace eppeta.webapi.Evaluations.Models
 
         [Column("EdFi_Id")]
         [StringLength(50)]
-        public string EdFiId { get; set; }
+        public string? EdFiId { get; set; }
 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         public static explicit operator Candidate(TpdmCandidate tpdmCandidate)
-        => new Candidate
         {
-            FirstName = tpdmCandidate.FirstName,
-            LastName = tpdmCandidate.LastSurname,
-            PersonId = tpdmCandidate.PersonReference.PersonId,
-            SourceSystemDescriptor = tpdmCandidate.PersonReference.SourceSystemDescriptor,
-            EdFiId = tpdmCandidate.Id,
-        };
+            return new Candidate
+            {
+                FirstName = tpdmCandidate.FirstName,
+                LastName = tpdmCandidate.LastSurname,
+                PersonId = tpdmCandidate.PersonReference.PersonId,
+                SourceSystemDescriptor = tpdmCandidate.PersonReference.SourceSystemDescriptor,
+                EdFiId = tpdmCandidate.Id,
+            };
+        }
 
         public static explicit operator TpdmCandidate(Candidate candidate)
-            => new TpdmCandidate
-            (
-                firstName: candidate.FirstName,
-                lastSurname: candidate.LastName,
-                personReference: new EdFiPersonReference
-                {
-                    PersonId = candidate.PersonId,
-                    SourceSystemDescriptor = candidate.SourceSystemDescriptor
-                }
-            );
+        {
+            return new TpdmCandidate
+                    (
+                        firstName: candidate.FirstName,
+                        lastSurname: candidate.LastName,
+                        personReference: new EdFiPersonReference
+                        {
+                            PersonId = candidate.PersonId,
+                            SourceSystemDescriptor = candidate.SourceSystemDescriptor
+                        }
+                    );
+        }
     }
 }

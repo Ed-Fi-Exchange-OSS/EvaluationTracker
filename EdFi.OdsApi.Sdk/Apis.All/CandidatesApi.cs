@@ -12,10 +12,10 @@
  */
 
 
-using System;
-using System.Collections.Generic;
 using EdFi.OdsApi.Sdk.Client;
 using EdFi.OdsApi.Sdk.Models.All;
+using System;
+using System.Collections.Generic;
 
 namespace EdFi.OdsApi.Sdk.Apis.All
 {
@@ -37,7 +37,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="ifMatch">The ETag header value used to prevent the DELETE from removing a resource modified by another consumer. (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns></returns>
-        void DeleteCandidateById(string id, string? ifMatch = default(string?), int operationIndex = 0);
+        void DeleteCandidateById(string id, string? ifMatch = default, int operationIndex = 0);
 
         /// <summary>
         /// Deletes an existing resource using the resource identifier.
@@ -50,7 +50,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="ifMatch">The ETag header value used to prevent the DELETE from removing a resource modified by another consumer. (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> DeleteCandidateByIdWithHttpInfo(string id, string? ifMatch = default(string?), int operationIndex = 0);
+        ApiResponse<object> DeleteCandidateByIdWithHttpInfo(string id, string? ifMatch = default, int operationIndex = 0);
 
         /// <summary>
         /// Retrieves specific resources using the resource&#39;s property values (using the \&quot;Get\&quot; pattern).
@@ -93,7 +93,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="snapshotIdentifier">Indicates the Snapshot-Identifier that should be used. (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>List&lt;TpdmCandidate&gt;</returns>
-        List<TpdmCandidate> GetCandidates(int? offset = default(int?), int? limit = default(int?), long? minChangeVersion = default(long?), long? maxChangeVersion = default(long?), bool? totalCount = default(bool?), string? candidateIdentifier = default(string?), string? personId = default(string?), string? sourceSystemDescriptor = default(string?), string? birthCountryDescriptor = default(string?), string? englishLanguageExamDescriptor = default(string?), string? genderDescriptor = default(string?), string? limitedEnglishProficiencyDescriptor = default(string?), string? sexDescriptor = default(string?), string? birthSexDescriptor = default(string?), string? birthStateAbbreviationDescriptor = default(string?), string? birthCity = default(string?), DateTime? birthDate = default(DateTime?), string? birthInternationalProvince = default(string?), DateTime? dateEnteredUS = default(DateTime?), string? displacementStatus = default(string?), bool? economicDisadvantaged = default(bool?), bool? firstGenerationStudent = default(bool?), string? firstName = default(string?), string? generationCodeSuffix = default(string?), bool? hispanicLatinoEthnicity = default(bool?), string? id = default(string?), string? lastSurname = default(string?), string? maidenName = default(string?), string? middleName = default(string?), bool? multipleBirthStatus = default(bool?), string? personalTitlePrefix = default(string?), string? snapshotIdentifier = default(string?), int operationIndex = 0);
+        List<TpdmCandidate> GetCandidates(int? offset = default, int? limit = default, long? minChangeVersion = default, long? maxChangeVersion = default, bool? totalCount = default, string? candidateIdentifier = default, string? personId = default, string? sourceSystemDescriptor = default, string? birthCountryDescriptor = default, string? englishLanguageExamDescriptor = default, string? genderDescriptor = default, string? limitedEnglishProficiencyDescriptor = default, string? sexDescriptor = default, string? birthSexDescriptor = default, string? birthStateAbbreviationDescriptor = default, string? birthCity = default, DateTime? birthDate = default, string? birthInternationalProvince = default, DateTime? dateEnteredUS = default, string? displacementStatus = default, bool? economicDisadvantaged = default, bool? firstGenerationStudent = default, string? firstName = default, string? generationCodeSuffix = default, bool? hispanicLatinoEthnicity = default, string? id = default, string? lastSurname = default, string? maidenName = default, string? middleName = default, bool? multipleBirthStatus = default, string? personalTitlePrefix = default, string? snapshotIdentifier = default, int operationIndex = 0);
 
         /// <summary>
         /// Retrieves specific resources using the resource&#39;s property values (using the \&quot;Get\&quot; pattern).
@@ -136,7 +136,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="snapshotIdentifier">Indicates the Snapshot-Identifier that should be used. (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of List&lt;TpdmCandidate&gt;</returns>
-        ApiResponse<List<TpdmCandidate>> GetCandidatesWithHttpInfo(int? offset = default(int?), int? limit = default(int?), long? minChangeVersion = default(long?), long? maxChangeVersion = default(long?), bool? totalCount = default(bool?), string? candidateIdentifier = default(string?), string? personId = default(string?), string? sourceSystemDescriptor = default(string?), string? birthCountryDescriptor = default(string?), string? englishLanguageExamDescriptor = default(string?), string? genderDescriptor = default(string?), string? limitedEnglishProficiencyDescriptor = default(string?), string? sexDescriptor = default(string?), string? birthSexDescriptor = default(string?), string? birthStateAbbreviationDescriptor = default(string?), string? birthCity = default(string?), DateTime? birthDate = default(DateTime?), string? birthInternationalProvince = default(string?), DateTime? dateEnteredUS = default(DateTime?), string? displacementStatus = default(string?), bool? economicDisadvantaged = default(bool?), bool? firstGenerationStudent = default(bool?), string? firstName = default(string?), string? generationCodeSuffix = default(string?), bool? hispanicLatinoEthnicity = default(bool?), string? id = default(string?), string? lastSurname = default(string?), string? maidenName = default(string?), string? middleName = default(string?), bool? multipleBirthStatus = default(bool?), string? personalTitlePrefix = default(string?), string? snapshotIdentifier = default(string?), int operationIndex = 0);
+        ApiResponse<List<TpdmCandidate>> GetCandidatesWithHttpInfo(int? offset = default, int? limit = default, long? minChangeVersion = default, long? maxChangeVersion = default, bool? totalCount = default, string? candidateIdentifier = default, string? personId = default, string? sourceSystemDescriptor = default, string? birthCountryDescriptor = default, string? englishLanguageExamDescriptor = default, string? genderDescriptor = default, string? limitedEnglishProficiencyDescriptor = default, string? sexDescriptor = default, string? birthSexDescriptor = default, string? birthStateAbbreviationDescriptor = default, string? birthCity = default, DateTime? birthDate = default, string? birthInternationalProvince = default, DateTime? dateEnteredUS = default, string? displacementStatus = default, bool? economicDisadvantaged = default, bool? firstGenerationStudent = default, string? firstName = default, string? generationCodeSuffix = default, bool? hispanicLatinoEthnicity = default, string? id = default, string? lastSurname = default, string? maidenName = default, string? middleName = default, bool? multipleBirthStatus = default, string? personalTitlePrefix = default, string? snapshotIdentifier = default, int operationIndex = 0);
         /// <summary>
         /// Retrieves a specific resource using the resource&#39;s identifier (using the \&quot;Get By Id\&quot; pattern).
         /// </summary>
@@ -149,7 +149,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="snapshotIdentifier">Indicates the Snapshot-Identifier that should be used. (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>TpdmCandidate</returns>
-        TpdmCandidate GetCandidatesById(string id, string? ifNoneMatch = default(string?), string? snapshotIdentifier = default(string?), int operationIndex = 0);
+        TpdmCandidate GetCandidatesById(string id, string? ifNoneMatch = default, string? snapshotIdentifier = default, int operationIndex = 0);
 
         /// <summary>
         /// Retrieves a specific resource using the resource&#39;s identifier (using the \&quot;Get By Id\&quot; pattern).
@@ -163,7 +163,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="snapshotIdentifier">Indicates the Snapshot-Identifier that should be used. (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of TpdmCandidate</returns>
-        ApiResponse<TpdmCandidate> GetCandidatesByIdWithHttpInfo(string id, string? ifNoneMatch = default(string?), string? snapshotIdentifier = default(string?), int operationIndex = 0);
+        ApiResponse<TpdmCandidate> GetCandidatesByIdWithHttpInfo(string id, string? ifNoneMatch = default, string? snapshotIdentifier = default, int operationIndex = 0);
 
         /// <summary>
         /// Creates or updates resources based on the natural key values of the supplied resource.
@@ -187,7 +187,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="candidate">The JSON representation of the \&quot;candidate\&quot; resource to be created or updated.</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> PostCandidateWithHttpInfo(TpdmCandidate candidate, int operationIndex = 0);
+        ApiResponse<object> PostCandidateWithHttpInfo(TpdmCandidate candidate, int operationIndex = 0);
         /// <summary>
         /// Updates a resource based on the resource identifier.
         /// </summary>
@@ -200,7 +200,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="ifMatch">The ETag header value used to prevent the PUT from updating a resource modified by another consumer. (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns></returns>
-        void PutCandidate(string id, TpdmCandidate candidate, string? ifMatch = default(string?), int operationIndex = 0);
+        void PutCandidate(string id, TpdmCandidate candidate, string? ifMatch = default, int operationIndex = 0);
 
         /// <summary>
         /// Updates a resource based on the resource identifier.
@@ -214,7 +214,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="ifMatch">The ETag header value used to prevent the PUT from updating a resource modified by another consumer. (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> PutCandidateWithHttpInfo(string id, TpdmCandidate candidate, string? ifMatch = default(string?), int operationIndex = 0);
+        ApiResponse<object> PutCandidateWithHttpInfo(string id, TpdmCandidate candidate, string? ifMatch = default, int operationIndex = 0);
         #endregion Synchronous Operations
     }
 
@@ -236,7 +236,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task DeleteCandidateByIdAsync(string id, string? ifMatch = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task DeleteCandidateByIdAsync(string id, string? ifMatch = default, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Deletes an existing resource using the resource identifier.
@@ -250,7 +250,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> DeleteCandidateByIdWithHttpInfoAsync(string id, string? ifMatch = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<object>> DeleteCandidateByIdWithHttpInfoAsync(string id, string? ifMatch = default, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Retrieves specific resources using the resource&#39;s property values (using the \&quot;Get\&quot; pattern).
@@ -294,7 +294,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of List&lt;TpdmCandidate&gt;</returns>
-        System.Threading.Tasks.Task<List<TpdmCandidate>> GetCandidatesAsync(int? offset = default(int?), int? limit = default(int?), long? minChangeVersion = default(long?), long? maxChangeVersion = default(long?), bool? totalCount = default(bool?), string? candidateIdentifier = default(string?), string? personId = default(string?), string? sourceSystemDescriptor = default(string?), string? birthCountryDescriptor = default(string?), string? englishLanguageExamDescriptor = default(string?), string? genderDescriptor = default(string?), string? limitedEnglishProficiencyDescriptor = default(string?), string? sexDescriptor = default(string?), string? birthSexDescriptor = default(string?), string? birthStateAbbreviationDescriptor = default(string?), string? birthCity = default(string?), DateTime? birthDate = default(DateTime?), string? birthInternationalProvince = default(string?), DateTime? dateEnteredUS = default(DateTime?), string? displacementStatus = default(string?), bool? economicDisadvantaged = default(bool?), bool? firstGenerationStudent = default(bool?), string? firstName = default(string?), string? generationCodeSuffix = default(string?), bool? hispanicLatinoEthnicity = default(bool?), string? id = default(string?), string? lastSurname = default(string?), string? maidenName = default(string?), string? middleName = default(string?), bool? multipleBirthStatus = default(bool?), string? personalTitlePrefix = default(string?), string? snapshotIdentifier = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<List<TpdmCandidate>> GetCandidatesAsync(int? offset = default, int? limit = default, long? minChangeVersion = default, long? maxChangeVersion = default, bool? totalCount = default, string? candidateIdentifier = default, string? personId = default, string? sourceSystemDescriptor = default, string? birthCountryDescriptor = default, string? englishLanguageExamDescriptor = default, string? genderDescriptor = default, string? limitedEnglishProficiencyDescriptor = default, string? sexDescriptor = default, string? birthSexDescriptor = default, string? birthStateAbbreviationDescriptor = default, string? birthCity = default, DateTime? birthDate = default, string? birthInternationalProvince = default, DateTime? dateEnteredUS = default, string? displacementStatus = default, bool? economicDisadvantaged = default, bool? firstGenerationStudent = default, string? firstName = default, string? generationCodeSuffix = default, bool? hispanicLatinoEthnicity = default, string? id = default, string? lastSurname = default, string? maidenName = default, string? middleName = default, bool? multipleBirthStatus = default, string? personalTitlePrefix = default, string? snapshotIdentifier = default, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Retrieves specific resources using the resource&#39;s property values (using the \&quot;Get\&quot; pattern).
@@ -338,7 +338,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (List&lt;TpdmCandidate&gt;)</returns>
-        System.Threading.Tasks.Task<ApiResponse<List<TpdmCandidate>>> GetCandidatesWithHttpInfoAsync(int? offset = default(int?), int? limit = default(int?), long? minChangeVersion = default(long?), long? maxChangeVersion = default(long?), bool? totalCount = default(bool?), string? candidateIdentifier = default(string?), string? personId = default(string?), string? sourceSystemDescriptor = default(string?), string? birthCountryDescriptor = default(string?), string? englishLanguageExamDescriptor = default(string?), string? genderDescriptor = default(string?), string? limitedEnglishProficiencyDescriptor = default(string?), string? sexDescriptor = default(string?), string? birthSexDescriptor = default(string?), string? birthStateAbbreviationDescriptor = default(string?), string? birthCity = default(string?), DateTime? birthDate = default(DateTime?), string? birthInternationalProvince = default(string?), DateTime? dateEnteredUS = default(DateTime?), string? displacementStatus = default(string?), bool? economicDisadvantaged = default(bool?), bool? firstGenerationStudent = default(bool?), string? firstName = default(string?), string? generationCodeSuffix = default(string?), bool? hispanicLatinoEthnicity = default(bool?), string? id = default(string?), string? lastSurname = default(string?), string? maidenName = default(string?), string? middleName = default(string?), bool? multipleBirthStatus = default(bool?), string? personalTitlePrefix = default(string?), string? snapshotIdentifier = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<List<TpdmCandidate>>> GetCandidatesWithHttpInfoAsync(int? offset = default, int? limit = default, long? minChangeVersion = default, long? maxChangeVersion = default, bool? totalCount = default, string? candidateIdentifier = default, string? personId = default, string? sourceSystemDescriptor = default, string? birthCountryDescriptor = default, string? englishLanguageExamDescriptor = default, string? genderDescriptor = default, string? limitedEnglishProficiencyDescriptor = default, string? sexDescriptor = default, string? birthSexDescriptor = default, string? birthStateAbbreviationDescriptor = default, string? birthCity = default, DateTime? birthDate = default, string? birthInternationalProvince = default, DateTime? dateEnteredUS = default, string? displacementStatus = default, bool? economicDisadvantaged = default, bool? firstGenerationStudent = default, string? firstName = default, string? generationCodeSuffix = default, bool? hispanicLatinoEthnicity = default, string? id = default, string? lastSurname = default, string? maidenName = default, string? middleName = default, bool? multipleBirthStatus = default, string? personalTitlePrefix = default, string? snapshotIdentifier = default, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default);
         /// <summary>
         /// Retrieves a specific resource using the resource&#39;s identifier (using the \&quot;Get By Id\&quot; pattern).
         /// </summary>
@@ -352,7 +352,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of TpdmCandidate</returns>
-        System.Threading.Tasks.Task<TpdmCandidate> GetCandidatesByIdAsync(string id, string? ifNoneMatch = default(string?), string? snapshotIdentifier = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<TpdmCandidate> GetCandidatesByIdAsync(string id, string? ifNoneMatch = default, string? snapshotIdentifier = default, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Retrieves a specific resource using the resource&#39;s identifier (using the \&quot;Get By Id\&quot; pattern).
@@ -367,7 +367,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (TpdmCandidate)</returns>
-        System.Threading.Tasks.Task<ApiResponse<TpdmCandidate>> GetCandidatesByIdWithHttpInfoAsync(string id, string? ifNoneMatch = default(string?), string? snapshotIdentifier = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<TpdmCandidate>> GetCandidatesByIdWithHttpInfoAsync(string id, string? ifNoneMatch = default, string? snapshotIdentifier = default, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Creates or updates resources based on the natural key values of the supplied resource.
@@ -380,7 +380,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task PostCandidateAsync(TpdmCandidate candidate, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task PostCandidateAsync(TpdmCandidate candidate, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Creates or updates resources based on the natural key values of the supplied resource.
@@ -393,7 +393,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> PostCandidateWithHttpInfoAsync(TpdmCandidate candidate, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<object>> PostCandidateWithHttpInfoAsync(TpdmCandidate candidate, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default);
         /// <summary>
         /// Updates a resource based on the resource identifier.
         /// </summary>
@@ -407,7 +407,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task PutCandidateAsync(string id, TpdmCandidate candidate, string? ifMatch = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task PutCandidateAsync(string id, TpdmCandidate candidate, string? ifMatch = default, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Updates a resource based on the resource identifier.
@@ -422,7 +422,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> PutCandidateWithHttpInfoAsync(string id, TpdmCandidate candidate, string? ifMatch = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<object>> PutCandidateWithHttpInfoAsync(string id, TpdmCandidate candidate, string? ifMatch = default, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default);
         #endregion Asynchronous Operations
     }
 
@@ -455,13 +455,13 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <returns></returns>
         public CandidatesApi(string basePath)
         {
-            this.Configuration = EdFi.OdsApi.Sdk.Client.Configuration.MergeConfigurations(
+            Configuration = EdFi.OdsApi.Sdk.Client.Configuration.MergeConfigurations(
                 EdFi.OdsApi.Sdk.Client.GlobalConfiguration.Instance,
                 new EdFi.OdsApi.Sdk.Client.Configuration { BasePath = basePath }
             );
-            this.Client = new EdFi.OdsApi.Sdk.Client.ApiClient(this.Configuration.BasePath);
-            this.AsynchronousClient = new EdFi.OdsApi.Sdk.Client.ApiClient(this.Configuration.BasePath);
-            this.ExceptionFactory = EdFi.OdsApi.Sdk.Client.Configuration.DefaultExceptionFactory;
+            Client = new EdFi.OdsApi.Sdk.Client.ApiClient(Configuration.BasePath);
+            AsynchronousClient = new EdFi.OdsApi.Sdk.Client.ApiClient(Configuration.BasePath);
+            ExceptionFactory = EdFi.OdsApi.Sdk.Client.Configuration.DefaultExceptionFactory;
         }
 
         /// <summary>
@@ -472,14 +472,17 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <returns></returns>
         public CandidatesApi(EdFi.OdsApi.Sdk.Client.Configuration configuration)
         {
-            if (configuration == null) throw new ArgumentNullException("configuration");
+            if (configuration == null)
+            {
+                throw new ArgumentNullException("configuration");
+            }
 
-            this.Configuration = EdFi.OdsApi.Sdk.Client.Configuration.MergeConfigurations(
+            Configuration = EdFi.OdsApi.Sdk.Client.Configuration.MergeConfigurations(
                 EdFi.OdsApi.Sdk.Client.GlobalConfiguration.Instance,
                 configuration
             );
-            this.Client = new EdFi.OdsApi.Sdk.Client.ApiClient(this.Configuration.BasePath);
-            this.AsynchronousClient = new EdFi.OdsApi.Sdk.Client.ApiClient(this.Configuration.BasePath);
+            Client = new EdFi.OdsApi.Sdk.Client.ApiClient(Configuration.BasePath);
+            AsynchronousClient = new EdFi.OdsApi.Sdk.Client.ApiClient(Configuration.BasePath);
             ExceptionFactory = EdFi.OdsApi.Sdk.Client.Configuration.DefaultExceptionFactory;
         }
 
@@ -492,14 +495,10 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="configuration">The configuration object.</param>
         public CandidatesApi(EdFi.OdsApi.Sdk.Client.ISynchronousClient client, EdFi.OdsApi.Sdk.Client.IAsynchronousClient asyncClient, EdFi.OdsApi.Sdk.Client.IReadableConfiguration configuration)
         {
-            if (client == null) throw new ArgumentNullException("client");
-            if (asyncClient == null) throw new ArgumentNullException("asyncClient");
-            if (configuration == null) throw new ArgumentNullException("configuration");
-
-            this.Client = client;
-            this.AsynchronousClient = asyncClient;
-            this.Configuration = configuration;
-            this.ExceptionFactory = EdFi.OdsApi.Sdk.Client.Configuration.DefaultExceptionFactory;
+            Client = client ?? throw new ArgumentNullException("client");
+            AsynchronousClient = asyncClient ?? throw new ArgumentNullException("asyncClient");
+            Configuration = configuration ?? throw new ArgumentNullException("configuration");
+            ExceptionFactory = EdFi.OdsApi.Sdk.Client.Configuration.DefaultExceptionFactory;
         }
 
         /// <summary>
@@ -518,7 +517,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <value>The base path</value>
         public string GetBasePath()
         {
-            return this.Configuration.BasePath;
+            return Configuration.BasePath;
         }
 
         /// <summary>
@@ -532,15 +531,10 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// </summary>
         public EdFi.OdsApi.Sdk.Client.ExceptionFactory ExceptionFactory
         {
-            get
-            {
-                if (_exceptionFactory != null && _exceptionFactory.GetInvocationList().Length > 1)
-                {
-                    throw new InvalidOperationException("Multicast delegate for ExceptionFactory is unsupported.");
-                }
-                return _exceptionFactory;
-            }
-            set { _exceptionFactory = value; }
+            get => _exceptionFactory != null && _exceptionFactory.GetInvocationList().Length > 1
+                    ? throw new InvalidOperationException("Multicast delegate for ExceptionFactory is unsupported.")
+                    : _exceptionFactory;
+            set => _exceptionFactory = value;
         }
 
         /// <summary>
@@ -551,9 +545,9 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="ifMatch">The ETag header value used to prevent the DELETE from removing a resource modified by another consumer. (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns></returns>
-        public void DeleteCandidateById(string id, string? ifMatch = default(string?), int operationIndex = 0)
+        public void DeleteCandidateById(string id, string? ifMatch = default, int operationIndex = 0)
         {
-            DeleteCandidateByIdWithHttpInfo(id, ifMatch);
+            _ = DeleteCandidateByIdWithHttpInfo(id, ifMatch);
         }
 
         /// <summary>
@@ -564,7 +558,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="ifMatch">The ETag header value used to prevent the DELETE from removing a resource modified by another consumer. (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public EdFi.OdsApi.Sdk.Client.ApiResponse<Object> DeleteCandidateByIdWithHttpInfo(string id, string? ifMatch = default(string?), int operationIndex = 0)
+        public EdFi.OdsApi.Sdk.Client.ApiResponse<Object> DeleteCandidateByIdWithHttpInfo(string id, string? ifMatch = default, int operationIndex = 0)
         {
             // verify the required parameter 'id' is set
             if (id == null)
@@ -572,14 +566,12 @@ namespace EdFi.OdsApi.Sdk.Apis.All
                 throw new EdFi.OdsApi.Sdk.Client.ApiException(400, "Missing required parameter 'id' when calling CandidatesApi->DeleteCandidateById");
             }
 
-            EdFi.OdsApi.Sdk.Client.RequestOptions localVarRequestOptions = new EdFi.OdsApi.Sdk.Client.RequestOptions();
+            var localVarRequestOptions = new EdFi.OdsApi.Sdk.Client.RequestOptions();
 
-            string[] _contentTypes = new string[] {
-            };
+            var _contentTypes = Array.Empty<string>();
 
             // to determine the Accept header
-            string[] _accepts = new string[] {
-            };
+            var _accepts = Array.Empty<string>();
 
             var localVarContentType = EdFi.OdsApi.Sdk.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
             if (localVarContentType != null)
@@ -604,16 +596,16 @@ namespace EdFi.OdsApi.Sdk.Apis.All
 
             // authentication (oauth2_client_credentials) required
             // oauth required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            if (!string.IsNullOrEmpty(Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + Configuration.AccessToken);
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Delete<Object>("/tpdm/candidates/{id}", localVarRequestOptions, this.Configuration);
-            if (this.ExceptionFactory != null)
+            var localVarResponse = Client.Delete<object>("/tpdm/candidates/{id}", localVarRequestOptions, Configuration);
+            if (ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("DeleteCandidateById", localVarResponse);
+                var _exception = ExceptionFactory("DeleteCandidateById", localVarResponse);
                 if (_exception != null)
                 {
                     throw _exception;
@@ -632,9 +624,9 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task DeleteCandidateByIdAsync(string id, string? ifMatch = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task DeleteCandidateByIdAsync(string id, string? ifMatch = default, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default)
         {
-            await DeleteCandidateByIdWithHttpInfoAsync(id, ifMatch, operationIndex, cancellationToken).ConfigureAwait(false);
+            _ = await DeleteCandidateByIdWithHttpInfoAsync(id, ifMatch, operationIndex, cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -646,7 +638,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<EdFi.OdsApi.Sdk.Client.ApiResponse<Object>> DeleteCandidateByIdWithHttpInfoAsync(string id, string? ifMatch = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<EdFi.OdsApi.Sdk.Client.ApiResponse<Object>> DeleteCandidateByIdWithHttpInfoAsync(string id, string? ifMatch = default, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default)
         {
             // verify the required parameter 'id' is set
             if (id == null)
@@ -655,14 +647,12 @@ namespace EdFi.OdsApi.Sdk.Apis.All
             }
 
 
-            EdFi.OdsApi.Sdk.Client.RequestOptions localVarRequestOptions = new EdFi.OdsApi.Sdk.Client.RequestOptions();
+            var localVarRequestOptions = new EdFi.OdsApi.Sdk.Client.RequestOptions();
 
-            string[] _contentTypes = new string[] {
-            };
+            var _contentTypes = Array.Empty<string>();
 
             // to determine the Accept header
-            string[] _accepts = new string[] {
-            };
+            var _accepts = Array.Empty<string>();
 
             var localVarContentType = EdFi.OdsApi.Sdk.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
             if (localVarContentType != null)
@@ -687,17 +677,17 @@ namespace EdFi.OdsApi.Sdk.Apis.All
 
             // authentication (oauth2_client_credentials) required
             // oauth required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            if (!string.IsNullOrEmpty(Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + Configuration.AccessToken);
             }
 
             // make the HTTP request
-            var localVarResponse = await this.AsynchronousClient.DeleteAsync<Object>("/tpdm/candidates/{id}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await AsynchronousClient.DeleteAsync<object>("/tpdm/candidates/{id}", localVarRequestOptions, Configuration, cancellationToken).ConfigureAwait(false);
 
-            if (this.ExceptionFactory != null)
+            if (ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("DeleteCandidateById", localVarResponse);
+                var _exception = ExceptionFactory("DeleteCandidateById", localVarResponse);
                 if (_exception != null)
                 {
                     throw _exception;
@@ -745,9 +735,9 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="snapshotIdentifier">Indicates the Snapshot-Identifier that should be used. (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>List&lt;TpdmCandidate&gt;</returns>
-        public List<TpdmCandidate> GetCandidates(int? offset = default(int?), int? limit = default(int?), long? minChangeVersion = default(long?), long? maxChangeVersion = default(long?), bool? totalCount = default(bool?), string? candidateIdentifier = default(string?), string? personId = default(string?), string? sourceSystemDescriptor = default(string?), string? birthCountryDescriptor = default(string?), string? englishLanguageExamDescriptor = default(string?), string? genderDescriptor = default(string?), string? limitedEnglishProficiencyDescriptor = default(string?), string? sexDescriptor = default(string?), string? birthSexDescriptor = default(string?), string? birthStateAbbreviationDescriptor = default(string?), string? birthCity = default(string?), DateTime? birthDate = default(DateTime?), string? birthInternationalProvince = default(string?), DateTime? dateEnteredUS = default(DateTime?), string? displacementStatus = default(string?), bool? economicDisadvantaged = default(bool?), bool? firstGenerationStudent = default(bool?), string? firstName = default(string?), string? generationCodeSuffix = default(string?), bool? hispanicLatinoEthnicity = default(bool?), string? id = default(string?), string? lastSurname = default(string?), string? maidenName = default(string?), string? middleName = default(string?), bool? multipleBirthStatus = default(bool?), string? personalTitlePrefix = default(string?), string? snapshotIdentifier = default(string?), int operationIndex = 0)
+        public List<TpdmCandidate> GetCandidates(int? offset = default, int? limit = default, long? minChangeVersion = default, long? maxChangeVersion = default, bool? totalCount = default, string? candidateIdentifier = default, string? personId = default, string? sourceSystemDescriptor = default, string? birthCountryDescriptor = default, string? englishLanguageExamDescriptor = default, string? genderDescriptor = default, string? limitedEnglishProficiencyDescriptor = default, string? sexDescriptor = default, string? birthSexDescriptor = default, string? birthStateAbbreviationDescriptor = default, string? birthCity = default, DateTime? birthDate = default, string? birthInternationalProvince = default, DateTime? dateEnteredUS = default, string? displacementStatus = default, bool? economicDisadvantaged = default, bool? firstGenerationStudent = default, string? firstName = default, string? generationCodeSuffix = default, bool? hispanicLatinoEthnicity = default, string? id = default, string? lastSurname = default, string? maidenName = default, string? middleName = default, bool? multipleBirthStatus = default, string? personalTitlePrefix = default, string? snapshotIdentifier = default, int operationIndex = 0)
         {
-            EdFi.OdsApi.Sdk.Client.ApiResponse<List<TpdmCandidate>> localVarResponse = GetCandidatesWithHttpInfo(offset, limit, minChangeVersion, maxChangeVersion, totalCount, candidateIdentifier, personId, sourceSystemDescriptor, birthCountryDescriptor, englishLanguageExamDescriptor, genderDescriptor, limitedEnglishProficiencyDescriptor, sexDescriptor, birthSexDescriptor, birthStateAbbreviationDescriptor, birthCity, birthDate, birthInternationalProvince, dateEnteredUS, displacementStatus, economicDisadvantaged, firstGenerationStudent, firstName, generationCodeSuffix, hispanicLatinoEthnicity, id, lastSurname, maidenName, middleName, multipleBirthStatus, personalTitlePrefix, snapshotIdentifier);
+            var localVarResponse = GetCandidatesWithHttpInfo(offset, limit, minChangeVersion, maxChangeVersion, totalCount, candidateIdentifier, personId, sourceSystemDescriptor, birthCountryDescriptor, englishLanguageExamDescriptor, genderDescriptor, limitedEnglishProficiencyDescriptor, sexDescriptor, birthSexDescriptor, birthStateAbbreviationDescriptor, birthCity, birthDate, birthInternationalProvince, dateEnteredUS, displacementStatus, economicDisadvantaged, firstGenerationStudent, firstName, generationCodeSuffix, hispanicLatinoEthnicity, id, lastSurname, maidenName, middleName, multipleBirthStatus, personalTitlePrefix, snapshotIdentifier);
             return localVarResponse.Data;
         }
 
@@ -789,15 +779,14 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="snapshotIdentifier">Indicates the Snapshot-Identifier that should be used. (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of List&lt;TpdmCandidate&gt;</returns>
-        public EdFi.OdsApi.Sdk.Client.ApiResponse<List<TpdmCandidate>> GetCandidatesWithHttpInfo(int? offset = default(int?), int? limit = default(int?), long? minChangeVersion = default(long?), long? maxChangeVersion = default(long?), bool? totalCount = default(bool?), string? candidateIdentifier = default(string?), string? personId = default(string?), string? sourceSystemDescriptor = default(string?), string? birthCountryDescriptor = default(string?), string? englishLanguageExamDescriptor = default(string?), string? genderDescriptor = default(string?), string? limitedEnglishProficiencyDescriptor = default(string?), string? sexDescriptor = default(string?), string? birthSexDescriptor = default(string?), string? birthStateAbbreviationDescriptor = default(string?), string? birthCity = default(string?), DateTime? birthDate = default(DateTime?), string? birthInternationalProvince = default(string?), DateTime? dateEnteredUS = default(DateTime?), string? displacementStatus = default(string?), bool? economicDisadvantaged = default(bool?), bool? firstGenerationStudent = default(bool?), string? firstName = default(string?), string? generationCodeSuffix = default(string?), bool? hispanicLatinoEthnicity = default(bool?), string? id = default(string?), string? lastSurname = default(string?), string? maidenName = default(string?), string? middleName = default(string?), bool? multipleBirthStatus = default(bool?), string? personalTitlePrefix = default(string?), string? snapshotIdentifier = default(string?), int operationIndex = 0)
+        public EdFi.OdsApi.Sdk.Client.ApiResponse<List<TpdmCandidate>> GetCandidatesWithHttpInfo(int? offset = default, int? limit = default, long? minChangeVersion = default, long? maxChangeVersion = default, bool? totalCount = default, string? candidateIdentifier = default, string? personId = default, string? sourceSystemDescriptor = default, string? birthCountryDescriptor = default, string? englishLanguageExamDescriptor = default, string? genderDescriptor = default, string? limitedEnglishProficiencyDescriptor = default, string? sexDescriptor = default, string? birthSexDescriptor = default, string? birthStateAbbreviationDescriptor = default, string? birthCity = default, DateTime? birthDate = default, string? birthInternationalProvince = default, DateTime? dateEnteredUS = default, string? displacementStatus = default, bool? economicDisadvantaged = default, bool? firstGenerationStudent = default, string? firstName = default, string? generationCodeSuffix = default, bool? hispanicLatinoEthnicity = default, string? id = default, string? lastSurname = default, string? maidenName = default, string? middleName = default, bool? multipleBirthStatus = default, string? personalTitlePrefix = default, string? snapshotIdentifier = default, int operationIndex = 0)
         {
-            EdFi.OdsApi.Sdk.Client.RequestOptions localVarRequestOptions = new EdFi.OdsApi.Sdk.Client.RequestOptions();
+            var localVarRequestOptions = new EdFi.OdsApi.Sdk.Client.RequestOptions();
 
-            string[] _contentTypes = new string[] {
-            };
+            var _contentTypes = Array.Empty<string>();
 
             // to determine the Accept header
-            string[] _accepts = new string[] {
+            var _accepts = new string[] {
                 "application/json"
             };
 
@@ -947,16 +936,16 @@ namespace EdFi.OdsApi.Sdk.Apis.All
 
             // authentication (oauth2_client_credentials) required
             // oauth required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            if (!string.IsNullOrEmpty(Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + Configuration.AccessToken);
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Get<List<TpdmCandidate>>("/tpdm/candidates", localVarRequestOptions, this.Configuration);
-            if (this.ExceptionFactory != null)
+            var localVarResponse = Client.Get<List<TpdmCandidate>>("/tpdm/candidates", localVarRequestOptions, Configuration);
+            if (ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("GetCandidates", localVarResponse);
+                var _exception = ExceptionFactory("GetCandidates", localVarResponse);
                 if (_exception != null)
                 {
                     throw _exception;
@@ -1005,9 +994,9 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of List&lt;TpdmCandidate&gt;</returns>
-        public async System.Threading.Tasks.Task<List<TpdmCandidate>> GetCandidatesAsync(int? offset = default(int?), int? limit = default(int?), long? minChangeVersion = default(long?), long? maxChangeVersion = default(long?), bool? totalCount = default(bool?), string? candidateIdentifier = default(string?), string? personId = default(string?), string? sourceSystemDescriptor = default(string?), string? birthCountryDescriptor = default(string?), string? englishLanguageExamDescriptor = default(string?), string? genderDescriptor = default(string?), string? limitedEnglishProficiencyDescriptor = default(string?), string? sexDescriptor = default(string?), string? birthSexDescriptor = default(string?), string? birthStateAbbreviationDescriptor = default(string?), string? birthCity = default(string?), DateTime? birthDate = default(DateTime?), string? birthInternationalProvince = default(string?), DateTime? dateEnteredUS = default(DateTime?), string? displacementStatus = default(string?), bool? economicDisadvantaged = default(bool?), bool? firstGenerationStudent = default(bool?), string? firstName = default(string?), string? generationCodeSuffix = default(string?), bool? hispanicLatinoEthnicity = default(bool?), string? id = default(string?), string? lastSurname = default(string?), string? maidenName = default(string?), string? middleName = default(string?), bool? multipleBirthStatus = default(bool?), string? personalTitlePrefix = default(string?), string? snapshotIdentifier = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<List<TpdmCandidate>> GetCandidatesAsync(int? offset = default, int? limit = default, long? minChangeVersion = default, long? maxChangeVersion = default, bool? totalCount = default, string? candidateIdentifier = default, string? personId = default, string? sourceSystemDescriptor = default, string? birthCountryDescriptor = default, string? englishLanguageExamDescriptor = default, string? genderDescriptor = default, string? limitedEnglishProficiencyDescriptor = default, string? sexDescriptor = default, string? birthSexDescriptor = default, string? birthStateAbbreviationDescriptor = default, string? birthCity = default, DateTime? birthDate = default, string? birthInternationalProvince = default, DateTime? dateEnteredUS = default, string? displacementStatus = default, bool? economicDisadvantaged = default, bool? firstGenerationStudent = default, string? firstName = default, string? generationCodeSuffix = default, bool? hispanicLatinoEthnicity = default, string? id = default, string? lastSurname = default, string? maidenName = default, string? middleName = default, bool? multipleBirthStatus = default, string? personalTitlePrefix = default, string? snapshotIdentifier = default, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default)
         {
-            EdFi.OdsApi.Sdk.Client.ApiResponse<List<TpdmCandidate>> localVarResponse = await GetCandidatesWithHttpInfoAsync(offset, limit, minChangeVersion, maxChangeVersion, totalCount, candidateIdentifier, personId, sourceSystemDescriptor, birthCountryDescriptor, englishLanguageExamDescriptor, genderDescriptor, limitedEnglishProficiencyDescriptor, sexDescriptor, birthSexDescriptor, birthStateAbbreviationDescriptor, birthCity, birthDate, birthInternationalProvince, dateEnteredUS, displacementStatus, economicDisadvantaged, firstGenerationStudent, firstName, generationCodeSuffix, hispanicLatinoEthnicity, id, lastSurname, maidenName, middleName, multipleBirthStatus, personalTitlePrefix, snapshotIdentifier, operationIndex, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await GetCandidatesWithHttpInfoAsync(offset, limit, minChangeVersion, maxChangeVersion, totalCount, candidateIdentifier, personId, sourceSystemDescriptor, birthCountryDescriptor, englishLanguageExamDescriptor, genderDescriptor, limitedEnglishProficiencyDescriptor, sexDescriptor, birthSexDescriptor, birthStateAbbreviationDescriptor, birthCity, birthDate, birthInternationalProvince, dateEnteredUS, displacementStatus, economicDisadvantaged, firstGenerationStudent, firstName, generationCodeSuffix, hispanicLatinoEthnicity, id, lastSurname, maidenName, middleName, multipleBirthStatus, personalTitlePrefix, snapshotIdentifier, operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -1050,16 +1039,15 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (List&lt;TpdmCandidate&gt;)</returns>
-        public async System.Threading.Tasks.Task<EdFi.OdsApi.Sdk.Client.ApiResponse<List<TpdmCandidate>>> GetCandidatesWithHttpInfoAsync(int? offset = default(int?), int? limit = default(int?), long? minChangeVersion = default(long?), long? maxChangeVersion = default(long?), bool? totalCount = default(bool?), string? candidateIdentifier = default(string?), string? personId = default(string?), string? sourceSystemDescriptor = default(string?), string? birthCountryDescriptor = default(string?), string? englishLanguageExamDescriptor = default(string?), string? genderDescriptor = default(string?), string? limitedEnglishProficiencyDescriptor = default(string?), string? sexDescriptor = default(string?), string? birthSexDescriptor = default(string?), string? birthStateAbbreviationDescriptor = default(string?), string? birthCity = default(string?), DateTime? birthDate = default(DateTime?), string? birthInternationalProvince = default(string?), DateTime? dateEnteredUS = default(DateTime?), string? displacementStatus = default(string?), bool? economicDisadvantaged = default(bool?), bool? firstGenerationStudent = default(bool?), string? firstName = default(string?), string? generationCodeSuffix = default(string?), bool? hispanicLatinoEthnicity = default(bool?), string? id = default(string?), string? lastSurname = default(string?), string? maidenName = default(string?), string? middleName = default(string?), bool? multipleBirthStatus = default(bool?), string? personalTitlePrefix = default(string?), string? snapshotIdentifier = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<EdFi.OdsApi.Sdk.Client.ApiResponse<List<TpdmCandidate>>> GetCandidatesWithHttpInfoAsync(int? offset = default, int? limit = default, long? minChangeVersion = default, long? maxChangeVersion = default, bool? totalCount = default, string? candidateIdentifier = default, string? personId = default, string? sourceSystemDescriptor = default, string? birthCountryDescriptor = default, string? englishLanguageExamDescriptor = default, string? genderDescriptor = default, string? limitedEnglishProficiencyDescriptor = default, string? sexDescriptor = default, string? birthSexDescriptor = default, string? birthStateAbbreviationDescriptor = default, string? birthCity = default, DateTime? birthDate = default, string? birthInternationalProvince = default, DateTime? dateEnteredUS = default, string? displacementStatus = default, bool? economicDisadvantaged = default, bool? firstGenerationStudent = default, string? firstName = default, string? generationCodeSuffix = default, bool? hispanicLatinoEthnicity = default, string? id = default, string? lastSurname = default, string? maidenName = default, string? middleName = default, bool? multipleBirthStatus = default, string? personalTitlePrefix = default, string? snapshotIdentifier = default, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default)
         {
 
-            EdFi.OdsApi.Sdk.Client.RequestOptions localVarRequestOptions = new EdFi.OdsApi.Sdk.Client.RequestOptions();
+            var localVarRequestOptions = new EdFi.OdsApi.Sdk.Client.RequestOptions();
 
-            string[] _contentTypes = new string[] {
-            };
+            var _contentTypes = Array.Empty<string>();
 
             // to determine the Accept header
-            string[] _accepts = new string[] {
+            var _accepts = new string[] {
                 "application/json"
             };
 
@@ -1209,17 +1197,17 @@ namespace EdFi.OdsApi.Sdk.Apis.All
 
             // authentication (oauth2_client_credentials) required
             // oauth required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            if (!string.IsNullOrEmpty(Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + Configuration.AccessToken);
             }
 
             // make the HTTP request
-            var localVarResponse = await this.AsynchronousClient.GetAsync<List<TpdmCandidate>>("/tpdm/candidates", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await AsynchronousClient.GetAsync<List<TpdmCandidate>>("/tpdm/candidates", localVarRequestOptions, Configuration, cancellationToken).ConfigureAwait(false);
 
-            if (this.ExceptionFactory != null)
+            if (ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("GetCandidates", localVarResponse);
+                var _exception = ExceptionFactory("GetCandidates", localVarResponse);
                 if (_exception != null)
                 {
                     throw _exception;
@@ -1238,9 +1226,9 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="snapshotIdentifier">Indicates the Snapshot-Identifier that should be used. (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>TpdmCandidate</returns>
-        public TpdmCandidate GetCandidatesById(string id, string? ifNoneMatch = default(string?), string? snapshotIdentifier = default(string?), int operationIndex = 0)
+        public TpdmCandidate GetCandidatesById(string id, string? ifNoneMatch = default, string? snapshotIdentifier = default, int operationIndex = 0)
         {
-            EdFi.OdsApi.Sdk.Client.ApiResponse<TpdmCandidate> localVarResponse = GetCandidatesByIdWithHttpInfo(id, ifNoneMatch, snapshotIdentifier);
+            var localVarResponse = GetCandidatesByIdWithHttpInfo(id, ifNoneMatch, snapshotIdentifier);
             return localVarResponse.Data;
         }
 
@@ -1253,7 +1241,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="snapshotIdentifier">Indicates the Snapshot-Identifier that should be used. (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of TpdmCandidate</returns>
-        public EdFi.OdsApi.Sdk.Client.ApiResponse<TpdmCandidate> GetCandidatesByIdWithHttpInfo(string id, string? ifNoneMatch = default(string?), string? snapshotIdentifier = default(string?), int operationIndex = 0)
+        public EdFi.OdsApi.Sdk.Client.ApiResponse<TpdmCandidate> GetCandidatesByIdWithHttpInfo(string id, string? ifNoneMatch = default, string? snapshotIdentifier = default, int operationIndex = 0)
         {
             // verify the required parameter 'id' is set
             if (id == null)
@@ -1261,13 +1249,12 @@ namespace EdFi.OdsApi.Sdk.Apis.All
                 throw new EdFi.OdsApi.Sdk.Client.ApiException(400, "Missing required parameter 'id' when calling CandidatesApi->GetCandidatesById");
             }
 
-            EdFi.OdsApi.Sdk.Client.RequestOptions localVarRequestOptions = new EdFi.OdsApi.Sdk.Client.RequestOptions();
+            var localVarRequestOptions = new EdFi.OdsApi.Sdk.Client.RequestOptions();
 
-            string[] _contentTypes = new string[] {
-            };
+            var _contentTypes = Array.Empty<string>();
 
             // to determine the Accept header
-            string[] _accepts = new string[] {
+            var _accepts = new string[] {
                 "application/json"
             };
 
@@ -1298,16 +1285,16 @@ namespace EdFi.OdsApi.Sdk.Apis.All
 
             // authentication (oauth2_client_credentials) required
             // oauth required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            if (!string.IsNullOrEmpty(Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + Configuration.AccessToken);
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Get<TpdmCandidate>("/tpdm/candidates/{id}", localVarRequestOptions, this.Configuration);
-            if (this.ExceptionFactory != null)
+            var localVarResponse = Client.Get<TpdmCandidate>("/tpdm/candidates/{id}", localVarRequestOptions, Configuration);
+            if (ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("GetCandidatesById", localVarResponse);
+                var _exception = ExceptionFactory("GetCandidatesById", localVarResponse);
                 if (_exception != null)
                 {
                     throw _exception;
@@ -1327,9 +1314,9 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of TpdmCandidate</returns>
-        public async System.Threading.Tasks.Task<TpdmCandidate> GetCandidatesByIdAsync(string id, string? ifNoneMatch = default(string?), string? snapshotIdentifier = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<TpdmCandidate> GetCandidatesByIdAsync(string id, string? ifNoneMatch = default, string? snapshotIdentifier = default, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default)
         {
-            EdFi.OdsApi.Sdk.Client.ApiResponse<TpdmCandidate> localVarResponse = await GetCandidatesByIdWithHttpInfoAsync(id, ifNoneMatch, snapshotIdentifier, operationIndex, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await GetCandidatesByIdWithHttpInfoAsync(id, ifNoneMatch, snapshotIdentifier, operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -1343,7 +1330,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (TpdmCandidate)</returns>
-        public async System.Threading.Tasks.Task<EdFi.OdsApi.Sdk.Client.ApiResponse<TpdmCandidate>> GetCandidatesByIdWithHttpInfoAsync(string id, string? ifNoneMatch = default(string?), string? snapshotIdentifier = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<EdFi.OdsApi.Sdk.Client.ApiResponse<TpdmCandidate>> GetCandidatesByIdWithHttpInfoAsync(string id, string? ifNoneMatch = default, string? snapshotIdentifier = default, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default)
         {
             // verify the required parameter 'id' is set
             if (id == null)
@@ -1352,13 +1339,12 @@ namespace EdFi.OdsApi.Sdk.Apis.All
             }
 
 
-            EdFi.OdsApi.Sdk.Client.RequestOptions localVarRequestOptions = new EdFi.OdsApi.Sdk.Client.RequestOptions();
+            var localVarRequestOptions = new EdFi.OdsApi.Sdk.Client.RequestOptions();
 
-            string[] _contentTypes = new string[] {
-            };
+            var _contentTypes = Array.Empty<string>();
 
             // to determine the Accept header
-            string[] _accepts = new string[] {
+            var _accepts = new string[] {
                 "application/json"
             };
 
@@ -1389,17 +1375,17 @@ namespace EdFi.OdsApi.Sdk.Apis.All
 
             // authentication (oauth2_client_credentials) required
             // oauth required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            if (!string.IsNullOrEmpty(Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + Configuration.AccessToken);
             }
 
             // make the HTTP request
-            var localVarResponse = await this.AsynchronousClient.GetAsync<TpdmCandidate>("/tpdm/candidates/{id}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await AsynchronousClient.GetAsync<TpdmCandidate>("/tpdm/candidates/{id}", localVarRequestOptions, Configuration, cancellationToken).ConfigureAwait(false);
 
-            if (this.ExceptionFactory != null)
+            if (ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("GetCandidatesById", localVarResponse);
+                var _exception = ExceptionFactory("GetCandidatesById", localVarResponse);
                 if (_exception != null)
                 {
                     throw _exception;
@@ -1418,7 +1404,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <returns></returns>
         public void PostCandidate(TpdmCandidate candidate, int operationIndex = 0)
         {
-            PostCandidateWithHttpInfo(candidate);
+            _ = PostCandidateWithHttpInfo(candidate);
         }
 
         /// <summary>
@@ -1430,21 +1416,14 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <returns>ApiResponse of Object(void)</returns>
         public EdFi.OdsApi.Sdk.Client.ApiResponse<Object> PostCandidateWithHttpInfo(TpdmCandidate candidate, int operationIndex = 0)
         {
-            // verify the required parameter 'candidate' is set
-            if (candidate == null)
-            {
-                throw new EdFi.OdsApi.Sdk.Client.ApiException(400, "Missing required parameter 'candidate' when calling CandidatesApi->PostCandidate");
-            }
+            var localVarRequestOptions = new EdFi.OdsApi.Sdk.Client.RequestOptions();
 
-            EdFi.OdsApi.Sdk.Client.RequestOptions localVarRequestOptions = new EdFi.OdsApi.Sdk.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
+            var _contentTypes = new string[] {
                 "application/json"
             };
 
             // to determine the Accept header
-            string[] _accepts = new string[] {
-            };
+            var _accepts = Array.Empty<string>();
 
             var localVarContentType = EdFi.OdsApi.Sdk.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
             if (localVarContentType != null)
@@ -1458,23 +1437,23 @@ namespace EdFi.OdsApi.Sdk.Apis.All
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            localVarRequestOptions.Data = candidate;
+            localVarRequestOptions.Data = candidate ?? throw new EdFi.OdsApi.Sdk.Client.ApiException(400, "Missing required parameter 'candidate' when calling CandidatesApi->PostCandidate");
 
             localVarRequestOptions.Operation = "CandidatesApi.PostCandidate";
             localVarRequestOptions.OperationIndex = operationIndex;
 
             // authentication (oauth2_client_credentials) required
             // oauth required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            if (!string.IsNullOrEmpty(Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + Configuration.AccessToken);
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Post<Object>("/tpdm/candidates", localVarRequestOptions, this.Configuration);
-            if (this.ExceptionFactory != null)
+            var localVarResponse = Client.Post<object>("/tpdm/candidates", localVarRequestOptions, Configuration);
+            if (ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("PostCandidate", localVarResponse);
+                var _exception = ExceptionFactory("PostCandidate", localVarResponse);
                 if (_exception != null)
                 {
                     throw _exception;
@@ -1492,9 +1471,9 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task PostCandidateAsync(TpdmCandidate candidate, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task PostCandidateAsync(TpdmCandidate candidate, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default)
         {
-            await PostCandidateWithHttpInfoAsync(candidate, operationIndex, cancellationToken).ConfigureAwait(false);
+            _ = await PostCandidateWithHttpInfoAsync(candidate, operationIndex, cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -1505,24 +1484,16 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<EdFi.OdsApi.Sdk.Client.ApiResponse<Object>> PostCandidateWithHttpInfoAsync(TpdmCandidate candidate, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<EdFi.OdsApi.Sdk.Client.ApiResponse<Object>> PostCandidateWithHttpInfoAsync(TpdmCandidate candidate, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default)
         {
-            // verify the required parameter 'candidate' is set
-            if (candidate == null)
-            {
-                throw new EdFi.OdsApi.Sdk.Client.ApiException(400, "Missing required parameter 'candidate' when calling CandidatesApi->PostCandidate");
-            }
+            var localVarRequestOptions = new EdFi.OdsApi.Sdk.Client.RequestOptions();
 
-
-            EdFi.OdsApi.Sdk.Client.RequestOptions localVarRequestOptions = new EdFi.OdsApi.Sdk.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
+            var _contentTypes = new string[] {
                 "application/json"
             };
 
             // to determine the Accept header
-            string[] _accepts = new string[] {
-            };
+            var _accepts = Array.Empty<string>();
 
             var localVarContentType = EdFi.OdsApi.Sdk.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
             if (localVarContentType != null)
@@ -1536,24 +1507,24 @@ namespace EdFi.OdsApi.Sdk.Apis.All
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            localVarRequestOptions.Data = candidate;
+            localVarRequestOptions.Data = candidate ?? throw new EdFi.OdsApi.Sdk.Client.ApiException(400, "Missing required parameter 'candidate' when calling CandidatesApi->PostCandidate");
 
             localVarRequestOptions.Operation = "CandidatesApi.PostCandidate";
             localVarRequestOptions.OperationIndex = operationIndex;
 
             // authentication (oauth2_client_credentials) required
             // oauth required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            if (!string.IsNullOrEmpty(Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + Configuration.AccessToken);
             }
 
             // make the HTTP request
-            var localVarResponse = await this.AsynchronousClient.PostAsync<Object>("/tpdm/candidates", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await AsynchronousClient.PostAsync<object>("/tpdm/candidates", localVarRequestOptions, Configuration, cancellationToken).ConfigureAwait(false);
 
-            if (this.ExceptionFactory != null)
+            if (ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("PostCandidate", localVarResponse);
+                var _exception = ExceptionFactory("PostCandidate", localVarResponse);
                 if (_exception != null)
                 {
                     throw _exception;
@@ -1572,9 +1543,9 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="ifMatch">The ETag header value used to prevent the PUT from updating a resource modified by another consumer. (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns></returns>
-        public void PutCandidate(string id, TpdmCandidate candidate, string? ifMatch = default(string?), int operationIndex = 0)
+        public void PutCandidate(string id, TpdmCandidate candidate, string? ifMatch = default, int operationIndex = 0)
         {
-            PutCandidateWithHttpInfo(id, candidate, ifMatch);
+            _ = PutCandidateWithHttpInfo(id, candidate, ifMatch);
         }
 
         /// <summary>
@@ -1586,7 +1557,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="ifMatch">The ETag header value used to prevent the PUT from updating a resource modified by another consumer. (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public EdFi.OdsApi.Sdk.Client.ApiResponse<Object> PutCandidateWithHttpInfo(string id, TpdmCandidate candidate, string? ifMatch = default(string?), int operationIndex = 0)
+        public EdFi.OdsApi.Sdk.Client.ApiResponse<Object> PutCandidateWithHttpInfo(string id, TpdmCandidate candidate, string? ifMatch = default, int operationIndex = 0)
         {
             // verify the required parameter 'id' is set
             if (id == null)
@@ -1594,21 +1565,14 @@ namespace EdFi.OdsApi.Sdk.Apis.All
                 throw new EdFi.OdsApi.Sdk.Client.ApiException(400, "Missing required parameter 'id' when calling CandidatesApi->PutCandidate");
             }
 
-            // verify the required parameter 'candidate' is set
-            if (candidate == null)
-            {
-                throw new EdFi.OdsApi.Sdk.Client.ApiException(400, "Missing required parameter 'candidate' when calling CandidatesApi->PutCandidate");
-            }
+            var localVarRequestOptions = new EdFi.OdsApi.Sdk.Client.RequestOptions();
 
-            EdFi.OdsApi.Sdk.Client.RequestOptions localVarRequestOptions = new EdFi.OdsApi.Sdk.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
+            var _contentTypes = new string[] {
                 "application/json"
             };
 
             // to determine the Accept header
-            string[] _accepts = new string[] {
-            };
+            var _accepts = Array.Empty<string>();
 
             var localVarContentType = EdFi.OdsApi.Sdk.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
             if (localVarContentType != null)
@@ -1627,23 +1591,23 @@ namespace EdFi.OdsApi.Sdk.Apis.All
             {
                 localVarRequestOptions.HeaderParameters.Add("If-Match", EdFi.OdsApi.Sdk.Client.ClientUtils.ParameterToString(ifMatch)); // header parameter
             }
-            localVarRequestOptions.Data = candidate;
+            localVarRequestOptions.Data = candidate ?? throw new EdFi.OdsApi.Sdk.Client.ApiException(400, "Missing required parameter 'candidate' when calling CandidatesApi->PutCandidate");
 
             localVarRequestOptions.Operation = "CandidatesApi.PutCandidate";
             localVarRequestOptions.OperationIndex = operationIndex;
 
             // authentication (oauth2_client_credentials) required
             // oauth required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            if (!string.IsNullOrEmpty(Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + Configuration.AccessToken);
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Put<Object>("/tpdm/candidates/{id}", localVarRequestOptions, this.Configuration);
-            if (this.ExceptionFactory != null)
+            var localVarResponse = Client.Put<object>("/tpdm/candidates/{id}", localVarRequestOptions, Configuration);
+            if (ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("PutCandidate", localVarResponse);
+                var _exception = ExceptionFactory("PutCandidate", localVarResponse);
                 if (_exception != null)
                 {
                     throw _exception;
@@ -1663,9 +1627,9 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task PutCandidateAsync(string id, TpdmCandidate candidate, string? ifMatch = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task PutCandidateAsync(string id, TpdmCandidate candidate, string? ifMatch = default, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default)
         {
-            await PutCandidateWithHttpInfoAsync(id, candidate, ifMatch, operationIndex, cancellationToken).ConfigureAwait(false);
+            _ = await PutCandidateWithHttpInfoAsync(id, candidate, ifMatch, operationIndex, cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -1678,7 +1642,7 @@ namespace EdFi.OdsApi.Sdk.Apis.All
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<EdFi.OdsApi.Sdk.Client.ApiResponse<Object>> PutCandidateWithHttpInfoAsync(string id, TpdmCandidate candidate, string? ifMatch = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<EdFi.OdsApi.Sdk.Client.ApiResponse<Object>> PutCandidateWithHttpInfoAsync(string id, TpdmCandidate candidate, string? ifMatch = default, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default)
         {
             // verify the required parameter 'id' is set
             if (id == null)
@@ -1686,22 +1650,14 @@ namespace EdFi.OdsApi.Sdk.Apis.All
                 throw new EdFi.OdsApi.Sdk.Client.ApiException(400, "Missing required parameter 'id' when calling CandidatesApi->PutCandidate");
             }
 
-            // verify the required parameter 'candidate' is set
-            if (candidate == null)
-            {
-                throw new EdFi.OdsApi.Sdk.Client.ApiException(400, "Missing required parameter 'candidate' when calling CandidatesApi->PutCandidate");
-            }
+            var localVarRequestOptions = new EdFi.OdsApi.Sdk.Client.RequestOptions();
 
-
-            EdFi.OdsApi.Sdk.Client.RequestOptions localVarRequestOptions = new EdFi.OdsApi.Sdk.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
+            var _contentTypes = new string[] {
                 "application/json"
             };
 
             // to determine the Accept header
-            string[] _accepts = new string[] {
-            };
+            var _accepts = Array.Empty<string>();
 
             var localVarContentType = EdFi.OdsApi.Sdk.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
             if (localVarContentType != null)
@@ -1720,24 +1676,24 @@ namespace EdFi.OdsApi.Sdk.Apis.All
             {
                 localVarRequestOptions.HeaderParameters.Add("If-Match", EdFi.OdsApi.Sdk.Client.ClientUtils.ParameterToString(ifMatch)); // header parameter
             }
-            localVarRequestOptions.Data = candidate;
+            localVarRequestOptions.Data = candidate ?? throw new EdFi.OdsApi.Sdk.Client.ApiException(400, "Missing required parameter 'candidate' when calling CandidatesApi->PutCandidate");
 
             localVarRequestOptions.Operation = "CandidatesApi.PutCandidate";
             localVarRequestOptions.OperationIndex = operationIndex;
 
             // authentication (oauth2_client_credentials) required
             // oauth required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            if (!string.IsNullOrEmpty(Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + Configuration.AccessToken);
             }
 
             // make the HTTP request
-            var localVarResponse = await this.AsynchronousClient.PutAsync<Object>("/tpdm/candidates/{id}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await AsynchronousClient.PutAsync<object>("/tpdm/candidates/{id}", localVarRequestOptions, Configuration, cancellationToken).ConfigureAwait(false);
 
-            if (this.ExceptionFactory != null)
+            if (ExceptionFactory != null)
             {
-                Exception _exception = this.ExceptionFactory("PutCandidate", localVarResponse);
+                var _exception = ExceptionFactory("PutCandidate", localVarResponse);
                 if (_exception != null)
                 {
                     throw _exception;

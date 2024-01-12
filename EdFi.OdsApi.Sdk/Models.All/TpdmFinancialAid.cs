@@ -12,12 +12,12 @@
  */
 
 
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using System.Text;
-using Newtonsoft.Json;
-using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = EdFi.OdsApi.Sdk.Client.OpenAPIDateConverter;
 
 namespace EdFi.OdsApi.Sdk.Models.All
@@ -45,27 +45,17 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <param name="endDate">The date the award was removed..</param>
         /// <param name="pellGrantRecipient">Indicates a person who receives Pell Grant aid..</param>
         /// <param name="etag">A unique system-generated value that identifies the version of the resource..</param>
-        public TpdmFinancialAid(string id = default(string), string aidTypeDescriptor = default(string), DateTime beginDate = default(DateTime), EdFiStudentReference studentReference = default(EdFiStudentReference), double? aidAmount = default(double?), string aidConditionDescription = default(string), DateTime? endDate = default(DateTime?), bool? pellGrantRecipient = default(bool?), string etag = default(string))
+        public TpdmFinancialAid(string id = default, string aidTypeDescriptor = default, DateTime beginDate = default, EdFiStudentReference studentReference = default, double? aidAmount = default, string aidConditionDescription = default, DateTime? endDate = default, bool? pellGrantRecipient = default, string etag = default)
         {
-            // to ensure "aidTypeDescriptor" is required (not null)
-            if (aidTypeDescriptor == null)
-            {
-                throw new ArgumentNullException("aidTypeDescriptor is a required property for TpdmFinancialAid and cannot be null");
-            }
-            this.AidTypeDescriptor = aidTypeDescriptor;
-            this.BeginDate = beginDate;
-            // to ensure "studentReference" is required (not null)
-            if (studentReference == null)
-            {
-                throw new ArgumentNullException("studentReference is a required property for TpdmFinancialAid and cannot be null");
-            }
-            this.StudentReference = studentReference;
-            this.Id = id;
-            this.AidAmount = aidAmount;
-            this.AidConditionDescription = aidConditionDescription;
-            this.EndDate = endDate;
-            this.PellGrantRecipient = pellGrantRecipient;
-            this.Etag = etag;
+            AidTypeDescriptor = aidTypeDescriptor ?? throw new ArgumentNullException("aidTypeDescriptor is a required property for TpdmFinancialAid and cannot be null");
+            BeginDate = beginDate;
+            StudentReference = studentReference ?? throw new ArgumentNullException("studentReference is a required property for TpdmFinancialAid and cannot be null");
+            Id = id;
+            AidAmount = aidAmount;
+            AidConditionDescription = aidConditionDescription;
+            EndDate = endDate;
+            PellGrantRecipient = pellGrantRecipient;
+            Etag = etag;
         }
 
         /// <summary>
@@ -137,18 +127,18 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder();
-            sb.Append("class TpdmFinancialAid {\n");
-            sb.Append("  Id: ").Append(Id).Append("\n");
-            sb.Append("  AidTypeDescriptor: ").Append(AidTypeDescriptor).Append("\n");
-            sb.Append("  BeginDate: ").Append(BeginDate).Append("\n");
-            sb.Append("  StudentReference: ").Append(StudentReference).Append("\n");
-            sb.Append("  AidAmount: ").Append(AidAmount).Append("\n");
-            sb.Append("  AidConditionDescription: ").Append(AidConditionDescription).Append("\n");
-            sb.Append("  EndDate: ").Append(EndDate).Append("\n");
-            sb.Append("  PellGrantRecipient: ").Append(PellGrantRecipient).Append("\n");
-            sb.Append("  Etag: ").Append(Etag).Append("\n");
-            sb.Append("}\n");
+            var sb = new StringBuilder();
+            _ = sb.Append("class TpdmFinancialAid {\n");
+            _ = sb.Append("  Id: ").Append(Id).Append("\n");
+            _ = sb.Append("  AidTypeDescriptor: ").Append(AidTypeDescriptor).Append("\n");
+            _ = sb.Append("  BeginDate: ").Append(BeginDate).Append("\n");
+            _ = sb.Append("  StudentReference: ").Append(StudentReference).Append("\n");
+            _ = sb.Append("  AidAmount: ").Append(AidAmount).Append("\n");
+            _ = sb.Append("  AidConditionDescription: ").Append(AidConditionDescription).Append("\n");
+            _ = sb.Append("  EndDate: ").Append(EndDate).Append("\n");
+            _ = sb.Append("  PellGrantRecipient: ").Append(PellGrantRecipient).Append("\n");
+            _ = sb.Append("  Etag: ").Append(Etag).Append("\n");
+            _ = sb.Append("}\n");
             return sb.ToString();
         }
 
@@ -168,7 +158,7 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as TpdmFinancialAid);
+            return Equals(input as TpdmFinancialAid);
         }
 
         /// <summary>
@@ -178,54 +168,50 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public bool Equals(TpdmFinancialAid input)
         {
-            if (input == null)
-            {
-                return false;
-            }
-            return
-                (
-                    this.Id == input.Id ||
-                    (this.Id != null &&
-                    this.Id.Equals(input.Id))
+            return input != null
+&& (
+                    Id == input.Id ||
+                    (Id != null &&
+                    Id.Equals(input.Id))
                 ) &&
                 (
-                    this.AidTypeDescriptor == input.AidTypeDescriptor ||
-                    (this.AidTypeDescriptor != null &&
-                    this.AidTypeDescriptor.Equals(input.AidTypeDescriptor))
+                    AidTypeDescriptor == input.AidTypeDescriptor ||
+                    (AidTypeDescriptor != null &&
+                    AidTypeDescriptor.Equals(input.AidTypeDescriptor))
                 ) &&
                 (
-                    this.BeginDate == input.BeginDate ||
-                    this.BeginDate.Equals(input.BeginDate)
+                    BeginDate == input.BeginDate ||
+                    BeginDate.Equals(input.BeginDate)
                 ) &&
                 (
-                    this.StudentReference == input.StudentReference ||
-                    (this.StudentReference != null &&
-                    this.StudentReference.Equals(input.StudentReference))
+                    StudentReference == input.StudentReference ||
+                    (StudentReference != null &&
+                    StudentReference.Equals(input.StudentReference))
                 ) &&
                 (
-                    this.AidAmount == input.AidAmount ||
-                    (this.AidAmount != null &&
-                    this.AidAmount.Equals(input.AidAmount))
+                    AidAmount == input.AidAmount ||
+                    (AidAmount != null &&
+                    AidAmount.Equals(input.AidAmount))
                 ) &&
                 (
-                    this.AidConditionDescription == input.AidConditionDescription ||
-                    (this.AidConditionDescription != null &&
-                    this.AidConditionDescription.Equals(input.AidConditionDescription))
+                    AidConditionDescription == input.AidConditionDescription ||
+                    (AidConditionDescription != null &&
+                    AidConditionDescription.Equals(input.AidConditionDescription))
                 ) &&
                 (
-                    this.EndDate == input.EndDate ||
-                    (this.EndDate != null &&
-                    this.EndDate.Equals(input.EndDate))
+                    EndDate == input.EndDate ||
+                    (EndDate != null &&
+                    EndDate.Equals(input.EndDate))
                 ) &&
                 (
-                    this.PellGrantRecipient == input.PellGrantRecipient ||
-                    (this.PellGrantRecipient != null &&
-                    this.PellGrantRecipient.Equals(input.PellGrantRecipient))
+                    PellGrantRecipient == input.PellGrantRecipient ||
+                    (PellGrantRecipient != null &&
+                    PellGrantRecipient.Equals(input.PellGrantRecipient))
                 ) &&
                 (
-                    this.Etag == input.Etag ||
-                    (this.Etag != null &&
-                    this.Etag.Equals(input.Etag))
+                    Etag == input.Etag ||
+                    (Etag != null &&
+                    Etag.Equals(input.Etag))
                 );
         }
 
@@ -237,39 +223,39 @@ namespace EdFi.OdsApi.Sdk.Models.All
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
-                if (this.Id != null)
+                var hashCode = 41;
+                if (Id != null)
                 {
-                    hashCode = (hashCode * 59) + this.Id.GetHashCode();
+                    hashCode = (hashCode * 59) + Id.GetHashCode();
                 }
-                if (this.AidTypeDescriptor != null)
+                if (AidTypeDescriptor != null)
                 {
-                    hashCode = (hashCode * 59) + this.AidTypeDescriptor.GetHashCode();
+                    hashCode = (hashCode * 59) + AidTypeDescriptor.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + this.BeginDate.GetHashCode();
-                if (this.StudentReference != null)
+                hashCode = (hashCode * 59) + BeginDate.GetHashCode();
+                if (StudentReference != null)
                 {
-                    hashCode = (hashCode * 59) + this.StudentReference.GetHashCode();
+                    hashCode = (hashCode * 59) + StudentReference.GetHashCode();
                 }
-                if (this.AidAmount != null)
+                if (AidAmount != null)
                 {
-                    hashCode = (hashCode * 59) + this.AidAmount.GetHashCode();
+                    hashCode = (hashCode * 59) + AidAmount.GetHashCode();
                 }
-                if (this.AidConditionDescription != null)
+                if (AidConditionDescription != null)
                 {
-                    hashCode = (hashCode * 59) + this.AidConditionDescription.GetHashCode();
+                    hashCode = (hashCode * 59) + AidConditionDescription.GetHashCode();
                 }
-                if (this.EndDate != null)
+                if (EndDate != null)
                 {
-                    hashCode = (hashCode * 59) + this.EndDate.GetHashCode();
+                    hashCode = (hashCode * 59) + EndDate.GetHashCode();
                 }
-                if (this.PellGrantRecipient != null)
+                if (PellGrantRecipient != null)
                 {
-                    hashCode = (hashCode * 59) + this.PellGrantRecipient.GetHashCode();
+                    hashCode = (hashCode * 59) + PellGrantRecipient.GetHashCode();
                 }
-                if (this.Etag != null)
+                if (Etag != null)
                 {
-                    hashCode = (hashCode * 59) + this.Etag.GetHashCode();
+                    hashCode = (hashCode * 59) + Etag.GetHashCode();
                 }
                 return hashCode;
             }
@@ -283,13 +269,13 @@ namespace EdFi.OdsApi.Sdk.Models.All
         public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
         {
             // AidTypeDescriptor (string) maxLength
-            if (this.AidTypeDescriptor != null && this.AidTypeDescriptor.Length > 306)
+            if (AidTypeDescriptor != null && AidTypeDescriptor.Length > 306)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for AidTypeDescriptor, length must be less than 306.", new[] { "AidTypeDescriptor" });
             }
 
             // AidConditionDescription (string) maxLength
-            if (this.AidConditionDescription != null && this.AidConditionDescription.Length > 1024)
+            if (AidConditionDescription != null && AidConditionDescription.Length > 1024)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for AidConditionDescription, length must be less than 1024.", new[] { "AidConditionDescription" });
             }

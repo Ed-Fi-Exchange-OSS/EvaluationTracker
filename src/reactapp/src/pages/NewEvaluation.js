@@ -9,7 +9,6 @@ import {
   FormControl,
   FormLabel,
   Heading,
-  Input,
   Box,
   Button,
   ButtonGroup,
@@ -36,9 +35,6 @@ export default function NewEvaluation() {
 
   const navigate = useNavigate();
 
-  const validate = () => {
-    return false;
-  };
 
   const fetchAvailableEvaluations = async () => {
     try {

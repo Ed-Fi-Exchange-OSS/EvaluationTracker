@@ -12,12 +12,12 @@
  */
 
 
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using System.Text;
-using Newtonsoft.Json;
-using System.ComponentModel.DataAnnotations;
 
 namespace EdFi.OdsApi.Sdk.Models.All
 {
@@ -39,27 +39,12 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <param name="surveyIdentifier">The unique survey identifier from the survey tool. (required).</param>
         /// <param name="surveyResponseIdentifier">The identifier of the survey typically from the survey application. (required).</param>
         /// <param name="link">link.</param>
-        public EdFiSurveyResponseReference(string _namespace = default(string), string surveyIdentifier = default(string), string surveyResponseIdentifier = default(string), Link link = default(Link))
+        public EdFiSurveyResponseReference(string _namespace = default, string surveyIdentifier = default, string surveyResponseIdentifier = default, Link link = default)
         {
-            // to ensure "_namespace" is required (not null)
-            if (_namespace == null)
-            {
-                throw new ArgumentNullException("_namespace is a required property for EdFiSurveyResponseReference and cannot be null");
-            }
-            this.Namespace = _namespace;
-            // to ensure "surveyIdentifier" is required (not null)
-            if (surveyIdentifier == null)
-            {
-                throw new ArgumentNullException("surveyIdentifier is a required property for EdFiSurveyResponseReference and cannot be null");
-            }
-            this.SurveyIdentifier = surveyIdentifier;
-            // to ensure "surveyResponseIdentifier" is required (not null)
-            if (surveyResponseIdentifier == null)
-            {
-                throw new ArgumentNullException("surveyResponseIdentifier is a required property for EdFiSurveyResponseReference and cannot be null");
-            }
-            this.SurveyResponseIdentifier = surveyResponseIdentifier;
-            this.Link = link;
+            Namespace = _namespace ?? throw new ArgumentNullException("_namespace is a required property for EdFiSurveyResponseReference and cannot be null");
+            SurveyIdentifier = surveyIdentifier ?? throw new ArgumentNullException("surveyIdentifier is a required property for EdFiSurveyResponseReference and cannot be null");
+            SurveyResponseIdentifier = surveyResponseIdentifier ?? throw new ArgumentNullException("surveyResponseIdentifier is a required property for EdFiSurveyResponseReference and cannot be null");
+            Link = link;
         }
 
         /// <summary>
@@ -95,13 +80,13 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder();
-            sb.Append("class EdFiSurveyResponseReference {\n");
-            sb.Append("  Namespace: ").Append(Namespace).Append("\n");
-            sb.Append("  SurveyIdentifier: ").Append(SurveyIdentifier).Append("\n");
-            sb.Append("  SurveyResponseIdentifier: ").Append(SurveyResponseIdentifier).Append("\n");
-            sb.Append("  Link: ").Append(Link).Append("\n");
-            sb.Append("}\n");
+            var sb = new StringBuilder();
+            _ = sb.Append("class EdFiSurveyResponseReference {\n");
+            _ = sb.Append("  Namespace: ").Append(Namespace).Append("\n");
+            _ = sb.Append("  SurveyIdentifier: ").Append(SurveyIdentifier).Append("\n");
+            _ = sb.Append("  SurveyResponseIdentifier: ").Append(SurveyResponseIdentifier).Append("\n");
+            _ = sb.Append("  Link: ").Append(Link).Append("\n");
+            _ = sb.Append("}\n");
             return sb.ToString();
         }
 
@@ -121,7 +106,7 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as EdFiSurveyResponseReference);
+            return Equals(input as EdFiSurveyResponseReference);
         }
 
         /// <summary>
@@ -131,30 +116,26 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public bool Equals(EdFiSurveyResponseReference input)
         {
-            if (input == null)
-            {
-                return false;
-            }
-            return
-                (
-                    this.Namespace == input.Namespace ||
-                    (this.Namespace != null &&
-                    this.Namespace.Equals(input.Namespace))
+            return input != null
+&& (
+                    Namespace == input.Namespace ||
+                    (Namespace != null &&
+                    Namespace.Equals(input.Namespace))
                 ) &&
                 (
-                    this.SurveyIdentifier == input.SurveyIdentifier ||
-                    (this.SurveyIdentifier != null &&
-                    this.SurveyIdentifier.Equals(input.SurveyIdentifier))
+                    SurveyIdentifier == input.SurveyIdentifier ||
+                    (SurveyIdentifier != null &&
+                    SurveyIdentifier.Equals(input.SurveyIdentifier))
                 ) &&
                 (
-                    this.SurveyResponseIdentifier == input.SurveyResponseIdentifier ||
-                    (this.SurveyResponseIdentifier != null &&
-                    this.SurveyResponseIdentifier.Equals(input.SurveyResponseIdentifier))
+                    SurveyResponseIdentifier == input.SurveyResponseIdentifier ||
+                    (SurveyResponseIdentifier != null &&
+                    SurveyResponseIdentifier.Equals(input.SurveyResponseIdentifier))
                 ) &&
                 (
-                    this.Link == input.Link ||
-                    (this.Link != null &&
-                    this.Link.Equals(input.Link))
+                    Link == input.Link ||
+                    (Link != null &&
+                    Link.Equals(input.Link))
                 );
         }
 
@@ -166,22 +147,22 @@ namespace EdFi.OdsApi.Sdk.Models.All
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
-                if (this.Namespace != null)
+                var hashCode = 41;
+                if (Namespace != null)
                 {
-                    hashCode = (hashCode * 59) + this.Namespace.GetHashCode();
+                    hashCode = (hashCode * 59) + Namespace.GetHashCode();
                 }
-                if (this.SurveyIdentifier != null)
+                if (SurveyIdentifier != null)
                 {
-                    hashCode = (hashCode * 59) + this.SurveyIdentifier.GetHashCode();
+                    hashCode = (hashCode * 59) + SurveyIdentifier.GetHashCode();
                 }
-                if (this.SurveyResponseIdentifier != null)
+                if (SurveyResponseIdentifier != null)
                 {
-                    hashCode = (hashCode * 59) + this.SurveyResponseIdentifier.GetHashCode();
+                    hashCode = (hashCode * 59) + SurveyResponseIdentifier.GetHashCode();
                 }
-                if (this.Link != null)
+                if (Link != null)
                 {
-                    hashCode = (hashCode * 59) + this.Link.GetHashCode();
+                    hashCode = (hashCode * 59) + Link.GetHashCode();
                 }
                 return hashCode;
             }
@@ -195,19 +176,19 @@ namespace EdFi.OdsApi.Sdk.Models.All
         public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
         {
             // Namespace (string) maxLength
-            if (this.Namespace != null && this.Namespace.Length > 255)
+            if (Namespace != null && Namespace.Length > 255)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Namespace, length must be less than 255.", new[] { "Namespace" });
             }
 
             // SurveyIdentifier (string) maxLength
-            if (this.SurveyIdentifier != null && this.SurveyIdentifier.Length > 60)
+            if (SurveyIdentifier != null && SurveyIdentifier.Length > 60)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for SurveyIdentifier, length must be less than 60.", new[] { "SurveyIdentifier" });
             }
 
             // SurveyResponseIdentifier (string) maxLength
-            if (this.SurveyResponseIdentifier != null && this.SurveyResponseIdentifier.Length > 60)
+            if (SurveyResponseIdentifier != null && SurveyResponseIdentifier.Length > 60)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for SurveyResponseIdentifier, length must be less than 60.", new[] { "SurveyResponseIdentifier" });
             }

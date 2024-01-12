@@ -1,9 +1,9 @@
+using EdFi.OdsApi.Sdk.Client;
 using System.Net;
 using System.Runtime.Serialization;
 using System.Security.Authentication;
-using EdFi.OdsApi.Sdk.Client;
 
-namespace EdFi.OdsApi.SdkClient
+namespace eppeta.webapi
 {
     public class TokenRetriever
     {
@@ -36,13 +36,10 @@ namespace EdFi.OdsApi.SdkClient
                 throw new AuthenticationException($"Unable to retrieve an access token. Error message: ${message}");
             }
 
-            if (bearerTokenResponse.Data.Error != string.Empty || bearerTokenResponse.Data.TokenType != "bearer")
-            {
-                throw new AuthenticationException(
-                    "Unable to retrieve an access token. Please verify that your application secret is correct.");
-            }
-
-            return bearerTokenResponse.Data.AccessToken;
+            return bearerTokenResponse.Data.Error != string.Empty || bearerTokenResponse.Data.TokenType != "bearer"
+                ? throw new AuthenticationException(
+                    "Unable to retrieve an access token. Please verify that your application secret is correct.")
+                : bearerTokenResponse.Data.AccessToken;
         }
     }
 

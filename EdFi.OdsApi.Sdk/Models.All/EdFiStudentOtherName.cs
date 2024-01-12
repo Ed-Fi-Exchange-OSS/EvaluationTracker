@@ -12,12 +12,12 @@
  */
 
 
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using System.Text;
-using Newtonsoft.Json;
-using System.ComponentModel.DataAnnotations;
 
 namespace EdFi.OdsApi.Sdk.Models.All
 {
@@ -41,29 +41,14 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <param name="lastSurname">The name borne in common by members of a family. (required).</param>
         /// <param name="middleName">A secondary name given to an individual at birth, baptism, or during another naming ceremony..</param>
         /// <param name="personalTitlePrefix">A prefix used to denote the title, degree, position, or seniority of the individual..</param>
-        public EdFiStudentOtherName(string otherNameTypeDescriptor = default(string), string firstName = default(string), string generationCodeSuffix = default(string), string lastSurname = default(string), string middleName = default(string), string personalTitlePrefix = default(string))
+        public EdFiStudentOtherName(string otherNameTypeDescriptor = default, string firstName = default, string generationCodeSuffix = default, string lastSurname = default, string middleName = default, string personalTitlePrefix = default)
         {
-            // to ensure "otherNameTypeDescriptor" is required (not null)
-            if (otherNameTypeDescriptor == null)
-            {
-                throw new ArgumentNullException("otherNameTypeDescriptor is a required property for EdFiStudentOtherName and cannot be null");
-            }
-            this.OtherNameTypeDescriptor = otherNameTypeDescriptor;
-            // to ensure "firstName" is required (not null)
-            if (firstName == null)
-            {
-                throw new ArgumentNullException("firstName is a required property for EdFiStudentOtherName and cannot be null");
-            }
-            this.FirstName = firstName;
-            // to ensure "lastSurname" is required (not null)
-            if (lastSurname == null)
-            {
-                throw new ArgumentNullException("lastSurname is a required property for EdFiStudentOtherName and cannot be null");
-            }
-            this.LastSurname = lastSurname;
-            this.GenerationCodeSuffix = generationCodeSuffix;
-            this.MiddleName = middleName;
-            this.PersonalTitlePrefix = personalTitlePrefix;
+            OtherNameTypeDescriptor = otherNameTypeDescriptor ?? throw new ArgumentNullException("otherNameTypeDescriptor is a required property for EdFiStudentOtherName and cannot be null");
+            FirstName = firstName ?? throw new ArgumentNullException("firstName is a required property for EdFiStudentOtherName and cannot be null");
+            LastSurname = lastSurname ?? throw new ArgumentNullException("lastSurname is a required property for EdFiStudentOtherName and cannot be null");
+            GenerationCodeSuffix = generationCodeSuffix;
+            MiddleName = middleName;
+            PersonalTitlePrefix = personalTitlePrefix;
         }
 
         /// <summary>
@@ -114,15 +99,15 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder();
-            sb.Append("class EdFiStudentOtherName {\n");
-            sb.Append("  OtherNameTypeDescriptor: ").Append(OtherNameTypeDescriptor).Append("\n");
-            sb.Append("  FirstName: ").Append(FirstName).Append("\n");
-            sb.Append("  GenerationCodeSuffix: ").Append(GenerationCodeSuffix).Append("\n");
-            sb.Append("  LastSurname: ").Append(LastSurname).Append("\n");
-            sb.Append("  MiddleName: ").Append(MiddleName).Append("\n");
-            sb.Append("  PersonalTitlePrefix: ").Append(PersonalTitlePrefix).Append("\n");
-            sb.Append("}\n");
+            var sb = new StringBuilder();
+            _ = sb.Append("class EdFiStudentOtherName {\n");
+            _ = sb.Append("  OtherNameTypeDescriptor: ").Append(OtherNameTypeDescriptor).Append("\n");
+            _ = sb.Append("  FirstName: ").Append(FirstName).Append("\n");
+            _ = sb.Append("  GenerationCodeSuffix: ").Append(GenerationCodeSuffix).Append("\n");
+            _ = sb.Append("  LastSurname: ").Append(LastSurname).Append("\n");
+            _ = sb.Append("  MiddleName: ").Append(MiddleName).Append("\n");
+            _ = sb.Append("  PersonalTitlePrefix: ").Append(PersonalTitlePrefix).Append("\n");
+            _ = sb.Append("}\n");
             return sb.ToString();
         }
 
@@ -142,7 +127,7 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as EdFiStudentOtherName);
+            return Equals(input as EdFiStudentOtherName);
         }
 
         /// <summary>
@@ -152,40 +137,36 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public bool Equals(EdFiStudentOtherName input)
         {
-            if (input == null)
-            {
-                return false;
-            }
-            return
-                (
-                    this.OtherNameTypeDescriptor == input.OtherNameTypeDescriptor ||
-                    (this.OtherNameTypeDescriptor != null &&
-                    this.OtherNameTypeDescriptor.Equals(input.OtherNameTypeDescriptor))
+            return input != null
+&& (
+                    OtherNameTypeDescriptor == input.OtherNameTypeDescriptor ||
+                    (OtherNameTypeDescriptor != null &&
+                    OtherNameTypeDescriptor.Equals(input.OtherNameTypeDescriptor))
                 ) &&
                 (
-                    this.FirstName == input.FirstName ||
-                    (this.FirstName != null &&
-                    this.FirstName.Equals(input.FirstName))
+                    FirstName == input.FirstName ||
+                    (FirstName != null &&
+                    FirstName.Equals(input.FirstName))
                 ) &&
                 (
-                    this.GenerationCodeSuffix == input.GenerationCodeSuffix ||
-                    (this.GenerationCodeSuffix != null &&
-                    this.GenerationCodeSuffix.Equals(input.GenerationCodeSuffix))
+                    GenerationCodeSuffix == input.GenerationCodeSuffix ||
+                    (GenerationCodeSuffix != null &&
+                    GenerationCodeSuffix.Equals(input.GenerationCodeSuffix))
                 ) &&
                 (
-                    this.LastSurname == input.LastSurname ||
-                    (this.LastSurname != null &&
-                    this.LastSurname.Equals(input.LastSurname))
+                    LastSurname == input.LastSurname ||
+                    (LastSurname != null &&
+                    LastSurname.Equals(input.LastSurname))
                 ) &&
                 (
-                    this.MiddleName == input.MiddleName ||
-                    (this.MiddleName != null &&
-                    this.MiddleName.Equals(input.MiddleName))
+                    MiddleName == input.MiddleName ||
+                    (MiddleName != null &&
+                    MiddleName.Equals(input.MiddleName))
                 ) &&
                 (
-                    this.PersonalTitlePrefix == input.PersonalTitlePrefix ||
-                    (this.PersonalTitlePrefix != null &&
-                    this.PersonalTitlePrefix.Equals(input.PersonalTitlePrefix))
+                    PersonalTitlePrefix == input.PersonalTitlePrefix ||
+                    (PersonalTitlePrefix != null &&
+                    PersonalTitlePrefix.Equals(input.PersonalTitlePrefix))
                 );
         }
 
@@ -197,30 +178,30 @@ namespace EdFi.OdsApi.Sdk.Models.All
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
-                if (this.OtherNameTypeDescriptor != null)
+                var hashCode = 41;
+                if (OtherNameTypeDescriptor != null)
                 {
-                    hashCode = (hashCode * 59) + this.OtherNameTypeDescriptor.GetHashCode();
+                    hashCode = (hashCode * 59) + OtherNameTypeDescriptor.GetHashCode();
                 }
-                if (this.FirstName != null)
+                if (FirstName != null)
                 {
-                    hashCode = (hashCode * 59) + this.FirstName.GetHashCode();
+                    hashCode = (hashCode * 59) + FirstName.GetHashCode();
                 }
-                if (this.GenerationCodeSuffix != null)
+                if (GenerationCodeSuffix != null)
                 {
-                    hashCode = (hashCode * 59) + this.GenerationCodeSuffix.GetHashCode();
+                    hashCode = (hashCode * 59) + GenerationCodeSuffix.GetHashCode();
                 }
-                if (this.LastSurname != null)
+                if (LastSurname != null)
                 {
-                    hashCode = (hashCode * 59) + this.LastSurname.GetHashCode();
+                    hashCode = (hashCode * 59) + LastSurname.GetHashCode();
                 }
-                if (this.MiddleName != null)
+                if (MiddleName != null)
                 {
-                    hashCode = (hashCode * 59) + this.MiddleName.GetHashCode();
+                    hashCode = (hashCode * 59) + MiddleName.GetHashCode();
                 }
-                if (this.PersonalTitlePrefix != null)
+                if (PersonalTitlePrefix != null)
                 {
-                    hashCode = (hashCode * 59) + this.PersonalTitlePrefix.GetHashCode();
+                    hashCode = (hashCode * 59) + PersonalTitlePrefix.GetHashCode();
                 }
                 return hashCode;
             }
@@ -234,37 +215,37 @@ namespace EdFi.OdsApi.Sdk.Models.All
         public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
         {
             // OtherNameTypeDescriptor (string) maxLength
-            if (this.OtherNameTypeDescriptor != null && this.OtherNameTypeDescriptor.Length > 306)
+            if (OtherNameTypeDescriptor != null && OtherNameTypeDescriptor.Length > 306)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for OtherNameTypeDescriptor, length must be less than 306.", new[] { "OtherNameTypeDescriptor" });
             }
 
             // FirstName (string) maxLength
-            if (this.FirstName != null && this.FirstName.Length > 75)
+            if (FirstName != null && FirstName.Length > 75)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for FirstName, length must be less than 75.", new[] { "FirstName" });
             }
 
             // GenerationCodeSuffix (string) maxLength
-            if (this.GenerationCodeSuffix != null && this.GenerationCodeSuffix.Length > 10)
+            if (GenerationCodeSuffix != null && GenerationCodeSuffix.Length > 10)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for GenerationCodeSuffix, length must be less than 10.", new[] { "GenerationCodeSuffix" });
             }
 
             // LastSurname (string) maxLength
-            if (this.LastSurname != null && this.LastSurname.Length > 75)
+            if (LastSurname != null && LastSurname.Length > 75)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for LastSurname, length must be less than 75.", new[] { "LastSurname" });
             }
 
             // MiddleName (string) maxLength
-            if (this.MiddleName != null && this.MiddleName.Length > 75)
+            if (MiddleName != null && MiddleName.Length > 75)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for MiddleName, length must be less than 75.", new[] { "MiddleName" });
             }
 
             // PersonalTitlePrefix (string) maxLength
-            if (this.PersonalTitlePrefix != null && this.PersonalTitlePrefix.Length > 30)
+            if (PersonalTitlePrefix != null && PersonalTitlePrefix.Length > 30)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for PersonalTitlePrefix, length must be less than 30.", new[] { "PersonalTitlePrefix" });
             }

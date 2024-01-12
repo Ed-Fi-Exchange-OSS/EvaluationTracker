@@ -12,12 +12,12 @@
  */
 
 
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using System.Text;
-using Newtonsoft.Json;
-using System.ComponentModel.DataAnnotations;
 
 namespace EdFi.OdsApi.Sdk.Models.All
 {
@@ -37,10 +37,10 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// </summary>
         /// <param name="educationOrganizationId">The identifier assigned to an education organization. (required).</param>
         /// <param name="link">link.</param>
-        public EdFiEducationOrganizationReference(int educationOrganizationId = default(int), Link link = default(Link))
+        public EdFiEducationOrganizationReference(int educationOrganizationId = default, Link link = default)
         {
-            this.EducationOrganizationId = educationOrganizationId;
-            this.Link = link;
+            EducationOrganizationId = educationOrganizationId;
+            Link = link;
         }
 
         /// <summary>
@@ -62,11 +62,11 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder();
-            sb.Append("class EdFiEducationOrganizationReference {\n");
-            sb.Append("  EducationOrganizationId: ").Append(EducationOrganizationId).Append("\n");
-            sb.Append("  Link: ").Append(Link).Append("\n");
-            sb.Append("}\n");
+            var sb = new StringBuilder();
+            _ = sb.Append("class EdFiEducationOrganizationReference {\n");
+            _ = sb.Append("  EducationOrganizationId: ").Append(EducationOrganizationId).Append("\n");
+            _ = sb.Append("  Link: ").Append(Link).Append("\n");
+            _ = sb.Append("}\n");
             return sb.ToString();
         }
 
@@ -86,7 +86,7 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as EdFiEducationOrganizationReference);
+            return Equals(input as EdFiEducationOrganizationReference);
         }
 
         /// <summary>
@@ -96,19 +96,15 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public bool Equals(EdFiEducationOrganizationReference input)
         {
-            if (input == null)
-            {
-                return false;
-            }
-            return
-                (
-                    this.EducationOrganizationId == input.EducationOrganizationId ||
-                    this.EducationOrganizationId.Equals(input.EducationOrganizationId)
+            return input != null
+&& (
+                    EducationOrganizationId == input.EducationOrganizationId ||
+                    EducationOrganizationId.Equals(input.EducationOrganizationId)
                 ) &&
                 (
-                    this.Link == input.Link ||
-                    (this.Link != null &&
-                    this.Link.Equals(input.Link))
+                    Link == input.Link ||
+                    (Link != null &&
+                    Link.Equals(input.Link))
                 );
         }
 
@@ -120,11 +116,11 @@ namespace EdFi.OdsApi.Sdk.Models.All
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
-                hashCode = (hashCode * 59) + this.EducationOrganizationId.GetHashCode();
-                if (this.Link != null)
+                var hashCode = 41;
+                hashCode = (hashCode * 59) + EducationOrganizationId.GetHashCode();
+                if (Link != null)
                 {
-                    hashCode = (hashCode * 59) + this.Link.GetHashCode();
+                    hashCode = (hashCode * 59) + Link.GetHashCode();
                 }
                 return hashCode;
             }

@@ -58,7 +58,7 @@ namespace EdFi.OdsApi.Sdk.Client
         /// <value>Configuration.</value>
         public static IReadableConfiguration Instance
         {
-            get { return _globalConfiguration; }
+            get => _globalConfiguration;
             set
             {
                 lock (GlobalConfigSync)

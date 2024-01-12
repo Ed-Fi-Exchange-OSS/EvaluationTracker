@@ -12,12 +12,12 @@
  */
 
 
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using System.Text;
-using Newtonsoft.Json;
-using System.ComponentModel.DataAnnotations;
 
 namespace EdFi.OdsApi.Sdk.Models.All
 {
@@ -40,23 +40,13 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <param name="studentUniqueId">A unique alphanumeric code assigned to a student. (required).</param>
         /// <param name="termDescriptor">The term for the session during the school year. (required).</param>
         /// <param name="link">link.</param>
-        public EdFiStudentAcademicRecordReference(int educationOrganizationId = default(int), int schoolYear = default(int), string studentUniqueId = default(string), string termDescriptor = default(string), Link link = default(Link))
+        public EdFiStudentAcademicRecordReference(int educationOrganizationId = default, int schoolYear = default, string studentUniqueId = default, string termDescriptor = default, Link link = default)
         {
-            this.EducationOrganizationId = educationOrganizationId;
-            this.SchoolYear = schoolYear;
-            // to ensure "studentUniqueId" is required (not null)
-            if (studentUniqueId == null)
-            {
-                throw new ArgumentNullException("studentUniqueId is a required property for EdFiStudentAcademicRecordReference and cannot be null");
-            }
-            this.StudentUniqueId = studentUniqueId;
-            // to ensure "termDescriptor" is required (not null)
-            if (termDescriptor == null)
-            {
-                throw new ArgumentNullException("termDescriptor is a required property for EdFiStudentAcademicRecordReference and cannot be null");
-            }
-            this.TermDescriptor = termDescriptor;
-            this.Link = link;
+            EducationOrganizationId = educationOrganizationId;
+            SchoolYear = schoolYear;
+            StudentUniqueId = studentUniqueId ?? throw new ArgumentNullException("studentUniqueId is a required property for EdFiStudentAcademicRecordReference and cannot be null");
+            TermDescriptor = termDescriptor ?? throw new ArgumentNullException("termDescriptor is a required property for EdFiStudentAcademicRecordReference and cannot be null");
+            Link = link;
         }
 
         /// <summary>
@@ -99,14 +89,14 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder();
-            sb.Append("class EdFiStudentAcademicRecordReference {\n");
-            sb.Append("  EducationOrganizationId: ").Append(EducationOrganizationId).Append("\n");
-            sb.Append("  SchoolYear: ").Append(SchoolYear).Append("\n");
-            sb.Append("  StudentUniqueId: ").Append(StudentUniqueId).Append("\n");
-            sb.Append("  TermDescriptor: ").Append(TermDescriptor).Append("\n");
-            sb.Append("  Link: ").Append(Link).Append("\n");
-            sb.Append("}\n");
+            var sb = new StringBuilder();
+            _ = sb.Append("class EdFiStudentAcademicRecordReference {\n");
+            _ = sb.Append("  EducationOrganizationId: ").Append(EducationOrganizationId).Append("\n");
+            _ = sb.Append("  SchoolYear: ").Append(SchoolYear).Append("\n");
+            _ = sb.Append("  StudentUniqueId: ").Append(StudentUniqueId).Append("\n");
+            _ = sb.Append("  TermDescriptor: ").Append(TermDescriptor).Append("\n");
+            _ = sb.Append("  Link: ").Append(Link).Append("\n");
+            _ = sb.Append("}\n");
             return sb.ToString();
         }
 
@@ -126,7 +116,7 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as EdFiStudentAcademicRecordReference);
+            return Equals(input as EdFiStudentAcademicRecordReference);
         }
 
         /// <summary>
@@ -136,33 +126,29 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public bool Equals(EdFiStudentAcademicRecordReference input)
         {
-            if (input == null)
-            {
-                return false;
-            }
-            return
-                (
-                    this.EducationOrganizationId == input.EducationOrganizationId ||
-                    this.EducationOrganizationId.Equals(input.EducationOrganizationId)
+            return input != null
+&& (
+                    EducationOrganizationId == input.EducationOrganizationId ||
+                    EducationOrganizationId.Equals(input.EducationOrganizationId)
                 ) &&
                 (
-                    this.SchoolYear == input.SchoolYear ||
-                    this.SchoolYear.Equals(input.SchoolYear)
+                    SchoolYear == input.SchoolYear ||
+                    SchoolYear.Equals(input.SchoolYear)
                 ) &&
                 (
-                    this.StudentUniqueId == input.StudentUniqueId ||
-                    (this.StudentUniqueId != null &&
-                    this.StudentUniqueId.Equals(input.StudentUniqueId))
+                    StudentUniqueId == input.StudentUniqueId ||
+                    (StudentUniqueId != null &&
+                    StudentUniqueId.Equals(input.StudentUniqueId))
                 ) &&
                 (
-                    this.TermDescriptor == input.TermDescriptor ||
-                    (this.TermDescriptor != null &&
-                    this.TermDescriptor.Equals(input.TermDescriptor))
+                    TermDescriptor == input.TermDescriptor ||
+                    (TermDescriptor != null &&
+                    TermDescriptor.Equals(input.TermDescriptor))
                 ) &&
                 (
-                    this.Link == input.Link ||
-                    (this.Link != null &&
-                    this.Link.Equals(input.Link))
+                    Link == input.Link ||
+                    (Link != null &&
+                    Link.Equals(input.Link))
                 );
         }
 
@@ -174,20 +160,20 @@ namespace EdFi.OdsApi.Sdk.Models.All
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
-                hashCode = (hashCode * 59) + this.EducationOrganizationId.GetHashCode();
-                hashCode = (hashCode * 59) + this.SchoolYear.GetHashCode();
-                if (this.StudentUniqueId != null)
+                var hashCode = 41;
+                hashCode = (hashCode * 59) + EducationOrganizationId.GetHashCode();
+                hashCode = (hashCode * 59) + SchoolYear.GetHashCode();
+                if (StudentUniqueId != null)
                 {
-                    hashCode = (hashCode * 59) + this.StudentUniqueId.GetHashCode();
+                    hashCode = (hashCode * 59) + StudentUniqueId.GetHashCode();
                 }
-                if (this.TermDescriptor != null)
+                if (TermDescriptor != null)
                 {
-                    hashCode = (hashCode * 59) + this.TermDescriptor.GetHashCode();
+                    hashCode = (hashCode * 59) + TermDescriptor.GetHashCode();
                 }
-                if (this.Link != null)
+                if (Link != null)
                 {
-                    hashCode = (hashCode * 59) + this.Link.GetHashCode();
+                    hashCode = (hashCode * 59) + Link.GetHashCode();
                 }
                 return hashCode;
             }
@@ -201,13 +187,13 @@ namespace EdFi.OdsApi.Sdk.Models.All
         public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
         {
             // StudentUniqueId (string) maxLength
-            if (this.StudentUniqueId != null && this.StudentUniqueId.Length > 32)
+            if (StudentUniqueId != null && StudentUniqueId.Length > 32)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for StudentUniqueId, length must be less than 32.", new[] { "StudentUniqueId" });
             }
 
             // TermDescriptor (string) maxLength
-            if (this.TermDescriptor != null && this.TermDescriptor.Length > 306)
+            if (TermDescriptor != null && TermDescriptor.Length > 306)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for TermDescriptor, length must be less than 306.", new[] { "TermDescriptor" });
             }

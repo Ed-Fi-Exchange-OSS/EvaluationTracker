@@ -6,7 +6,6 @@
 using eppeta.webapi.Evaluations.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Dynamic.Core;
-using System.Runtime.ConstrainedExecution;
 
 namespace eppeta.webapi.Evaluations.Data
 {
@@ -21,7 +20,7 @@ namespace eppeta.webapi.Evaluations.Data
             : base(options)
         {
         }
-        
+
         public async Task<List<Status>> GetAllStatuses()
         {
             return await Statuses.ToListAsync();
@@ -43,19 +42,15 @@ namespace eppeta.webapi.Evaluations.Data
         {
             return await Evaluations.Where(e => e.Id == id).FirstOrDefaultAsync();
         }
-        public async Task<List<Evaluation>> GetEvaluationsByPK(object samePKObject)
+        public Task<List<Evaluation>> GetEvaluationsByPK(object samePKObject)
         {
             var es = FilterByRequiredFields(Evaluations.ToList(), samePKObject);
-            if (es.Any())
-                return es;
-            return null;
+            return es.Any() ? Task.FromResult(es) : (Task<List<Evaluation>>?)null;
         }
-        public async Task<List<PerformanceEvaluation>> GetPerformanceEvaluationByPK(object samePKObject)
+        public Task<List<PerformanceEvaluation>> GetPerformanceEvaluationByPK(object samePKObject)
         {
             var es = FilterByRequiredFields(PerformanceEvaluations.ToList(), samePKObject);
-            if (es.Any())
-                return es;
-            return null;
+            return es.Any() ? Task.FromResult(es) : (Task<List<PerformanceEvaluation>>?)null;
         }
         public async Task UpdateEvaluations(List<Evaluation> evaluations)
         {
@@ -66,16 +61,23 @@ namespace eppeta.webapi.Evaluations.Data
                 if (ee != null)
                 {
                     foreach (var property in typeof(Evaluation).GetProperties())
+                    {
                         if (property.Name != "Id")
+                        {
                             property.SetValue(ee, property.GetValue(e));
-                    Evaluations.Update((Evaluation)ee);
-                    e.Id = ((Evaluation)ee).Id;
+                        }
+                    }
+
+                    _ = Evaluations.Update(ee);
+                    e.Id = ee.Id;
                 }
                 else
+                {
                     // Add new records
-                    Evaluations.Update(e);
+                    _ = Evaluations.Update(e);
+                }
             }
-            await SaveChangesAsync();
+            _ = await SaveChangesAsync();
         }
 
         public async Task<List<EvaluationRating>> GetAllEvaluationRatings()
@@ -109,36 +111,43 @@ namespace eppeta.webapi.Evaluations.Data
         private static List<T> FilterByRequiredFields<T>(List<T> listToFilter, object referenceObject)
         {
             if (!listToFilter.Any())
+            {
                 return listToFilter;
+            }
+
             var requiredReferenceProperties = referenceObject.GetType().GetProperties()
                 .Where(p => p.IsDefined(typeof(System.ComponentModel.DataAnnotations.RequiredAttribute), true)
                     && p.Name != "EdFiId").Select(p => p.Name).ToList();
-            var requiredListProperties = listToFilter.First().GetType().GetProperties()
+            var requiredListProperties = listToFilter?.First()?.GetType().GetProperties()
                 .Where(p => p.IsDefined(typeof(System.ComponentModel.DataAnnotations.RequiredAttribute), true)
                     && p.Name != "EdFiId").Select(p => p.Name).ToList();
 
-            requiredListProperties = requiredListProperties.Intersect(requiredReferenceProperties).ToList();
+            requiredListProperties = requiredListProperties?.Intersect(requiredReferenceProperties).ToList();
 
             var colFilter = new List<string>();
-
-            foreach (var propertyName in requiredListProperties)
+            if (requiredListProperties != null)
             {
-                var property = listToFilter.First().GetType().GetProperty(propertyName);
-                var refProperty = referenceObject.GetType().GetProperty(propertyName);
-                if (property.PropertyType == typeof(DateTime))
+                foreach (var propertyName in requiredListProperties)
                 {
-                    // SQL needs exact datetime format
-                    // Disabled: `propertyName` cannot be null, due to filter in the foreach
+                    var property = listToFilter?.First()?.GetType().GetProperty(propertyName);
+                    var refProperty = referenceObject.GetType().GetProperty(propertyName);
+                    if (property?.PropertyType == typeof(DateTime))
+                    {
+                        // SQL needs exact datetime format
+                        // Disabled: `propertyName` cannot be null, due to filter in the foreach
 #pragma warning disable CS8605 // Unboxing a possibly null value.
-                    var dateTimeVal = ((DateTime)refProperty.GetValue(referenceObject)).ToString("yyyy-MM-dd HH:mm:ss.FFF");
+                        var dateTimeVal = ((DateTime)refProperty?.GetValue(referenceObject)).ToString("yyyy-MM-dd HH:mm:ss.FFF");
 #pragma warning restore CS8605 // Unboxing a possibly null value.
-                    colFilter.Add($"{propertyName} == \"{dateTimeVal}\"");
+                        colFilter.Add($"{propertyName} == \"{dateTimeVal}\"");
+                    }
+                    else
+                    {
+                        colFilter.Add($"{propertyName} == \"{refProperty?.GetValue(referenceObject)}\"");
+                    }
                 }
-                else
-                    colFilter.Add($"{propertyName} == \"{refProperty.GetValue(referenceObject)}\"");
             }
             var whereClause = string.Join(" and ", colFilter);
-            return listToFilter.AsQueryable().Where(whereClause).ToList();
+            return listToFilter?.AsQueryable().Where(whereClause).ToList();
         }
 
         public async Task UpdateEvaluationObjectives(List<EvaluationObjective> evaluationObjectives)
@@ -152,17 +161,23 @@ namespace eppeta.webapi.Evaluations.Data
                     foreach (var property in typeof(EvaluationObjective).GetProperties())
                     {
                         if (property.Name == "LastModifiedDate")
+                        {
                             property.SetValue(eeo, DateTime.UtcNow);
+                        }
                         else if (property.Name != "Id")
+                        {
                             property.SetValue(eeo, property.GetValue(eo));
+                        }
                     }
-                    EvaluationObjectives.Update((EvaluationObjective)eeo);
+                    _ = EvaluationObjectives.Update(eeo);
                 }
                 else
+                {
                     // Add new records
                     EvaluationObjectives.UpdateRange(eo);
+                }
             }
-            await SaveChangesAsync();
+            _ = await SaveChangesAsync();
         }
 
         public async Task UpdateEvaluationElements(List<EvaluationElement> evaluationElements)
@@ -174,15 +189,22 @@ namespace eppeta.webapi.Evaluations.Data
                 if (eee != null)
                 {
                     foreach (var property in typeof(EvaluationElement).GetProperties())
+                    {
                         if (property.Name != "Id")
+                        {
                             property.SetValue(eee, property.GetValue(ee));
-                    EvaluationElements.Update((EvaluationElement)eee);
+                        }
+                    }
+
+                    _ = EvaluationElements.Update(eee);
                 }
                 else
+                {
                     // Add new records
-                    EvaluationElements.Update(ee);
+                    _ = EvaluationElements.Update(ee);
+                }
             }
-            await SaveChangesAsync();
+            _ = await SaveChangesAsync();
         }
 
 
@@ -197,18 +219,24 @@ namespace eppeta.webapi.Evaluations.Data
                     foreach (var property in typeof(EvaluationRating).GetProperties())
                     {
                         if (property.Name == "LastModifiedDate")
+                        {
                             property.SetValue(eer, DateTime.UtcNow);
+                        }
                         else if (property.Name != "Id")
+                        {
                             property.SetValue(eer, property.GetValue(er));
+                        }
                     }
-                    EvaluationRatings.Update((EvaluationRating)eer);
-                    er.Id = ((EvaluationRating)eer).Id;
+                    _ = EvaluationRatings.Update(eer);
+                    er.Id = eer.Id;
                 }
                 else
+                {
                     // Add new records
-                    EvaluationRatings.Update(er);
+                    _ = EvaluationRatings.Update(er);
+                }
             }
-            await SaveChangesAsync();
+            _ = await SaveChangesAsync();
             return evaluationRatings.Select(er => er.Id).ToList();
         }
 
@@ -224,18 +252,24 @@ namespace eppeta.webapi.Evaluations.Data
                     foreach (var property in typeof(EvaluationObjectiveRating).GetProperties())
                     {
                         if (property.Name == "LastModifiedDate")
+                        {
                             property.SetValue(eer, DateTime.UtcNow);
+                        }
                         else if (property.Name != "Id")
+                        {
                             property.SetValue(eer, property.GetValue(er));
+                        }
                     }
-                    EvaluationObjectiveRatings.Update((EvaluationObjectiveRating)eer);
-                    er.Id = (((EvaluationObjectiveRating)eer).Id);
+                    _ = EvaluationObjectiveRatings.Update(eer);
+                    er.Id = eer.Id;
                 }
                 else
+                {
                     // Add new records
-                    EvaluationObjectiveRatings.Update(er);
+                    _ = EvaluationObjectiveRatings.Update(er);
+                }
             }
-            await SaveChangesAsync();
+            _ = await SaveChangesAsync();
             return evaluationObjectiveRatings.Select(eor => eor.Id).ToList();
         }
 
@@ -248,16 +282,23 @@ namespace eppeta.webapi.Evaluations.Data
                 if (eer != null)
                 {
                     foreach (var property in typeof(EvaluationElementRatingResult).GetProperties())
+                    {
                         if (property.Name != "Id")
+                        {
                             property.SetValue(eer, property.GetValue(er));
-                    EvaluationElementRatingResults.Update((EvaluationElementRatingResult)eer);
-                    er.Id = ((EvaluationElementRatingResult)eer).Id;
+                        }
+                    }
+
+                    _ = EvaluationElementRatingResults.Update(eer);
+                    er.Id = eer.Id;
                 }
                 else
+                {
                     // Add new records
-                    EvaluationElementRatingResults.Update(er);
+                    _ = EvaluationElementRatingResults.Update(er);
+                }
             }
-            await SaveChangesAsync();
+            _ = await SaveChangesAsync();
             return evaluationElementRatingResults.Select(eerr => eerr.Id).ToList();
         }
         public async Task UpdatePerformanceEvaluations(List<PerformanceEvaluation> performanceEvaluations)
@@ -270,15 +311,22 @@ namespace eppeta.webapi.Evaluations.Data
                 if (epe != null)
                 {
                     foreach (var property in typeof(PerformanceEvaluation).GetProperties())
-                        if (property.Name != "Id" && property.Name != "PerformanceEvaluationRatingLevels")
+                    {
+                        if (property.Name is not "Id" and not "PerformanceEvaluationRatingLevels")
+                        {
                             property.SetValue(epe, property.GetValue(pe));
-                    PerformanceEvaluations.Update((PerformanceEvaluation)epe);
+                        }
+                    }
+
+                    _ = PerformanceEvaluations.Update(epe);
                 }
                 else
+                {
                     // Add new records
-                    PerformanceEvaluations.Update(pe);
+                    _ = PerformanceEvaluations.Update(pe);
+                }
             }
-            await SaveChangesAsync();
+            _ = await SaveChangesAsync();
         }
 
         public async Task UpdateCandidates(List<Candidate> candidates)
@@ -290,21 +338,28 @@ namespace eppeta.webapi.Evaluations.Data
                 if (candidate != null)
                 {
                     foreach (var property in typeof(Candidate).GetProperties())
+                    {
                         if (property.Name != "Id" && property.PropertyType != typeof(DateTime))
+                        {
                             property.SetValue(candidate, property.GetValue(ca));
-                    Candidates.Update((Candidate)candidate);
+                        }
+                    }
+
+                    _ = Candidates.Update(candidate);
                 }
                 else
+                {
                     // Add new records
-                    Candidates.Update(ca);
+                    _ = Candidates.Update(ca);
+                }
             }
-            await SaveChangesAsync();
+            _ = await SaveChangesAsync();
         }
 
         public async Task CreatePerformanceEvaluationRating(PerformanceEvaluationRating rating)
         {
-            PerformanceEvaluationRatings.Add(rating);
-            await SaveChangesAsync();
+            _ = PerformanceEvaluationRatings.Add(rating);
+            _ = await SaveChangesAsync();
         }
 
         public async Task<List<PerformanceEvaluationRating>> GetAllPerformanceEvaluationRatings()
@@ -340,16 +395,23 @@ namespace eppeta.webapi.Evaluations.Data
                 if (epe != null)
                 {
                     foreach (var property in typeof(PerformanceEvaluationRating).GetProperties())
+                    {
                         if (property.Name != "Id")
+                        {
                             property.SetValue(epe, property.GetValue(pe));
-                    PerformanceEvaluationRatings.Update((PerformanceEvaluationRating)epe);
-                    pe.Id = ((PerformanceEvaluationRating)epe).Id;
+                        }
+                    }
+
+                    _ = PerformanceEvaluationRatings.Update(epe);
+                    pe.Id = epe.Id;
                 }
                 else
+                {
                     // Add new records
-                    PerformanceEvaluationRatings.Update(pe);
+                    _ = PerformanceEvaluationRatings.Update(pe);
+                }
             }
-            await SaveChangesAsync();
+            _ = await SaveChangesAsync();
             return performanceEvaluationRatings.Select(per => per.Id).ToList();
         }
         public DbSet<Status> Statuses { get; set; }
@@ -379,115 +441,101 @@ namespace eppeta.webapi.Evaluations.Data
         }
         public Task<EvaluationElement> GetEvaluationElementById(int id)
         {
-            return EvaluationElements.Where(ee => ee.Id == id).FirstOrDefaultAsync();
+            return EvaluationElements.Where(ee => ee.Id == id).FirstOrDefaultAsync()!;
         }
         public Task<EvaluationElementRatingResult> GetEvaluationElementRatingResultById(int id)
         {
-            return EvaluationElementRatingResults.Where(ee => ee.Id == id).FirstOrDefaultAsync();
+            return EvaluationElementRatingResults.Where(ee => ee.Id == id).FirstOrDefaultAsync()!;
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.HasDefaultSchema("eppeta");
-            modelBuilder.Entity<Status>().ToTable(nameof(Status));
+            _ = modelBuilder.HasDefaultSchema("eppeta");
+            _ = modelBuilder.Entity<Status>().ToTable(nameof(Status));
 
-            modelBuilder.Entity<Candidate>().ToTable(nameof(Candidate)).Property(e => e.CreateDate).HasDefaultValueSql("getdate()");
-            modelBuilder.Entity<Candidate>().Property(e => e.LastModifiedDate).HasDefaultValueSql("getdate()");
+            _ = modelBuilder.Entity<Candidate>().ToTable(nameof(Candidate)).Property(e => e.CreateDate).HasDefaultValueSql("getdate()");
+            _ = modelBuilder.Entity<Candidate>().Property(e => e.LastModifiedDate).HasDefaultValueSql("getdate()");
 
-            modelBuilder.Entity<Evaluation>().ToTable(nameof(Evaluation)).Property(e => e.CreateDate).HasDefaultValueSql("getdate()");
-            modelBuilder.Entity<Evaluation>().Property(e => e.LastModifiedDate).HasDefaultValueSql("getdate()");
+            _ = modelBuilder.Entity<Evaluation>().ToTable(nameof(Evaluation)).Property(e => e.CreateDate).HasDefaultValueSql("getdate()");
+            _ = modelBuilder.Entity<Evaluation>().Property(e => e.LastModifiedDate).HasDefaultValueSql("getdate()");
 
-            modelBuilder.Entity<EvaluationObjective>().ToTable(nameof(EvaluationObjective)).Property(e => e.CreateDate).HasDefaultValueSql("getdate()");
-            modelBuilder.Entity<EvaluationObjective>().Property(e => e.LastModifiedDate).HasDefaultValueSql("getdate()");
+            _ = modelBuilder.Entity<EvaluationObjective>().ToTable(nameof(EvaluationObjective)).Property(e => e.CreateDate).HasDefaultValueSql("getdate()");
+            _ = modelBuilder.Entity<EvaluationObjective>().Property(e => e.LastModifiedDate).HasDefaultValueSql("getdate()");
 
-            modelBuilder.Entity<EvaluationElement>().ToTable(nameof(EvaluationElement)).Property(x => x.CreateDate).HasDefaultValueSql("getdate()");
-            modelBuilder.Entity<EvaluationElement>().Property(x => x.LastModifiedDate).HasDefaultValueSql("getdate()");
+            _ = modelBuilder.Entity<EvaluationElement>().ToTable(nameof(EvaluationElement)).Property(x => x.CreateDate).HasDefaultValueSql("getdate()");
+            _ = modelBuilder.Entity<EvaluationElement>().Property(x => x.LastModifiedDate).HasDefaultValueSql("getdate()");
 
-            modelBuilder.Entity<PerformanceEvaluation>().ToTable(nameof(PerformanceEvaluation)).Property(x => x.CreateDate).HasDefaultValueSql("getdate()");
-            modelBuilder.Entity<PerformanceEvaluation>().Property(x => x.LastModifiedDate).HasDefaultValueSql("getdate()");
+            _ = modelBuilder.Entity<PerformanceEvaluation>().ToTable(nameof(PerformanceEvaluation)).Property(x => x.CreateDate).HasDefaultValueSql("getdate()");
+            _ = modelBuilder.Entity<PerformanceEvaluation>().Property(x => x.LastModifiedDate).HasDefaultValueSql("getdate()");
 
-            modelBuilder.Entity<PerformanceEvaluationRating>().ToTable(nameof(PerformanceEvaluationRating)).Property(x => x.CreateDate).HasDefaultValueSql("getdate()");
+            _ = modelBuilder.Entity<PerformanceEvaluationRating>().ToTable(nameof(PerformanceEvaluationRating)).Property(x => x.CreateDate).HasDefaultValueSql("getdate()");
 
-            modelBuilder.Entity<PerformanceEvaluationRatingLevel>().ToTable(nameof(PerformanceEvaluationRatingLevel));
+            _ = modelBuilder.Entity<PerformanceEvaluationRatingLevel>().ToTable(nameof(PerformanceEvaluationRatingLevel));
 
-            modelBuilder.Entity<EvaluationRating>().ToTable(nameof(EvaluationRating)).Property(x => x.CreateDate).HasDefaultValueSql("getdate()");
-            modelBuilder.Entity<EvaluationRating>().Property(x => x.LastModifiedDate).HasDefaultValueSql("getdate()");
+            _ = modelBuilder.Entity<EvaluationRating>().ToTable(nameof(EvaluationRating)).Property(x => x.CreateDate).HasDefaultValueSql("getdate()");
+            _ = modelBuilder.Entity<EvaluationRating>().Property(x => x.LastModifiedDate).HasDefaultValueSql("getdate()");
 
-            modelBuilder.Entity<EvaluationObjectiveRating>().ToTable(nameof(EvaluationObjectiveRating)).Property(x => x.CreateDate).HasDefaultValueSql("getdate()");
-            modelBuilder.Entity<EvaluationObjectiveRating>().Property(x => x.LastModifiedDate).HasDefaultValueSql("getdate()");
+            _ = modelBuilder.Entity<EvaluationObjectiveRating>().ToTable(nameof(EvaluationObjectiveRating)).Property(x => x.CreateDate).HasDefaultValueSql("getdate()");
+            _ = modelBuilder.Entity<EvaluationObjectiveRating>().Property(x => x.LastModifiedDate).HasDefaultValueSql("getdate()");
 
-            modelBuilder.Entity<EvaluationElementRating>().ToTable(nameof(EvaluationElementRating)).Property(e => e.CreateDate).HasDefaultValueSql("getdate()");
+            _ = modelBuilder.Entity<EvaluationElementRating>().ToTable(nameof(EvaluationElementRating)).Property(e => e.CreateDate).HasDefaultValueSql("getdate()");
 
-            modelBuilder.Entity<EvaluationElementRatingResult>().ToTable(nameof(EvaluationElementRatingResult)).Property(e => e.CreateDate).HasDefaultValueSql("getdate()");
+            _ = modelBuilder.Entity<EvaluationElementRatingResult>().ToTable(nameof(EvaluationElementRatingResult)).Property(e => e.CreateDate).HasDefaultValueSql("getdate()");
 
             // Configure the Many-to-one relationship between PerformedEvaluation and ApplicationUser
             // Reference the ApplicationUser propertyName in PerformedEvaluation
             // Reference the PerformanceEvaluationRatings ICollection propertyName in ApplicationUser
             // Use the UserId foreign key in PerformedEvaluation
-            modelBuilder.Entity<PerformanceEvaluationRating>()
+            _ = modelBuilder.Entity<PerformanceEvaluationRating>()
                 .HasOne(p => p.ApplicationUser)
                 .WithMany(u => u.PerformanceEvaluationRatings)
                 .HasForeignKey(p => p.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             // EF couldn't determine the appropriate column type for the Rating propertyName
-            modelBuilder.Entity<EvaluationElementRating>()
+            _ = modelBuilder.Entity<EvaluationElementRating>()
                 .Property(e => e.Rating)
                 .HasColumnType("decimal(6, 3)");
         }
-        public async Task<List<PerformanceEvaluation>> GetPerformanceEvaluationsByPK(object samePKObject)
+        public Task<List<PerformanceEvaluation>> GetPerformanceEvaluationsByPK(object samePKObject)
         {
             var pes = FilterByRequiredFields(PerformanceEvaluations.ToList(), samePKObject);
-            if (pes.Any())
-                return pes;
-            return null;
+            return pes.Any() ? Task.FromResult(pes) : Task.FromResult<List<PerformanceEvaluation>>(null!);
         }
-        public async Task<List<PerformanceEvaluationRating>> GetPerformanceEvaluationRatingsByPK(object samePKObject)
+        public Task<List<PerformanceEvaluationRating>> GetPerformanceEvaluationRatingsByPK(object samePKObject)
         {
             var per = FilterByRequiredFields(PerformanceEvaluationRatings.Include(m => m.RecordStatus).ToList(), samePKObject);
-            if (per.Any())
-                return per;
-            return null;
+            return per.Any() ? Task.FromResult(per) : Task.FromResult<List<PerformanceEvaluationRating>>(null!);
         }
 
-        public async Task<List<EvaluationObjectiveRating>> GetEvaluationObjectiveRatingsByPK(object samePKObject)
+        public Task<List<EvaluationObjectiveRating>> GetEvaluationObjectiveRatingsByPK(object samePKObject)
         {
             var eos = FilterByRequiredFields(EvaluationObjectiveRatings.ToList(), samePKObject);
-            if (eos.Any())
-                return eos;
-            return null;
+            return eos.Any() ? Task.FromResult(eos) : Task.FromResult<List<EvaluationObjectiveRating>>(null!);
         }
 
-        public async Task<List<EvaluationElementRatingResult>> GetEvaluationElementRatingResultsByPK(object samePKObject)
+        public Task<List<EvaluationElementRatingResult>> GetEvaluationElementRatingResultsByPK(object samePKObject)
         {
             var es = FilterByRequiredFields(EvaluationElementRatingResults.ToList(), samePKObject);
-            if (es.Any())
-                return es;
-            return null;
+            return es.Any() ? Task.FromResult(es) : Task.FromResult<List<EvaluationElementRatingResult>>(null!);
         }
 
-        public async Task<List<EvaluationObjective>> GetEvaluationObjectivesByPK(object samePKObject)
+        public Task<List<EvaluationObjective>> GetEvaluationObjectivesByPK(object samePKObject)
         {
             var eos = FilterByRequiredFields(EvaluationObjectives.ToList(), samePKObject);
-            if (eos.Any())
-                return eos;
-            return null;
+            return eos.Any() ? Task.FromResult(eos) : Task.FromResult<List<EvaluationObjective>>(null!);
         }
 
-        public async Task<List<EvaluationElement>> GetEvaluationElementsByPK(object samePKObject)
+        public Task<List<EvaluationElement>> GetEvaluationElementsByPK(object samePKObject)
         {
             var es = FilterByRequiredFields(EvaluationElements.ToList(), samePKObject);
-            if (es.Any())
-                return es;
-            return null;
+            return es.Any() ? Task.FromResult(es) : Task.FromResult<List<EvaluationElement>>(null!);
         }
 
-        public async Task<List<EvaluationRating>> GetEvaluationRatingsByPK(object samePKObject)
+        public Task<List<EvaluationRating>> GetEvaluationRatingsByPK(object samePKObject)
         {
             var er = FilterByRequiredFields(EvaluationRatings.ToList(), samePKObject);
-            if (er.Any())
-                return er;
-            return null;
+            return er.Any() ? Task.FromResult(er) : Task.FromResult<List<EvaluationRating>>(null!);
         }
     }
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.

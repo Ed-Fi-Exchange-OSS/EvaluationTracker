@@ -11,14 +11,12 @@ using eppeta.webapi.Service;
 using eppeta.webapi.Swagger;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
 using Quartz;
 using Serilog;
-using System.ComponentModel.DataAnnotations;
 
 namespace eppeta.webapi;
 
@@ -44,10 +42,10 @@ internal class Program
             // Use the TrustAllSSLCerts method in the AppSettings class to trust all SSL certificates.
             AppSettings.OptionallyTrustAllSSLCerts();
             // get token timeout
-            int authenticationTokenTimeout = int.Parse(builder.Configuration["AuthenticationTokenTimeout"] ?? "15");
+            var authenticationTokenTimeout = int.Parse(builder.Configuration["AuthenticationTokenTimeout"] ?? "15");
 
             // Add services to the container.
-            builder.Services.AddControllers();
+            _ = builder.Services.AddControllers();
             ConfigureLogging(builder);
             ConfigureWebHost(builder);
             ConfigureCorsService(builder.Services);
@@ -58,41 +56,41 @@ internal class Program
             ConfigureAspNetAuth(builder.Services);
 
             // Add authentication configuration service to the container.
-            builder.Services.AddScoped<IODSAPIAuthenticationConfigurationService>(
+            _ = builder.Services.AddScoped<IODSAPIAuthenticationConfigurationService>(
                 provider => new ODSAPIAuthenticationConfigurationService(builder.Configuration["OdsApiBasePath"], builder.Configuration["ODSAPIKey"], builder.Configuration["ODSAPISecret"])
             );
 
             // Sync ODS Assets
-            builder.Services.AddScoped<SyncOdsAssets>();
-            builder.Services.AddSingleton<PeriodicHostedSyncOdsAssetsService>();
-            builder.Services.AddHostedService(
+            _ = builder.Services.AddScoped<SyncOdsAssets>();
+            _ = builder.Services.AddSingleton<PeriodicHostedSyncOdsAssetsService>();
+            _ = builder.Services.AddHostedService(
                 provider => provider.GetRequiredService<PeriodicHostedSyncOdsAssetsService>());
 
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
             ConfigureSwaggerUIApp(app);
-            app.UseForwardedHeaders();
-            app.UseMiddleware<LoggingMiddleware>();
-            app.UseRouting();
-            app.UseCors(AllowedOriginsPolicy);
-            app.UseAuthentication();
-            app.UseAuthorization();
-            app.UseEndpoints(endpoints =>
+            _ = app.UseForwardedHeaders();
+            _ = app.UseMiddleware<LoggingMiddleware>();
+            _ = app.UseRouting();
+            _ = app.UseCors(AllowedOriginsPolicy);
+            _ = app.UseAuthentication();
+            _ = app.UseAuthorization();
+            _ = app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
-                endpoints.MapDefaultControllerRoute();
+                _ = endpoints.MapControllers();
+                _ = endpoints.MapDefaultControllerRoute();
             });
 
             //A get route shall return the current state of our background sync service:
-            app.MapGet("/syncOdsAssets", (
+            _ = app.MapGet("/syncOdsAssets", (
                 PeriodicHostedSyncOdsAssetsService service) =>
                 {
                     return new PeriodicHostedSyncOdsAssetsServiceState(service.IsEnabled);
                 });
 
             //And a patch route shall let us set the desired state of our background sync service:
-            app.MapMethods("/syncOdsAssets", new[] { "PATCH" }, (
+            _ = app.MapMethods("/syncOdsAssets", new[] { "PATCH" }, (
                 PeriodicHostedSyncOdsAssetsServiceState state,
                 PeriodicHostedSyncOdsAssetsService service) =>
                 {
@@ -113,7 +111,7 @@ internal class Program
 
         static void ConfigureLogging(WebApplicationBuilder builder)
         {
-            builder.Host.UseSerilog((context, services, configuration) =>
+            _ = builder.Host.UseSerilog((context, services, configuration) =>
                 configuration
                     .ReadFrom.Configuration(context.Configuration)
                     .ReadFrom.Services(services)
@@ -123,18 +121,18 @@ internal class Program
 
         static void ConfigureWebHost(WebApplicationBuilder builder)
         {
-            builder.WebHost.ConfigureKestrel(
+            _ = builder.WebHost.ConfigureKestrel(
                 // Security through obscurity: don't add a header revealing the web server
                 serverOptions => { serverOptions.AddServerHeader = false; });
         }
 
         static void ConfigureCorsService(IServiceCollection services)
         {
-            services.AddCors(options =>
+            _ = services.AddCors(options =>
             {
                 options.AddPolicy(name: AllowedOriginsPolicy, policy =>
                 {
-                    policy.WithOrigins(AppSettings.AllowedOrigins)
+                    _ = policy.WithOrigins(AppSettings.AllowedOrigins)
                           .WithHeaders(HeaderNames.ContentType, "Content-Type")
                           .WithHeaders(HeaderNames.Authorization, "Authorization");
                 });
@@ -148,74 +146,74 @@ internal class Program
         {
             var connectionString = builder.Configuration.GetConnectionString(ConnectionStringName) ?? throw new InvalidOperationException($"Connection string '{ConnectionStringName}' not found.");
 
-            builder.Services.AddDbContext<IdentityDbContext>(options =>
+            _ = builder.Services.AddDbContext<IdentityDbContext>(options =>
             {
-                options.UseSqlServer(connectionString);
-                options.UseOpenIddict();
+                _ = options.UseSqlServer(connectionString);
+                _ = options.UseOpenIddict();
             });
 
-            builder.Services.AddDbContext<EvaluationDbContext>(options =>
+            _ = builder.Services.AddDbContext<EvaluationDbContext>(options =>
             {
-                options.UseSqlServer(connectionString);
+                _ = options.UseSqlServer(connectionString);
             });
 
-            builder.Services.AddScoped<IIdentityRepository, IdentityDbContext>();
-            builder.Services.AddScoped<IEvaluationRepository, EvaluationDbContext>();
+            _ = builder.Services.AddScoped<IIdentityRepository, IdentityDbContext>();
+            _ = builder.Services.AddScoped<IEvaluationRepository, EvaluationDbContext>();
         }
 
 
 
         static void ConfigureLocalIdentityProvider(IServiceCollection services, int authenticationTokenTimeout)
         {
-            TimeSpan accessTokenLifetime = TimeSpan.FromMinutes(authenticationTokenTimeout);
-            services.AddIdentity<ApplicationUser, IdentityRole>()
+            var accessTokenLifetime = TimeSpan.FromMinutes(authenticationTokenTimeout);
+            _ = services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<IdentityDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddOpenIddict()
+            _ = services.AddOpenIddict()
                 .AddCore(options =>
                 {
-                    options.UseEntityFrameworkCore()
+                    _ = options.UseEntityFrameworkCore()
                         .UseDbContext<IdentityDbContext>();
-                    options.UseQuartz();
+                    _ = options.UseQuartz();
                 })
                 .AddServer(options =>
                 {
-                    options.SetTokenEndpointUris(TokenEndpoint);
+                    _ = options.SetTokenEndpointUris(TokenEndpoint);
                     // Add Token timeout
-                    options.SetAccessTokenLifetime(accessTokenLifetime);
+                    _ = options.SetAccessTokenLifetime(accessTokenLifetime);
                     // These two go hand-in-hand: allowing anonymous client means you can
                     // send password request without _also_ providing a client_id.
-                    options.AllowPasswordFlow();
-                    options.AcceptAnonymousClients();
+                    _ = options.AllowPasswordFlow();
+                    _ = options.AcceptAnonymousClients();
 
                     // Turned off token encryption, will discusss need for encrypted JWT later in project development
-                    options.DisableAccessTokenEncryption();
+                    _ = options.DisableAccessTokenEncryption();
 
-                    options.AddDevelopmentEncryptionCertificate()
+                    _ = options.AddDevelopmentEncryptionCertificate()
                         .AddDevelopmentSigningCertificate();
                     var aspNetCoreBuilder = options.UseAspNetCore()
                         .EnableTokenEndpointPassthrough();
 
                     if (!AppSettings.Authentication.RequireHttps)
                     {
-                        aspNetCoreBuilder.DisableTransportSecurityRequirement();
+                        _ = aspNetCoreBuilder.DisableTransportSecurityRequirement();
                     }
 
-                    options.AddSigningKey(AppSettings.Authentication.SigningKey ?? throw new InvalidOperationException("Unable to initialize Identity because there is no Signing Key configured in appsettings"));
-                    options.SetIssuer(AppSettings.Authentication.IssuerUrl ?? throw new InvalidOperationException("Unable to initialize Identity because there is no Issuer URL configured in appsettings"));
+                    _ = options.AddSigningKey(AppSettings.Authentication.SigningKey ?? throw new InvalidOperationException("Unable to initialize Identity because there is no Signing Key configured in appsettings"));
+                    _ = options.SetIssuer(AppSettings.Authentication.IssuerUrl ?? throw new InvalidOperationException("Unable to initialize Identity because there is no Issuer URL configured in appsettings"));
                 })
                 .AddValidation(options =>
                 {
-                    options.UseLocalServer();
-                    options.UseAspNetCore();
-                    options.Configure(options => options.TokenValidationParameters.IssuerSigningKey = AppSettings.Authentication.SigningKey);
+                    _ = options.UseLocalServer();
+                    _ = options.UseAspNetCore();
+                    _ = options.Configure(options => options.TokenValidationParameters.IssuerSigningKey = AppSettings.Authentication.SigningKey);
                 });
         }
 
         static void ConfigureAspNetAuth(IServiceCollection services)
         {
-            services.AddAuthentication(opt =>
+            _ = services.AddAuthentication(opt =>
             {
                 opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -232,26 +230,26 @@ internal class Program
                 };
                 opt.RequireHttpsMetadata = AppSettings.Authentication.RequireHttps;
             });
-            services.AddAuthorization();
+            _ = services.AddAuthorization();
         }
 
         static void ConfigureQuartz(IServiceCollection services)
         {
             // Quartz will be used for scheduled removal of old authorization tokens
-            services.AddQuartz(options =>
+            _ = services.AddQuartz(options =>
             {
                 options.UseMicrosoftDependencyInjectionJobFactory();
                 options.UseSimpleTypeLoader();
                 options.UseInMemoryStore();
             });
-            services.AddQuartzHostedService(options => options.WaitForJobsToComplete = true);
+            _ = services.AddQuartzHostedService(options => options.WaitForJobsToComplete = true);
         }
 
         static void ConfigureSwaggerUIServices(IServiceCollection services)
         {
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            services.AddEndpointsApiExplorer();
-            services.AddSwaggerGen(options =>
+            _ = services.AddEndpointsApiExplorer();
+            _ = services.AddSwaggerGen(options =>
             {
                 options.CustomSchemaIds(x => x.FullName?.Replace("+", "."));
                 options.OperationFilter<TokenEndpointBodyDescriptionFilter>();
@@ -293,8 +291,8 @@ internal class Program
         {
             if (app.Configuration.GetValue<bool>("EnableSwagger"))
             {
-                app.UseSwagger();
-                app.UseSwaggerUI(options =>
+                _ = app.UseSwagger();
+                _ = app.UseSwaggerUI(options =>
                 {
                     options.EnableTryItOutByDefault();
                     options.DocumentTitle = "EPP Evaluation Tracker API Documentation";

@@ -33,7 +33,7 @@ namespace EdFi.OdsApi.Sdk.Client
         /// <returns>Filename</returns>
         public static string SanitizeFilename(string filename)
         {
-            Match match = Regex.Match(filename, @".*[/\\](.*)$");
+            var match = Regex.Match(filename, @".*[/\\](.*)$");
             return match.Success ? match.Groups[1].Value : filename;
         }
 
@@ -92,23 +92,28 @@ namespace EdFi.OdsApi.Sdk.Client
         public static string ParameterToString(object obj, IReadableConfiguration configuration = null)
         {
             if (obj is DateTime dateTime)
+            {
                 // Return a formatted date string - Can be customized with Configuration.DateTimeFormat
                 // Defaults to an ISO 8601, using the known as a Round-trip date/time pattern ("o")
                 // https://msdn.microsoft.com/en-us/library/az4se3k1(v=vs.110).aspx#Anchor_8
                 // For example: 2009-06-15T13:45:30.0000000
                 return dateTime.ToString((configuration ?? GlobalConfiguration.Instance).DateTimeFormat);
+            }
+
             if (obj is DateTimeOffset dateTimeOffset)
+            {
                 // Return a formatted date string - Can be customized with Configuration.DateTimeFormat
                 // Defaults to an ISO 8601, using the known as a Round-trip date/time pattern ("o")
                 // https://msdn.microsoft.com/en-us/library/az4se3k1(v=vs.110).aspx#Anchor_8
                 // For example: 2009-06-15T13:45:30.0000000
                 return dateTimeOffset.ToString((configuration ?? GlobalConfiguration.Instance).DateTimeFormat);
-            if (obj is bool boolean)
-                return boolean ? "true" : "false";
-            if (obj is ICollection collection)
-                return string.Join(",", collection.Cast<object>());
+            }
 
-            return Convert.ToString(obj, CultureInfo.InvariantCulture);
+            return obj is bool boolean
+                ? boolean ? "true" : "false"
+                : obj is ICollection collection
+                ? string.Join(",", collection.Cast<object>())
+                : Convert.ToString(obj, CultureInfo.InvariantCulture);
         }
 
         /// <summary>
@@ -128,11 +133,9 @@ namespace EdFi.OdsApi.Sdk.Client
         /// <returns>Byte array</returns>
         public static byte[] ReadAsBytes(Stream inputStream)
         {
-            using (var ms = new MemoryStream())
-            {
-                inputStream.CopyTo(ms);
-                return ms.ToArray();
-            }
+            using var ms = new MemoryStream();
+            inputStream.CopyTo(ms);
+            return ms.ToArray();
         }
 
         /// <summary>
@@ -145,12 +148,16 @@ namespace EdFi.OdsApi.Sdk.Client
         public static string SelectHeaderContentType(string[] contentTypes)
         {
             if (contentTypes.Length == 0)
+            {
                 return null;
+            }
 
             foreach (var contentType in contentTypes)
             {
                 if (IsJsonMime(contentType))
+                {
                     return contentType;
+                }
             }
 
             return contentTypes[0]; // use the first content type specified in 'consumes'
@@ -165,19 +172,15 @@ namespace EdFi.OdsApi.Sdk.Client
         /// <returns>The Accept header to use.</returns>
         public static string SelectHeaderAccept(string[] accepts)
         {
-            if (accepts.Length == 0)
-                return null;
-
-            if (accepts.Contains("application/json", StringComparer.OrdinalIgnoreCase))
-                return "application/json";
-
-            return string.Join(",", accepts);
+            return accepts.Length == 0
+                ? null
+                : accepts.Contains("application/json", StringComparer.OrdinalIgnoreCase) ? "application/json" : string.Join(",", accepts);
         }
 
         /// <summary>
         /// Provides a case-insensitive check that a provided content type is a known JSON-like content type.
         /// </summary>
-        public static readonly Regex JsonRegex = new Regex("(?i)^(application/json|[^;/ \t]+/[^;/ \t]+[+]json)[ \t]*(;.*)?$");
+        public static readonly Regex JsonRegex = new("(?i)^(application/json|[^;/ \t]+/[^;/ \t]+[+]json)[ \t]*(;.*)?$");
 
         /// <summary>
         /// Check if the given MIME is a JSON MIME.
@@ -191,9 +194,7 @@ namespace EdFi.OdsApi.Sdk.Client
         /// <returns>Returns True if MIME type is json.</returns>
         public static bool IsJsonMime(string mime)
         {
-            if (string.IsNullOrWhiteSpace(mime)) return false;
-
-            return JsonRegex.IsMatch(mime) || mime.Equals("application/json-patch+json");
+            return !string.IsNullOrWhiteSpace(mime) && (JsonRegex.IsMatch(mime) || mime.Equals("application/json-patch+json"));
         }
     }
 }

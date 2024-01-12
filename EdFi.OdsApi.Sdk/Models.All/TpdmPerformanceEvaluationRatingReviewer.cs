@@ -12,12 +12,12 @@
  */
 
 
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using System.Text;
-using Newtonsoft.Json;
-using System.ComponentModel.DataAnnotations;
 
 namespace EdFi.OdsApi.Sdk.Models.All
 {
@@ -39,22 +39,12 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <param name="lastSurname">The name borne in common by members of a family. (required).</param>
         /// <param name="reviewerPersonReference">reviewerPersonReference.</param>
         /// <param name="receivedTraining">receivedTraining.</param>
-        public TpdmPerformanceEvaluationRatingReviewer(string firstName = default(string), string lastSurname = default(string), EdFiPersonReference reviewerPersonReference = default(EdFiPersonReference), TpdmPerformanceEvaluationRatingReviewerReceivedTraining receivedTraining = default(TpdmPerformanceEvaluationRatingReviewerReceivedTraining))
+        public TpdmPerformanceEvaluationRatingReviewer(string firstName = default, string lastSurname = default, EdFiPersonReference reviewerPersonReference = default, TpdmPerformanceEvaluationRatingReviewerReceivedTraining receivedTraining = default)
         {
-            // to ensure "firstName" is required (not null)
-            if (firstName == null)
-            {
-                throw new ArgumentNullException("firstName is a required property for TpdmPerformanceEvaluationRatingReviewer and cannot be null");
-            }
-            this.FirstName = firstName;
-            // to ensure "lastSurname" is required (not null)
-            if (lastSurname == null)
-            {
-                throw new ArgumentNullException("lastSurname is a required property for TpdmPerformanceEvaluationRatingReviewer and cannot be null");
-            }
-            this.LastSurname = lastSurname;
-            this.ReviewerPersonReference = reviewerPersonReference;
-            this.ReceivedTraining = receivedTraining;
+            FirstName = firstName ?? throw new ArgumentNullException("firstName is a required property for TpdmPerformanceEvaluationRatingReviewer and cannot be null");
+            LastSurname = lastSurname ?? throw new ArgumentNullException("lastSurname is a required property for TpdmPerformanceEvaluationRatingReviewer and cannot be null");
+            ReviewerPersonReference = reviewerPersonReference;
+            ReceivedTraining = receivedTraining;
         }
 
         /// <summary>
@@ -89,13 +79,13 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder();
-            sb.Append("class TpdmPerformanceEvaluationRatingReviewer {\n");
-            sb.Append("  FirstName: ").Append(FirstName).Append("\n");
-            sb.Append("  LastSurname: ").Append(LastSurname).Append("\n");
-            sb.Append("  ReviewerPersonReference: ").Append(ReviewerPersonReference).Append("\n");
-            sb.Append("  ReceivedTraining: ").Append(ReceivedTraining).Append("\n");
-            sb.Append("}\n");
+            var sb = new StringBuilder();
+            _ = sb.Append("class TpdmPerformanceEvaluationRatingReviewer {\n");
+            _ = sb.Append("  FirstName: ").Append(FirstName).Append("\n");
+            _ = sb.Append("  LastSurname: ").Append(LastSurname).Append("\n");
+            _ = sb.Append("  ReviewerPersonReference: ").Append(ReviewerPersonReference).Append("\n");
+            _ = sb.Append("  ReceivedTraining: ").Append(ReceivedTraining).Append("\n");
+            _ = sb.Append("}\n");
             return sb.ToString();
         }
 
@@ -115,7 +105,7 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as TpdmPerformanceEvaluationRatingReviewer);
+            return Equals(input as TpdmPerformanceEvaluationRatingReviewer);
         }
 
         /// <summary>
@@ -125,30 +115,26 @@ namespace EdFi.OdsApi.Sdk.Models.All
         /// <returns>Boolean</returns>
         public bool Equals(TpdmPerformanceEvaluationRatingReviewer input)
         {
-            if (input == null)
-            {
-                return false;
-            }
-            return
-                (
-                    this.FirstName == input.FirstName ||
-                    (this.FirstName != null &&
-                    this.FirstName.Equals(input.FirstName))
+            return input != null
+&& (
+                    FirstName == input.FirstName ||
+                    (FirstName != null &&
+                    FirstName.Equals(input.FirstName))
                 ) &&
                 (
-                    this.LastSurname == input.LastSurname ||
-                    (this.LastSurname != null &&
-                    this.LastSurname.Equals(input.LastSurname))
+                    LastSurname == input.LastSurname ||
+                    (LastSurname != null &&
+                    LastSurname.Equals(input.LastSurname))
                 ) &&
                 (
-                    this.ReviewerPersonReference == input.ReviewerPersonReference ||
-                    (this.ReviewerPersonReference != null &&
-                    this.ReviewerPersonReference.Equals(input.ReviewerPersonReference))
+                    ReviewerPersonReference == input.ReviewerPersonReference ||
+                    (ReviewerPersonReference != null &&
+                    ReviewerPersonReference.Equals(input.ReviewerPersonReference))
                 ) &&
                 (
-                    this.ReceivedTraining == input.ReceivedTraining ||
-                    (this.ReceivedTraining != null &&
-                    this.ReceivedTraining.Equals(input.ReceivedTraining))
+                    ReceivedTraining == input.ReceivedTraining ||
+                    (ReceivedTraining != null &&
+                    ReceivedTraining.Equals(input.ReceivedTraining))
                 );
         }
 
@@ -160,22 +146,22 @@ namespace EdFi.OdsApi.Sdk.Models.All
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
-                if (this.FirstName != null)
+                var hashCode = 41;
+                if (FirstName != null)
                 {
-                    hashCode = (hashCode * 59) + this.FirstName.GetHashCode();
+                    hashCode = (hashCode * 59) + FirstName.GetHashCode();
                 }
-                if (this.LastSurname != null)
+                if (LastSurname != null)
                 {
-                    hashCode = (hashCode * 59) + this.LastSurname.GetHashCode();
+                    hashCode = (hashCode * 59) + LastSurname.GetHashCode();
                 }
-                if (this.ReviewerPersonReference != null)
+                if (ReviewerPersonReference != null)
                 {
-                    hashCode = (hashCode * 59) + this.ReviewerPersonReference.GetHashCode();
+                    hashCode = (hashCode * 59) + ReviewerPersonReference.GetHashCode();
                 }
-                if (this.ReceivedTraining != null)
+                if (ReceivedTraining != null)
                 {
-                    hashCode = (hashCode * 59) + this.ReceivedTraining.GetHashCode();
+                    hashCode = (hashCode * 59) + ReceivedTraining.GetHashCode();
                 }
                 return hashCode;
             }
@@ -189,13 +175,13 @@ namespace EdFi.OdsApi.Sdk.Models.All
         public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
         {
             // FirstName (string) maxLength
-            if (this.FirstName != null && this.FirstName.Length > 75)
+            if (FirstName != null && FirstName.Length > 75)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for FirstName, length must be less than 75.", new[] { "FirstName" });
             }
 
             // LastSurname (string) maxLength
-            if (this.LastSurname != null && this.LastSurname.Length > 75)
+            if (LastSurname != null && LastSurname.Length > 75)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for LastSurname, length must be less than 75.", new[] { "LastSurname" });
             }
