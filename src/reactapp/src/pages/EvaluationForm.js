@@ -428,6 +428,7 @@ export default function EvaluationForm() {
     pageInitialData.reviewedPersonSourceSystemDescriptor = candidate?.sourceSystemDescriptor;
     pageInitialData.performanceEvaluationTitle = evaluation?.performanceEvaluationTitle;
     pageInitialData.startDateTime = new Date();
+    pageInitialData.evaluationDate = new Date();
     pageInitialData.endDateTime = new Date();
     pageInitialData.objectiveResults = [];
     if (!isPageReload()) {
