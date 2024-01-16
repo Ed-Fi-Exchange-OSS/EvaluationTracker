@@ -208,7 +208,7 @@ namespace eppeta.webapi.Evaluations.Data
         }
 
 
-        public async Task<List<int>> UpdateEvaluationRatings(List<EvaluationRating> evaluationRatings)
+        public async Task<List<int>> UpdateEvaluationRatings(List<EvaluationRatingForUpdate> evaluationRatings)
         {
             // Since the surrogate Id is Identity then match on required cols and update existing records
             foreach (var er in evaluationRatings)
@@ -227,6 +227,10 @@ namespace eppeta.webapi.Evaluations.Data
                             property.SetValue(eer, property.GetValue(er));
                         }
                     }
+
+                    if (er.EvaluationDate != er.NewEvaluationDate)
+                        eer.EvaluationDate = er.NewEvaluationDate;
+
                     _ = EvaluationRatings.Update(eer);
                     er.Id = eer.Id;
                 }
@@ -241,7 +245,7 @@ namespace eppeta.webapi.Evaluations.Data
         }
 
 
-        public async Task<List<int>> UpdateEvaluationObjectiveRatings(List<EvaluationObjectiveRating> evaluationObjectiveRatings)
+        public async Task<List<int>> UpdateEvaluationObjectiveRatings(List<EvaluationObjectiveRatingForUpdate> evaluationObjectiveRatings)
         {
             // Since the surrogate Id is Identity then match on required cols and update existing records
             foreach (var er in evaluationObjectiveRatings)
@@ -260,6 +264,10 @@ namespace eppeta.webapi.Evaluations.Data
                             property.SetValue(eer, property.GetValue(er));
                         }
                     }
+
+                    if (er.EvaluationDate != er.NewEvaluationDate)
+                        eer.EvaluationDate = er.NewEvaluationDate;
+
                     _ = EvaluationObjectiveRatings.Update(eer);
                     er.Id = eer.Id;
                 }
@@ -273,7 +281,7 @@ namespace eppeta.webapi.Evaluations.Data
             return evaluationObjectiveRatings.Select(eor => eor.Id).ToList();
         }
 
-        public async Task<List<int>> UpdateEvaluationElementRatingResults(List<EvaluationElementRatingResult> evaluationElementRatingResults)
+        public async Task<List<int>> UpdateEvaluationElementRatingResults(List<EvaluationElementRatingResultForUpdate> evaluationElementRatingResults)
         {
             // Since the surrogate Id is Identity then match on required cols and update existing records
             foreach (var er in evaluationElementRatingResults)
@@ -288,6 +296,9 @@ namespace eppeta.webapi.Evaluations.Data
                             property.SetValue(eer, property.GetValue(er));
                         }
                     }
+
+                    if (er.EvaluationDate != er.NewEvaluationDate)
+                        eer.EvaluationDate = er.NewEvaluationDate;
 
                     _ = EvaluationElementRatingResults.Update(eer);
                     er.Id = eer.Id;

@@ -37,9 +37,9 @@ public interface IEvaluationRepository
     Task<List<PerformanceEvaluationRating>> GetAllPerformanceEvaluationRatings();
     Task UpdateEvaluationObjectives(List<EvaluationObjective> evaluationObjects);
     Task UpdateEvaluationElements(List<EvaluationElement> evaluationElements);
-    Task<List<int>> UpdateEvaluationRatings(List<EvaluationRating> evaluationRatings);
-    Task<List<int>> UpdateEvaluationObjectiveRatings(List<EvaluationObjectiveRating> evaluationObjectiveRatings);
-    Task<List<int>> UpdateEvaluationElementRatingResults(List<EvaluationElementRatingResult> evaluationElementRatingResults);
+    Task<List<int>> UpdateEvaluationRatings(List<EvaluationRatingForUpdate> evaluationRatings);
+    Task<List<int>> UpdateEvaluationObjectiveRatings(List<EvaluationObjectiveRatingForUpdate> evaluationObjectiveRatings);
+    Task<List<int>> UpdateEvaluationElementRatingResults(List<EvaluationElementRatingResultForUpdate> evaluationElementRatingResults);
     Task<List<EvaluationRating>> GetEvaluationRatingsByUserId(string userId);
     Task<List<EvaluationRating>> GetAllEvaluationRatings();
     Task<EvaluationRating> GetEvaluationRatingById(int id);

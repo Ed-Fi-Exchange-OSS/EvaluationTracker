@@ -101,21 +101,22 @@ namespace eppeta.webapi.Controllers
             // this dict stores the list of Ids created/updated for each object type while saving just in case we need them later
             var result = new Dictionary<string, List<int>>() {
                 { typeof(PerformanceEvaluationRating).Name, new List<int>{ } },
-                { typeof(EvaluationRating).Name, new List<int>{ } },
-                { typeof(EvaluationObjectiveRating).Name, new List<int>{ } },
-                { typeof(EvaluationElementRatingResult).Name, new List<int>{ } },
+                { typeof(EvaluationRatingForUpdate).Name, new List<int>{ } },
+                { typeof(EvaluationObjectiveRatingForUpdate).Name, new List<int>{ } },
+                { typeof(EvaluationElementRatingResultForUpdate).Name, new List<int>{ } },
             };
             
-            PerformanceEvaluation? perEval = null;
-            DateTime evaluationDate = evaluationResult.StartDateTime ?? DateTime.UtcNow;
+            DateTime newEvaluationDate = evaluationResult.StartDateTime ?? DateTime.UtcNow;
+            DateTime currentEvaluationDate = evaluationResult.StartDateTime ?? DateTime.UtcNow;
 
+            PerformanceEvaluation? perEval;
             if (evaluationResult.EvaluationRatingId > 0)
             {
                 perEval = await _evaluationRepository.GetPerformanceEvaluationById(evaluationResult.EvaluationId);
                 var evalRating = await _evaluationRepository.GetEvaluationRatingById(evaluationResult.EvaluationRatingId);
                 if (evalRating != null)
                 {
-                    evaluationDate = evalRating.EvaluationDate;
+                    currentEvaluationDate = evalRating.EvaluationDate;
                     userId = evalRating.UserId;
                 }
             }
@@ -131,15 +132,16 @@ namespace eppeta.webapi.Controllers
             // Create EvaluationRating
             var evalObjective = await _evaluationRepository.GetEvaluationObjectiveById(evaluationResult.ObjectiveResults.First().Id);
 
-            var newEvalRating = new EvaluationRating();
+            var newEvalRating = new EvaluationRatingForUpdate();
             MappingHelper.CopyMatchingPKProperties(perEval, newEvalRating);
             newEvalRating.SourceSystemDescriptor = evaluationResult.ReviewedPersonSourceSystemDescriptor;
-            newEvalRating.EvaluationDate = evaluationDate;
+            newEvalRating.EvaluationDate = currentEvaluationDate;
+            newEvalRating.NewEvaluationDate = newEvaluationDate;
             newEvalRating.EvaluationTitle = evalObjective.EvaluationTitle;
             newEvalRating.PersonId = evaluationResult.ReviewedPersonId;
             newEvalRating.UserId = userId;
 
-            result[newEvalRating.GetType().Name].AddRange(await _evaluationRepository.UpdateEvaluationRatings(new List<EvaluationRating> { newEvalRating }));
+            result[newEvalRating.GetType().Name].AddRange(await _evaluationRepository.UpdateEvaluationRatings(new List<EvaluationRatingForUpdate> { newEvalRating }));
 
             // Create PerformanceEvaluationRating
             var perEvalRating = new PerformanceEvaluationRating();
@@ -149,9 +151,9 @@ namespace eppeta.webapi.Controllers
             perEvalRating.EvaluatorName = evaluationResult.EvaluatorName;
             perEvalRating.PersonId = evaluationResult.ReviewedPersonId;
             perEvalRating.SourceSystemDescriptor = evaluationResult.ReviewedPersonSourceSystemDescriptor;
-            perEvalRating.EndTime = evaluationResult.EndDateTime ?? evaluationDate;
+            perEvalRating.EndTime = evaluationResult.EndDateTime ?? newEvaluationDate;
             perEvalRating.UserId = userId;
-            perEvalRating.StartTime = evaluationDate;
+            perEvalRating.StartTime = newEvaluationDate;
 
             result[perEvalRating.GetType().Name].AddRange(
                 await _evaluationRepository.UpdatePerformanceEvaluationRatings(new List<PerformanceEvaluationRating> { perEvalRating }));
@@ -161,32 +163,34 @@ namespace eppeta.webapi.Controllers
                 // Create or Update EvaluationObjectiveRating
                 evalObjective = await _evaluationRepository.GetEvaluationObjectiveById(objRes.Id);
 
-                var objRating = new EvaluationObjectiveRating();
+                var objRating = new EvaluationObjectiveRatingForUpdate();
                 MappingHelper.CopyMatchingPKProperties(evalObjective, objRating);
 
                 objRating.SourceSystemDescriptor = evaluationResult.ReviewedPersonSourceSystemDescriptor;
-                objRating.EvaluationDate = evaluationDate;
+                objRating.EvaluationDate = currentEvaluationDate;
+                objRating.NewEvaluationDate = newEvaluationDate;
                 objRating.Comments = objRes.Comment;
                 objRating.PersonId = evaluationResult.ReviewedPersonId;
                 objRating.UserId = userId;
 
-                result[objRating.GetType().Name].AddRange(await _evaluationRepository.UpdateEvaluationObjectiveRatings(new List<EvaluationObjectiveRating> { objRating }));
+                result[objRating.GetType().Name].AddRange(await _evaluationRepository.UpdateEvaluationObjectiveRatings(new List<EvaluationObjectiveRatingForUpdate> { objRating }));
 
                 foreach (var elRes in objRes.Elements)
                 {
                     var evalElement = await _evaluationRepository.GetEvaluationElementById(elRes.Id);
-                    var elementRatingResult = new EvaluationElementRatingResult();
+                    var elementRatingResult = new EvaluationElementRatingResultForUpdate();
                     MappingHelper.CopyMatchingPKProperties(evalElement, elementRatingResult);
 
                     elementRatingResult.SourceSystemDescriptor = evaluationResult.ReviewedPersonSourceSystemDescriptor;
-                    elementRatingResult.EvaluationDate = evaluationDate;
+                    elementRatingResult.EvaluationDate = currentEvaluationDate;
+                    elementRatingResult.NewEvaluationDate = newEvaluationDate;
                     elementRatingResult.PersonId = evaluationResult.ReviewedPersonId;
                     elementRatingResult.ResultDatatypeTypeDescriptor = _resultDatatype; // TODO: harcoding this based on the type of elRes.Score
                     elementRatingResult.RatingResultTitle = evalElement.EvaluationElementTitle[..Math.Min(50, evalElement.EvaluationElementTitle.Length)]; // TODO: No result title is returned from frontend. Truncating element title
                     elementRatingResult.Rating = elRes.Score;
                     elementRatingResult.UserId = userId;
 
-                    result[elementRatingResult.GetType().Name].AddRange(await _evaluationRepository.UpdateEvaluationElementRatingResults(new List<EvaluationElementRatingResult> { elementRatingResult }));
+                    result[elementRatingResult.GetType().Name].AddRange(await _evaluationRepository.UpdateEvaluationElementRatingResults(new List<EvaluationElementRatingResultForUpdate> { elementRatingResult }));
                 }
             }
             return result;
