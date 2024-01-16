@@ -323,6 +323,7 @@ export default function EvaluationForm() {
     evaluationDataLoadedCopy.evaluationDate = date;
     if (evaluationDataLoadedCopy.evaluationDate > evaluationDataLoadedCopy.evaluationEndTime)
       evaluationDataLoadedCopy.evaluationEndTime = null;
+
     setEvaluationDataLoaded(evaluationDataLoadedCopy);
 
     const pageDataCopy = { ...getStoredPageData() };
@@ -340,6 +341,7 @@ export default function EvaluationForm() {
       evaluationDataLoadedCopy.evaluationEndTime = date;
     else
       evaluationDataLoadedCopy.evaluationEndTime = evaluationDataLoadedCopy.evaluationDate;
+
     setEvaluationDataLoaded(evaluationDataLoadedCopy);
 
     const pageDataCopy = { ...getStoredPageData() };
