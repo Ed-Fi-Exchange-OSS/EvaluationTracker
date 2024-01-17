@@ -14,7 +14,6 @@ using OpenIddict.Server.AspNetCore;
 using System.Collections.Immutable;
 using System.Security.Claims;
 using static OpenIddict.Abstractions.OpenIddictConstants;
-using eppeta.webapi.DTO;
 using Microsoft.AspNetCore;
 
 namespace eppeta.webapi.Controllers;
