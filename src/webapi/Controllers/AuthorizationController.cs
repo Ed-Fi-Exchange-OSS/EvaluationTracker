@@ -15,7 +15,6 @@ using System.Collections.Immutable;
 using System.Security.Claims;
 using static OpenIddict.Abstractions.OpenIddictConstants;
 using eppeta.webapi.DTO;
-using System.Runtime.InteropServices;
 using Microsoft.AspNetCore;
 
 namespace eppeta.webapi.Controllers;
@@ -48,10 +47,9 @@ public class AuthorizationController : Controller
             return BadRequest(new { error = "The application only accepts the password grant type at this time." });
         }
 
-        var user = await _userManager.FindByNameAsync(tokenRequest.Username);
+        ApplicationUser? user = null;
         if (openIdRequest.GrantType == GrantTypes.RefreshToken)
         {
-            user = null;
             // Get the claims principal associated with the refresh token.
             var info = await HttpContext.AuthenticateAsync(OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
             var emailClaim = (info?.Principal?.Identity as ClaimsIdentity)?.Claims.First(z => z.Type == "email");
@@ -88,6 +86,7 @@ public class AuthorizationController : Controller
 
         else if (openIdRequest.GrantType == GrantTypes.Password)
         {
+            user = await _userManager.FindByNameAsync(tokenRequest.Username);
             if (user == null)
             {
                 var properties = new AuthenticationProperties(new Dictionary<string, string?>
