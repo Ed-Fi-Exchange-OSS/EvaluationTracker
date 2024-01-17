@@ -120,10 +120,12 @@ public class AuthorizationController : Controller
             roleType: Claims.Role);
 
         // Add the claims that will be persisted in the tokens.
-        _ = identity.SetClaim(Claims.Subject, await _userManager.GetUserIdAsync(user))
-                .SetClaim(Claims.Email, await _userManager.GetEmailAsync(user))
-                .SetClaim(Claims.Name, $"{user.FirstName} {user.LastName}")
-                .SetClaims(Claims.Role, (await _userManager.GetRolesAsync(user)).ToImmutableArray());
+        if(user != null) { 
+            _ = identity.SetClaim(Claims.Subject, await _userManager.GetUserIdAsync(user))
+                    .SetClaim(Claims.Email, await _userManager.GetEmailAsync(user))
+                    .SetClaim(Claims.Name, $"{user.FirstName} {user.LastName}")
+                    .SetClaims(Claims.Role, (await _userManager.GetRolesAsync(user)).ToImmutableArray());
+        }
         tokenRequest.Scopes = "offline_access";
         // Set the list of scopes granted to the client application.
         _ = identity.SetScopes(new[]
