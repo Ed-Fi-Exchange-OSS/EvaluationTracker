@@ -14,6 +14,7 @@ using OpenIddict.Server.AspNetCore;
 using System.Collections.Immutable;
 using System.Security.Claims;
 using static OpenIddict.Abstractions.OpenIddictConstants;
+using Microsoft.AspNetCore;
 
 namespace eppeta.webapi.Controllers;
 
@@ -39,36 +40,77 @@ public class AuthorizationController : Controller
     [HttpPost($"~{TokenPath}"), IgnoreAntiforgeryToken, Produces("application/json")]
     public async Task<IActionResult> Exchange([FromForm] PasswordTokenRequest tokenRequest)
     {
-        if (tokenRequest.GrantType != GrantTypes.Password)
+        var openIdRequest = HttpContext.GetOpenIddictServerRequest();
+        if (openIdRequest?.GrantType != GrantTypes.Password && openIdRequest?.GrantType != GrantTypes.RefreshToken)
         {
             return BadRequest(new { error = "The application only accepts the password grant type at this time." });
         }
 
-        var user = await _userManager.FindByNameAsync(tokenRequest.Username);
-        if (user == null)
+        ApplicationUser? user = null;
+        if (openIdRequest.GrantType == GrantTypes.RefreshToken)
         {
-            var properties = new AuthenticationProperties(new Dictionary<string, string?>
+            // Get the claims principal associated with the refresh token.
+            var info = await HttpContext.AuthenticateAsync(OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
+            var emailClaim = (info?.Principal?.Identity as ClaimsIdentity)?.Claims.First(z => z.Type == "email");
+            if (emailClaim != null)
             {
-                [OpenIddictServerAspNetCoreConstants.Properties.Error] = Errors.InvalidGrant,
-                [OpenIddictServerAspNetCoreConstants.Properties.ErrorDescription] =
-                    "The username/password couple is invalid."
-            });
+               user = await _userManager.FindByNameAsync(emailClaim.Value);
+            }
 
-            return Forbid(properties, OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
+            //var user2 = await _userManager.GetUserAsync(info.Principal);
+            // Retrieve the user profile corresponding to the refresh token.
+            if (user == null)
+            {
+                var properties = new AuthenticationProperties(new Dictionary<string, string?>
+                {
+                    [OpenIddictServerAspNetCoreConstants.Properties.Error] = Errors.InvalidGrant,
+                    [OpenIddictServerAspNetCoreConstants.Properties.ErrorDescription] =
+                        "The refresh token is no longer valid."
+                });
+
+                return Forbid(properties, OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
+            }
+            if (!await _signInManager.CanSignInAsync(user))
+            {
+                var properties = new AuthenticationProperties(new Dictionary<string, string?>
+                {
+                    [OpenIddictServerAspNetCoreConstants.Properties.Error] = Errors.InvalidGrant,
+                    [OpenIddictServerAspNetCoreConstants.Properties.ErrorDescription] =
+                       "The user is no longer allowed to sign in."
+                });
+
+                return Forbid(properties, OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
+            }
         }
 
-        // Validate the username/password parameters and ensure the account is not locked out.
-        var result = await _signInManager.CheckPasswordSignInAsync(user, tokenRequest.Password, lockoutOnFailure: true);
-        if (!result.Succeeded)
+        else if (openIdRequest.GrantType == GrantTypes.Password)
         {
-            var properties = new AuthenticationProperties(new Dictionary<string, string?>
+            user = await _userManager.FindByNameAsync(tokenRequest.Username);
+            if (user == null)
             {
-                [OpenIddictServerAspNetCoreConstants.Properties.Error] = Errors.InvalidGrant,
-                [OpenIddictServerAspNetCoreConstants.Properties.ErrorDescription] =
-                    "The username/password couple is invalid."
-            });
+                var properties = new AuthenticationProperties(new Dictionary<string, string?>
+                {
+                    [OpenIddictServerAspNetCoreConstants.Properties.Error] = Errors.InvalidGrant,
+                    [OpenIddictServerAspNetCoreConstants.Properties.ErrorDescription] =
+                        "The username/password couple is invalid."
+                });
 
-            return Forbid(properties, OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
+                return Forbid(properties, OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
+            }
+
+            // Validate the username/password parameters and ensure the account is not locked out.
+            var result = await _signInManager.CheckPasswordSignInAsync(user, tokenRequest.Password, lockoutOnFailure: true);
+            if (!result.Succeeded)
+            {
+                var properties = new AuthenticationProperties(new Dictionary<string, string?>
+                {
+                    [OpenIddictServerAspNetCoreConstants.Properties.Error] = Errors.InvalidGrant,
+                    [OpenIddictServerAspNetCoreConstants.Properties.ErrorDescription] =
+                        "The username/password couple is invalid."
+                });
+
+                return Forbid(properties, OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
+            }
         }
 
         // Create the claims-based identity that will be used by OpenIddict to generate tokens.
@@ -78,18 +120,21 @@ public class AuthorizationController : Controller
             roleType: Claims.Role);
 
         // Add the claims that will be persisted in the tokens.
-        _ = identity.SetClaim(Claims.Subject, await _userManager.GetUserIdAsync(user))
-                .SetClaim(Claims.Email, await _userManager.GetEmailAsync(user))
-                .SetClaim(Claims.Name, $"{user.FirstName} {user.LastName}")
-                .SetClaims(Claims.Role, (await _userManager.GetRolesAsync(user)).ToImmutableArray());
-
+        if(user != null) { 
+            _ = identity.SetClaim(Claims.Subject, await _userManager.GetUserIdAsync(user))
+                    .SetClaim(Claims.Email, await _userManager.GetEmailAsync(user))
+                    .SetClaim(Claims.Name, $"{user.FirstName} {user.LastName}")
+                    .SetClaims(Claims.Role, (await _userManager.GetRolesAsync(user)).ToImmutableArray());
+        }
+        tokenRequest.Scopes = "offline_access";
         // Set the list of scopes granted to the client application.
         _ = identity.SetScopes(new[]
         {
                 Scopes.OpenId,
                 Scopes.Email,
                 Scopes.Profile,
-                Scopes.Roles
+                Scopes.Roles,
+                Scopes.OfflineAccess
             }.Intersect(tokenRequest.GetScopes()));
 
         _ = identity.SetDestinations(GetDestinations);

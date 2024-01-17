@@ -4,7 +4,7 @@
 // See the LICENSE and NOTICES files in the project root for more information.
 
 import { transform as _transform } from "lodash-es";
-import { getToken } from "../components/TokenHelpers";
+import { getToken, validateAuthenticationToken } from "../components/TokenHelpers";
 
 
 // TODO: replace hard-coded with some sort of runtime setting
@@ -21,7 +21,7 @@ const modify = async (verb, route, values) => {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(values),
   };
-
+  await validateAuthenticationToken();
   const token = getToken();
   if (token) {
     request.headers["Authorization"] = `bearer ${token}`;

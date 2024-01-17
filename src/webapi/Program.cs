@@ -41,8 +41,10 @@ internal class Program
             AppSettings.Initialize(builder.Configuration);
             // Use the TrustAllSSLCerts method in the AppSettings class to trust all SSL certificates.
             AppSettings.OptionallyTrustAllSSLCerts();
-            // get token timeout
-            var authenticationTokenTimeout = int.Parse(builder.Configuration["AuthenticationTokenTimeout"] ?? "15");
+            // get token lifetime: minutes
+            int authenticationTokenTimeout = int.Parse(builder.Configuration["AuthenticationTokenTimeout"] ?? "15");
+            // refresh token lifetime: days
+            int authenticationRefreshTokenLifeTime = int.Parse(builder.Configuration["AuthenticationRefreshTokenLifeTime"] ?? "15");
 
             // Add services to the container.
             _ = builder.Services.AddControllers();
@@ -50,7 +52,7 @@ internal class Program
             ConfigureWebHost(builder);
             ConfigureCorsService(builder.Services);
             ConfigureDatabaseConnection(builder);
-            ConfigureLocalIdentityProvider(builder.Services, authenticationTokenTimeout);
+            ConfigureLocalIdentityProvider(builder.Services, authenticationTokenTimeout, authenticationRefreshTokenLifeTime);
             ConfigureQuartz(builder.Services);
             ConfigureSwaggerUIServices(builder.Services);
             ConfigureAspNetAuth(builder.Services);
@@ -163,9 +165,10 @@ internal class Program
 
 
 
-        static void ConfigureLocalIdentityProvider(IServiceCollection services, int authenticationTokenTimeout)
+        static void ConfigureLocalIdentityProvider(IServiceCollection services, int authenticationTokenTimeout, int authenticationRefreshTokenLifeTime)
         {
-            var accessTokenLifetime = TimeSpan.FromMinutes(authenticationTokenTimeout);
+            TimeSpan accessTokenLifetime = TimeSpan.FromMinutes(authenticationTokenTimeout);
+            TimeSpan refreshTokenLifetime = TimeSpan.FromDays(authenticationRefreshTokenLifeTime);
             _ = services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<IdentityDbContext>()
                 .AddDefaultTokenProviders();
@@ -184,9 +187,10 @@ internal class Program
                     _ = options.SetAccessTokenLifetime(accessTokenLifetime);
                     // These two go hand-in-hand: allowing anonymous client means you can
                     // send password request without _also_ providing a client_id.
-                    _ = options.AllowPasswordFlow();
-                    _ = options.AcceptAnonymousClients();
-
+                    options.AllowPasswordFlow();
+                    options.AllowRefreshTokenFlow();
+                    options.AcceptAnonymousClients();
+                    options.SetRefreshTokenLifetime(refreshTokenLifetime);
                     // Turned off token encryption, will discusss need for encrypted JWT later in project development
                     _ = options.DisableAccessTokenEncryption();
 
