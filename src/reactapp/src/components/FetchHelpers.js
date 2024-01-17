@@ -69,4 +69,4 @@ const postForm = async (route, values) => {
   return await fetch(url, request);
 };
 
-export { post, postForm, get };
+export { post, postForm, get, put };

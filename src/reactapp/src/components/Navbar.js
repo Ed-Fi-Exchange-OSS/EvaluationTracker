@@ -29,7 +29,8 @@ import {
 import logo from '../assets/logo.jpg'
 import { Image } from "@chakra-ui/react"
 import { useNavigate } from "react-router-dom";
-import { getLoggedInUserName, getLoggedInUserFirstName, clearToken } from "../components/TokenHelpers";
+import { getLoggedInUserName, getLoggedInUserFirstName, clearToken, getLoggedInUserRole } from "../components/TokenHelpers";
+import { ApplicationRoles } from "../constants";
 
 export default function WithSubnavigation() {
     const { isOpen, onToggle } = useDisclosure();
@@ -145,7 +146,7 @@ const DesktopNav = () => {
 
     return (
         <Stack direction={'row'} spacing={4}>
-            {NAV_ITEMS.map((navItem) => (
+        {getLoggedInUserName() && showMenuByRol().map((navItem) => (
                 <Box
                     key={navItem.label}
                     display="flex"
@@ -229,7 +230,7 @@ const MobileNav = () => {
             bg={useColorModeValue('white', 'gray.800')}
             p={4}
             display={{ md: 'none' }}>
-            {NAV_ITEMS.map((navItem) => (
+        {getLoggedInUserName() && showMenuByRol().map((navItem) => (
                 <MobileNavItem key={navItem.label} {...navItem} />
             ))}
         </Stack>
@@ -290,44 +291,65 @@ const MobileNavItem = ({ label, children, href }) => { // Remove type annotation
 // Disable interface, interface are available for Typescript
 interface NavItem {
     label: string;
+    roles?: Array<string>
     subLabel?: string;
     children?: Array<NavItem>;
     href?: string;
 }*/
+const showMenuByRol = () => {
+  const userRoles = getLoggedInUserRole();
+  const arrayRoles = Array.isArray(userRoles) ? userRoles : [userRoles];
+  return NAV_ITEMS.filter(item => {
+    // Check if the item's roles match any of the roles
+    const parentMatch =  item?.roles?.some(role => role === '*' || arrayRoles?.includes(role));
+
+    // Check if any of the item's children's roles match any of the roles
+    const childrenMatch = item?.children?.some(child => child?.roles?.some(role => role === '*' || arrayRoles?.includes(role)));
+
+    // Return true if either the item's roles or its children's roles match
+    return parentMatch || childrenMatch;
+  });
+};
 
 const NAV_ITEMS = [ // Remove type annotation  NAV_ITEMS: Array<NavItem>
-    //{
-    //    label: 'Inspiration',
-    //    children: [
-    //        {
-    //            label: 'Explore Design Work',
-    //            subLabel: 'Trending Design to inspire you',
-    //            href: '#',
-    //        },
-    //        {
-    //            label: 'New & Noteworthy',
-    //            subLabel: 'Up-and-coming Designers',
-    //            href: '#',
-    //        },
-    //    ],
-    //},
-    //{
-    //    label: 'Ed-Fi',
-    //    children: [
-    //        {
-    //            label: 'Teacher Evaluation',
-    //            subLabel: 'Learn the purpose of this education tool',
-    //            href: '#',
-    //        },
-    //        {
-    //            label: 'Ed-Fi Mission',
-    //            subLabel: 'Learn the core value and projects at Ed-Fi',
-    //            href: '#',
-    //        },
-    //    ],
-    //},
-    //{
-    //    label: 'Teacher Preparation Program',
-    //    href: '#',
-    //},
+  {
+    label: 'Evaluation',
+    roles: [
+      ApplicationRoles.Mentor,
+      ApplicationRoles.Supervisor
+    ],
+    children: [
+      {
+        label: 'Evaluations',
+        subLabel: 'List of evaluations',
+        href: '/main'
+      }
+    ],
+  },
+  {
+    label: 'User',
+    roles: [
+      ApplicationRoles.Administrator
+    ],
+    children: [
+        {
+            label: 'Manage Users',
+            subLabel: 'List of user',
+            href: '/users',
+        },
+    ],
+  },
+  {
+    label: 'Logout',
+    roles: [
+      '*'
+    ],
+    children: [
+      {
+        label: 'Logout',
+        subLabel: 'Logout',
+        href: '#',
+      },
+    ],
+  },
 ];

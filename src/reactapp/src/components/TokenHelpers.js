@@ -112,10 +112,18 @@ const validateAuthenticationToken = async () => {
   return false;
 };
 
+const isLoggedInUserInRole = (roles) => {
+  const jwt = getToken();
+  if (!jwt) return null;
+  const userRoles = jwt_decode(jwt).role;
+  const currentUserRolesList = Array.isArray(userRoles) ? userRoles : [userRoles];
+  const rolesToValidate = Array.isArray(roles) ? roles : [roles];
+  return currentUserRolesList.some(item => rolesToValidate?.includes(item));
+};
 
 const clearToken = () => {
   sessionStorage.removeItem('token');
   sessionStorage.removeItem('refresh_token');
 }
 
-export { validateAuthenticationToken, setToken, getToken, getRefreshToken, clearToken, getLoggedInUserId, getLoggedInUserName, getLoggedInUserFirstName, getLoggedInUserRole }
+export { setToken, getToken, clearToken, getLoggedInUserId, getLoggedInUserName, getLoggedInUserFirstName, getLoggedInUserRole, isLoggedInUserInRole, validateAuthenticationToken }

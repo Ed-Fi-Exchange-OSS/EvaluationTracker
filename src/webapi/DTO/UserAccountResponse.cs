@@ -13,6 +13,8 @@ namespace eppeta.webapi.DTO
 
         public bool RequirePasswordChange { get; set; }
 
+        public IEnumerable<string> Roles { get; set; } = new List<string>();
+
         public static UserAccountResponse From(ApplicationUser user)
         {
             return new UserAccountResponse
@@ -21,7 +23,19 @@ namespace eppeta.webapi.DTO
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Id = user.Id,
-                RequirePasswordChange = user.RequirePasswordChange
+                RequirePasswordChange = user.RequirePasswordChange,
+            };
+        }
+        public static UserAccountResponse From(ApplicationUser user, IEnumerable<string>roles)
+        {
+            return new UserAccountResponse
+            {
+                Email = user.Email,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Id = user.Id,
+                RequirePasswordChange = user.RequirePasswordChange,
+                Roles = roles
             };
         }
     }
