@@ -16,7 +16,7 @@ const setToken = (tokenResponse) => {
 };
 
 const isTokenExpired = () => {
-  const token = getToken();
+  const token = sessionStorage.getItem('token');
   if (token) {
     const payload = JSON.parse(atob(token.split('.')[1]));
     const expirationDate = new Date(payload.exp * 1000);
@@ -112,9 +112,6 @@ const validateAuthenticationToken = async () => {
   return false;
 };
 
-const getToken = () => {
-  return sessionStorage.getItem('token');
-};
 
 const clearToken = () => {
   sessionStorage.removeItem('token');
