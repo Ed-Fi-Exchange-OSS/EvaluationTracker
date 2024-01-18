@@ -6,9 +6,6 @@
 name: On Pull Request - React
 
 on:
-  push:
-    branches:
-      - main
   pull_request:
     branches:
       - main
