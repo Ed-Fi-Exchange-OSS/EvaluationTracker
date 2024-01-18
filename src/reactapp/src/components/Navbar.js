@@ -298,13 +298,12 @@ interface NavItem {
 }*/
 const showMenuByRol = () => {
   const userRoles = getLoggedInUserRole();
-  const arrayRoles = Array.isArray(userRoles) ? userRoles : [userRoles];
   return NAV_ITEMS.filter(item => {
     // Check if the item's roles match any of the roles
-    const parentMatch =  item?.roles?.some(role => role === '*' || arrayRoles?.includes(role));
+    const parentMatch = item?.roles?.some(role => role === '*' || userRoles?.includes(role));
 
     // Check if any of the item's children's roles match any of the roles
-    const childrenMatch = item?.children?.some(child => child?.roles?.some(role => role === '*' || arrayRoles?.includes(role)));
+    const childrenMatch = item?.children?.some(child => child?.roles?.some(role => role === '*' || userRoles?.includes(role)));
 
     // Return true if either the item's roles or its children's roles match
     return parentMatch || childrenMatch;
@@ -337,19 +336,6 @@ const NAV_ITEMS = [ // Remove type annotation  NAV_ITEMS: Array<NavItem>
             subLabel: 'List of user',
             href: '/users',
         },
-    ],
-  },
-  {
-    label: 'Logout',
-    roles: [
-      '*'
-    ],
-    children: [
-      {
-        label: 'Logout',
-        subLabel: 'Logout',
-        href: '#',
-      },
     ],
   },
 ];

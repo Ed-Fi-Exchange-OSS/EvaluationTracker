@@ -75,7 +75,8 @@ const getLoggedInUserFirstName = () => {
 const getLoggedInUserRole = () => {
   const jwt = getToken();
   if (!jwt) return null;
-  return jwt_decode(jwt).role;
+  const userRoles = jwt_decode(jwt).role;
+  return Array.isArray(userRoles) ? userRoles : [userRoles];
 };
 
 

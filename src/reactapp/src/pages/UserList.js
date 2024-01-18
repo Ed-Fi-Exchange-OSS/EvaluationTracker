@@ -13,16 +13,16 @@ import { useNavigate } from "react-router-dom";
 import "../App.css";
 import React, { useEffect, useState } from "react";
 import { get } from "../components/FetchHelpers";
-import { getLoggedInUserId, getLoggedInUserRole } from "../components/TokenHelpers";
+import { getLoggedInUserId, isLoggedInUserInRole } from "../components/TokenHelpers";
 import SortableTable from "../components/SortableTable";
+import { ApplicationRoles } from "../constants";
 
 //Created a table to display the data from react objects
 export default function UserListTable() {
   const [userList, setUserList] = useState([]);
-  const loggedInUserRole = getLoggedInUserRole();
   const [componentsDataLoaded, setComponentsDataLoaded] = useState(false);
   const headers = [
-    { name: '', label: 'Edit', sortable: true, visible: loggedInUserRole === 'Administrator', link: { url: '/userProfile/', dataField: 'id' } },
+    { name: '', label: 'Edit', sortable: true, visible: isLoggedInUserInRole([ApplicationRoles.Administrator]), link: { url: '/userProfile/', dataField: 'id' } },
     { name: 'First Name', dataField: 'firstName' , sortable: true, visible: true },
     { name: 'Last Name', dataField: 'lastName', sortable: true, visible: true },
     { name: 'E-mail', dataField: 'email', sortable: true, visible: true },

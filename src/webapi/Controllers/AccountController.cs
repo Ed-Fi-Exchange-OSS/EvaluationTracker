@@ -101,20 +101,18 @@ public class AccountController : Controller
 
         async Task<bool> AddToRole(ApplicationUser user)
         {
-            var role = Roles.MentorTeacher;
             if (AppSettings.Authentication.NewUsersAreAdministrators)
             {
-                role = Roles.Administrator;
+                var role = Roles.Administrator;
+                var roleResult = await _userManager.AddToRoleAsync(user, role);
+                if (!roleResult.Succeeded)
+                {
+                    AddErrors(roleResult);
+                    Response.StatusCode = StatusCodes.Status500InternalServerError;
+                }
+                return roleResult.Succeeded;
             }
-
-            var roleResult = await _userManager.AddToRoleAsync(user, role);
-            if (!roleResult.Succeeded)
-            {
-                AddErrors(roleResult);
-                Response.StatusCode = StatusCodes.Status500InternalServerError;
-            }
-
-            return roleResult.Succeeded;
+            return true;           
         }
     }
 

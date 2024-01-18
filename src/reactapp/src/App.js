@@ -12,8 +12,7 @@ import PageTracker from "./components/PageTracker";
 import AuthenticatedRoute from './components/AuthenticatedRoute';
 import UserListTable from './pages/UserList';
 import UserProfile from "./pages/UserProfile";
-import UserProfile from "./pages/UserProfile";
-import { ApplicationRoles } from "../constants";
+import { ApplicationRoles } from "./constants";
 
 function App() {
     // 2. Wrap ChakraProvider at the root of my app

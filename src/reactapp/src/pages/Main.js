@@ -16,13 +16,13 @@ import Select from 'react-select';
 import "../App.css";
 import React, { useEffect, useState } from "react";
 import { get } from "../components/FetchHelpers";
-import { getLoggedInUserId, getLoggedInUserRole } from "../components/TokenHelpers";
+import { getLoggedInUserId, isLoggedInUserInRole } from "../components/TokenHelpers";
 import SortableTable from "../components/SortableTable";
+import { ApplicationRoles } from "../constants";
 
 //Created a table to display the data from react objects
 export default function EvaluationTable() {
   const [EvaluationRatings, setEvaluationRatings] = useState([]);
-  const loggedInUserRole = getLoggedInUserRole();
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [statusOptions, setStatusOptions] = useState([]);
   const [componentsDataLoaded, setComponentsDataLoaded] = useState(false);
@@ -31,7 +31,7 @@ export default function EvaluationTable() {
   const headers = [
     { name: 'Evaluation', dataField: 'performanceEvaluationTitle', sortable: true, visible: true, link: { url: '/evaluation/', dataField: 'performanceEvaluationRatingId' } },
     { name: 'Candidate', dataField: 'reviewedCandidateName', sortable: true, visible: true },
-    { name: 'Evaluator', dataField: 'evaluatorName', sortable: true, visible: loggedInUserRole === 'Supervisor' },
+    { name: 'Evaluator', dataField: 'evaluatorName', sortable: true, visible: isLoggedInUserInRole([ApplicationRoles.Supervisor]) },
     { name: 'Date', dataField: 'actualDate', sortable: true, visible: true, format: value => new Date(value).toLocaleDateString() },
     { name: 'Status', dataField: 'evaluationStatus', sortable: true, visible: true },
   ];
@@ -72,7 +72,7 @@ export default function EvaluationTable() {
     try {
       let response;
 
-      if (getLoggedInUserRole() === 'Supervisor') {
+      if (isLoggedInUserInRole([ApplicationRoles.Supervisor])) {
         response = await get('/api/EvaluationRating/');
       } else {
         response = await get(`/api/EvaluationRating/${userId}`);

@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import {
   useToast,
 } from '@chakra-ui/react';
-import { getToken, isLoggedInUserInRole, validateAuthenticationToken } from "../components/TokenHelpers";
+import { isLoggedInUserInRole, validateAuthenticationToken } from "../components/TokenHelpers";
 import { AlertMessage } from "../components/AlertMessage";
 
 const AuthenticatedRoute = ({ element: authenticatedComponent, roles, ...rest }) => {
@@ -17,7 +17,6 @@ const AuthenticatedRoute = ({ element: authenticatedComponent, roles, ...rest })
   const [alertMessageText, setAlertMessageText] = useState(null);
 
   useEffect(() => {
-    // getToken returns n0ull if the current session doesn't have a valid token.
     const validateToken = async () => {
       return await validateAuthenticationToken();
     };
@@ -33,12 +32,13 @@ const AuthenticatedRoute = ({ element: authenticatedComponent, roles, ...rest })
         navigate("/login");
         sessionStorage.clear();
       }
-    }
-    if (roles && !roles.includes('*') && !isLoggedInUserInRole(roles)) {
-      setAlertMessageText("You do not have access to the requested page");
-    }
-    else
-      setAlertMessageText(null);
+      if (roles && !roles.includes('*') && !isLoggedInUserInRole(roles)) {
+        setAlertMessageText("You do not have access to the requested page");
+      }
+      else {
+        setAlertMessageText(null);
+      }
+    });
   });
 
   return <>{alertMessageText
