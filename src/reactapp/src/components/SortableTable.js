@@ -4,7 +4,7 @@
 // See the LICENSE and NOTICES files in the project root for more information.
 
 import React, { useState } from 'react';
-import { Table, Tbody, Thead, Tr, Th, Td, Box, Button, Link, TableContainer, Center, Input } from "@chakra-ui/react";
+import { Table, Tbody, Thead, Tr, Th, Td, Box, Button, Link, TableContainer, Center } from "@chakra-ui/react";
 import { TriangleDownIcon, TriangleUpIcon, ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons'
 
 /**
