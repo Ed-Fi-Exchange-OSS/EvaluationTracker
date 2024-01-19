@@ -100,7 +100,7 @@ namespace eppeta.webapi.Controllers
             }
             // this dict stores the list of Ids created/updated for each object type while saving just in case we need them later
             var result = new Dictionary<string, List<int>>() {
-                { typeof(PerformanceEvaluationRating).Name, new List<int>{ } },
+                { typeof(PerformanceEvaluationRatingForUpdate).Name, new List<int>{ } },
                 { typeof(EvaluationRatingForUpdate).Name, new List<int>{ } },
                 { typeof(EvaluationObjectiveRatingForUpdate).Name, new List<int>{ } },
                 { typeof(EvaluationElementRatingResultForUpdate).Name, new List<int>{ } },
@@ -144,7 +144,7 @@ namespace eppeta.webapi.Controllers
             result[newEvalRating.GetType().Name].AddRange(await _evaluationRepository.UpdateEvaluationRatings(new List<EvaluationRatingForUpdate> { newEvalRating }));
 
             // Create PerformanceEvaluationRating
-            var perEvalRating = new PerformanceEvaluationRating();
+            var perEvalRating = new PerformanceEvaluationRatingForUpdate();
             MappingHelper.CopyMatchingPKProperties(perEval, perEvalRating);
 
             perEvalRating.ReviewedCandidateName = evaluationResult.ReviewedCandidateName;
@@ -153,10 +153,11 @@ namespace eppeta.webapi.Controllers
             perEvalRating.SourceSystemDescriptor = evaluationResult.ReviewedPersonSourceSystemDescriptor;
             perEvalRating.EndTime = evaluationResult.EndDateTime ?? newEvaluationDate;
             perEvalRating.UserId = userId;
-            perEvalRating.StartTime = newEvaluationDate;
+            perEvalRating.StartTime = currentEvaluationDate;
+            perEvalRating.NewStartTime = newEvaluationDate;
 
             result[perEvalRating.GetType().Name].AddRange(
-                await _evaluationRepository.UpdatePerformanceEvaluationRatings(new List<PerformanceEvaluationRating> { perEvalRating }));
+                await _evaluationRepository.UpdatePerformanceEvaluationRatings(new List<PerformanceEvaluationRatingForUpdate> { perEvalRating }));
 
             foreach (var objRes in evaluationResult.ObjectiveResults)
             {
@@ -264,7 +265,7 @@ namespace eppeta.webapi.Controllers
                     throw new Exception(res.ErrorText);
                 }
 
-                performanceEvaluationRatingPost = await _evaluationRepository.GetPerformanceEvaluationRatingById(ids[typeof(PerformanceEvaluationRating).Name].First());
+                performanceEvaluationRatingPost = await _evaluationRepository.GetPerformanceEvaluationRatingById(ids[typeof(PerformanceEvaluationRatingForUpdate).Name].First());
 
                 // POST performanceEvaluationRating
                 res = await apis["PerformanceEvaluationRatingsApi"].PostPerformanceEvaluationRatingWithHttpInfoAsync((TpdmPerformanceEvaluationRating)performanceEvaluationRatingPost);
@@ -273,7 +274,7 @@ namespace eppeta.webapi.Controllers
                     throw new Exception(res.ErrorText);
                 }
 
-                foreach (var evaluationObjectiveRatingId in ids[typeof(EvaluationObjectiveRating).Name])
+                foreach (var evaluationObjectiveRatingId in ids[typeof(EvaluationObjectiveRatingForUpdate).Name])
                 {
                     var evaluationObjectiveRatingPost = await _evaluationRepository.GetEvaluationObjectiveRatingById(evaluationObjectiveRatingId);
                     // POST Evaluation
@@ -295,7 +296,7 @@ namespace eppeta.webapi.Controllers
                         throw new Exception(res.ErrorText);
                     }
                 }
-                foreach (var evaluationElementRatingResultId in ids[typeof(EvaluationElementRatingResult).Name])
+                foreach (var evaluationElementRatingResultId in ids[typeof(EvaluationElementRatingResultForUpdate).Name])
                 {
                     var evaluationElementRatingResultPost = await _evaluationRepository.GetEvaluationElementRatingResultById(evaluationElementRatingResultId);
                     // POST evaluationElement
@@ -327,8 +328,8 @@ namespace eppeta.webapi.Controllers
                         throw new Exception(res.ErrorText);
                     }
                 }
-                performanceEvaluationRatingPost.StatusId = (await _evaluationRepository.GetStatusByText("uploaded")).Id;
-                _ = await _evaluationRepository.UpdatePerformanceEvaluationRatings(new List<PerformanceEvaluationRating> { performanceEvaluationRatingPost });
+                performanceEvaluationRatingPost.StatusId = (await _evaluationRepository.GetStatusByText("Review Approved, transferred to ODS/API")).Id;
+                _ = await _evaluationRepository.UpdatePerformanceEvaluationRatings(new List<PerformanceEvaluationRatingForUpdate> { (PerformanceEvaluationRatingForUpdate)performanceEvaluationRatingPost });
                 return Ok(ids);
             }
 
@@ -340,8 +341,8 @@ namespace eppeta.webapi.Controllers
             {
                 if (performanceEvaluationRatingPost != null)
                 {
-                    performanceEvaluationRatingPost.StatusId = (await _evaluationRepository.GetStatusByText("failed")).Id;
-                    _ = await _evaluationRepository.UpdatePerformanceEvaluationRatings(new List<PerformanceEvaluationRating> { performanceEvaluationRatingPost });
+                    performanceEvaluationRatingPost.StatusId = (await _evaluationRepository.GetStatusByText("Review Approved, transfer to ODS/API failed")).Id;
+                    _ = await _evaluationRepository.UpdatePerformanceEvaluationRatings(new List<PerformanceEvaluationRatingForUpdate> { (PerformanceEvaluationRatingForUpdate)performanceEvaluationRatingPost });
                 }
                 return Problem(ex.Message);
             }
