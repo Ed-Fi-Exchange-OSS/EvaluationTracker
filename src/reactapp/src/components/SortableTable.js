@@ -39,7 +39,7 @@ const TableHeader = ({ columnKey, children, sortConfig, sortByColumn, sortable =
 const TableRow = ({ item, columns, rowId }) => {
   const formatListData = (data) => {
     if (Array.isArray(data)) {
-      const listItems = data.map((item, index) => <li style={{ paddingLeft: '0'}} >- {item}</li>);
+      const listItems = data.map((item, index) => <li style={{ paddingLeft: '0' }} key={ index } >- {item}</li>);
       return <ul style={{ paddingLeft: '0', textAlign: 'left', listStyle:'none' }}>{listItems}</ul>;
     }
     return data;

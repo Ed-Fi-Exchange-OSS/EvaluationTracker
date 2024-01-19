@@ -15,6 +15,7 @@ const AuthenticatedRoute = ({ element: authenticatedComponent, roles, ...rest })
   let navigate = useNavigate();
   const toast = useToast();
   const [alertMessageText, setAlertMessageText] = useState(null);
+  const accessDenied = "You do not have access to the requested page, contact your administrator if you think this is in error.";
 
   useEffect(() => {
     const validateToken = async () => {
@@ -32,8 +33,8 @@ const AuthenticatedRoute = ({ element: authenticatedComponent, roles, ...rest })
         navigate("/login");
         sessionStorage.clear();
       }
-      if (roles && !roles.includes('*') && !isLoggedInUserInRole(roles)) {
-        setAlertMessageText("You do not have access to the requested page");
+      if (roles && !isLoggedInUserInRole(roles)) {
+        setAlertMessageText(accessDenied);
       }
       else {
         setAlertMessageText(null);

@@ -114,11 +114,21 @@ const validateAuthenticationToken = async () => {
 };
 
 const isLoggedInUserInRole = (roles) => {
+  if (!roles)
+    return false;
+  const rolesToValidate = Array.isArray(roles) ? roles : [roles];
+  // Allow anonymous access
+  if (rolesToValidate?.includes('?')){
+    return true;
+  }
   const jwt = getToken();
-  if (!jwt) return null;
+  if (!jwt) return false;
+  // Authenticated user any rol
+  if (rolesToValidate?.includes('*')){
+    return true;
+  }
   const userRoles = jwt_decode(jwt).role;
   const currentUserRolesList = Array.isArray(userRoles) ? userRoles : [userRoles];
-  const rolesToValidate = Array.isArray(roles) ? roles : [roles];
   return currentUserRolesList.some(item => rolesToValidate?.includes(item));
 };
 
