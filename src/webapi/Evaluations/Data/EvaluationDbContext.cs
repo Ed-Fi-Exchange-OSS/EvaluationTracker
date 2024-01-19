@@ -229,8 +229,9 @@ namespace eppeta.webapi.Evaluations.Data
                         }
                     }
 
-                    if (er.EvaluationDate != er.NewEvaluationDate)
-                        eer.EvaluationDate = er.NewEvaluationDate;
+                    /// I don't want to delete this code because we'll need it on a coming up ticket.
+                    //if (er.EvaluationDate != er.NewEvaluationDate)
+                    //    eer.EvaluationDate = er.NewEvaluationDate;
 
                     _ = EvaluationRatings.Update(eer);
                     er.Id = eer.Id;
@@ -303,9 +304,6 @@ namespace eppeta.webapi.Evaluations.Data
                     /// EPPETA-84 ToDo.
                     //if (er.EvaluationDate != er.NewEvaluationDate)
                     //    eer.EvaluationDate = er.NewEvaluationDate;
-
-                    if (er.EvaluationDate != er.NewEvaluationDate)
-                        eer.EvaluationDate = er.NewEvaluationDate;
 
                     _ = EvaluationElementRatingResults.Update(eer);
                     er.Id = eer.Id;
