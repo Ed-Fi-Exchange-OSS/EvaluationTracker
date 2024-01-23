@@ -136,7 +136,8 @@ internal class Program
                 {
                     _ = policy.WithOrigins(AppSettings.AllowedOrigins)
                           .WithHeaders(HeaderNames.ContentType, "Content-Type")
-                          .WithHeaders(HeaderNames.Authorization, "Authorization");
+                          .WithHeaders(HeaderNames.Authorization, "Authorization")
+                          .WithMethods("PUT", "GET", "POST"); ;
                 });
             });
         }

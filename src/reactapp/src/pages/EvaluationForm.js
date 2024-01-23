@@ -35,14 +35,14 @@ import Select from 'react-select';
 import "../App.css";
 import { get, post } from "../components/FetchHelpers";
 import { AlertMessage } from "../components/AlertMessage";
-import { getLoggedInUserId, getLoggedInUserName, getLoggedInUserRole } from "../components/TokenHelpers";
+import { getLoggedInUserId, getLoggedInUserName, isLoggedInUserInRole } from "../components/TokenHelpers";
 import { AlertMessageDialog } from "../components/AlertMessageDialog"
 import { isPageReload, savePageData, getStoredPageData } from "../components/PageTracker";
+import { ApplicationRoles } from "../constants";
 
 export default function EvaluationForm() {
   const [isEvaluationLoaded, setIsEvaluationLoaded] = useState(false);
   const [componentsDataLoaded, setComponentsDataLoaded] = useState(false);
-  const [loggedInUser, setLoggedInUser] = useState({ "name": "", "role": null });
   const [evaluationDataLoaded, setEvaluationDataLoaded] = useState({});
   const [selectedCandidate, setSelectedCandidate] = useState({});
   const [selectedEvaluation, setSelectedEvaluation] = useState({});
@@ -422,7 +422,7 @@ export default function EvaluationForm() {
     const evaluation = JSON.parse(sessionStorage.getItem("evaluation"))
     const pageInitialData = {};
     pageInitialData.evaluatorName = getLoggedInUserName();
-    pageInitialData.userId = getLoggedInUserRole();
+    pageInitialData.userId = getLoggedInUserId();
     pageInitialData.reviewedCandidateName = candidate?.candidateName;
     pageInitialData.reviewedPersonId = candidate?.personId;
     pageInitialData.reviewedPersonSourceSystemDescriptor = candidate?.sourceSystemDescriptor;
@@ -469,10 +469,6 @@ export default function EvaluationForm() {
 
   useEffect(() => {
     try {
-      setLoggedInUser({
-        "name": getLoggedInUserName(),
-        "role": getLoggedInUserRole()
-      });
       setCurrentEvaluator({
         "evaluatorId": getLoggedInUserId(),
         "evaluatorName": getLoggedInUserName()
@@ -587,7 +583,7 @@ export default function EvaluationForm() {
         else {
           return;
         }
-        if (id && getLoggedInUserRole() !== 'Supervisor' && page_session_data.userId !== getLoggedInUserId()) {
+        if (id && !isLoggedInUserInRole([ApplicationRoles.Supervisor]) && page_session_data.userId !== getLoggedInUserId()) {
           setAlertMessageText("You do not have access to the evaluation");
           setUserHasAccessToEvaluation(false);
           return;
@@ -795,7 +791,7 @@ export default function EvaluationForm() {
                 <AlertMessageDialog showIcon="warning" alertTitle="Save Evaluation" buttonColorScheme="blue" buttonText="Save" message="Are you sure you want to save the evaluation?" onYes={() => { saveEvaluation() }}></AlertMessageDialog>
               }
               <AlertMessageDialog showIcon="warning" alertTitle="Cancel process" buttonText="Cancel" message="Are you sure you want to cancel this process? All unsaved changes will be lost" onYes={() => { navigate("/main"); }}></AlertMessageDialog>
-              {(areAllScoreSelected() && loggedInUser.role === 'Supervisor') &&
+              {(areAllScoreSelected() && isLoggedInUserInRole([ApplicationRoles.Supervisor]) ) &&
                 <AlertMessageDialog showIcon="warning" alertTitle="Approve Evaluation" buttonText="Approve" message="Are you sure you want to approve this evaluation?" onYes={() => approveEvaluation()}></AlertMessageDialog>
               }
             </ButtonGroup>

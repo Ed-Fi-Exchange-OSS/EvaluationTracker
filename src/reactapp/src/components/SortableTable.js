@@ -11,7 +11,7 @@ import { TriangleDownIcon, TriangleUpIcon, ChevronLeftIcon, ChevronRightIcon } f
  * Component to show a table header with sort options. 
  * @returns
  */
-const TableHeader = ({ columnKey, children, sortConfig, sortByColumn, sortable=false, visible=true }) => {
+const TableHeader = ({ columnKey, children, sortConfig, sortByColumn, sortable = false, visible = true }) => {
   const getIcon = () => {
     if (sortConfig && sortConfig.key === columnKey) {
       return sortConfig.direction === 'asc' ? <TriangleUpIcon />  : <TriangleDownIcon />;
@@ -37,13 +37,27 @@ const TableHeader = ({ columnKey, children, sortConfig, sortByColumn, sortable=f
  * @returns
  */
 const TableRow = ({ item, columns, rowId }) => {
+  const formatListData = (data) => {
+    if (Array.isArray(data)) {
+      const listItems = data.map((item, index) => <li style={{ paddingLeft: '0' }} key={ index } >- {item}</li>);
+      return <ul style={{ paddingLeft: '0', textAlign: 'left', listStyle:'none' }}>{listItems}</ul>;
+    }
+    return data;
+  }
+  // if the column receives a label shows that text, instead, it will show the data column
+  const rowText = (column) => {
+    if (column.label) {
+      return column.label;
+    }
+    return (column.format ? column.format(item[column.dataField]) : formatListData(item[column.dataField]));
+  }
   return (
     <>
       {columns.map(column => column.visible
         && <Td key={rowId + "-" + column.dataField}>
           {column.link ? <Link href={`${column.link.url}${column.link.dataField && item[column.link.dataField]}`}>
-            {(column.format ? column.format(item[column.dataField]) : item[column.dataField])}</Link>
-            : (column.format ? column.format(item[column.dataField]) : item[column.dataField])
+            { rowText(column) }</Link>
+            : rowText(column)
             }
             </Td>)}
     </>

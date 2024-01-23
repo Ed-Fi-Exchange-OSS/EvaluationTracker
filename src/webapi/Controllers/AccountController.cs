@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using OpenIddict.Abstractions;
 using OpenIddict.Validation.AspNetCore;
+using System.Data;
 
 namespace eppeta.webapi.Controllers;
 
@@ -43,9 +44,18 @@ public class AccountController : Controller
     public async Task<IActionResult> Get([FromRoute] string id)
     {
         if (id is null || id == string.Empty) { return NotFound(); }
+        var userResult = await _userManager.FindByIdAsync(id);
+        if (!(userResult is null || userResult.DeletedAt is not null))
+        {
+            IList<string> userRolesResult = await _userManager.GetRolesAsync(userResult);
+            var result = new {
+                user= userResult,
+                roles =  userRolesResult
+            };
+            return Ok(UserAccountResponse.From(userResult, userRolesResult));
+        }
 
-        var result = await _userManager.FindByIdAsync(id);
-        return result is null || result.DeletedAt is not null ? NotFound() : Ok(UserAccountResponse.From(result));
+        return NotFound();
     }
 
     [HttpGet()]
@@ -54,8 +64,10 @@ public class AccountController : Controller
     public async Task<IActionResult> GetAll()
     {
         var users = await _identityRepository.FindAllUsers();
+        var userAndRoles =
+            users.Select(async x => UserAccountResponse.From(x, await _userManager.GetRolesAsync(x)));
 
-        return Ok(users.Select(x => UserAccountResponse.From(x)));
+        return Ok(userAndRoles.Select(x => x?.Result));
     }
 
     [HttpPost]
@@ -89,20 +101,18 @@ public class AccountController : Controller
 
         async Task<bool> AddToRole(ApplicationUser user)
         {
-            var role = Roles.MentorTeacher;
             if (AppSettings.Authentication.NewUsersAreAdministrators)
             {
-                role = Roles.Administrator;
+                var role = Roles.Administrator;
+                var roleResult = await _userManager.AddToRoleAsync(user, role);
+                if (!roleResult.Succeeded)
+                {
+                    AddErrors(roleResult);
+                    Response.StatusCode = StatusCodes.Status500InternalServerError;
+                }
+                return roleResult.Succeeded;
             }
-
-            var roleResult = await _userManager.AddToRoleAsync(user, role);
-            if (!roleResult.Succeeded)
-            {
-                AddErrors(roleResult);
-                Response.StatusCode = StatusCodes.Status500InternalServerError;
-            }
-
-            return roleResult.Succeeded;
+            return true;           
         }
     }
 
@@ -138,6 +148,11 @@ public class AccountController : Controller
                 var updateEmailResult = await _userManager.UpdateAsync(lookup);
                 if (updateEmailResult.Succeeded)
                 {
+                    if (updateEmailResult.Succeeded)
+                    {
+                        var roleSuccess = await UpdateUserRoles(lookup, model.Roles);
+                        return !roleSuccess ? new JsonResult(ModelState) : Created($"/{Route}/{lookup.Id}", UserAccountResponse.From(lookup));
+                    }
                     return NoContent();
                 }
 
@@ -155,12 +170,44 @@ public class AccountController : Controller
                     // This means the user wasn't found, which shouldn't happen given that we have a lookup above.
                     throw new InvalidOperationException("User update failed because user no longer exists.");
                 }
-
+                if (updateResult)
+                {
+                    var roleSuccess = await UpdateUserRoles(lookup, model.Roles);
+                    return !roleSuccess ? new JsonResult(ModelState) : Created($"/{Route}/{lookup.Id}", UserAccountResponse.From(lookup));
+                }
                 return NoContent();
             }
         }
-
         return BadRequest(ModelState);
+
+        async Task<bool> UpdateUserRoles(ApplicationUser user, IEnumerable<string>? roles)
+        {
+            IList<string> currentUserRoles = await _userManager.GetRolesAsync(user);
+            // Find items to remove (exist in currentItems but not in receivedItems)
+            var itemsToRemove = roles?.Any() ?? false ? currentUserRoles.Except(roles).ToList() : currentUserRoles;
+            if (itemsToRemove?.Any() ?? false)
+            {
+                // remove existing roles
+                var removeRolesResult = await _userManager.RemoveFromRolesAsync(user, itemsToRemove);
+            }
+            // add new roles
+            if (roles?.Any() ?? false)
+            {
+                // check the list of roles to add, if already exist don't try to add again
+                var itemsToAdd = roles.Except(currentUserRoles).ToList();
+                if (itemsToAdd.Any())
+                {
+                    var roleResult = await _userManager.AddToRolesAsync(user, itemsToAdd);
+                    if (!roleResult.Succeeded)
+                    {
+                        AddErrors(roleResult);
+                        Response.StatusCode = StatusCodes.Status500InternalServerError;
+                    }
+                    return roleResult.Succeeded;
+                }
+            }
+            return true;
+        }
     }
 
 

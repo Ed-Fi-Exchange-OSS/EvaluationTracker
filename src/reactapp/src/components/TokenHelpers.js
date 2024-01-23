@@ -75,7 +75,8 @@ const getLoggedInUserFirstName = () => {
 const getLoggedInUserRole = () => {
   const jwt = getToken();
   if (!jwt) return null;
-  return jwt_decode(jwt).role;
+  const userRoles = jwt_decode(jwt).role;
+  return Array.isArray(userRoles) ? userRoles : [userRoles];
 };
 
 
@@ -112,10 +113,28 @@ const validateAuthenticationToken = async () => {
   return false;
 };
 
+const isLoggedInUserInRole = (roles) => {
+  if (!roles)
+    return false;
+  const rolesToValidate = Array.isArray(roles) ? roles : [roles];
+  // Allow anonymous access
+  if (rolesToValidate?.includes('?')){
+    return true;
+  }
+  const jwt = getToken();
+  if (!jwt) return false;
+  // Authenticated user any rol
+  if (rolesToValidate?.includes('*')){
+    return true;
+  }
+  const userRoles = jwt_decode(jwt).role;
+  const currentUserRolesList = Array.isArray(userRoles) ? userRoles : [userRoles];
+  return currentUserRolesList.some(item => rolesToValidate?.includes(item));
+};
 
 const clearToken = () => {
   sessionStorage.removeItem('token');
   sessionStorage.removeItem('refresh_token');
 }
 
-export { validateAuthenticationToken, setToken, getToken, getRefreshToken, clearToken, getLoggedInUserId, getLoggedInUserName, getLoggedInUserFirstName, getLoggedInUserRole }
+export { setToken, getToken, clearToken, getLoggedInUserId, getLoggedInUserName, getLoggedInUserFirstName, getLoggedInUserRole, isLoggedInUserInRole, validateAuthenticationToken }

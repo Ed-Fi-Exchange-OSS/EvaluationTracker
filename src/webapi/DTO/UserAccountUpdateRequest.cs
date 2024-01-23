@@ -13,6 +13,8 @@ namespace eppeta.webapi.DTO
 
         public bool RequirePasswordChange { get; set; }
 
+        public IEnumerable<string>? Roles { get; set; }
+
         public bool EmailHasChanged(ApplicationUser originalUser)
         {
             return Email != originalUser.Email;

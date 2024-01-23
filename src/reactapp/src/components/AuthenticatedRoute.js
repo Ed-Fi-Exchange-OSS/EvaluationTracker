@@ -3,20 +3,21 @@
 // The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
 // See the LICENSE and NOTICES files in the project root for more information.
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import {
   useToast,
 } from '@chakra-ui/react';
-import { validateAuthenticationToken } from "../components/TokenHelpers";
+import { isLoggedInUserInRole, validateAuthenticationToken } from "../components/TokenHelpers";
+import { AlertMessage } from "../components/AlertMessage";
 
-
-const AuthenticatedRoute = ({ element: authenticatedComponent, ...rest }) => {
+const AuthenticatedRoute = ({ element: authenticatedComponent, roles, ...rest }) => {
   let navigate = useNavigate();
   const toast = useToast();
+  const [alertMessageText, setAlertMessageText] = useState(null);
+  const accessDenied = "You do not have access to the requested page, contact your administrator if you think this is in error.";
 
   useEffect(() => {
-    // getToken returns n0ull if the current session doesn't have a valid token.
     const validateToken = async () => {
       return await validateAuthenticationToken();
     };
@@ -32,10 +33,17 @@ const AuthenticatedRoute = ({ element: authenticatedComponent, ...rest }) => {
         navigate("/login");
         sessionStorage.clear();
       }
-    }
-    );
+      if (roles && !isLoggedInUserInRole(roles)) {
+        setAlertMessageText(accessDenied);
+      }
+      else {
+        setAlertMessageText(null);
+      }
+    });
   });
 
-  return <>{authenticatedComponent}</>;
+  return <>{alertMessageText
+    ? <AlertMessage status="warning" message={alertMessageText} />
+    :  authenticatedComponent }</>;
 }
  export default AuthenticatedRoute;
