@@ -40,6 +40,7 @@ namespace eppeta.webapi.Service
             var tpdmEvaluationElements = await elementsApi.GetEvaluationElementsAsync(limit: 100, offset: 0);
             await _evaluationRepository.UpdateEvaluationElements(tpdmEvaluationElements.Select(tee => (EvaluationElement)tee).ToList());
 
+            //// Get PerformanceEvaluations and update repository
             var peApi = new PerformanceEvaluationsApi(authenticatedConfiguration);
             peApi.Configuration.DefaultHeaders.Add("Content-Type", "application/json");
             var tpdmPerformanceEvaluations = await peApi.GetPerformanceEvaluationsAsync(limit: 100, offset: 0);

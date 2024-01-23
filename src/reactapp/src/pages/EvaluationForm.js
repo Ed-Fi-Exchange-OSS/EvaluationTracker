@@ -252,9 +252,11 @@ export default function EvaluationForm() {
     completedEvaluation.reviewedPersonSourceSystemDescriptor = selectedCandidate.sourceSystemDescriptor;
     completedEvaluation.evaluatorName = currentEvaluator.evaluatorName;
     completedEvaluation.reviewedCandidateName = selectedCandidate.candidateName;
-    completedEvaluation.startDateTime = evaluationMetadata.evaluationDate;
-    !evaluationMetadata.evaluationEndTime ?
-      completedEvaluation.endDateTime = new Date() : completedEvaluation.endDateTime = evaluationMetadata.evaluationEndTime;
+    completedEvaluation.startDateTime = evaluationDataLoaded.evaluationDate;
+    !evaluationDataLoaded.evaluationEndTime ?
+      completedEvaluation.endDateTime = new Date() : completedEvaluation.endDateTime = evaluationDataLoaded.evaluationEndTime;
+    if (completedEvaluation.endDateTime < completedEvaluation.startDateTime)
+      completedEvaluation.endDateTime = completedEvaluation.startDateTime;
 
     completedEvaluation.objectiveResults = evaluationMetadata.evaluationObjectives.flatMap((objective) => {
 
@@ -317,6 +319,12 @@ export default function EvaluationForm() {
    * Event that updates start date
    */
   const handleStartDateChanged = (date) => {
+    const evaluationDataLoadedCopy = { ...evaluationDataLoaded };
+    evaluationDataLoadedCopy.evaluationDate = date;
+    if (evaluationDataLoadedCopy.evaluationDate > evaluationDataLoadedCopy.evaluationEndTime)
+      evaluationDataLoadedCopy.evaluationEndTime = null;
+    setEvaluationDataLoaded(evaluationDataLoadedCopy);
+
     const pageDataCopy = { ...getStoredPageData() };
     pageDataCopy.startDateTime = date;
     pageDataCopy.endDateTime = null;
@@ -327,6 +335,13 @@ export default function EvaluationForm() {
    * Event that updates end date
    */
   const handleEndDateChanged = (date) => {
+    const evaluationDataLoadedCopy = { ...evaluationDataLoaded };
+    if (evaluationDataLoadedCopy.evaluationDate <= date)
+      evaluationDataLoadedCopy.evaluationEndTime = date;
+    else
+      evaluationDataLoadedCopy.evaluationEndTime = evaluationDataLoadedCopy.evaluationDate;
+    setEvaluationDataLoaded(evaluationDataLoadedCopy);
+
     const pageDataCopy = { ...getStoredPageData() };
     pageDataCopy.endDateTime = date;
     savePageData(pageDataCopy);
@@ -429,7 +444,7 @@ export default function EvaluationForm() {
     pageInitialData.performanceEvaluationTitle = evaluation?.performanceEvaluationTitle;
     pageInitialData.startDateTime = new Date();
     pageInitialData.evaluationDate = new Date();
-    pageInitialData.endDateTime = new Date();
+    pageInitialData.endDateTime = null;
     pageInitialData.objectiveResults = [];
     if (!isPageReload()) {
       savePageData(pageInitialData);
@@ -556,11 +571,9 @@ export default function EvaluationForm() {
             throw new Error("Response is not valid JSON");
           }
           page_session_data = await response.json();
-          const startDate = new Date(page_session_data.startDateTime);
           const endDate = new Date(page_session_data.endDateTime);
-          const evaluationEndDate = (new Date(endDate - startDate));
-          if (endDate > startDate) {
-            page_session_data.evaluationEndDate = evaluationEndDate;
+          if (endDate) {
+            page_session_data.evaluationEndTime = endDate;
           }
           else {
             page_session_data.evaluationEndTime = null;
@@ -591,11 +604,12 @@ export default function EvaluationForm() {
         const currentStartDateTime = page_session_data?.startDateTime
           ? new Date((page_session_data.startDateTime.endsWith("Z") ? page_session_data.startDateTime : page_session_data.startDateTime + "Z"))
           : new Date();
-        const currentEndDateTime = page_session_data?.startDateTime
+        const currentEndDateTime = page_session_data?.endDateTime
           ? new Date((page_session_data.endDateTime.endsWith("Z") ? page_session_data.endDateTime : page_session_data.endDateTime + "Z"))
           : new Date();
         page_session_data.evaluationDate = currentStartDateTime
         page_session_data.endDateTime = currentEndDateTime;
+        page_session_data.evaluationEndTime = currentEndDateTime;
         setCurrentEvaluator({ "evaluatorId": page_session_data.userId, "evaluatorName": page_session_data.evaluatorName });
         setEvaluationDataLoaded(page_session_data);
         savePageData(page_session_data);
@@ -732,7 +746,7 @@ export default function EvaluationForm() {
               </FormControl>
               <FormControl style={{ width: '300px' }}>
                 <FormLabel>End Time</FormLabel>
-                <DatePicker selected={evaluationDataLoaded?.evaluationDate < evaluationDataLoaded?.evaluationEndTime ? evaluationDataLoaded?.evaluationEndTime : evaluationDataLoaded?.evaluationDate} dateFormat="hh:mm" timeFormat="hh:mm" showTimeSelect={true} showTimeSelectOnly={true} onChange={(date) => handleEndDateChanged(date)} />
+                <DatePicker selected={evaluationDataLoaded?.evaluationEndTime} dateFormat="hh:mm" timeFormat="hh:mm" showTimeSelect={true} showTimeSelectOnly={true} onChange={(date) => handleEndDateChanged(date)} />
               </FormControl>
             </HStack>
           </VStack>
