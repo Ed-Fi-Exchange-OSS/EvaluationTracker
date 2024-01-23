@@ -230,6 +230,7 @@ namespace eppeta.webapi.Evaluations.Data
                     }
 
                     /// I don't want to delete this code because we'll need it on a coming up ticket.
+                    /// EPPETA-84 ToDo.
                     //if (er.EvaluationDate != er.NewEvaluationDate)
                     //    eer.EvaluationDate = er.NewEvaluationDate;
 
@@ -268,6 +269,7 @@ namespace eppeta.webapi.Evaluations.Data
                     }
 
                     /// I don't want to delete this code because we'll need it on a coming up ticket.
+                    /// EPPETA-84 ToDo.
                     //if (er.EvaluationDate != er.NewEvaluationDate)
                     //    eer.EvaluationDate = er.NewEvaluationDate;
 
@@ -300,6 +302,7 @@ namespace eppeta.webapi.Evaluations.Data
                         }
                     }
                     /// I don't want to delete this code because we'll need it on a coming up ticket.
+                    /// EPPETA-84 ToDo.
                     //if (er.EvaluationDate != er.NewEvaluationDate)
                     //    eer.EvaluationDate = er.NewEvaluationDate;
 
