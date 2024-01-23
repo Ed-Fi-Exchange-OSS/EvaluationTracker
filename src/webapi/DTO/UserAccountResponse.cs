@@ -19,7 +19,7 @@ namespace eppeta.webapi.DTO
         {
             return new UserAccountResponse
             {
-                Email = user.Email,
+                Email = user.Email ?? string.Empty,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Id = user.Id,
