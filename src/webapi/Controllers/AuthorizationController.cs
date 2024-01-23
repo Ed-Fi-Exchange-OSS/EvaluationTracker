@@ -5,6 +5,7 @@
 
 using eppeta.webapi.DTO;
 using eppeta.webapi.Identity.Models;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -14,7 +15,6 @@ using OpenIddict.Server.AspNetCore;
 using System.Collections.Immutable;
 using System.Security.Claims;
 using static OpenIddict.Abstractions.OpenIddictConstants;
-using Microsoft.AspNetCore;
 
 namespace eppeta.webapi.Controllers;
 
@@ -54,7 +54,7 @@ public class AuthorizationController : Controller
             var emailClaim = (info?.Principal?.Identity as ClaimsIdentity)?.Claims.First(z => z.Type == "email");
             if (emailClaim != null)
             {
-               user = await _userManager.FindByNameAsync(emailClaim.Value);
+                user = await _userManager.FindByNameAsync(emailClaim.Value);
             }
 
             //var user2 = await _userManager.GetUserAsync(info.Principal);
@@ -120,7 +120,8 @@ public class AuthorizationController : Controller
             roleType: Claims.Role);
 
         // Add the claims that will be persisted in the tokens.
-        if(user != null) { 
+        if (user != null)
+        {
             _ = identity.SetClaim(Claims.Subject, await _userManager.GetUserIdAsync(user))
                     .SetClaim(Claims.Email, await _userManager.GetEmailAsync(user))
                     .SetClaim(Claims.Name, $"{user.FirstName} {user.LastName}")

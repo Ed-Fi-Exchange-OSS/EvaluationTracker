@@ -59,7 +59,7 @@ internal class Program
 
             // Add authentication configuration service to the container.
             _ = builder.Services.AddScoped<IODSAPIAuthenticationConfigurationService>(
-                provider => new ODSAPIAuthenticationConfigurationService(builder.Configuration["OdsApiBasePath"], builder.Configuration["ODSAPIKey"], builder.Configuration["ODSAPISecret"])
+                provider => new ODSAPIAuthenticationConfigurationService(builder.Configuration["OdsApiBasePath"] ?? string.Empty, builder?.Configuration["ODSAPIKey"] ?? string.Empty, builder?.Configuration["ODSAPISecret"] ?? string.Empty)
             );
 
             // Sync ODS Assets

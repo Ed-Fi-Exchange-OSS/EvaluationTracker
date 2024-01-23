@@ -449,53 +449,60 @@ namespace eppeta.webapi.Evaluations.Data
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
-            _ = modelBuilder.HasDefaultSchema("eppeta");
-            _ = modelBuilder.Entity<Status>().ToTable(nameof(Status));
+            try
+            {
+                base.OnModelCreating(modelBuilder);
+                _ = modelBuilder.HasDefaultSchema("eppeta");
+                _ = modelBuilder.Entity<Status>().ToTable(nameof(Status));
 
-            _ = modelBuilder.Entity<Candidate>().ToTable(nameof(Candidate)).Property(e => e.CreateDate).HasDefaultValueSql("getdate()");
-            _ = modelBuilder.Entity<Candidate>().Property(e => e.LastModifiedDate).HasDefaultValueSql("getdate()");
+                _ = modelBuilder.Entity<Candidate>().ToTable(nameof(Candidate)).Property(e => e.CreateDate).HasDefaultValueSql("getdate()");
+                _ = modelBuilder.Entity<Candidate>().Property(e => e.LastModifiedDate).HasDefaultValueSql("getdate()");
 
-            _ = modelBuilder.Entity<Evaluation>().ToTable(nameof(Evaluation)).Property(e => e.CreateDate).HasDefaultValueSql("getdate()");
-            _ = modelBuilder.Entity<Evaluation>().Property(e => e.LastModifiedDate).HasDefaultValueSql("getdate()");
+                _ = modelBuilder.Entity<Evaluation>().ToTable(nameof(Evaluation)).Property(e => e.CreateDate).HasDefaultValueSql("getdate()");
+                _ = modelBuilder.Entity<Evaluation>().Property(e => e.LastModifiedDate).HasDefaultValueSql("getdate()");
 
-            _ = modelBuilder.Entity<EvaluationObjective>().ToTable(nameof(EvaluationObjective)).Property(e => e.CreateDate).HasDefaultValueSql("getdate()");
-            _ = modelBuilder.Entity<EvaluationObjective>().Property(e => e.LastModifiedDate).HasDefaultValueSql("getdate()");
+                _ = modelBuilder.Entity<EvaluationObjective>().ToTable(nameof(EvaluationObjective)).Property(e => e.CreateDate).HasDefaultValueSql("getdate()");
+                _ = modelBuilder.Entity<EvaluationObjective>().Property(e => e.LastModifiedDate).HasDefaultValueSql("getdate()");
 
-            _ = modelBuilder.Entity<EvaluationElement>().ToTable(nameof(EvaluationElement)).Property(x => x.CreateDate).HasDefaultValueSql("getdate()");
-            _ = modelBuilder.Entity<EvaluationElement>().Property(x => x.LastModifiedDate).HasDefaultValueSql("getdate()");
+                _ = modelBuilder.Entity<EvaluationElement>().ToTable(nameof(EvaluationElement)).Property(x => x.CreateDate).HasDefaultValueSql("getdate()");
+                _ = modelBuilder.Entity<EvaluationElement>().Property(x => x.LastModifiedDate).HasDefaultValueSql("getdate()");
 
-            _ = modelBuilder.Entity<PerformanceEvaluation>().ToTable(nameof(PerformanceEvaluation)).Property(x => x.CreateDate).HasDefaultValueSql("getdate()");
-            _ = modelBuilder.Entity<PerformanceEvaluation>().Property(x => x.LastModifiedDate).HasDefaultValueSql("getdate()");
+                _ = modelBuilder.Entity<PerformanceEvaluation>().ToTable(nameof(PerformanceEvaluation)).Property(x => x.CreateDate).HasDefaultValueSql("getdate()");
+                _ = modelBuilder.Entity<PerformanceEvaluation>().Property(x => x.LastModifiedDate).HasDefaultValueSql("getdate()");
 
-            _ = modelBuilder.Entity<PerformanceEvaluationRating>().ToTable(nameof(PerformanceEvaluationRating)).Property(x => x.CreateDate).HasDefaultValueSql("getdate()");
+                _ = modelBuilder.Entity<PerformanceEvaluationRating>().ToTable(nameof(PerformanceEvaluationRating)).Property(x => x.CreateDate).HasDefaultValueSql("getdate()");
 
-            _ = modelBuilder.Entity<PerformanceEvaluationRatingLevel>().ToTable(nameof(PerformanceEvaluationRatingLevel));
+                _ = modelBuilder.Entity<PerformanceEvaluationRatingLevel>().ToTable(nameof(PerformanceEvaluationRatingLevel));
 
-            _ = modelBuilder.Entity<EvaluationRating>().ToTable(nameof(EvaluationRating)).Property(x => x.CreateDate).HasDefaultValueSql("getdate()");
-            _ = modelBuilder.Entity<EvaluationRating>().Property(x => x.LastModifiedDate).HasDefaultValueSql("getdate()");
+                _ = modelBuilder.Entity<EvaluationRating>().ToTable(nameof(EvaluationRating)).Property(x => x.CreateDate).HasDefaultValueSql("getdate()");
+                _ = modelBuilder.Entity<EvaluationRating>().Property(x => x.LastModifiedDate).HasDefaultValueSql("getdate()");
 
-            _ = modelBuilder.Entity<EvaluationObjectiveRating>().ToTable(nameof(EvaluationObjectiveRating)).Property(x => x.CreateDate).HasDefaultValueSql("getdate()");
-            _ = modelBuilder.Entity<EvaluationObjectiveRating>().Property(x => x.LastModifiedDate).HasDefaultValueSql("getdate()");
+                _ = modelBuilder.Entity<EvaluationObjectiveRating>().ToTable(nameof(EvaluationObjectiveRating)).Property(x => x.CreateDate).HasDefaultValueSql("getdate()");
+                _ = modelBuilder.Entity<EvaluationObjectiveRating>().Property(x => x.LastModifiedDate).HasDefaultValueSql("getdate()");
 
-            _ = modelBuilder.Entity<EvaluationElementRating>().ToTable(nameof(EvaluationElementRating)).Property(e => e.CreateDate).HasDefaultValueSql("getdate()");
+                _ = modelBuilder.Entity<EvaluationElementRating>().ToTable(nameof(EvaluationElementRating)).Property(e => e.CreateDate).HasDefaultValueSql("getdate()");
 
-            _ = modelBuilder.Entity<EvaluationElementRatingResult>().ToTable(nameof(EvaluationElementRatingResult)).Property(e => e.CreateDate).HasDefaultValueSql("getdate()");
+                _ = modelBuilder.Entity<EvaluationElementRatingResult>().ToTable(nameof(EvaluationElementRatingResult)).Property(e => e.CreateDate).HasDefaultValueSql("getdate()");
 
-            // Configure the Many-to-one relationship between PerformedEvaluation and ApplicationUser
-            // Reference the ApplicationUser propertyName in PerformedEvaluation
-            // Reference the PerformanceEvaluationRatings ICollection propertyName in ApplicationUser
-            // Use the UserId foreign key in PerformedEvaluation
-            _ = modelBuilder.Entity<PerformanceEvaluationRating>()
-                .HasOne(p => p.ApplicationUser)
-                .WithMany(u => u.PerformanceEvaluationRatings)
-                .HasForeignKey(p => p.UserId)
-                .OnDelete(DeleteBehavior.Restrict);
+                // Configure the Many-to-one relationship between PerformedEvaluation and ApplicationUser
+                // Reference the ApplicationUser propertyName in PerformedEvaluation
+                // Reference the PerformanceEvaluationRatings ICollection propertyName in ApplicationUser
+                // Use the UserId foreign key in PerformedEvaluation
+                _ = modelBuilder.Entity<PerformanceEvaluationRating>()
+                    .HasOne(p => p.ApplicationUser)
+                    .WithMany(u => u.PerformanceEvaluationRatings)
+                    .HasForeignKey(p => p.UserId)
+                    .OnDelete(DeleteBehavior.Restrict);
 
-            // EF couldn't determine the appropriate column type for the Rating propertyName
-            _ = modelBuilder.Entity<EvaluationElementRating>()
-                .Property(e => e.Rating)
-                .HasColumnType("decimal(6, 3)");
+                // EF couldn't determine the appropriate column type for the Rating propertyName
+                _ = modelBuilder.Entity<EvaluationElementRating>()
+                    .Property(e => e.Rating)
+                    .HasColumnType("decimal(6, 3)");
+            }
+            catch (Exception ex)
+            {
+                var et = ex;
+            }
         }
         public Task<List<PerformanceEvaluation>> GetPerformanceEvaluationsByPK(object samePKObject)
         {
