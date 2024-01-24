@@ -353,6 +353,9 @@ export default function EvaluationForm() {
  */
   const saveEvaluation = async () => {
     try {
+      if (areAllScoreSelected) {
+        return;
+      }
       const completedEvaluation = getCompletedEvaluationData();
       const response = await post(`/api/EvaluationRating?userId=${getLoggedInUserId()}`, completedEvaluation);
       if (response.ok) {
@@ -394,6 +397,9 @@ export default function EvaluationForm() {
    */
   const approveEvaluation = async () => {
     try {
+      if (areAllScoreSelected) {
+        return;
+      }
       const completedEvaluation = getCompletedEvaluationData();
       const response = await post(`/api/EvaluationRating/Approve?userId=${getLoggedInUserId()}`, completedEvaluation);
       if (response.ok) {
@@ -701,12 +707,12 @@ export default function EvaluationForm() {
               Evaluation Entry
             </Heading>
             <HStack spacing="0px" mb="5" className="responsiveHStack" align="stretch">
-              <Box maxHeight="100vh" className="TitleBox">Evaluation</Box>
-              <Box className="Box" maxHeight="100vh">{selectedEvaluation?.performanceEvaluationTitle}</Box>
-              <Box className="TitleBox" maxHeight="100vh">Candidate</Box>
-              <Box className="Box" maxHeight="100vh">{selectedCandidate?.candidateName}</Box>
+              <Box maxH="100vh" className="TitleBox">Evaluation</Box>
+              <Box className="Box" maxH="100vh">{selectedEvaluation?.performanceEvaluationTitle}</Box>
+              <Box className="TitleBox" maxH="100vh">Candidate</Box>
+              <Box className="Box" maxH="100vh">{selectedCandidate?.candidateName}</Box>
             </HStack>
-            <HStack spacing="0px" mb="5" className="responsiveHStack">
+            <HStack spacing="0px" mb="5" className="responsiveHStack" align="stretch">
               <Box className="TitleBox">Date</Box>
               <Box className="Box">{evaluationDataLoaded?.evaluationDate?.toLocaleDateString()}</Box>
               <Box className="TitleBox">Evaluator</Box>
@@ -801,12 +807,10 @@ export default function EvaluationForm() {
         </Stack>
           <Box textAlign="center">
             <ButtonGroup variant="outline" spacing="6">
-              { (areAllScoreSelected()) &&
-                <AlertMessageDialog showIcon="warning" alertTitle="Save Evaluation" buttonColorScheme="blue" buttonText="Save" message="Are you sure you want to save the evaluation?" onYes={() => { saveEvaluation() }}></AlertMessageDialog>
-              }
+              <AlertMessageDialog showIcon="warning" buttonDisabled={ !areAllScoreSelected() } alertTitle="Save Evaluation" buttonColorScheme="blue" buttonText="Save" message="Are you sure you want to save the evaluation?" onYes={() => { saveEvaluation() }}></AlertMessageDialog>
               <AlertMessageDialog showIcon="warning" alertTitle="Cancel process" buttonText="Cancel" message="Are you sure you want to cancel this process? All unsaved changes will be lost" onYes={() => { navigate("/main"); }}></AlertMessageDialog>
-              {(areAllScoreSelected() && isLoggedInUserInRole([ApplicationRoles.Supervisor]) ) &&
-                <AlertMessageDialog showIcon="warning" alertTitle="Approve Evaluation" buttonText="Approve" message="Are you sure you want to approve this evaluation?" onYes={() => approveEvaluation()}></AlertMessageDialog>
+              {(isLoggedInUserInRole([ApplicationRoles.Supervisor]) ) &&
+                <AlertMessageDialog showIcon="warning" buttonDisabled={ !areAllScoreSelected() } alertTitle="Approve Evaluation" buttonText="Approve" message="Are you sure you want to approve this evaluation?" onYes={() => approveEvaluation()}></AlertMessageDialog>
               }
             </ButtonGroup>
           </Box> </>)}

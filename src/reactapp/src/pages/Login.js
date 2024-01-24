@@ -34,7 +34,10 @@ export default function LoginForm() {
   const navigate = useNavigate();
 
   const loadEvaluationsPage = () => {
-    if (isLoggedInUserInRole([ApplicationRoles.Administrator])) {
+    if (isLoggedInUserInRole([ApplicationRoles.Mentor, ApplicationRoles.Supervisor])) {
+      navigate("/main");
+    }
+    else if (isLoggedInUserInRole([ApplicationRoles.Administrator])) {
       navigate("/users");
     }
     else {
