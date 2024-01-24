@@ -700,11 +700,11 @@ export default function EvaluationForm() {
             >
               Evaluation Entry
             </Heading>
-            <HStack spacing="0px" mb="5" className="responsiveHStack">
-              <Box className="TitleBox">Evaluation</Box>
-              <Box className="Box">{selectedEvaluation?.performanceEvaluationTitle}</Box>
-              <Box className="TitleBox">Candidate</Box>
-              <Box className="Box">{selectedCandidate?.candidateName}</Box>
+            <HStack spacing="0px" mb="5" className="responsiveHStack" align="stretch">
+              <Box maxHeight="100vh" className="TitleBox">Evaluation</Box>
+              <Box className="Box" maxHeight="100vh">{selectedEvaluation?.performanceEvaluationTitle}</Box>
+              <Box className="TitleBox" maxHeight="100vh">Candidate</Box>
+              <Box className="Box" maxHeight="100vh">{selectedCandidate?.candidateName}</Box>
             </HStack>
             <HStack spacing="0px" mb="5" className="responsiveHStack">
               <Box className="TitleBox">Date</Box>
@@ -725,8 +725,8 @@ export default function EvaluationForm() {
               particular setting/observation/evaluation.
             </Text>
             <Text fontSize={"sm"} as='b'>
-              SCALE: {ratingLevelOptions.map((item) => {
-                if (item.value) {
+              SCALE: {ratingLevelOptions?.sort((a, b) => (a.value > b.value) ? 1 : -1)?.map((item) => {
+                if (item.value && item.value !== -1) {
                   return `${item.value} - ${item.label} `
                 }
                 return `${item.label} `
