@@ -32,26 +32,28 @@ import { useNavigate } from "react-router-dom";
 import { getLoggedInUserName, getLoggedInUserFirstName, clearToken, isLoggedInUserInRole } from "../components/TokenHelpers";
 import { ApplicationRoles } from "../constants";
 
-
+export const getHomePageByRole = () => {
+  if (getLoggedInUserName()) {
+    if (isLoggedInUserInRole([ApplicationRoles.Mentor, ApplicationRoles.Supervisor])) {
+      return "/main";
+    }
+    else if (isLoggedInUserInRole([ApplicationRoles.Administrator])) {
+      return "/users";
+    }
+    else {
+      return "/main";
+    }
+  }
+  else {
+    return "/";
+  }
+}
 export default function WithSubnavigation() {
   const { isOpen, onToggle } = useDisclosure();
   const navigate = useNavigate();
 
   const goToHomePage = () => {
-    if (getLoggedInUserName()) {
-      if (isLoggedInUserInRole([ApplicationRoles.Mentor, ApplicationRoles.Supervisor])) {
-        navigate("/main");
-      }
-      else if (isLoggedInUserInRole([ApplicationRoles.Administrator])) {
-        navigate("/users");
-      }
-      else {
-        navigate("/main");
-      }
-    }
-    else {
-      navigate("/");
-    }
+    navigate(getHomePageByRole());
   }
 
   const logout = () => {

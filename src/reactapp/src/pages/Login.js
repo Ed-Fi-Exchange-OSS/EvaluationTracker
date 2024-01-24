@@ -23,10 +23,11 @@ import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { Formik, Form } from "formik";
 import InputField from "../components/InputField";
 import { postForm } from "../components/FetchHelpers";
-import { setToken, isLoggedInUserInRole } from "../components/TokenHelpers";
+import { getHomePageByRole } from "../components/Navbar";
+import { setToken } from "../components/TokenHelpers";
 import { defaultErrorMessage, AlertMessage } from "../components/AlertMessage";
 import { useNavigate } from "react-router-dom";
-import { ApplicationRoles } from "../constants";
+
 
 export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
@@ -34,16 +35,7 @@ export default function LoginForm() {
   const navigate = useNavigate();
 
   const loadEvaluationsPage = () => {
-    if (isLoggedInUserInRole([ApplicationRoles.Mentor, ApplicationRoles.Supervisor])) {
-      navigate("/main");
-    }
-    else if (isLoggedInUserInRole([ApplicationRoles.Administrator])) {
-      navigate("/users");
-    }
-    else {
-      navigate("/main");
-    }
-    
+    navigate(getHomePageByRole());    
   };
   const onSubmitLogin = async (values) => {    
     const tokenRequest = {
