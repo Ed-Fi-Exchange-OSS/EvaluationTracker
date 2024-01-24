@@ -104,7 +104,6 @@ export default function NewEvaluation() {
   const selectedEvaluationOnChange = async (evaluation) => {
     setSelectedEvaluation(evaluation);
     setCandidateHasPerformedEvaluation(true);
-    setShowCandidateHasPerformedEvaluationMessage(false);
 
     if (selectedCandidate && evaluation) {
       var result = await fetchHasCandidateThePerformedEvaluation(selectedCandidate.personId, evaluation.id);
@@ -119,7 +118,6 @@ export default function NewEvaluation() {
   const selectedCandidateOnChange = async (candidate) => {
     setSelectedCandidate(candidate);
     setCandidateHasPerformedEvaluation(true);
-    setShowCandidateHasPerformedEvaluationMessage(false);
 
     if (candidate && selectedEvaluation) {
       var result = await fetchHasCandidateThePerformedEvaluation(candidate.personId, selectedEvaluation.id);
