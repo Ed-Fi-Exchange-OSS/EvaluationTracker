@@ -353,7 +353,7 @@ export default function EvaluationForm() {
  */
   const saveEvaluation = async () => {
     try {
-      if (areAllScoreSelected) {
+      if (!areAllScoreSelected()) {
         return;
       }
       const completedEvaluation = getCompletedEvaluationData();
@@ -397,7 +397,7 @@ export default function EvaluationForm() {
    */
   const approveEvaluation = async () => {
     try {
-      if (areAllScoreSelected) {
+      if (!areAllScoreSelected()) {
         return;
       }
       const completedEvaluation = getCompletedEvaluationData();
