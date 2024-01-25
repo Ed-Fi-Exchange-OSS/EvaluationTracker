@@ -7,7 +7,7 @@ import React from 'react';
 import { AlertDialog, AlertDialogBody, AlertDialogFooter, AlertDialogHeader, AlertDialogContent, AlertDialogOverlay, Box, Button, Spinner, Text } from "@chakra-ui/react";
 import { WarningIcon, InfoIcon, CheckCircleIcon } from "@chakra-ui/icons";
 
-const AlertMessageDialog = ({ buttonText, buttonColorScheme, alertTitle, message, onYes, showIcon, buttonType="yesno" }) => {
+const AlertMessageDialog = ({ buttonText, buttonColorScheme, alertTitle, message, onYes, showIcon, buttonType = "yesno", buttonDisabled }) => {
   const [isOpen, setIsOpen] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
   const onClose = () => setIsOpen(false);
@@ -73,7 +73,7 @@ const AlertMessageDialog = ({ buttonText, buttonColorScheme, alertTitle, message
 
   return (
     <>  
-      <Button colorScheme={ buttonColorScheme } onClick={() => setIsOpen(true)}>{buttonText}</Button>
+      <Button colorScheme={buttonColorScheme} isDisabled={buttonDisabled} onClick={() => setIsOpen(!buttonDisabled)}>{buttonText}</Button>
       <AlertDialog isOpen={isOpen} closeOnOverlayClick={false} leastDestructiveRef={cancelRef} onClose={onClose}>
         <AlertDialogOverlay>
           <AlertDialogContent>
