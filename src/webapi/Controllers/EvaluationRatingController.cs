@@ -346,8 +346,7 @@ namespace eppeta.webapi.Controllers
                         throw new Exception(res.ErrorText);
                     }
                 }
-                performanceEvaluationRatingPost.StatusId = (await _evaluationRepository.GetStatusByText("Review Approved, transferred to ODS/API")).Id;
-                _ = await _evaluationRepository.UpdatePerformanceEvaluationRatings(new List<PerformanceEvaluationRatingForUpdate> { (PerformanceEvaluationRatingForUpdate)performanceEvaluationRatingPost });
+                await _evaluationRepository.UpdatePerformanceEvaluationRatingStatus(performanceEvaluationRatingPost.Id, "Review Approved, transferred to ODS/API");
                 return Ok(ids);
             }
 
@@ -359,8 +358,7 @@ namespace eppeta.webapi.Controllers
             {
                 if (performanceEvaluationRatingPost != null)
                 {
-                    performanceEvaluationRatingPost.StatusId = (await _evaluationRepository.GetStatusByText("Review Approved, transfer to ODS/API failed")).Id;
-                    _ = await _evaluationRepository.UpdatePerformanceEvaluationRatings(new List<PerformanceEvaluationRatingForUpdate> { (PerformanceEvaluationRatingForUpdate)performanceEvaluationRatingPost });
+                    await _evaluationRepository.UpdatePerformanceEvaluationRatingStatus(performanceEvaluationRatingPost.Id, "Review Approved, transfer to ODS/API failed");
                 }
                 return Problem(ex.Message);
             }

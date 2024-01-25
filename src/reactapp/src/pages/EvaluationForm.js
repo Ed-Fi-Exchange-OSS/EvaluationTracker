@@ -812,11 +812,18 @@ export default function EvaluationForm() {
               ))}
 
               <Box mt={4}>
-                <Heading fontSize="lg" fontWeight="bold">Observation Notes</Heading>
+                <HStack>
+                  <Box>
+                    <Heading fontSize="lg" fontWeight="bold">Observation Notes </Heading>
+                  </Box>
+                  <Box>
+                    <Text style={{ textTransform: 'lowercase' }} fontSize="sm">({evaluationDataLoaded.comments ? evaluationDataLoaded.comments.length : 0}/1000 characters)</Text>
+                  </Box>
+                </HStack>
                 <Table cellSpacing="10" cellPadding="5">
                   <Tbody>
                     <Tr key="globalComments">
-                      <Td rowSpan="4"><Textarea id="globalComments" name="globalComments" onChange={handleEvaluationCommentsUpdates} onBlur={handleEvaluationCommentsUpdates} rows="3" resize="none" borderColor="gray.300" defaultValue={(evaluationDataLoaded ? evaluationDataLoaded.comments : "")} /></Td>
+                      <Td rowSpan="4"><Textarea maxLength="1000" id="globalComments" name="globalComments" onChange={handleEvaluationCommentsUpdates} onBlur={handleEvaluationCommentsUpdates} rows="3" resize="none" borderColor="gray.300" defaultValue={(evaluationDataLoaded ? evaluationDataLoaded.comments : "")} /></Td>
                     </Tr>
                   </Tbody>
                 </Table>

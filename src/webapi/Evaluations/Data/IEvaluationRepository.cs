@@ -48,4 +48,5 @@ public interface IEvaluationRepository
     Task<PerformanceEvaluationRating> GetPerformanceEvaluationRatingById(int id);
     Task CreatePerformanceEvaluationRating(PerformanceEvaluationRating rating);
     Task<List<int>> UpdatePerformanceEvaluationRatings(List<PerformanceEvaluationRatingForUpdate> performanceEvaluationRatings);
+    Task UpdatePerformanceEvaluationRatingStatus(int id, string newStatus);
 }

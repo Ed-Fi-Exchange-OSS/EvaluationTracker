@@ -7,6 +7,6 @@ namespace eppeta.webapi.Evaluations.Models
 {
     public class EvaluationRatingForUpdate : EvaluationRating
     {
-        public DateTime NewEvaluationDate { get; set; }
+        public DateTime? NewEvaluationDate { get; set; }
     }
 }
