@@ -241,6 +241,19 @@ public class AccountController : Controller
         return NoContent();
     }
 
+    public async Task<IActionResult> ForgotPassword(string email)
+    {
+        var user = await _userManager.FindByEmailAsync(email);
+        if (user == null) return BadRequest("Invalid email address");
+
+        var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+        // Store this token and associate it with the user's account in your database
+
+        // Send the email with the reset link here. The link should include the token as a parameter
+
+        return Ok();
+    }
+
     private void AddErrors(IdentityResult result)
     {
         foreach (var error in result.Errors)

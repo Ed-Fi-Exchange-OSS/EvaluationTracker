@@ -38,6 +38,16 @@ public class AppSettings
     private readonly Lazy<SyncOdsAssetsSettings> _syncOdsAssetsSettings = new(() => new SyncOdsAssetsSettings(
         GetInstance().GetValue<int>("SyncOdsAssetsSettings:PeriodInHours")
     ));
+    //MailSettings(string host, int port, string username, string from, string deliveryMethod, string password, bool enableSsl)
+    private readonly Lazy<MailSettings> _mailSettings = new(() => new MailSettings(
+        GetInstance().GetValue<string>("MailSettings:Host"),
+        GetInstance().GetValue<int>("MailSettings:Port"),
+        GetInstance().GetValue<string>("MailSettings:Username"),
+        GetInstance().GetValue<string>("MailSettings:From"),
+        GetInstance().GetValue<string>("MailSettings:DeliveryMethod"),
+        GetInstance().GetValue<string>("MailSettings:Password"),
+        GetInstance().GetValue<bool>("MailSettings:EnableSsl")
+    ));
 
     private static AppSettings GetInstance()
     {
@@ -52,6 +62,8 @@ public class AppSettings
     public static Authentication Authentication => GetInstance()._authentication.Value;
 
     public static SyncOdsAssetsSettings SyncOdsAssetsSettings => GetInstance()._syncOdsAssetsSettings.Value;
+
+    public static MailSettings MailSettings => GetInstance()._mailSettings.Value;
 
     public static string[] AllowedOrigins => GetInstance().GetValue<string>("CorsAllowedOrigins").Split(",");
 
@@ -113,4 +125,28 @@ public class SyncOdsAssetsSettings
     public SyncOdsAssetsSettings()
     {
     }
+}
+
+public class MailSettings
+{
+    public string Host { get; set; }
+    public int Port { get; set; }
+    public string Username { get; set; }
+    public string From { get; set; }
+    public string DeliveryMethod { get; set; }
+    public string Password { get; set; }
+    public bool EnableSsl { get; set; }
+
+
+
+    public MailSettings(string host, int port, string username, string from, string deliveryMethod, string password, bool enableSsl)
+    {
+        Host = host;
+        Port = port;
+        Username = username;
+        From = from;
+        DeliveryMethod = deliveryMethod;
+        Password = password;
+        EnableSsl = enableSsl;
+}
 }
