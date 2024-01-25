@@ -229,8 +229,8 @@ namespace eppeta.webapi.Evaluations.Data
                         }
                     }
 
-                    if (er.EvaluationDate != er.NewEvaluationDate)
-                        eer.EvaluationDate = er.NewEvaluationDate;
+                    if (er.NewEvaluationDate.HasValue && er.EvaluationDate != er.NewEvaluationDate)
+                        eer.EvaluationDate = er.NewEvaluationDate.Value;
 
                     _ = EvaluationRatings.Update(eer);
                     er.Id = eer.Id;
@@ -266,8 +266,8 @@ namespace eppeta.webapi.Evaluations.Data
                         }
                     }
 
-                    if (er.EvaluationDate != er.NewEvaluationDate)
-                        eer.EvaluationDate = er.NewEvaluationDate;
+                    if (er.NewEvaluationDate.HasValue  && er.EvaluationDate != er.NewEvaluationDate)
+                        eer.EvaluationDate = er.NewEvaluationDate.Value;
 
                     _ = EvaluationObjectiveRatings.Update(eer);
                     er.Id = eer.Id;
@@ -298,8 +298,8 @@ namespace eppeta.webapi.Evaluations.Data
                         }
                     }
                     
-                    if (er.EvaluationDate != er.NewEvaluationDate)
-                        eer.EvaluationDate = er.NewEvaluationDate;
+                    if (er.NewEvaluationDate.HasValue  && er.EvaluationDate != er.NewEvaluationDate)
+                        eer.EvaluationDate = er.NewEvaluationDate.Value;
 
                     _ = EvaluationElementRatingResults.Update(eer);
                     er.Id = eer.Id;
