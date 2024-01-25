@@ -40,6 +40,25 @@ public class PerformanceEvaluationController : ControllerBase
         return Ok(performanceEvaluations);
     }
 
+    [HttpGet]
+    [Route("/api/candidateHasPerformedEvaluation")]
+    public async Task<ActionResult<bool>> GetCandidateHasPerformedEvaluation(string personId, int evaluationId)
+    {
+        var result = false;
+        var perRvaluation = await _evaluationRepository.GetPerformanceEvaluationById(evaluationId);
+        if (perRvaluation != null)
+        {
+            var perEvalRating = (await _evaluationRepository.GetPerformanceEvaluationRatingsByPK(perRvaluation));
+            if (perEvalRating != null)
+                result = perEvalRating.Exists(r => r.PersonId == personId);
+        }
+        return Ok(new
+            {
+                candidateHasPerformedEvaluation = result
+            }
+        );
+    }
+
     [HttpGet("{PerformanceEvaluationRatingId}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]

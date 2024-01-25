@@ -18,11 +18,14 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { useNavigate } from 'react-router-dom';
+import { AlertMessage } from "../components/AlertMessage";
 import { get } from "../components/FetchHelpers"
 
 export default function NewEvaluation() {
   const [selectedEvaluation, setSelectedEvaluation] = useState(null);
   const [selectedCandidate, setSelectedCandidate] = useState(null);
+  const [candidateHasPerformedEvaluation, setCandidateHasPerformedEvaluation] = useState(true);
+  const [showCandidateHasPerformedEvaluationMessage, setShowCandidateHasPerformedEvaluationMessage] = useState(false);
   const [evaluationData, setEvaluationsData] = useState([]);
   const [candidateData, setCandidateData] = useState([]);
   const [pageDataLoad, setPageDataLoad] = useState(false);
@@ -78,6 +81,51 @@ export default function NewEvaluation() {
     }
   }
 
+  const fetchHasCandidateThePerformedEvaluation = async (personId, evaluationId) => {
+    try {
+      const response = await get(`/api/candidateHasPerformedEvaluation?personId=${personId}&evaluationId=${evaluationId}`);
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch performed evaluations per candidate");
+      }
+
+      return response.json();
+
+      //var result = await response.json();
+    }
+    catch (error) {
+      console.error("Error fetching performed evaluations per candidate:", error);
+    }
+  };
+
+  /**
+   * Event that updates Evaluation
+   */
+  const selectedEvaluationOnChange = async (evaluation) => {
+    setSelectedEvaluation(evaluation);
+    setCandidateHasPerformedEvaluation(true);
+
+    if (selectedCandidate && evaluation) {
+      var result = await fetchHasCandidateThePerformedEvaluation(selectedCandidate.personId, evaluation.id);
+      setCandidateHasPerformedEvaluation(result.candidateHasPerformedEvaluation);
+      setShowCandidateHasPerformedEvaluationMessage(result.candidateHasPerformedEvaluation);
+    }
+  };
+
+  /**
+   * Event that updates Candidate
+   */
+  const selectedCandidateOnChange = async (candidate) => {
+    setSelectedCandidate(candidate);
+    setCandidateHasPerformedEvaluation(true);
+
+    if (candidate && selectedEvaluation) {
+      var result = await fetchHasCandidateThePerformedEvaluation(candidate.personId, selectedEvaluation.id);
+      setCandidateHasPerformedEvaluation(result.candidateHasPerformedEvaluation);
+      setShowCandidateHasPerformedEvaluationMessage(result.candidateHasPerformedEvaluation);
+    }
+  };
+
   return (
     <Skeleton isLoaded={pageDataLoad} >
     <Flex minH={"100vh"} align={"center"} justify={"center"}>
@@ -98,7 +146,7 @@ export default function NewEvaluation() {
               <FormLabel>Evaluation</FormLabel>
               <Select
                 defaultValue={selectedEvaluation}
-                onChange={setSelectedEvaluation}
+                onChange={(evaluation) => selectedEvaluationOnChange(evaluation)}
                 options={evaluationData}
                 getOptionValue={option => option.id}
                 getOptionLabel={option => option.performanceEvaluationTitle}
@@ -107,7 +155,7 @@ export default function NewEvaluation() {
               <FormLabel>Candidate</FormLabel>
               <Select
                 defaultValue={selectedCandidate}
-                onChange={setSelectedCandidate}
+                onChange={(candidate) => selectedCandidateOnChange(candidate)}
                 options={candidateData}
                 getOptionValue={option => option.personId}
                 getOptionLabel={option => option.candidateName}
@@ -120,10 +168,14 @@ export default function NewEvaluation() {
               {/*  type="date"*/}
               {/*/>*/}
             </FormControl>
-
+              <Box mt="0" textAlign="center">
+                { showCandidateHasPerformedEvaluationMessage
+                  && (<AlertMessage message="There is already an evaluation for this candidate." />)
+                }
+              </Box>
             <Box mt="5" textAlign="center">
               <ButtonGroup variant="outline" spacing="6">
-                <Button isDisabled={!(selectedEvaluation && selectedCandidate)}
+                  <Button isDisabled={!(selectedEvaluation && selectedCandidate) || candidateHasPerformedEvaluation}
                   onClick={() => {
                     navigate("/evaluation", { state: { candidate: selectedCandidate, evaluation: selectedEvaluation } })
                   }}

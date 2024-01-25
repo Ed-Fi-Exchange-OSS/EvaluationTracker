@@ -13,6 +13,7 @@ using eppeta.webapi.Service;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using OpenIddict.Abstractions;
+using System.Data;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -129,6 +130,18 @@ namespace eppeta.webapi.Controllers
                 }
             }
 
+            /// Check if PerformanceEvaluationRating exists.
+            var perEvalRatings = (await _evaluationRepository.GetPerformanceEvaluationRatingsByPK(perEval));
+            if (perEvalRatings != null)
+            {
+                if (perEvalRatings.Exists(p => p.PersonId == evaluationResult.ReviewedPersonId
+                    && p.SourceSystemDescriptor == evaluationResult.ReviewedPersonSourceSystemDescriptor))
+                    /// Although the performance evaluation domain allows having many EvaluationRatings per PerformanceEvaluationRating,
+                    /// we are disabling this. Forcing the user to have multiple PerformanceEvaluations if he wants to have the same
+                    /// evaluation performed several times for the same candidate.
+                    throw new DataException("Having multiple performance evaluation ratings per performance evaluation is not allowed");
+            }
+
             // Create EvaluationRating
             var evalObjective = await _evaluationRepository.GetEvaluationObjectiveById(evaluationResult.ObjectiveResults.First().Id);
 
@@ -211,6 +224,10 @@ namespace eppeta.webapi.Controllers
             catch (ArgumentException e)
             {
                 return NotFound(e.Message);
+            }
+            catch (DataException e)
+            {
+                return BadRequest(e.Message);
             }
             catch (Exception e)
             {

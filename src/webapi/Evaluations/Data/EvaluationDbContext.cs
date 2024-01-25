@@ -229,10 +229,8 @@ namespace eppeta.webapi.Evaluations.Data
                         }
                     }
 
-                    /// I don't want to delete this code because we'll need it on a coming up ticket.
-                    /// EPPETA-84 ToDo.
-                    //if (er.EvaluationDate != er.NewEvaluationDate)
-                    //    eer.EvaluationDate = er.NewEvaluationDate;
+                    if (er.EvaluationDate != er.NewEvaluationDate)
+                        eer.EvaluationDate = er.NewEvaluationDate;
 
                     _ = EvaluationRatings.Update(eer);
                     er.Id = eer.Id;
@@ -268,10 +266,8 @@ namespace eppeta.webapi.Evaluations.Data
                         }
                     }
 
-                    /// I don't want to delete this code because we'll need it on a coming up ticket.
-                    /// EPPETA-84 ToDo.
-                    //if (er.EvaluationDate != er.NewEvaluationDate)
-                    //    eer.EvaluationDate = er.NewEvaluationDate;
+                    if (er.EvaluationDate != er.NewEvaluationDate)
+                        eer.EvaluationDate = er.NewEvaluationDate;
 
                     _ = EvaluationObjectiveRatings.Update(eer);
                     er.Id = eer.Id;
@@ -301,10 +297,9 @@ namespace eppeta.webapi.Evaluations.Data
                             property.SetValue(eer, property.GetValue(er));
                         }
                     }
-                    /// I don't want to delete this code because we'll need it on a coming up ticket.
-                    /// EPPETA-84 ToDo.
-                    //if (er.EvaluationDate != er.NewEvaluationDate)
-                    //    eer.EvaluationDate = er.NewEvaluationDate;
+                    
+                    if (er.EvaluationDate != er.NewEvaluationDate)
+                        eer.EvaluationDate = er.NewEvaluationDate;
 
                     _ = EvaluationElementRatingResults.Update(eer);
                     er.Id = eer.Id;
