@@ -252,6 +252,7 @@ export default function EvaluationForm() {
     completedEvaluation.reviewedPersonSourceSystemDescriptor = selectedCandidate.sourceSystemDescriptor;
     completedEvaluation.evaluatorName = currentEvaluator.evaluatorName;
     completedEvaluation.reviewedCandidateName = selectedCandidate.candidateName;
+    completedEvaluation.comments = evaluationDataLoaded.comments;
     completedEvaluation.startDateTime = evaluationDataLoaded.evaluationDate;
     !evaluationDataLoaded.evaluationEndTime ?
       completedEvaluation.endDateTime = new Date() : completedEvaluation.endDateTime = evaluationDataLoaded.evaluationEndTime;
@@ -314,6 +315,18 @@ export default function EvaluationForm() {
       const locatedIndex = objectiveNotes.findIndex((obj) => obj.objectiveId === objective.evaluationObjectiveId);
       return locatedIndex >= 0 ? objectiveNotes[locatedIndex].value.length : "0";
   }
+
+  /**
+   * Event to update global evaluation comments
+   * @param {any} e
+   */
+  const handleEvaluationCommentsUpdates = (e) => {
+    const evaluationDataLoadedCopy = { ...evaluationDataLoaded };
+    evaluationDataLoadedCopy.comments = e.target.value;
+
+    savePageData(evaluationDataLoadedCopy);
+    setEvaluationDataLoaded(evaluationDataLoadedCopy);
+  };
 
   /**
    * Event that updates start date
@@ -797,6 +810,24 @@ export default function EvaluationForm() {
                   </Table>
                 </Box>
               ))}
+
+              <Box mt={4}>
+                <HStack>
+                  <Box>
+                    <Heading fontSize="lg" fontWeight="bold">Observation Notes </Heading>
+                  </Box>
+                  <Box>
+                    <Text style={{ textTransform: 'lowercase' }} fontSize="sm">({evaluationDataLoaded.comments ? evaluationDataLoaded.comments.length : 0}/1000 characters)</Text>
+                  </Box>
+                </HStack>
+                <Table cellSpacing="10" cellPadding="5">
+                  <Tbody>
+                    <Tr key="globalComments">
+                      <Td rowSpan="4"><Textarea maxLength="1000" id="globalComments" name="globalComments" onChange={handleEvaluationCommentsUpdates} onBlur={handleEvaluationCommentsUpdates} rows="3" resize="none" borderColor="gray.300" defaultValue={(evaluationDataLoaded ? evaluationDataLoaded.comments : "")} /></Td>
+                    </Tr>
+                  </Tbody>
+                </Table>
+              </Box>
             </Box>
           </Box>
           <Box mt="0" textAlign="center">

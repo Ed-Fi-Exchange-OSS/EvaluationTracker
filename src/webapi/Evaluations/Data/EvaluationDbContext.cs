@@ -229,8 +229,8 @@ namespace eppeta.webapi.Evaluations.Data
                         }
                     }
 
-                    if (er.EvaluationDate != er.NewEvaluationDate)
-                        eer.EvaluationDate = er.NewEvaluationDate;
+                    if (er.NewEvaluationDate.HasValue && er.EvaluationDate != er.NewEvaluationDate)
+                        eer.EvaluationDate = er.NewEvaluationDate.Value;
 
                     _ = EvaluationRatings.Update(eer);
                     er.Id = eer.Id;
@@ -266,8 +266,8 @@ namespace eppeta.webapi.Evaluations.Data
                         }
                     }
 
-                    if (er.EvaluationDate != er.NewEvaluationDate)
-                        eer.EvaluationDate = er.NewEvaluationDate;
+                    if (er.NewEvaluationDate.HasValue  && er.EvaluationDate != er.NewEvaluationDate)
+                        eer.EvaluationDate = er.NewEvaluationDate.Value;
 
                     _ = EvaluationObjectiveRatings.Update(eer);
                     er.Id = eer.Id;
@@ -298,8 +298,8 @@ namespace eppeta.webapi.Evaluations.Data
                         }
                     }
                     
-                    if (er.EvaluationDate != er.NewEvaluationDate)
-                        eer.EvaluationDate = er.NewEvaluationDate;
+                    if (er.NewEvaluationDate.HasValue  && er.EvaluationDate != er.NewEvaluationDate)
+                        eer.EvaluationDate = er.NewEvaluationDate.Value;
 
                     _ = EvaluationElementRatingResults.Update(eer);
                     er.Id = eer.Id;
@@ -414,8 +414,8 @@ namespace eppeta.webapi.Evaluations.Data
                         }
                     }
 
-                    if (pe.StartTime != pe.NewStartTime)
-                        epe.StartTime = pe.NewStartTime;
+                    if (pe.NewStartTime.HasValue && pe.StartTime != pe.NewStartTime)
+                        epe.StartTime = pe.NewStartTime.Value;
 
                     _ = PerformanceEvaluationRatings.Update(epe);
                     pe.Id = epe.Id;
@@ -429,6 +429,18 @@ namespace eppeta.webapi.Evaluations.Data
             _ = await SaveChangesAsync();
             return performanceEvaluationRatings.Select(per => per.Id).ToList();
         }
+
+        public async Task UpdatePerformanceEvaluationRatingStatus(int id, string newStatus)
+        {
+            var performanceEvaluationRating = PerformanceEvaluationRatings.FirstOrDefault(p => p.Id == id);
+            if (performanceEvaluationRating != null)
+            {
+                performanceEvaluationRating.StatusId = (await GetStatusByText(newStatus)).Id;
+                _ = PerformanceEvaluationRatings.Update(performanceEvaluationRating);
+                _ = await SaveChangesAsync();
+            }
+        }
+
         public DbSet<Status> Statuses { get; set; }
         public DbSet<Evaluation> Evaluations { get; set; }
         public DbSet<PerformanceEvaluation> PerformanceEvaluations { get; set; }

@@ -124,22 +124,23 @@ namespace eppeta.webapi.Controllers
             else
             {
                 perEval = await _evaluationRepository.GetPerformanceEvaluationById(evaluationResult.EvaluationId);
+
+                /// Check if PerformanceEvaluationRating exists.
+                var perEvalRatings = (await _evaluationRepository.GetPerformanceEvaluationRatingsByPK(perEval));
+                if (perEvalRatings != null)
+                {
+                    if (perEvalRatings.Exists(p => p.PersonId == evaluationResult.ReviewedPersonId
+                        && p.SourceSystemDescriptor == evaluationResult.ReviewedPersonSourceSystemDescriptor))
+                        /// Although the performance evaluation domain allows having many EvaluationRatings per PerformanceEvaluationRating,
+                        /// we are disabling this. Forcing the user to have multiple PerformanceEvaluations if he wants to have the same
+                        /// evaluation performed several times for the same candidate.
+                        throw new DataException("Having multiple performance evaluation ratings per performance evaluation is not allowed");
+                }
+
                 if (perEval == null)
                 {
                     throw new ArgumentException("PerformanceEvaluation not found");
                 }
-            }
-
-            /// Check if PerformanceEvaluationRating exists.
-            var perEvalRatings = (await _evaluationRepository.GetPerformanceEvaluationRatingsByPK(perEval));
-            if (perEvalRatings != null)
-            {
-                if (perEvalRatings.Exists(p => p.PersonId == evaluationResult.ReviewedPersonId
-                    && p.SourceSystemDescriptor == evaluationResult.ReviewedPersonSourceSystemDescriptor))
-                    /// Although the performance evaluation domain allows having many EvaluationRatings per PerformanceEvaluationRating,
-                    /// we are disabling this. Forcing the user to have multiple PerformanceEvaluations if he wants to have the same
-                    /// evaluation performed several times for the same candidate.
-                    throw new DataException("Having multiple performance evaluation ratings per performance evaluation is not allowed");
             }
 
             // Create EvaluationRating
@@ -162,6 +163,7 @@ namespace eppeta.webapi.Controllers
 
             perEvalRating.ReviewedCandidateName = evaluationResult.ReviewedCandidateName;
             perEvalRating.EvaluatorName = evaluationResult.EvaluatorName;
+            perEvalRating.Comments = evaluationResult.Comments;
             perEvalRating.PersonId = evaluationResult.ReviewedPersonId;
             perEvalRating.SourceSystemDescriptor = evaluationResult.ReviewedPersonSourceSystemDescriptor;
             perEvalRating.EndTime = evaluationResult.EndDateTime ?? newEvaluationDate;
@@ -345,8 +347,7 @@ namespace eppeta.webapi.Controllers
                         throw new Exception(res.ErrorText);
                     }
                 }
-                performanceEvaluationRatingPost.StatusId = (await _evaluationRepository.GetStatusByText("Review Approved, transferred to ODS/API")).Id;
-                _ = await _evaluationRepository.UpdatePerformanceEvaluationRatings(new List<PerformanceEvaluationRatingForUpdate> { (PerformanceEvaluationRatingForUpdate)performanceEvaluationRatingPost });
+                await _evaluationRepository.UpdatePerformanceEvaluationRatingStatus(performanceEvaluationRatingPost.Id, "Review Approved, transferred to ODS/API");
                 return Ok(ids);
             }
 
@@ -358,8 +359,7 @@ namespace eppeta.webapi.Controllers
             {
                 if (performanceEvaluationRatingPost != null)
                 {
-                    performanceEvaluationRatingPost.StatusId = (await _evaluationRepository.GetStatusByText("Review Approved, transfer to ODS/API failed")).Id;
-                    _ = await _evaluationRepository.UpdatePerformanceEvaluationRatings(new List<PerformanceEvaluationRatingForUpdate> { (PerformanceEvaluationRatingForUpdate)performanceEvaluationRatingPost });
+                    await _evaluationRepository.UpdatePerformanceEvaluationRatingStatus(performanceEvaluationRatingPost.Id, "Review Approved, transfer to ODS/API failed");
                 }
                 return Problem(ex.Message);
             }

@@ -76,6 +76,7 @@ public class PerformanceEvaluationController : ControllerBase
         {
             EvaluationRatingId = evaluationRating.Id,
             ReviewedCandidateName = perEvalRatingDB.ReviewedCandidateName ?? string.Empty,
+            Comments = perEvalRatingDB.Comments,
             ReviewedPersonId = evaluationRating.PersonId,
             ReviewedPersonSourceSystemDescriptor = evaluationRating.SourceSystemDescriptor,
             StartDateTime = perEvalRatingDB.StartTime,
