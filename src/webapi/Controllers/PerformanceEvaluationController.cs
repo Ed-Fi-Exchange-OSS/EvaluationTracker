@@ -5,11 +5,15 @@
 
 using eppeta.webapi.DTO;
 using eppeta.webapi.Evaluations.Data;
+using eppeta.webapi.Identity.Models;
 using eppeta.webapi.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using OpenIddict.Validation.AspNetCore;
 
 namespace eppeta.webapi.Controllers;
 
+[Authorize(AuthenticationSchemes = OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme, Roles = $"{Roles.Supervisor}, {Roles.MentorTeacher}")]
 [ApiController]
 [Route("api/[controller]")]
 public class PerformanceEvaluationController : ControllerBase

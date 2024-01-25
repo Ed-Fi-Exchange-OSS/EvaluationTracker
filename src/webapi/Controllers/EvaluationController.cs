@@ -6,13 +6,17 @@
 using eppeta.webapi.DTO;
 using eppeta.webapi.Evaluations.Data;
 using eppeta.webapi.Evaluations.Models;
+using eppeta.webapi.Identity.Models;
 using eppeta.webapi.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
+using OpenIddict.Validation.AspNetCore;
 using System.Linq.Dynamic.Core;
 
 namespace eppeta.webapi.Controllers;
 
+[Authorize(AuthenticationSchemes = OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme, Roles = $"{Roles.Supervisor}, {Roles.MentorTeacher}")]
 [ApiController]
 [Route("api/[controller]")]
 public class EvaluationController : ControllerBase

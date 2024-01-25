@@ -10,16 +10,18 @@ using eppeta.webapi.Evaluations.Models;
 using eppeta.webapi.Identity.Models;
 using eppeta.webapi.Mapping;
 using eppeta.webapi.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using OpenIddict.Abstractions;
 using System.Data;
+using OpenIddict.Validation.AspNetCore;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace eppeta.webapi.Controllers
 {
-    //    [Authorize(AuthenticationSchemes = OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme, Roles = $"{Roles.Supervisor}, {Roles.MentorTeacher}")]
     [Route("api/[controller]")]
     [ApiController]
     public class EvaluationRatingController : ControllerBase
@@ -106,7 +108,7 @@ namespace eppeta.webapi.Controllers
                 { typeof(EvaluationObjectiveRatingForUpdate).Name, new List<int>{ } },
                 { typeof(EvaluationElementRatingResultForUpdate).Name, new List<int>{ } },
             };
-            
+
             DateTime newEvaluationDate = evaluationResult.StartDateTime ?? DateTime.UtcNow;
             DateTime currentEvaluationDate = evaluationResult.StartDateTime ?? DateTime.UtcNow;
 
@@ -238,6 +240,7 @@ namespace eppeta.webapi.Controllers
 
         }
 
+        [Authorize(AuthenticationSchemes = OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme, Roles = $"{Roles.Supervisor}")]
         [HttpPost]
         [Route("Approve")]
         [ProducesResponseType(StatusCodes.Status200OK)]
