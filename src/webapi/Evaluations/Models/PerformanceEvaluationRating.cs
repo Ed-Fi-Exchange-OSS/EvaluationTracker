@@ -38,6 +38,7 @@ namespace eppeta.webapi.Evaluations.Models
         public DateTime StartTime { get; set; }
         public DateTime? EndTime { get; set; }
         public DateTime CreateDate { get; set; }
+        public DateTime LastModifiedDate { get; set; }
         [NotMapped]
         public DateTime ActualDate { get; set; }
         [NotMapped]

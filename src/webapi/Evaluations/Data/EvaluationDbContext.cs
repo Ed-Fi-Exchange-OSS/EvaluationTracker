@@ -163,7 +163,7 @@ namespace eppeta.webapi.Evaluations.Data
                     {
                         if (property.Name == "LastModifiedDate")
                         {
-                            property.SetValue(eeo, DateTime.UtcNow);
+                            property.SetValue(eeo, DateTime.Now);
                         }
                         else if (property.Name != "Id")
                         {
@@ -221,9 +221,9 @@ namespace eppeta.webapi.Evaluations.Data
                     {
                         if (property.Name == "LastModifiedDate")
                         {
-                            property.SetValue(eer, DateTime.UtcNow);
+                            property.SetValue(eer, DateTime.Now);
                         }
-                        else if (property.Name != "Id")
+                        else if (property.Name != "Id" && property.Name != "CreateDate")
                         {
                             property.SetValue(eer, property.GetValue(er));
                         }
@@ -258,9 +258,9 @@ namespace eppeta.webapi.Evaluations.Data
                     {
                         if (property.Name == "LastModifiedDate")
                         {
-                            property.SetValue(eer, DateTime.UtcNow);
+                            property.SetValue(eer, DateTime.Now);
                         }
-                        else if (property.Name != "Id")
+                        else if (property.Name != "Id" && property.Name != "CreateDate")
                         {
                             property.SetValue(eer, property.GetValue(er));
                         }
@@ -292,7 +292,7 @@ namespace eppeta.webapi.Evaluations.Data
                 {
                     foreach (var property in typeof(EvaluationElementRatingResult).GetProperties())
                     {
-                        if (property.Name != "Id")
+                        if (property.Name != "Id" && property.Name != "CreateDate")
                         {
                             property.SetValue(eer, property.GetValue(er));
                         }
@@ -408,7 +408,11 @@ namespace eppeta.webapi.Evaluations.Data
                 {
                     foreach (var property in typeof(PerformanceEvaluationRating).GetProperties())
                     {
-                        if (property.Name != "Id")
+                        if (property.Name == "LastModifiedDate")
+                        {
+                            property.SetValue(epe, DateTime.Now);
+                        }
+                        else if (property.Name != "Id" && property.Name != "CreateDate")
                         {
                             property.SetValue(epe, property.GetValue(pe));
                         }
@@ -498,6 +502,7 @@ namespace eppeta.webapi.Evaluations.Data
                 _ = modelBuilder.Entity<PerformanceEvaluation>().Property(x => x.LastModifiedDate).HasDefaultValueSql("getdate()");
 
                 _ = modelBuilder.Entity<PerformanceEvaluationRating>().ToTable(nameof(PerformanceEvaluationRating)).Property(x => x.CreateDate).HasDefaultValueSql("getdate()");
+                _ = modelBuilder.Entity<PerformanceEvaluationRating>().Property(x => x.LastModifiedDate).HasDefaultValueSql("getdate()");
 
                 _ = modelBuilder.Entity<PerformanceEvaluationRatingLevel>().ToTable(nameof(PerformanceEvaluationRatingLevel));
 
