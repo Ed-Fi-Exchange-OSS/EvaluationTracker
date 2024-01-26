@@ -40,13 +40,13 @@ public class AppSettings
     ));
     //MailSettings(string host, int port, string username, string from, string deliveryMethod, string password, bool enableSsl)
     private readonly Lazy<MailSettings> _mailSettings = new(() => new MailSettings(
-        GetInstance().GetValue<string>("MailSettings:Host"),
-        GetInstance().GetValue<int>("MailSettings:Port"),
-        GetInstance().GetValue<string>("MailSettings:Username"),
-        GetInstance().GetValue<string>("MailSettings:From"),
-        GetInstance().GetValue<string>("MailSettings:DeliveryMethod"),
-        GetInstance().GetValue<string>("MailSettings:Password"),
-        GetInstance().GetValue<bool>("MailSettings:EnableSsl")
+        GetInstance().GetValue<string>("MailSettings:Smtp:Host"),
+        GetInstance().GetValue<int>("MailSettings:Smtp:Port"),
+        GetInstance().GetValue<string>("MailSettings:Smtp:Username"),
+        GetInstance().GetValue<string>("MailSettings:Smtp:From"),
+        GetInstance().GetValue<string>("MailSettings:Smtp:DeliveryMethod"),
+        GetInstance().GetValue<string>("MailSettings:Smtp:Password"),
+        GetInstance().GetValue<bool>("MailSettings:Smtp:EnableSsl")
     ));
 
     private static AppSettings GetInstance()
@@ -68,6 +68,10 @@ public class AppSettings
     public static string[] AllowedOrigins => GetInstance().GetValue<string>("CorsAllowedOrigins").Split(",");
 
     public static string OdsApiBasePath => GetInstance().GetValue<string>("OdsApiBasePath");
+
+    public static string ResetPasswordUrl => GetInstance().GetValue<string>("ResetPasswordUrl");
+
+    public static string RefreshTokenLifetimeMinutes => GetInstance().GetValue<string>("RefreshTokenLifetimeMinutes");
 
     // Add a method to accept all SSL certs if the TrustAllSSLCerts is true in the appsettings.json file.
     public static void OptionallyTrustAllSSLCerts()
