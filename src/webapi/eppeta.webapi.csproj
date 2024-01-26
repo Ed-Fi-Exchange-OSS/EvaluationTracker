@@ -9,6 +9,14 @@
     <UserSecretsId>63d48217-947b-41e4-bee8-54a8d491465a</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="Infrastructure\Templates\forgotPasswordMail.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Infrastructure\Templates\forgotPasswordMail.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="AspNetCore.HealthChecks.SqlServer" Version="8.0.0" />
     <PackageReference Include="Azure.Identity" Version="1.10.4" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.4" />

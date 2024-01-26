@@ -8,72 +8,75 @@ import {
   Box,
   FormControl,
   FormLabel,
-  InputGroup,
-  InputRightElement,
-  Checkbox,
   Stack,
-  Link,
   Button,
   Heading,
   Text,
   useColorModeValue,
+  useToast,
+  Spinner
 } from "@chakra-ui/react";
 import { useState, React } from "react";
-import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { Formik, Form } from "formik";
 import InputField from "../components/InputField";
-import { postForm } from "../components/FetchHelpers";
-import { getHomePageByRole } from "../components/Navbar";
-import { setToken } from "../components/TokenHelpers";
+import { post } from "../components/FetchHelpers";
 import { defaultErrorMessage, AlertMessage } from "../components/AlertMessage";
 import { useNavigate } from "react-router-dom";
 
 
-export default function LoginForm() {
-  const [showPassword, setShowPassword] = useState(false);
+export default function ForgotPassword() {
+  const toast = useToast();
   const [error, setError] = useState(null);
+  const [isLoading, setisLoading] = useState(false); 
   const navigate = useNavigate();
 
-  const loadEvaluationsPage = () => {
-    navigate(getHomePageByRole());    
-  };
+
   const onSubmitLogin = async (values) => {    
-    const tokenRequest = {
-      grant_type: "password",
-      username: values.email,
-      password: values.password,
-    };
-
     try {
-      const response = await postForm("/connect/token", tokenRequest);
-      const message = await response.json();
-
-      if (!response.ok) {
-        console.error(message);
-        // TODO use proper user notifications in EPPETA-18
-        setError(message.error_description);
-        return;
+      setisLoading(true);
+      const response = await post("/accounts/ForgotPassword?email=" + values.email);
+      
+      if (response.ok) {
+        toast({
+          title: "Success.",
+          description: "Your reset password request has been successfully sent.",
+          status: "success",
+          duration: 5000,
+          isClosable: true,
+        });
+        navigate("/");
       }
-      setToken(message);
-      console.info("Successful sign-in");
-      loadEvaluationsPage();
+      else {
+        toast({
+          title: "An error occurred.",
+          description: "Unable to send the reset password request.",
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        });
+      }
+      setisLoading(false);
       return;
     } catch (exception) {
       setError(defaultErrorMessage);
       console.error(exception);
     }
+    setisLoading(false);
   };
 
   return (
     <Flex minH={"100vh"} align={"center"} justify={"center"} bg={useColorModeValue("gray.50", "gray.800")}>
       <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
         <Stack align={"center"}>
-          <Heading fontSize={"4xl"}>Sign in to your account</Heading>
+          <Heading fontSize={"4xl"}>Forgot Password</Heading>
           <Text fontSize={"lg"} color={"gray.600"}>
             for teacher evaluation tracker
           </Text>
         </Stack>
         <Box rounded={"lg"} bg={useColorModeValue("white", "gray.700")} boxShadow={"lg"} p={8}>
+          {isLoading ? (<><Box display="flex" alignItems="center"><Spinner role="status" />
+            <Text ml={4}>Processing...</Text></Box></>)
+            : 
           <Formik initialValues={{ email: "", password: "" }} onSubmit={onSubmitLogin}>
             <Form>
               <Stack spacing={4}>
@@ -81,25 +84,7 @@ export default function LoginForm() {
                   <FormLabel>Email address</FormLabel>
                   <InputField type="email" name="email" />
                 </FormControl>
-                <FormControl id="password">
-                  <FormLabel>Password</FormLabel>
-                  <InputGroup>
-                    <InputField type={showPassword ? "text" : "password"} name="password" />
-                    <InputRightElement h={"full"}>
-                      <Button
-                        variant={"ghost"}
-                        onClick={() => setShowPassword((showPassword) => !showPassword)}
-                      >
-                        {showPassword ? <ViewIcon /> : <ViewOffIcon />}
-                      </Button>
-                    </InputRightElement>
-                  </InputGroup>
-                </FormControl>
                 <Stack spacing={10}>
-                  <Stack direction={{ base: "column", sm: "row" }} align={"start"} justify={"space-between"}>
-                    <Checkbox>Remember me</Checkbox>
-                    <Link color={"blue.400"} href="/forgotPassword">Forgot password?</Link>
-                  </Stack>
                   {error && <AlertMessage message={error} />}
                   <Button
                     type="submit"
@@ -109,12 +94,13 @@ export default function LoginForm() {
                       bg: "blue.500",
                     }}
                   >
-                    Sign in
+                    Reset Password
                   </Button>
                 </Stack>
               </Stack>
             </Form>
-          </Formik>
+            </Formik>
+          }
         </Box>
       </Stack>
       </Flex>

@@ -12,6 +12,9 @@ import PageTracker from "./components/PageTracker";
 import AuthenticatedRoute from './components/AuthenticatedRoute';
 import UserListTable from './pages/UserList';
 import UserProfile from "./pages/UserProfile";
+import ResetPassword from "./pages/ResetPassword";
+import ForgotPassword from "./pages/ForgotPassword";
+
 import { ApplicationRoles } from "./constants";
 
 function App() {
@@ -30,6 +33,8 @@ function App() {
         <Route path="/evaluation/:id?" element={<AuthenticatedRoute roles={[ApplicationRoles.Evaluator, ApplicationRoles.Reviewer]} element={<EvaluationForm />} />} />
         <Route path="/users" element={<AuthenticatedRoute roles={[ApplicationRoles.Administrator]} element={<UserListTable />} />} />
         <Route path="/userProfile/:id?" element={<AuthenticatedRoute roles={[ApplicationRoles.Administrator]} element={<UserProfile />} />} />
+        <Route path="/resetPassword/:id" element={<ResetPassword />} />
+        <Route path="/forgotPassword" element={<ForgotPassword />} />
       </Routes>
       </Router>
     </ChakraProvider>

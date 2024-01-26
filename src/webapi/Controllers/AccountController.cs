@@ -3,15 +3,20 @@
 // The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
 // See the LICENSE and NOTICES files in the project root for more information.
 
+using eppeta.webapi.Account.Data;
+using eppeta.webapi.Account.Models;
 using eppeta.webapi.DTO;
 using eppeta.webapi.Identity.Data;
 using eppeta.webapi.Identity.Models;
+using eppeta.webapi.Infrastructure;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using OpenIddict.Abstractions;
 using OpenIddict.Validation.AspNetCore;
 using System.Data;
+using System.Text;
 
 namespace eppeta.webapi.Controllers;
 
@@ -28,12 +33,14 @@ public class AccountController : Controller
 
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly IIdentityRepository _identityRepository;
+    private readonly IAccountRepository _accountRepository;
     private readonly IOpenIddictTokenManager _tokenManager;
 
-    public AccountController(UserManager<ApplicationUser> userManager, IIdentityRepository identityRepository, IOpenIddictTokenManager tokenManager)
+    public AccountController(UserManager<ApplicationUser> userManager, IIdentityRepository identityRepository, IOpenIddictTokenManager tokenManager, IAccountRepository accountRepository)
     {
         _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
         _identityRepository = identityRepository ?? throw new ArgumentNullException(nameof(identityRepository));
+        _accountRepository = accountRepository ?? throw new ArgumentNullException(nameof(accountRepository));
         _tokenManager = tokenManager ?? throw new ArgumentNullException(nameof(tokenManager));
     }
 
@@ -239,6 +246,83 @@ public class AccountController : Controller
         }
 
         return NoContent();
+    }
+
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [AllowAnonymous]
+    [HttpPost("ForgotPassword")]
+    public async Task<IActionResult> ForgotPassword(string email)
+    {
+        int refreshTokenLifetimeMinutes = int.Parse(AppSettings.RefreshTokenLifetimeMinutes ?? "15");
+        var user = await _userManager.FindByEmailAsync(email);
+        if (user == null) return BadRequest("Invalid email address");
+        else
+        {
+            var tokenExpirationDate = DateTime.UtcNow.AddMinutes(refreshTokenLifetimeMinutes);
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+            PasswordReset passwordReset = new PasswordReset(
+                    user.Id,
+                    token,
+                    tokenExpirationDate
+                );
+            var result = await _accountRepository.SavePasswordResetToken(passwordReset);
+            if (result)
+            {
+                MailSender mailSender = new MailSender();
+                string base64String = Base64UrlEncoder.Encode(token);
+                string tokenUrl = $"{AppSettings.ResetPasswordUrl}/{base64String}";
+                mailSender.sendMailForgotPassword(AppSettings.MailSettings, user?.UserName ?? string.Empty, user?.Email ?? string.Empty, tokenUrl.ToString());
+            }
+            else
+            {
+                BadRequest(ModelState);
+            }
+        }
+        return Ok();
+    }
+
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [AllowAnonymous]
+    [HttpGet("ValidatePasswordResetToken")]
+    public async Task<IActionResult> ValidatePasswordResetToken(string passwordResetToken)
+    {
+        var tokenDecoded = Base64UrlEncoder.Decode(passwordResetToken);
+        var validateToken = await _accountRepository.ValidatePasswordResetToken(tokenDecoded);
+        if (validateToken)
+        {
+            return Ok();
+        }
+        else {
+            return Unauthorized();
+        }        
+    }
+
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [AllowAnonymous]
+    [HttpPost("ResetPassword")]
+    public async Task<IActionResult> ResetToken(string passwordResetToken, string newPass)
+    {
+        var tokenDecoded = Base64UrlEncoder.Decode(passwordResetToken);
+        var userId = await _accountRepository.GetUserFromToken(tokenDecoded);
+        if (ModelState.IsValid)
+        {
+            if (!userId.IsNullOrEmpty())
+            {
+                var user = await _userManager.FindByIdAsync(userId);
+                if (user == null) { return BadRequest("Invalid token"); }
+                var result = await _userManager.ResetPasswordAsync(user, tokenDecoded, newPass);
+                if (result.Succeeded)
+                {
+                    var validateToken = await _accountRepository.RevokePasswordResetToken(tokenDecoded);
+                    return Ok();
+                }
+
+                AddErrors(result);
+                return BadRequest(new { validationError = ModelState });
+            }
+        }
+        return BadRequest(ModelState);
     }
 
     private void AddErrors(IdentityResult result)
