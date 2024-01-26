@@ -27,7 +27,7 @@ import {
   useColorModeValue,
   useToast,
 } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, forwardRef } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
@@ -60,6 +60,12 @@ export default function EvaluationForm() {
   const navigate = useNavigate();
   const toast = useToast();
   const borderColor = useColorModeValue("gray.200", "gray.600");
+
+  const DatePickerInput = forwardRef(({ value, onClick }, ref) => (
+    <Button colorScheme="blue" onClick={onClick} ref={ref}>
+      {value}
+    </Button>
+  ));
 
   /**
    * Update rating levels and the page data to store the selected options.
@@ -759,13 +765,13 @@ export default function EvaluationForm() {
             </Text>
 
             <HStack display='flex' spacing="20px" mb="5" mt="5">
-              <FormControl style={{ width: '300px' }}>
+              <FormControl style={{ width: '330px' }}>
                 <FormLabel>Pre-Conference Start Time</FormLabel>
-                <DatePicker selected={evaluationDataLoaded?.evaluationDate} dateFormat="MM/dd/yy hh:mm" timeFormat="hh:mm" showTimeSelect={true} onChange={(date) => handleStartDateChanged(date)} />
+                <DatePicker customInput={<DatePickerInput />} selected={evaluationDataLoaded?.evaluationDate} dateFormat="MM/dd/yy hh:mm" timeFormat="hh:mm" showTimeSelect={true} onChange={(date) => handleStartDateChanged(date)} />
               </FormControl>
-              <FormControl style={{ width: '300px' }}>
+              <FormControl style={{ width: '330px' }}>
                 <FormLabel>End Time</FormLabel>
-                <DatePicker selected={evaluationDataLoaded?.evaluationEndTime} dateFormat="hh:mm" timeFormat="hh:mm" showTimeSelect={true} showTimeSelectOnly={true} onChange={(date) => handleEndDateChanged(date)} />
+                <DatePicker customInput={<DatePickerInput />} selected={evaluationDataLoaded?.evaluationEndTime} dateFormat="hh:mm" timeFormat="hh:mm" showTimeSelect={true} showTimeSelectOnly={true} onChange={(date) => handleEndDateChanged(date)} />
               </FormControl>
             </HStack>
           </VStack>
