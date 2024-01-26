@@ -248,8 +248,8 @@ public class AccountController : Controller
         return NoContent();
     }
 
-    [AllowAnonymous]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [AllowAnonymous]
     [HttpPost("ForgotPassword")]
     public async Task<IActionResult> ForgotPassword(string email)
     {
@@ -281,9 +281,9 @@ public class AccountController : Controller
         return Ok();
     }
 
-    [AllowAnonymous]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [AllowAnonymous]
     [HttpGet("ValidatePasswordResetToken")]
     public async Task<IActionResult> ValidatePasswordResetToken(string passwordResetToken)
     {
@@ -298,8 +298,8 @@ public class AccountController : Controller
         }        
     }
 
-    [AllowAnonymous]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [AllowAnonymous]
     [HttpPost("ResetPassword")]
     public async Task<IActionResult> ResetToken(string passwordResetToken, string newPass)
     {
