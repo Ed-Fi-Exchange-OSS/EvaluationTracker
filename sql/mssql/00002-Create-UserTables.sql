@@ -128,7 +128,7 @@ GO
 
 
 INSERT INTO [eppeta].[Roles] ([Id], [Name], [NormalizedName])
-VALUES ('1', 'Administrator', 'ADMINISTRATOR'), ('2', 'Supervisor', 'SUPERVISOR'), ('3', 'Mentor Teacher', 'MENTOR TEACHER');
+VALUES ('1', 'Administrator', 'ADMINISTRATOR'), ('2', 'Reviewer', 'REVIEWER'), ('3', 'Evaluator', 'Evaluator');
 GO
 
 

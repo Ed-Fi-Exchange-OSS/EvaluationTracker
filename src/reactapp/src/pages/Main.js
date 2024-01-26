@@ -31,7 +31,7 @@ export default function EvaluationTable() {
   const headers = [
     { name: 'Evaluation', dataField: 'performanceEvaluationTitle', sortable: true, visible: true, link: { url: '/evaluation/', dataField: 'performanceEvaluationRatingId' } },
     { name: 'Candidate', dataField: 'reviewedCandidateName', sortable: true, visible: true },
-    { name: 'Evaluator', dataField: 'evaluatorName', sortable: true, visible: isLoggedInUserInRole([ApplicationRoles.Supervisor]) },
+    { name: 'Evaluator', dataField: 'evaluatorName', sortable: true, visible: isLoggedInUserInRole([ApplicationRoles.Reviewer]) },
     { name: 'Date', dataField: 'actualDate', sortable: true, visible: true, format: value => new Date(value).toLocaleDateString() },
     { name: 'Status', dataField: 'evaluationStatus', sortable: true, visible: true },
   ];
@@ -72,7 +72,7 @@ export default function EvaluationTable() {
     try {
       let response;
 
-      if (isLoggedInUserInRole([ApplicationRoles.Supervisor])) {
+      if (isLoggedInUserInRole([ApplicationRoles.Reviewer])) {
         response = await get('/api/EvaluationRating/');
       } else {
         response = await get(`/api/EvaluationRating/${userId}`);

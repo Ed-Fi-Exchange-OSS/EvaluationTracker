@@ -13,7 +13,7 @@ using OpenIddict.Validation.AspNetCore;
 
 namespace eppeta.webapi.Controllers;
 
-[Authorize(AuthenticationSchemes = OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme, Roles = $"{Roles.Supervisor}, {Roles.MentorTeacher}")]
+[Authorize(AuthenticationSchemes = OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme, Roles = $"{Roles.Reviewer}, {Roles.Evaluator}")]
 [ApiController]
 [Route("api/[controller]")]
 public class PerformanceEvaluationController : ControllerBase

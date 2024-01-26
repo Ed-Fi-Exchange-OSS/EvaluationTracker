@@ -16,7 +16,7 @@ using System.Linq.Dynamic.Core;
 
 namespace eppeta.webapi.Controllers;
 
-[Authorize(AuthenticationSchemes = OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme, Roles = $"{Roles.Supervisor}, {Roles.MentorTeacher}")]
+[Authorize(AuthenticationSchemes = OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme, Roles = $"{Roles.Reviewer}, {Roles.Evaluator}")]
 [ApiController]
 [Route("api/[controller]")]
 public class EvaluationController : ControllerBase

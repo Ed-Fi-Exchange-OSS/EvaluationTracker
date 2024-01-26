@@ -25,9 +25,9 @@ function App() {
         <Route path="/" element={<LoginForm />} />
         <Route path="/signup" element={<SignupForm />} />
         <Route path="/login" element={<LoginForm />} />
-        <Route path="/main" element={<AuthenticatedRoute roles={[ApplicationRoles.Mentor, ApplicationRoles.Supervisor]}  element={<EvaluationTable />} />} />
-        <Route path="/new" element={<AuthenticatedRoute roles={[ApplicationRoles.Mentor, ApplicationRoles.Supervisor]} element={<NewEvaluation />} />} />
-        <Route path="/evaluation/:id?" element={<AuthenticatedRoute roles={[ApplicationRoles.Mentor, ApplicationRoles.Supervisor]} element={<EvaluationForm />} />} />
+        <Route path="/main" element={<AuthenticatedRoute roles={[ApplicationRoles.Evaluator, ApplicationRoles.Reviewer]}  element={<EvaluationTable />} />} />
+        <Route path="/new" element={<AuthenticatedRoute roles={[ApplicationRoles.Evaluator, ApplicationRoles.Reviewer]} element={<NewEvaluation />} />} />
+        <Route path="/evaluation/:id?" element={<AuthenticatedRoute roles={[ApplicationRoles.Evaluator, ApplicationRoles.Reviewer]} element={<EvaluationForm />} />} />
         <Route path="/users" element={<AuthenticatedRoute roles={[ApplicationRoles.Administrator]} element={<UserListTable />} />} />
         <Route path="/userProfile/:id?" element={<AuthenticatedRoute roles={[ApplicationRoles.Administrator]} element={<UserProfile />} />} />
       </Routes>
