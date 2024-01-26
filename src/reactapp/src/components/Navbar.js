@@ -34,7 +34,7 @@ import { ApplicationRoles } from "../constants";
 
 export const getHomePageByRole = () => {
   if (getLoggedInUserName()) {
-    if (isLoggedInUserInRole([ApplicationRoles.Mentor, ApplicationRoles.Supervisor])) {
+    if (isLoggedInUserInRole([ApplicationRoles.Evaluator, ApplicationRoles.Reviewer])) {
       return "/main";
     }
     else if (isLoggedInUserInRole([ApplicationRoles.Administrator])) {

@@ -1,5 +1,5 @@
 export const ApplicationRoles = {
   Administrator: 'Administrator',
-  Mentor: 'Mentor Teacher',
-  Supervisor: 'Supervisor'
+  Evaluator: 'Evaluator',
+  Reviewer: 'Reviewer'
 };
