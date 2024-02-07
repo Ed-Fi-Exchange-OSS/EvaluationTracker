@@ -16,7 +16,7 @@ scripts can be automated with the help of [deploy-sql.ps1](../eng/deploy-sql.ps1
 ## ODS/API 
 The Evaluation Tracker reads evaluation metadata and candidate data from a connected ODS/API and will also send evaluation rating data to the same ODS/API. The Evaluation Tracker has been tested with ODS/API v6.x and 7.x (ODS/API v5.3 should work as well, but has not been tested).
 
-We used the populated template that comes with a default install of the ODS/API (which includes TPDM-Core). The populated template does not contain valid evaluation metadata, so we added evaluation metadata based on the T-TESS. Sample T-TESS evaluation metadata can be found in [T-TESS Samples](./SampleEvaluationData/T-TESS%20Evaluation%20Metadata/)
+We used the populated template that comes with a default install of the ODS/API (which includes TPDM-Core). The populated template does not contain valid evaluation metadata, so we added evaluation metadata based on the T-TESS. Sample T-TESS evaluation metadata can be found in [T-TESS Samples](./SampleEvaluationData/readme.md)
 
 > **Note**: The candidates in the populated template do not contain person references and person references are required for PerformanceEvaluationRatings, so if you use the populated template, you will need to update the candidate data or the candidates will not be synced to the Evaluation Tracker
 
