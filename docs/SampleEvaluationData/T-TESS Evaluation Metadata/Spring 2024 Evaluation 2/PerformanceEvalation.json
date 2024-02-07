@@ -1,0 +1,35 @@
+{
+  "evaluationPeriodDescriptor": "uri://tpdm.ed-fi.org/EvaluationPeriodDescriptor#EOY",
+  "performanceEvaluationTitle": "T-TESS Spring 2024 - 2",
+  "performanceEvaluationTypeDescriptor": "uri://tpdm.ed-fi.org/PerformanceEvaluationTypeDescriptor#Formal Evaluation",
+  "termDescriptor": "uri://ed-fi.org/TermDescriptor#Semester",
+  "educationOrganizationReference": {
+    "educationOrganizationId": 255901
+  },
+  "schoolYearTypeReference": {
+    "schoolYear": 2023
+  },
+  "ratingLevels":[
+    {
+      "evaluationRatingLevelDescriptor":"uri://tpdm.ed-fi.org/evaluationRatingLevelDescriptor#Improvement Needed",
+      "maxRating":1
+    },
+    {
+      "evaluationRatingLevelDescriptor":"uri://tpdm.ed-fi.org/evaluationRatingLevelDescriptor#Developing",
+      "maxRating":2
+    },
+    {
+      "evaluationRatingLevelDescriptor":"uri://tpdm.ed-fi.org/evaluationRatingLevelDescriptor#Proficient",
+      "maxRating":3
+    },
+    {
+      "evaluationRatingLevelDescriptor":"uri://tpdm.ed-fi.org/evaluationRatingLevelDescriptor#Accomplished",
+      "maxRating":4
+    },
+    {
+      "evaluationRatingLevelDescriptor":"uri://tpdm.ed-fi.org/evaluationRatingLevelDescriptor#Distinguished",
+      "maxRating":5
+    }
+  ],
+  "performanceEvaluationDescription": "Texas Teacher Evaluation and Support System"
+}

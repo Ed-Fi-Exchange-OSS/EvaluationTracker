@@ -1,0 +1,20 @@
+{
+  "codeValue": "Proficient",
+  "description": "Proficient",
+  "namespace": "uri://tpdm.ed-fi.org/EvaluationRatingLevelDescriptor",
+  "shortDescription": "Proficient"
+}
+
+{
+  "codeValue": "Distinguished",
+  "description": "Distinguished",
+  "namespace": "uri://tpdm.ed-fi.org/EvaluationRatingLevelDescriptor",
+  "shortDescription": "Distinguished"
+}
+
+{
+  "codeValue": "Improvement Needed",
+  "description": "Improvement Needed",
+  "namespace": "uri://tpdm.ed-fi.org/EvaluationRatingLevelDescriptor",
+  "shortDescription": "Improvement Needed"
+}

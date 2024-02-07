@@ -1,0 +1,12 @@
+{
+  "evaluationTitle": "T-TESS Spring 2024 - 2",
+  "performanceEvaluationReference": {
+    "educationOrganizationId": 255901,
+    "evaluationPeriodDescriptor": "uri://tpdm.ed-fi.org/EvaluationPeriodDescriptor#EOY",
+    "performanceEvaluationTitle": "T-TESS Spring 2024 - 2",
+    "performanceEvaluationTypeDescriptor": "uri://tpdm.ed-fi.org/PerformanceEvaluationTypeDescriptor#Formal Evaluation",
+    "schoolYear": 2023,
+    "termDescriptor": "uri://ed-fi.org/TermDescriptor#Semester"
+  },
+  "evaluationDescription": "Texas Teacher Evaluation and Support System"
+}

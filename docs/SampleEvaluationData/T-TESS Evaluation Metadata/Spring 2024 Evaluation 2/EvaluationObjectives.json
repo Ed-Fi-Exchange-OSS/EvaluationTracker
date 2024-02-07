@@ -1,0 +1,56 @@
+{
+  "evaluationObjectiveTitle": "1 - Planning",
+  "evaluationReference": {
+    "educationOrganizationId": 255901,
+    "evaluationPeriodDescriptor": "uri://tpdm.ed-fi.org/EvaluationPeriodDescriptor#EOY",
+    "performanceEvaluationTitle": "T-TESS Spring 2024 - 2",
+    "performanceEvaluationTypeDescriptor": "uri://tpdm.ed-fi.org/PerformanceEvaluationTypeDescriptor#Formal Evaluation",
+    "schoolYear": 2023,
+    "termDescriptor": "uri://ed-fi.org/TermDescriptor#Semester",
+    "evaluationTitle": "T-TESS Spring 2024 - 2"
+  },
+  "evaluationTypeDescriptor": "uri://tpdm.ed-fi.org/EvaluationTypeDescriptor#Formal Evaluation",
+  "sortOrder": 1
+}
+{
+  "evaluationObjectiveTitle": "2 - Instruction",
+  "evaluationReference": {
+    "educationOrganizationId": 255901,
+    "evaluationPeriodDescriptor": "uri://tpdm.ed-fi.org/EvaluationPeriodDescriptor#EOY",
+    "performanceEvaluationTitle": "T-TESS Spring 2024 - 2",
+    "performanceEvaluationTypeDescriptor": "uri://tpdm.ed-fi.org/PerformanceEvaluationTypeDescriptor#Formal Evaluation",
+    "schoolYear": 2023,
+    "termDescriptor": "uri://ed-fi.org/TermDescriptor#Semester",
+    "evaluationTitle": "T-TESS Spring 2024 - 2"
+  },
+  "evaluationTypeDescriptor": "uri://tpdm.ed-fi.org/EvaluationTypeDescriptor#Formal Evaluation",
+  "sortOrder": 2
+}
+{
+  "evaluationObjectiveTitle": "3 - Learning Environment",
+  "evaluationReference": {
+    "educationOrganizationId": 255901,
+    "evaluationPeriodDescriptor": "uri://tpdm.ed-fi.org/EvaluationPeriodDescriptor#EOY",
+    "performanceEvaluationTitle": "T-TESS Spring 2024 - 2",
+    "performanceEvaluationTypeDescriptor": "uri://tpdm.ed-fi.org/PerformanceEvaluationTypeDescriptor#Formal Evaluation",
+    "schoolYear": 2023,
+    "termDescriptor": "uri://ed-fi.org/TermDescriptor#Semester",
+    "evaluationTitle": "T-TESS Spring 2024 - 2"
+  },
+  "evaluationTypeDescriptor": "uri://tpdm.ed-fi.org/EvaluationTypeDescriptor#Formal Evaluation",
+  "sortOrder": 3
+}
+{
+  "evaluationObjectiveTitle": "4 - Professional Practices and Responsibilities",
+  "evaluationReference": {
+    "educationOrganizationId": 255901,
+    "evaluationPeriodDescriptor": "uri://tpdm.ed-fi.org/EvaluationPeriodDescriptor#EOY",
+    "performanceEvaluationTitle": "T-TESS Spring 2024 - 2",
+    "performanceEvaluationTypeDescriptor": "uri://tpdm.ed-fi.org/PerformanceEvaluationTypeDescriptor#Formal Evaluation",
+    "schoolYear": 2023,
+    "termDescriptor": "uri://ed-fi.org/TermDescriptor#Semester",
+    "evaluationTitle": "T-TESS Spring 2024 - 2"
+  },
+  "evaluationTypeDescriptor": "uri://tpdm.ed-fi.org/EvaluationTypeDescriptor#Formal Evaluation",
+  "sortOrder": 4
+}
