@@ -31,6 +31,7 @@ public class AppSettings
                     GetInstance().GetValue<string>("Authentication:Audience"),
                     GetInstance().GetValue<string>("Authentication:Authority"),
                     GetInstance().GetValue<string>("Authentication:SigningKey"),
+                    GetInstance().GetValue<string>("Authentication:EncryptionKey"),
                     GetInstance().GetValue<bool>("Authentication:NewUsersAreAdministrators"),
                     GetInstance().GetValue<bool>("Authentication:RequireHttps")
                 ));
@@ -100,16 +101,19 @@ public class Authentication
 
     public SecurityKey? SigningKey { get; set; }
 
+    public SecurityKey? EncryptionKey { get; set; }
+
     public bool NewUsersAreAdministrators { get; set; } = false;
 
     public bool RequireHttps { get; set; } = false;
 
-    public Authentication(string issuerUrl, string audience, string authority, string base64EncodedSigningKey, bool newUsersAreAdministrators, bool requireHttps)
+    public Authentication(string issuerUrl, string audience, string authority, string base64EncodedSigningKey, string base64EncodedEncryptionKey, bool newUsersAreAdministrators, bool requireHttps)
     {
         IssuerUrl = new Uri(issuerUrl);
         Audience = audience;
         Authority = authority;
         SigningKey = string.IsNullOrEmpty(base64EncodedSigningKey) ? null : new SymmetricSecurityKey(Convert.FromBase64String(base64EncodedSigningKey));
+        EncryptionKey = string.IsNullOrEmpty(base64EncodedEncryptionKey) ? null : new SymmetricSecurityKey(Convert.FromBase64String(base64EncodedEncryptionKey));
         NewUsersAreAdministrators = newUsersAreAdministrators;
         RequireHttps = requireHttps;
     }

@@ -202,8 +202,6 @@ internal class Program
                     // Turned off token encryption, will discusss need for encrypted JWT later in project development
                     _ = options.DisableAccessTokenEncryption();
 
-                    _ = options.AddDevelopmentEncryptionCertificate()
-                        .AddDevelopmentSigningCertificate();
                     var aspNetCoreBuilder = options.UseAspNetCore()
                         .EnableTokenEndpointPassthrough();
 
@@ -213,6 +211,7 @@ internal class Program
                     }
 
                     _ = options.AddSigningKey(AppSettings.Authentication.SigningKey ?? throw new InvalidOperationException("Unable to initialize Identity because there is no Signing Key configured in appsettings"));
+                    _ = options.AddEncryptionKey(AppSettings.Authentication.EncryptionKey ?? throw new InvalidOperationException("Unable to initialize Identity because there is no Encryption Key configured in appsettings"));
                     _ = options.SetIssuer(AppSettings.Authentication.IssuerUrl ?? throw new InvalidOperationException("Unable to initialize Identity because there is no Issuer URL configured in appsettings"));
                 })
                 .AddValidation(options =>
