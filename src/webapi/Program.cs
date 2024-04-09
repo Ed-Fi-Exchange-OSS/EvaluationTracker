@@ -210,7 +210,8 @@ internal class Program
                         _ = aspNetCoreBuilder.DisableTransportSecurityRequirement();
                     }
 
-                    _ = options.AddSigningKey(AppSettings.Authentication.SigningKey ?? throw new InvalidOperationException("Unable to initialize Identity because there is no Signing Key configured in appsettings"));
+                    //_ = options.AddSigningKey(AppSettings.Authentication.SigningKey ?? throw new InvalidOperationException("Unable to initialize Identity because there is no Signing Key configured in appsettings"));
+                    _ = options.AddEphemeralSigningKey();
                     _ = options.AddEncryptionKey(AppSettings.Authentication.EncryptionKey ?? throw new InvalidOperationException("Unable to initialize Identity because there is no Encryption Key configured in appsettings"));
                     _ = options.SetIssuer(AppSettings.Authentication.IssuerUrl ?? throw new InvalidOperationException("Unable to initialize Identity because there is no Issuer URL configured in appsettings"));
                 })
