@@ -21,7 +21,7 @@ using OpenIddict.Validation.AspNetCore;
 
 namespace eppeta.webapi.Controllers
 {
-    [Authorize(AuthenticationSchemes = OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme, Roles = $"{Roles.Reviewer}, {Roles.Evaluator}")]
+    //[Authorize(AuthenticationSchemes = OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme, Roles = $"{Roles.Reviewer}, {Roles.Evaluator}")]
     [Route("api/[controller]")]
     [ApiController]
     public class EvaluationRatingController : ControllerBase
@@ -240,7 +240,7 @@ namespace eppeta.webapi.Controllers
 
         }
 
-        [Authorize(AuthenticationSchemes = OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme, Roles = $"{Roles.Reviewer}")]
+        //[Authorize(AuthenticationSchemes = OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme, Roles = $"{Roles.Reviewer}")]
         [HttpPost]
         [Route("Approve")]
         [ProducesResponseType(StatusCodes.Status200OK)]
