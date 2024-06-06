@@ -1,5 +1,7 @@
 # Evaluation Tracking Application
 
+[![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/Ed-Fi-Exchange-OSS/EvaluationTracker/badge)](https://securityscorecards.dev/viewer/?uri=github.com/Ed-Fi-Exchange-OSS/EvaluationTracker)
+
 This is a proof of concept application designed to make it easy to conduct
 rubric based evaluations and send the resulting result data to the ODS/API using
 the Educator Preparation Data Model's PerformanceEvaluation domain.
