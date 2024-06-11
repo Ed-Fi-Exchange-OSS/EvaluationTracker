@@ -14,6 +14,8 @@ on:
       - ".github/workflows/on-pullrequest-react.yml"
   workflow_dispatch:
 
+permissions: read-all
+
 jobs:
   run-react-tests:
     name: Run React tests
